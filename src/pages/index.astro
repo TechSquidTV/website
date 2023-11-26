@@ -1,16 +1,48 @@
 ---
+import LayoutBase from "@layouts/LayoutBase.astro";
+import SocialsHeadless from "@components/Social/SocialsHeadless.astro";
+import { getCollection, getEntry } from "astro:content";
+import { Image } from "astro:assets";
 
+const blogPosts = await getCollection("blog");
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<LayoutBase slug="">
+  <header class="flex flex-col space-y-4 p-12 justify-center text-center">
+    <h1 class="text-4xl md:text-8xl font-semibold text-white">TechSquidTV</h1>
+    <p class="text-2xl md:text-4xl">Open-Source developer and tech educator</p>
+    <SocialsHeadless
+      classNames={{
+        ul: "flex flex-row space-x-3",
+        li: "p-1",
+        container: "flex flex-row justify-center p-1",
+      }}
+    />
+  </header>
+  <main class="wrapper p-4">
+    <ul class="flex flex-col space-y-3">
+      {
+        blogPosts.map((post) => {
+          return (
+            <li class="card bg-smoke-900 p-4 shadow-[0px_17px_32px_0px_#0c0c0d]">
+              <article class="flex flex-col md:flex-row">
+                <div class="flex-shrink-0 md:w-54 h-48">
+                  <Image
+                    src={post.data.heroImage}
+                    alt={post.data.heroImageAlt || post.data.title}
+                    class="rounded-lg object-cover object-center w-full h-full shadow-lg"
+                  />
+                </div>
+
+                <div class="flex flex-col py-2 mx-8">
+                  <h2 class="text-3xl font-bold text-smoke-50 mb-2">{post.data.title}</h2>
+                  <p>{post.data.description}</p>
+                </div>
+              </article>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </main>
+</LayoutBase>
