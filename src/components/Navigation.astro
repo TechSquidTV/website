@@ -1,0 +1,43 @@
+---
+type MenuItem = {
+  name: string,
+  href: string,
+}
+const menuItems: MenuItem[] = [
+  {
+    name: "blog",
+    href: "/blog",
+  },
+  {
+    name: "projects",
+    href: "/projects",
+  },
+  {
+    name: "follow",
+    href: "/follow",
+  },
+  {
+    name: "about",
+    href: "/about",
+  },
+  {
+    name: "contact",
+    href: "/contact",
+  },
+]
+
+---
+
+<nav class="flex sticky top-4 z-50 justify-center text-lg mt-4">
+  <ul class="flex flex-row space-x-2 rounded-full px-4 py-3 text-smoke-100 border border-smoke-900 border-opacity-50 bg-smoke-800 bg-opacity-30 backdrop-blur-md">
+    {
+      menuItems.map((item) => {
+        return (
+          <li>
+            <a href={item.href} class="transition-color duration-500 hover:bg-white hover:bg-opacity-90 hover:text-smoke-950 px-4 py-3 rounded-full">{item.name}</a>
+          </li>
+        )
+      })
+    }
+  </ul>
+</nav>
