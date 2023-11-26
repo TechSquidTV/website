@@ -10,7 +10,6 @@ import '@fontsource-variable/inter';
 
 interface Props {
   title?: string;
-  slug: string;
   description?: string;
   ogImage?: string;
 }
@@ -18,7 +17,6 @@ interface Props {
 const {
   title = "TechSquidTV",
   description = "Open-source developer and tech educator, Kyle A.K.A TechSquidTV. Software development tutorials, videos, and fun code experiments.",
-  slug,
   ogImage = "/opengraph/images/default-opengraph.png",
 } = Astro.props as Props;
 
@@ -29,7 +27,6 @@ const {
   <Head
     title={title}
     description={description}
-    slug={slug}
     ogImage={ogImage}
   />
   <body class="flex flex-col">
