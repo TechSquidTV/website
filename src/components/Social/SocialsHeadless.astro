@@ -1,0 +1,61 @@
+---
+import Icon, { type IconName } from '@components/Icon.astro'
+interface Props {
+  classNames?: {
+    container?: string
+    ul?: string
+    li?: string
+    a?: string
+  }
+}
+type SocialItem ={
+  name: string,
+  icon: IconName,
+  href: string,
+}
+
+const socialItems: SocialItem[] = [
+  {
+    name: 'Github',
+    icon: "github",
+    href: "https://github.com/kyletryon"
+  },
+  {
+    name: "YouTube",
+    icon: "youtube",
+    href: "https://www.youtube.com/techsquidtv"
+  },
+  {
+    name: 'Mastodon',
+    icon: "mastodon",
+    href: "https://fosstodon.org/@techsquidtv"
+  },
+  {
+    name: 'X',
+    icon: "x",
+    href: "https://twitter.com/techsquidtv"
+  },
+  {
+    name: 'Linkedin',
+    icon: "linkedin",
+    href: "www.linkedin.com/in/kyle-tryon/"
+  }
+]
+
+const {classNames} = Astro.props as Props
+---
+
+<nav class={classNames?.container}>
+  <ul class={classNames?.ul}>
+    {socialItems.map(item => {
+      return (
+        <li class={classNames?.li}>
+          <a class={classNames?.a} href={item.href}>
+            <Icon name={item.icon} />
+            <span class="sr-only">{item.name}</span>
+          </a>
+        </li>
+      )
+    })}
+  </ul>
+</nav>
