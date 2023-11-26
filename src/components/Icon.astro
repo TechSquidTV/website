@@ -1,0 +1,31 @@
+---
+import Svg from "@jasikpark/astro-svg-loader";
+
+const icons = {
+  email: import("../icons/email.svg?raw"),
+  github: import("../icons/github.svg?raw"),
+  linkedin: import("../icons/linkedin.svg?raw"),
+  mastodon: import("../icons/mastodon.svg?raw"),
+  threads: import("../icons/threads.svg?raw"),
+  x: import("../icons/x.svg?raw"),
+  youtube: import("../icons/youtube.svg?raw"),
+}
+
+export type IconName = keyof typeof icons
+
+interface Props {
+  name: IconName
+}
+
+const {name} = Astro.props as Props
+
+const getIcon = (name: IconName) => {
+  const icon = icons[name];
+  if (!icon) {
+    throw new Error(`Could not find SVG for icon ${name}`);
+  }
+  return icon;
+};
+
+---
+<Svg src={getIcon(name)} aria-label={name} class="h-5 w-5" />
