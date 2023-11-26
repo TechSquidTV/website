@@ -1,0 +1,75 @@
+---
+import Footer from "@components/Footer.astro";
+import Head from "@components/Head.astro";
+import Navigation from "@components/Navigation.astro";
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/800.css';
+import '@fontsource/poppins/600.css';
+import '@fontsource-variable/inter';
+
+
+interface Props {
+  title?: string;
+  slug: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title = "TechSquidTV",
+  description = "Open-source developer and tech educator, Kyle A.K.A TechSquidTV. Software development tutorials, videos, and fun code experiments.",
+  slug,
+  ogImage = "/opengraph/images/default-opengraph.png",
+} = Astro.props as Props;
+
+---
+
+<!doctype html>
+<html lang="en">
+  <Head
+    title={title}
+    description={description}
+    slug={slug}
+    ogImage={ogImage}
+  />
+  <body class="flex flex-col">
+    <Navigation />
+
+    <slot />
+    
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+
+*, *:before, *:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+html, body {
+  height: auto;
+  min-height: 100vh;
+  @apply bg-smoke-950 text-smoke-100;
+}
+
+body {
+  font-family: 'Inter Variable', sans-serif;
+  @apply flex flex-col bg-[url('./assets/noise.svg')] bg-no-repeat bg-cover bg-center bg-fixed
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+}
+
+.wrapper {
+  @apply flex flex-col justify-center md:mx-4
+}
+
+.card {
+  @apply rounded-lg bg-[url('./assets/noise.svg')] bg-no-repeat bg-cover bg-center
+}
+
+</style>
