@@ -12,7 +12,7 @@ const validTags = z.enum([
 const blogCollection = defineCollection({
   schema: ({ image }) =>
     z.object({
-      title: z.string().refine(str => str.length <= 60, {
+      title: z.string().refine((str) => str.length <= 60, {
         message: "Title must be less than 60 characters long!",
       }),
       description: z.string().refine(
@@ -25,8 +25,11 @@ const blogCollection = defineCollection({
       heroImage: image().refine((img) => img.width >= 1080, {
         message: "Cover image must be at least 1080 pixels wide!",
       }),
-      publishDate: z.date().transform((dte: Date) => dte.toISOString()),
-      updateDate: z.date().transform((dte: Date) => dte.toISOString()).optional(),
+      publishDate: z.string().transform((str) => new Date(str)),
+      updateDate: z
+        .string()
+        .transform((str) => new Date(str))
+        .optional(),
       path: z.string(),
       oldPermalink: z.string().optional(),
       tags: z.array(validTags).optional(),
