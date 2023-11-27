@@ -19,6 +19,7 @@ const {
   description = "Open-source developer and tech educator, Kyle A.K.A TechSquidTV. Software development tutorials, videos, and fun code experiments.",
   ogImage = "/opengraph/images/default-opengraph.png",
 } = Astro.props as Props;
+const noiseTexture = `url('${new URL("/assets/noise.svg", Astro.site).href}')`;
 
 ---
 
@@ -38,7 +39,7 @@ const {
   </body>
 </html>
 
-<style is:global>
+<style is:global define:vars={{noiseTexture}}>
 
 *, *:before, *:after {
     box-sizing: border-box;
@@ -54,7 +55,8 @@ html, body {
 
 body {
   font-family: 'Inter Variable', sans-serif;
-  @apply flex flex-col bg-[url('./assets/noise.svg')] bg-no-repeat bg-cover bg-center bg-fixed
+  background-image: var(--noiseTexture);
+  @apply flex flex-col bg-no-repeat bg-cover bg-center bg-fixed leading-relaxed;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -62,11 +64,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .wrapper {
-  @apply flex flex-col justify-center md:mx-4
+  @apply flex flex-col justify-center px-2 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl
 }
 
 .card {
-  @apply rounded-lg bg-[url('./assets/noise.svg')] bg-no-repeat bg-cover bg-center
+  /* background-image: var(--noiseTexture); */
+  @apply rounded-lg bg-no-repeat bg-cover bg-center bg-smoke-900 p-4 shadow-[0px_17px_32px_0px_#0c0c0d]
 }
 
 </style>
