@@ -1,7 +1,7 @@
 ---
 import LayoutBase from "@layouts/LayoutBase.astro";
 import SocialsHeadless from "@components/Social/SocialsHeadless.astro";
-import { getCollection, getEntry } from "astro:content";
+import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 
 const blogPosts = await getCollection("blog");
@@ -19,26 +19,29 @@ const blogPosts = await getCollection("blog");
       }}
     />
   </header>
-  <main class="wrapper p-4">
+  <main class="wrapper">
     <ul class="flex flex-col space-y-3">
       {
         blogPosts.map((post) => {
           return (
-            <li class="card bg-smoke-900 p-4 shadow-[0px_17px_32px_0px_#0c0c0d]">
-              <article class="flex flex-col md:flex-row">
-                <div class="flex-shrink-0 md:w-54 h-48">
-                  <Image
-                    src={post.data.heroImage}
-                    alt={post.data.heroImageAlt || post.data.title}
-                    class="rounded-lg object-cover object-center w-full h-full shadow-lg"
-                  />
-                </div>
-
-                <div class="flex flex-col py-2 mx-8">
-                  <h2 class="text-3xl font-bold text-smoke-50 mb-2">{post.data.title}</h2>
-                  <p>{post.data.description}</p>
-                </div>
-              </article>
+            <li class="card">
+              <a href={new URL(`/blog/${post.slug}`, Astro.site).href}>
+                <article class="flex flex-col md:flex-row md:max-h-72">
+                  <div class="h-56 md:w-80 md:h-auto mb-2 md:mb-0">
+                    <Image
+                      src={post.data.heroImage}
+                      alt={post.data.heroImageAlt || post.data.title}
+                      class="rounded-lg object-cover object-center w-full h-full shadow-md"
+                    />
+                  </div>
+                  <div class="flex md:flex-1 flex-col py-2 mx-8">
+                    <h2 class="text-3xl font-bold text-smoke-50 mb-2">
+                      {post.data.title}
+                    </h2>
+                    <p>{post.data.description}</p>
+                  </div>
+                </article>
+              </a>
             </li>
           );
         })
