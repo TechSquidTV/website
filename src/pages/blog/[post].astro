@@ -1,0 +1,87 @@
+---
+import LayoutBase from "@layouts/LayoutBase.astro";
+import { getCollection, type CollectionEntry  } from "astro:content";
+import { Image } from "astro:assets";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map(post => {
+    return {
+      params: {
+        post: post.slug
+      },
+      props: post
+    };
+  });
+}
+
+type Props = CollectionEntry<"blog">;
+const post = Astro.props
+const { Content } = await post.render()
+
+---
+<LayoutBase>
+  <main class="">
+    <div class="relative w-full h-96 overflow-hidden">
+      <Image src={post.data.heroImage} alt={post.data.heroImageAlt} class="w-full h-full object-cover" />
+    </div>
+    <article class="relative wrapper card z-10 -mt-28">
+      <div class="md-content max-w-screen-lg">
+        <h1 class="text-center font-semibold tracking-wide my-4 text-6xl leading-[4rem]">{post.data.title}</h1>
+        <Content />
+      </div>
+    </article>
+  </main>
+</LayoutBase>
+
+<style is:global>
+
+  .md-content {
+    @apply mx-auto
+  }
+
+  .md-content p {
+    @apply my-2
+  }
+  .md-content h2, .md-content h3, .md-content h4, .md-content h5, .md-content h6 {
+    @apply my-4 font-bold
+  }
+
+  .md-content h2 {
+    @apply text-3xl
+  }
+  .md-content h3 {
+    @apply text-2xl
+  }
+  .md-content h4 {
+    @apply text-xl
+  }
+
+  .md-content blockquote {
+    @apply my-4 border-l-4 border-gray-400 pl-4 italic
+  }
+
+  .md-content ul {
+    @apply list-disc list-inside
+  }
+
+  .md-content ol {
+    @apply list-decimal list-inside
+  }
+
+  .md-content a {
+    @apply text-blue-300 underline
+  }
+
+  .md-content img {
+    @apply rounded-lg mx-auto
+  }
+
+  .md-content pre > code {
+    @apply px-4
+  }
+
+  .md-content pre:has(code) {
+    @apply rounded-lg border border-smoke-800 py-2
+  }
+</style>
