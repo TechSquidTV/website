@@ -21,7 +21,7 @@ const blogCollection = defineCollection({
           message: `Description must be between 125 and 160 characters long! Currently ${desc.length} characters long.`,
         })
       ),
-      heroImageAlt: z.string().optional(),
+      heroImageAlt: z.string(),
       heroImage: image().refine((img) => img.width >= 1080, {
         message: "Cover image must be at least 1080 pixels wide!",
       }),
