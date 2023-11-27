@@ -1,0 +1,81 @@
+---
+title: Keyboard Media Keys Not Working? It’s Chrome’s Fault
+publishDate: 02-21-2019
+description: Ever noticed you haven't been able to use your keyboard's media keys to play and pause music while chrome is open? Let's see why.
+heroImage: ../../images/blog/audio-issues.jpg
+heroImageAlt: "A minimalist and nearly colorless rendering of a keyboard in a void space, sitting in front of a floating glowing icon of the mute symbol, shining brightly. Image created by TechSquidTV in Blender."
+oldPermalink: "https://techsquidtv.com/blog/Chrome_media_keys"
+path: choosing-a-standing-desk
+tags:
+  - technology
+---
+import {Image} from 'astro:assets'
+import GoogleMusicPermissions from '../../images/blog/google-play-music-permissions.jpg'
+
+Have you ever been using Spotify or iTunes on your computer while browsing Reddit and you go to hit the next or play/pause key on your keyboard and nothing happens? Me too! And it was driving me nuts.
+
+That was until I rebooted my computer and noticed my keyboard was mysteriously working again after I fired up Spotify and began cleaning up the studio. Typical in troubleshooting on PCs, one service or another must be conflicting with another.
+
+A little Googling and it was easy to find [the culprit](https://developer.chrome.com/apps/commands). Chrome plugins!
+
+## Quick Fix
+
+1. Check your currently installed apps and extensions here: [chrome://apps/](chrome://apps/) and [chrome://extensions/](chrome://extensions/)
+2. Check for media apps, music players, things like [Google Play Music](https://chrome.google.com/webstore/detail/google-play-music/fahmaaghhglfmonjliepjlchgpgfmobi/related) and Plex and disable them.
+
+<nuxt-picture src="./posts/img/Play-Music-Extension.jpg" width="500px" fit="contain" alt="google play music extension"></nuxt-picture>
+
+**You’re done!**
+
+Once you remove the app or extension hijacking the media keys, Spotify and other desktop applications will work properly.
+
+## What causes this?
+
+If you are curious about why this happens you can check out the “commands API” for chrome extension developers. Extensions are able to make use of the [commands API](https://developer.chrome.com/apps/commands) to execute commands via keyboard shortcut. An app like Google Play Music would use this functionality to detect when the `play/pause` (or other keys) are pressed to control the media player.
+
+By default, this would only work while the browser has focus. However, Google has included the ability to set the scope to “Global” which will allow Chrome to recognize keyboard shortcuts when it is not in focus. That is the problem we are running into.
+
+Here is an interesting quote directly from the Google Commands API Docs though:
+
+> the extension developer is limited to specifying only Ctrl+Shift+[0..9] as global shortcuts. This is to minimize the risk of overriding shortcuts in other applications since if, for example, Alt+P were to be allowed as global, the printing shortcut might not work in other applications.
+
+Well, that’s a fantastic sentiment but it isn’t true. We can see in Google’s own Play Music app’s `manifest.json` file, the media keys are being accessed globally.
+
+```json
+"commands": {
+      "next-track": {
+         "description": "next track",
+         "global": true,
+         "suggested_key": {
+            "default": "MediaNextTrack"
+         }
+      },
+      "play-pause": {
+         "description": "play/pause",
+         "global": true,
+         "suggested_key": {
+            "default": "MediaPlayPause"
+         }
+      },
+      "previous-track": {
+         "description": "previous track",
+         "global": true,
+         "suggested_key": {
+            "default": "MediaPrevTrack"
+         }
+      },
+      "stop": {
+         "description": "stop playback",
+         "global": true,
+         "suggested_key": {
+            "default": "MediaStop"
+         }
+      }
+    }
+```
+
+You can test that yourself to see that these media keys are in fact being accessed globally if you install the Google Play Music app or have already ran into the same problem as I have.
+
+I think it’s interesting this global behavior isn’t listed as a type of permission accessible to the Chrome extension. That might potentially be worth noting depending on who you ask.
+
+<Image src={GoogleMusicPermissions} alt="Google Play Music Permissions Panel in Google Chrome" />
