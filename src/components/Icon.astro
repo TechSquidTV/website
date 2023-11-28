@@ -9,15 +9,17 @@ const icons = {
   threads: import("../icons/threads.svg?raw"),
   x: import("../icons/x.svg?raw"),
   youtube: import("../icons/youtube.svg?raw"),
+  techsquidtv: import("../icons/techsquidtv.svg?raw"),
 }
 
 export type IconName = keyof typeof icons
 
 interface Props {
   name: IconName
+  size?: number
 }
 
-const {name} = Astro.props as Props
+const {name, size = 5} = Astro.props as Props
 
 const getIcon = (name: IconName) => {
   const icon = icons[name];
@@ -28,4 +30,4 @@ const getIcon = (name: IconName) => {
 };
 
 ---
-<Svg src={getIcon(name)} aria-label={name} class="h-5 w-5" />
+<Svg src={getIcon(name)} aria-label={name} class={`h-${size} w-${size}`} />
