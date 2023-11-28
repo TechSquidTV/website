@@ -35,6 +35,9 @@ dependencies:
   astro:
     specifier: ^3.5.5
     version: 3.5.5(typescript@5.2.2)
+  astro-navbar:
+    specifier: ^2.3.0
+    version: 2.3.0
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -1583,6 +1586,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /astro-navbar@2.3.0:
+    resolution: {integrity: sha512-5xnSuEuFM27FyWguZNRWv210P8J4MHCabkj+oHd94x+96peL3QRXWKpupGyHoo4Vdz4aNYe1GolcoOJRoJb7cA==}
+    dev: false
 
   /astro@3.5.5(typescript@5.2.2):
     resolution: {integrity: sha512-zJDZhO8XheXzpqkZgBXlP8e3j8psf0A21fh5Bq4HNR6gOmgOnM62Pok3O2ClbGygabfl2Preeun0pBRFn5+y0A==}

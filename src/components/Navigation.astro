@@ -1,4 +1,7 @@
 ---
+import { Astronav, MenuItems, MenuIcon } from "astro-navbar"
+import Icon from '@components/Icon.astro'
+
 type MenuItem = {
   name: string,
   href: string,
@@ -28,16 +31,26 @@ const menuItems: MenuItem[] = [
 
 ---
 
-<nav class="flex fixed top-4 left-0 right-0 z-50 justify-center text-lg">
-  <ul class="flex flex-row space-x-2 rounded-full px-4 py-3 text-smoke-100 border border-smoke-900 border-opacity-50 bg-smoke-800 bg-opacity-30 backdrop-blur-md">
-    {
-      menuItems.map((item) => {
-        return (
-          <li>
-            <a href={item.href} class="transition-color duration-500 hover:bg-white hover:bg-opacity-90 hover:text-smoke-950 px-4 py-3 rounded-full">{item.name}</a>
-          </li>
-        )
-      })
-    }
-  </ul>
-</nav>
+<Astronav>
+  <div class="flex fixed top-4 left-0 right-0 z-50 justify-center text-lg ">
+    <div class="flex flex-row space-x-2 px-4 py-2 text-smoke-100 border border-smoke-900 border-opacity-30 bg-smoke-800 bg-opacity-30 backdrop-blur-md rounded-full shadow-lg">
+      <a href="/" class="flex items-center">
+          <Icon size={6} name="techsquidtv" />
+        </a>
+      <MenuItems class="hidden md:flex space-x-2">
+        <ul class="flex flex-row">
+          {
+            menuItems.map((item) => {
+              return (
+                <li>
+                  <a href={item.href} class="transition-color duration-500 hover:bg-smoke-200 hover:bg-opacity-50 hover:text-white px-3 py-2 rounded-full">{item.name}</a>
+                </li>
+              )
+            })
+          }
+        </ul>
+      </MenuItems>
+      <MenuIcon class="w-4 h-4 md:hidden" />
+    </div>
+  </div>
+</Astronav>
