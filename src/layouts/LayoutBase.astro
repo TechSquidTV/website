@@ -32,9 +32,9 @@ const noiseTexture = `url('${new URL("/assets/noise.svg", Astro.site).href}')`;
   />
   <body class="flex flex-col">
     <Navigation />
-
-    <slot />
-    
+    <div class="flex-1">
+      <slot />
+    </div>  
     <Footer />
   </body>
 </html>
