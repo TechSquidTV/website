@@ -23,6 +23,9 @@ dependencies:
   '@fontsource-variable/inter':
     specifier: ^5.0.15
     version: 5.0.15
+  '@fontsource-variable/outfit':
+    specifier: ^5.0.8
+    version: 5.0.8
   '@fontsource/poppins':
     specifier: ^5.0.8
     version: 5.0.8
@@ -914,6 +917,10 @@ packages:
 
   /@fontsource-variable/inter@5.0.15:
     resolution: {integrity: sha512-CdQPQQgOVxg6ifmbrqYZeUqtQf7p2wPn6EvJ4M+vdNnsmYZgYwPPPQDNlIOU7LCUlSGaN26v6H0uA030WKn61g==}
+    dev: false
+
+  /@fontsource-variable/outfit@5.0.8:
+    resolution: {integrity: sha512-j4JHCbuk2+Nl7PwTVT+RJKTDMDw7TWWt/85CIucD7KvOS7Iv0IiymE5ur21/aFbTwamOHrXX91WrQZHN7QDrmw==}
     dev: false
 
   /@fontsource/poppins@5.0.8:

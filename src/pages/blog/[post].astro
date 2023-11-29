@@ -32,8 +32,10 @@ const { Content } = await post.render()
     </div>
     <article class="relative wrapper z-10 -mt-28 animate-slideUp">
       <div class="md-content card max-w-screen-lg">
-        <h1 class="text-center font-bold tracking-wide my-4 text-5xl leading-[4rem]">{post.data.title}</h1>
-        <Content />
+        <div class="mx-8">
+          <h1 class="text-center font-bold tracking-wide my-4 text-5xl leading-[4rem]">{post.data.title}</h1>
+          <Content />
+        </div>
       </div>
     </article>
   </main>
@@ -46,10 +48,10 @@ const { Content } = await post.render()
   }
 
   .md-content p {
-    @apply my-2
+    @apply my-4
   }
   .md-content h2, .md-content h3, .md-content h4, .md-content h5, .md-content h6 {
-    @apply my-4 font-bold
+    @apply mb-4 mt-6 font-bold
   }
 
   .md-content h2 {
