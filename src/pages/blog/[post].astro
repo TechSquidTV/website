@@ -23,11 +23,16 @@ const { Content } = await post.render()
 <LayoutBase>
   <main class="">
     <div class="relative w-full h-96 overflow-hidden">
-      <Image src={post.data.heroImage} alt={post.data.heroImageAlt} class="w-full h-full object-cover" />
+      <Image
+        src={post.data.heroImage}
+        alt={post.data.heroImageAlt}
+        class="w-full h-full object-cover"
+        transition:name={`heroImage ${post.id}`}
+        />
     </div>
-    <article class="relative wrapper card z-10 -mt-28">
-      <div class="md-content max-w-screen-lg">
-        <h1 class="text-center font-semibold tracking-wide my-4 text-6xl leading-[4rem]">{post.data.title}</h1>
+    <article class="relative wrapper z-10 -mt-28 animate-slideUp">
+      <div class="md-content card max-w-screen-lg">
+        <h1 class="text-center font-bold tracking-wide my-4 text-5xl leading-[4rem]">{post.data.title}</h1>
         <Content />
       </div>
     </article>
@@ -84,4 +89,5 @@ const { Content } = await post.render()
   .md-content pre:has(code) {
     @apply rounded-lg border border-smoke-800 py-2
   }
+
 </style>

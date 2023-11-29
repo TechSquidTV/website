@@ -3,6 +3,15 @@ export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
+      keyframes: {
+        slideUp: {
+          "0%": { transform: "translateY(100%)" },
+          "100%": { transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        slideUp: "slideUp 0.5s ease forwards",
+      },
       backdropFilter: {
         none: "none",
         blur: "blur(20px)",
@@ -26,7 +35,8 @@ export default {
     },
     boxShadow: {
       sm: "0 1px 2px 0 rgb(0 0 0/ 0.05)",
-      DEFAULT: "0 1px 3px 0 rgb(0 0 0 / 0.25), 0 1px 2px -1px rgb(0 0 0 / 0.25)",
+      DEFAULT:
+        "0 1px 3px 0 rgb(0 0 0 / 0.25), 0 1px 2px -1px rgb(0 0 0 / 0.25)",
       md: "0 1px 3px 0 rgb(0 0 0 / 0.25), 0 1px 2px -1px rgb(0 0 0 / 0.25)",
       lg: "0 10px 15px -3px rgb(0 0 0 / 0.25), 0 4px 6px -4px rgb(0 0 0 / 0.25)",
       xl: "0 20px 25px -5px rgb(0 0 0 / 0.25), 0 8px 10px -6px rgb(0 0 0 / 0.25)",
@@ -45,15 +55,6 @@ export default {
       full: "9999px",
     },
   },
-  safelist: [
-    'w-3',
-    'h-3',
-    'w-4',
-    'h-4',
-    'w-5',
-    'h-5',
-    'w-6',
-    'h-6'
-  ],
+  safelist: ["w-3", "h-3", "w-4", "h-4", "w-5", "h-5", "w-6", "h-6"],
   plugins: [],
 };
