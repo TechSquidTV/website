@@ -10,7 +10,8 @@
       "@content/*": ["src/content/*"],
       "@assets/*": ["src/public/*"],
       "@layouts/*": ["src/layouts/*"],
-      "@images/*": ["src/images/*"]
+      "@images/*": ["src/images/*"],
+      "@utils/*": ["src/utils/*"]
     }
   }
 }

@@ -3,6 +3,7 @@ import LayoutBase from "@layouts/LayoutBase.astro";
 import SocialsHeadless from "@components/Social/SocialsHeadless.astro";
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
+import timeToRead from "@utils/timeToRead.ts";
 
 const blogPosts = await getCollection("blog");
 ---
@@ -40,6 +41,9 @@ const blogPosts = await getCollection("blog");
                       {post.data.title}
                     </h2>
                     <p>{post.data.description}</p>
+                    <div class="text-sm">
+                      <span>{timeToRead(post.body)}m read</span>
+                    </div>
                   </div>
                 </article>
               </a>

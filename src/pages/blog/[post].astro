@@ -2,6 +2,7 @@
 import LayoutBase from "@layouts/LayoutBase.astro";
 import { getCollection, type CollectionEntry  } from "astro:content";
 import { Image } from "astro:assets";
+import timeToRead from "@utils/timeToRead";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -34,6 +35,9 @@ const { Content } = await post.render()
       <div class="md-content card max-w-screen-lg">
         <div class="mx-8">
           <h1 class="text-center font-bold tracking-wide my-4 text-5xl leading-[4rem]">{post.data.title}</h1>
+          <div>
+            <span>{timeToRead(post.body)}m read</span>
+          </div>
           <Content />
         </div>
       </div>
