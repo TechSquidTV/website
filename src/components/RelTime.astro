@@ -1,0 +1,13 @@
+---
+import { formatDistanceToNow } from 'date-fns';
+
+type Props = {
+  datetime: string
+}
+
+const {datetime} = Astro.props
+const relTime = formatDistanceToNow(new Date(datetime), { addSuffix: true });
+
+---
+
+<time datetime={datetime} title={datetime}>{relTime}</time>

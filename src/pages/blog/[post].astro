@@ -1,26 +1,27 @@
 ---
 import LayoutBase from "@layouts/LayoutBase.astro";
-import { getCollection, type CollectionEntry  } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import timeToRead from "@utils/timeToRead";
+import RelTime from "@components/RelTime.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
-  return posts.map(post => {
+  return posts.map((post) => {
     return {
       params: {
-        post: post.slug
+        post: post.slug,
       },
-      props: post
+      props: post,
     };
   });
 }
 
 type Props = CollectionEntry<"blog">;
-const post = Astro.props
-const { Content } = await post.render()
-
+const post = Astro.props;
+const { Content } = await post.render();
 ---
+
 <LayoutBase>
   <main class="">
     <div class="relative w-full h-96 overflow-hidden">
@@ -29,14 +30,27 @@ const { Content } = await post.render()
         alt={post.data.heroImageAlt}
         class="w-full h-full object-cover"
         transition:name={`heroImage ${post.id}`}
-        />
+      />
     </div>
     <article class="relative wrapper z-10 -mt-28 animate-slideUp">
-      <div class="md-content card max-w-screen-lg">
+      <div class="md-content card max-w-screen-md">
         <div class="mx-8">
-          <h1 class="text-center font-bold tracking-wide my-4 text-5xl leading-[4rem]">{post.data.title}</h1>
-          <div>
-            <span>{timeToRead(post.body)}m read</span>
+          <div class="mb-8">
+              <h1
+                class="text-center font-bold tracking-wide my-4 text-5xl leading-[4rem]"
+              >
+                {post.data.title}
+              </h1>
+              <div>
+                <div class="flex justify-between text-sm text-smoke-400">
+                  <span
+                    ><RelTime
+                      datetime={post.data.publishDate.toDateString()}
+                    /></span
+                  >
+                  <span>{timeToRead(post.body)}m read</span>
+                </div>
+            </div>
           </div>
           <Content />
         </div>
@@ -46,54 +60,56 @@ const { Content } = await post.render()
 </LayoutBase>
 
 <style is:global>
-
   .md-content {
-    @apply mx-auto
+    @apply mx-auto;
   }
 
   .md-content p {
-    @apply my-4
+    @apply my-4;
   }
-  .md-content h2, .md-content h3, .md-content h4, .md-content h5, .md-content h6 {
-    @apply mb-4 mt-6 font-bold
+  .md-content h2,
+  .md-content h3,
+  .md-content h4,
+  .md-content h5,
+  .md-content h6 {
+    @apply mb-4 mt-6 font-bold;
   }
 
   .md-content h2 {
-    @apply text-3xl
+    @apply text-3xl;
   }
   .md-content h3 {
-    @apply text-2xl
+    @apply text-2xl;
   }
   .md-content h4 {
-    @apply text-xl
+    @apply text-xl;
   }
 
   .md-content blockquote {
-    @apply my-4 border-l-4 border-gray-400 pl-4 italic
+    @apply my-4 border-l-4 border-gray-400 pl-4 italic;
   }
 
   .md-content ul {
-    @apply list-disc list-inside
+    @apply list-disc list-inside;
   }
 
   .md-content ol {
-    @apply list-decimal list-inside
+    @apply list-decimal list-inside;
   }
 
   .md-content a {
-    @apply text-blue-300 underline
+    @apply text-blue-300 underline;
   }
 
   .md-content img {
-    @apply rounded-lg mx-auto
+    @apply rounded-lg mx-auto;
   }
 
   .md-content pre > code {
-    @apply px-4
+    @apply px-4;
   }
 
   .md-content pre:has(code) {
-    @apply rounded-lg border border-smoke-800 py-2
+    @apply rounded-lg border border-smoke-800 py-2;
   }
-
 </style>
