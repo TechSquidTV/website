@@ -1,0 +1,35 @@
+{
+  "name": "Kyle Tryon",
+  "username": "TechSquidTV",
+  "website": "https://www.techsquidtv.com",
+  "socials": [
+    {
+      "name": "Twitter",
+      "url": "https://twitter.com/TechSquidTV"
+    },
+    {
+      "name": "GitHub",
+      "url": "https://github.com/KyleTryon"
+    },
+    {
+      "name": "YouTube",
+      "url": "https://www.youtube.com/techsquidtv"
+    },
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com/techsquidtv/"
+    },
+    {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/in/kyle-tryon/"
+    },
+    {
+      "name": "Twitch",
+      "url": "https://www.twitch.tv/techsquidtv"
+    },
+    {
+      "name": "Mastodon",
+      "url": "https://fosstodon.org/@techsquidtv"
+    }
+  ]
+}

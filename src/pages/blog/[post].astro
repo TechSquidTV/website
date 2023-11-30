@@ -2,8 +2,7 @@
 import LayoutBase from "@layouts/LayoutBase.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
-import timeToRead from "@utils/timeToRead";
-import RelTime from "@components/RelTime.astro";
+import * as ldjson from '@utils/ldjson'
 import PostMeta from "@components/PostMeta.astro";
 
 export async function getStaticPaths() {
@@ -56,27 +55,7 @@ const { Content } = await post.render();
 
 <script
   type="application/ld+json"
-  set:html={JSON.stringify({
-    "@context": "http://schema.org",
-    "@type": "BlogPosting",
-    headline: post.data.title,
-    datePublished: post.data.publishDate.toDateString(),
-    dateModified:
-      post.data.updateDate?.toDateString() ??
-      post.data.publishDate.toDateString(),
-    author: {
-      "@type": "Person",
-      name: "Kyle Tryon",
-      alternateName: "TechSquidTV",
-      url: "https://techsquidtv.com/about",
-      sameAs: [
-        "https://twitter.com/techsquidtv",
-        "https://www.youtube.com/techsquidtv",
-        "https://www.linkedin.com/in/kyle-tryon/",
-        "https://github.com/KyleTryon",
-      ],
-    },
-  })}
+  set:html={JSON.stringify(ldjson.CreateBlog(post))}
 />
 
 <style is:global>
