@@ -1,0 +1,12 @@
+---
+import { type ValidTags, tagMap  } from '@utils/blogTag'
+
+type Props = {
+  tag: ValidTags;
+}
+
+
+const { tag } = Astro.props;
+---
+
+<a href={new URL(tagMap[tag].href, Astro.site)} class={`rounded-full flex flex-row items-center px-2 ring-1 ring-smoke-800`}><span class={`inline-block w-2 h-2 rounded-full bg-${tagMap[tag].color} ring-2`}></span><span class="px-1">{tag}</span></a>

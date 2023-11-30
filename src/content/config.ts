@@ -1,13 +1,5 @@
 import { defineCollection, z } from "astro:content";
-
-const validTags = z.enum([
-  "hardware",
-  "linux",
-  "coding",
-  "webdev",
-  "ai",
-  "technology",
-])
+import { tags } from "../utils/blogTag";
 
 const blogCollection = defineCollection({
   schema: ({ image }) =>
@@ -32,7 +24,9 @@ const blogCollection = defineCollection({
         .optional(),
       path: z.string(),
       oldPermalink: z.string().optional(),
-      tags: z.array(validTags).optional(),
+      tags: z.array(z.string().refine((tag) => tags.includes(tag), {
+        message: "Invalid tag! Please choose from the following: " + tags.join(", ")
+      })),
     }),
 });
 

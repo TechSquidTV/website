@@ -1,3 +1,5 @@
+import { tagMap } from "./src/utils/blogTag";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
@@ -55,6 +57,13 @@ export default {
       full: "9999px",
     },
   },
-  safelist: ["w-3", "h-3", "w-4", "h-4", "w-5", "h-5", "w-6", "h-6"],
+  safelist: getTailwindSafeList(),
   plugins: [],
 };
+
+
+function getTailwindSafeList() {
+  const iconSizes = ["w-3", "h-3", "w-4", "h-4", "w-5", "h-5", "w-6", "h-6"];
+  const tagColors = Object.values(tagMap).map(tag => `bg-${tag.color}`);
+  return [...iconSizes, ...tagColors];
+}
