@@ -4,6 +4,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import timeToRead from "@utils/timeToRead";
 import RelTime from "@components/RelTime.astro";
+import PostMeta from "@components/PostMeta.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -33,7 +34,7 @@ const { Content } = await post.render();
       />
     </div>
     <article class="relative wrapper z-10 -mt-28 animate-slideUp">
-      <div class="md-content card max-w-screen-md">
+      <div class="mx-auto card max-w-screen-md">
         <div class="mx-8">
           <div class="mb-8">
             <h1
@@ -41,18 +42,12 @@ const { Content } = await post.render();
             >
               {post.data.title}
             </h1>
-            <div>
-              <div class="flex justify-between text-sm text-smoke-400">
-                <span
-                  ><RelTime
-                    datetime={post.data.publishDate.toDateString()}
-                  /></span
-                >
-                <span>{timeToRead(post.body)}m read</span>
-              </div>
+            <PostMeta post={post} />
             </div>
           </div>
-          <Content />
+          <div class="md-content">
+            <Content />
+          </div>
         </div>
       </div>
     </article>
