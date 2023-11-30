@@ -36,20 +36,20 @@ const { Content } = await post.render();
       <div class="md-content card max-w-screen-md">
         <div class="mx-8">
           <div class="mb-8">
-              <h1
-                class="text-center font-bold tracking-wide my-4 text-5xl leading-[4rem]"
-              >
-                {post.data.title}
-              </h1>
-              <div>
-                <div class="flex justify-between text-sm text-smoke-400">
-                  <span
-                    ><RelTime
-                      datetime={post.data.publishDate.toDateString()}
-                    /></span
-                  >
-                  <span>{timeToRead(post.body)}m read</span>
-                </div>
+            <h1
+              class="text-center font-bold tracking-wide my-4 text-5xl leading-[4rem]"
+            >
+              {post.data.title}
+            </h1>
+            <div>
+              <div class="flex justify-between text-sm text-smoke-400">
+                <span
+                  ><RelTime
+                    datetime={post.data.publishDate.toDateString()}
+                  /></span
+                >
+                <span>{timeToRead(post.body)}m read</span>
+              </div>
             </div>
           </div>
           <Content />
@@ -58,6 +58,31 @@ const { Content } = await post.render();
     </article>
   </main>
 </LayoutBase>
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    headline: post.data.title,
+    datePublished: post.data.publishDate.toDateString(),
+    dateModified:
+      post.data.updateDate?.toDateString() ??
+      post.data.publishDate.toDateString(),
+    author: {
+      "@type": "Person",
+      name: "Kyle Tryon",
+      alternateName: "TechSquidTV",
+      url: "https://techsquidtv.com/about",
+      sameAs: [
+        "https://twitter.com/techsquidtv",
+        "https://www.youtube.com/techsquidtv",
+        "https://www.linkedin.com/in/kyle-tryon/",
+        "https://github.com/KyleTryon",
+      ],
+    },
+  })}
+/>
 
 <style is:global>
   .md-content {
