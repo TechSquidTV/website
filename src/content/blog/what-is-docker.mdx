@@ -1,0 +1,77 @@
+---
+title: What Is Docker?
+publishDate: 05-08-2018
+description: Docker allows you to “containerize” applications and scripts. Like a virtual machine, but even faster. Let's build a container.
+heroImage: ../../images/blog/docker-in-5-thumbnail.webp
+heroImageAlt: "A minimalist rendering of an empty room bathed in a light purple glow. In the room are two rack-server units on the floor, stacked on top of each-other, while a single cable with a spiral glowing pattern exits from the back off to the right of the screen. Image created by TechSquidTV in Blender."
+oldPermalink: "https://techsquidtv.com/blog/What_Is_Docker"
+path: what-is-docker
+tags:
+  - linux
+---
+import { Image } from "astro:assets";
+import DockerContainerShip from "../../images/blog/docker-container-ship.jpg";
+import WhatIsContainer from "../../images/blog/what-is-container.png";
+
+https://www.youtube.com/watch?v=_dfLOzuIg2o
+
+If you read the blog, watch our channel or just play with Linux you have seen the blue whale. Docker is all but too useful in too many ways for Linux users and developers, and we’ll try to cover a high-level overview to just answer the question “What is Docker?”. If you’ve used Docker before, move along, everyone else come with me.
+
+## What Is A Container?
+
+<Image src={DockerContainerShip} alt="A shipping container with the Docker logo on it" />
+
+In short, Docker allows you to “containerize” applications and scripts. If you are familiar with virtual machines, it is almost like that except a whole lot more efficient for some use cases. What’s great about this is if you needed two applications running that each requires a different version of Ruby (or anything else), each app can live in its own container with the dependency versions it requires. Normally on a single host, you’d have a conflict where you’d need two versions of a dependency the system on your host machine at once, which not only can cause compatibility issues but it also gunks up the main operating system. If you damage your main OS, you’ll have some big headaches down the road. Containers can run independently of each other but also communicate over the network, so it’s very common for instance to spin up a Docker container that runs a database like MySQL and another container running a CMS like WordPress (oh hey, we do that). Containers can easily be added or removed and you can rest easy knowing you won’t negatively affect any neighbors or the host. Keeping your host image clean is really satisfying.
+
+## Docker Images
+
+If to run a virtual machine you need an ISO containing the operating system, then to run a Docker container you first need a Docker image. Docker images differ from ISOs greatly, and we’ll go over that in a moment but stay with me. Check out the Dockerhub.
+
+[https://hub.docker.com/explore/](https://hub.docker.com/explore/)
+
+Many operating systems, servers, and applications maintain official Docker image repositories on the Docker hub, it’s kind of like GitHub for Docker. If you are familiar with Git’s `git pull` there is a similar command `docker pull` for Docker to pull down any of these popular images locally very easily. If there is no official Docker image for what you need there is likely a community maintained version available. There is even popular community maintained container organizations such as [LinuxServer.io](https://linuxserver.io) which maintains a large number of mostly media based application containers such as Plex. This makes it incredibly easy to access and run anything you need with ease.
+
+A Docker image file is actually only a text file that mostly holds terminal commands to set up a consistent Linux environment, installing specific libraries and dependencies. This ensures that everything you need to run is installed exactly the same way on whatever machine builds and then runs the Docker image. Docker image files must be “built” into Docker images. Another amazing feature of Docker is when these images are built, they are built using layers, which are often shared between containers. If one container has X installed, it should be on it’s own layer, so when another image requires X as well, it can be accessed from the same layer.
+
+If you don’t know, an ISO for a virtual machine is a large, multi-gigabyte file in most cases, containing the binaries and compressed data needed to install an operating system. A Docker image file is just a set of instructions, similar to a Bash script until it is built.
+
+Once an image has been built from the image file
+
+## Why Not A Virtual Machine?
+
+So what’s the difference? Why not just use a virtual machine? Well, Docker containers and virtual machines have a lot less in common than it may seem, and there’s a good reason to use both depending on your use case.
+
+I’m stealing these images from Docker’s official website here: https://www.docker.com/what-container#/package_software
+
+<Image src={WhatIsContainer} alt="What is a container?" />
+
+Here is the cool thing about Docker. Assuming you need all Linux based operating systems and tools, what Docker is amazing at doing is sharing resources rather than duplicating them. Docker runs natively on Linux, sharing the kernel of the host machine with other Linux based containers, where a virtual machine must introduce a hypervisor which speaks between the Host OS and the virtual OS.
+
+Let’s say you want to run two Docker containers, the first one is for some Internet-of-things app you wrote in Node.JS and it is based on Ubuntu 16.04. It also requires a very specific version of NodeJS to run. The second image, let’s pretend is part of your home automation system and it too is built on Ubuntu 16.04 and also requires that same version of NodeJS (or even another version). Well, great news. The second image can use “layers” from the first image, meaning you don’t need to duplicate any data on your disk. In this case, the two images likely share a lot of the same layers assuming they were written in a similar structure. That means the overhead of the second container is barely more than the first.
+
+Also, Docker is fast, really fast. The bootup time of a Docker container is essentially instant. The Linux based host OS provides 90% of what the Docker container needs to get started. So rather than waiting several minutes for an operating system to boot-up, you are waiting a few seconds if that, for a Docker container. Virtual machines not only have to deal with booting the OS of the VM but there is also the Hypervisor layer which works a middleman or translator as each virtual OS attempts to communicate with the kernel there needs to be a manager involved to communicate between the virtual machines and the host.
+
+In a virtual machine, hardware resources are dedicated to running multiple full independent operating systems. If you were to spin up three Ubuntu-based virtual machines, you are dedicating set resources from the host to each VM as well as storing the operating system along with any other libraries or utilities multiple times. Docker is efficient in re-using “layers“, saving you space.
+
+## When Shouldn’t I Use Docker?
+
+If you haven’t gotten the vibe yet, this is a Linux-only utility. There is a way to use Windows on Enterprise and I could be wrong here but I believe it actually is essentially a true VM when Windows is involved, kind of defeating most of the point.
+
+Docker is also not a “secure” system with dedicated resources. Docker is not something you would want to use to containerize clients on a web server for instance. Data for Docker containers almost always lives on the host and is designed to be shared between containers. Which is awesome if one container downloads media files and another acts as a file server, but not great if you are trying to keep sensitive data locked down.
+
+Docker is used a lot in development, microservices, and even web applications. Docker can even run inside of VMs and that’s not weird. It’s common for a hosting provider to sell Linux based virtual machines which are truly virtual environments with dedicated resources, and then client using those virtual machines to install and use Docker. That’s how TechSquidTV.com is working right now.
+
+## OK, How Do I Get Started?
+
+Stay tuned of course! We’ll have plenty of videos coming out around Docker in the future, but I don’t want to leave you completely empty-handed.
+
+This post is not sponsored by anyone in any way, I have not had any contact with these sources below, I just found them useful personally.
+
+- The Docs. The best place to get started with anything is the documentation. All knowledge starts from the docs and then is abstracted into blog posts and videos. This is the only true manual. https://docs.docker.com/
+- Dive into Docker. I was given this course as a part of my day job and I think they did an amazing job. This course was a much gentler introduction into something that has a bit of a learning curve depending on where you are coming from. This is NOT free. [https://diveintodocker.com/](https://diveintodocker.com/)
+
+I would recommend not using Windows for playing with Docker. Mac will work but Linux is best. If you have access to a virtual machine or any other linux box, that will be the best experience.
+
+I have not actually used this yet as it is normally at capacity and I do have a linux box in the apartment, but there is an online playground for Docker here: [https://labs.play-with-docker.com/#](https://labs.play-with-docker.com/#)
+
+Good luck and get containerizing! Leave any questions/feedback/comments in the comment area below!
