@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@jasikpark/astro-svg-loader": "^0.2.0",
+    "@typescript-eslint/parser": "^6.13.1",
     "eslint": "^8.55.0",
     "eslint-plugin-astro": "^0.29.1",
     "eslint-plugin-jsx-a11y": "^6.8.0",

@@ -1,8 +1,4 @@
-export default {
-  files: ["*.mjs"],
-  parserOptions: {
-    sourceType: "module", // This allows ESLint to understand ES module syntax
-  },
+module.exports = {
   extends: [
     // ...
     "plugin:astro/recommended",
