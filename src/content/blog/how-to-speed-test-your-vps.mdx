@@ -10,7 +10,6 @@ tags:
   - linux
 ---
 
-
 When looking for a VPS (virtual private server) provider, many list the specs and features publicly but often neglect to share the network speed. That’s probably fair since it’s really difficult to give an accurate “speed” when servers are often located all over the world and so are your users.
 
 It might be helpful to test out the network speed to some of the locations you’ll expect users to connect from. And, thanks to GitHub user @Sivel we can use their python-based CLI for the popular website speedtest.net – speedtest-cli.
@@ -43,7 +42,11 @@ To run a basic speed test you can simply run:
 You can watch an example of installing and running these commands below. This is running on a VPS provided by Vultr.
 
 <center>
-<script id="asciicast-MoRw0B2uhdjXuBrTm7klfqgjL" src="https://asciinema.org/a/MoRw0B2uhdjXuBrTm7klfqgjL.js" async></script>
+  <script
+    id="asciicast-MoRw0B2uhdjXuBrTm7klfqgjL"
+    src="https://asciinema.org/a/MoRw0B2uhdjXuBrTm7klfqgjL.js"
+    async
+  ></script>
 </center>
 
 After the _speedtest-cli_ has completed you'll receive output similar to the following, containing the server you have connected to and your download and most-importantly, upload speed.
@@ -62,4 +65,3 @@ root@vultr:~/speedtest# exit
 One trick that may make this tool more useful for your real-world testing may be to provide the **--server** argument where you can supply a known SpeedTest.net server ID to test against. this may be useful if you know a large portion of your users will be connecting from known locations or if you want to deliberately test against multiple nodes.
 
 And finally, if you are truly passionate about testing you may also export to a CSV file using **--csv** so you can capture your findings.
-

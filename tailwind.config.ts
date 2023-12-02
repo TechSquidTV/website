@@ -61,9 +61,8 @@ export default {
   plugins: [],
 };
 
-
 function getTailwindSafeList() {
   const iconSizes = ["w-3", "h-3", "w-4", "h-4", "w-5", "h-5", "w-6", "h-6"];
-  const tagColors = Object.values(tagMap).map(tag => `bg-${tag.color}`);
+  const tagColors = Object.values(tagMap).map((tag) => `bg-${tag.color}`);
   return [...iconSizes, ...tagColors];
 }

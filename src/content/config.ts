@@ -1,4 +1,5 @@
 import { defineCollection, z } from "astro:content";
+
 import { tags } from "../utils/blogTag";
 
 const blogCollection = defineCollection({
@@ -11,7 +12,7 @@ const blogCollection = defineCollection({
         (desc) => desc.length >= 125 && desc.length <= 160,
         (desc) => ({
           message: `Description must be between 125 and 160 characters long! Currently ${desc.length} characters long.`,
-        })
+        }),
       ),
       heroImageAlt: z.string(),
       heroImage: image().refine((img) => img.width >= 1080, {
@@ -24,9 +25,12 @@ const blogCollection = defineCollection({
         .optional(),
       path: z.string(),
       oldPermalink: z.string().optional(),
-      tags: z.array(z.string().refine((tag) => tags.includes(tag), {
-        message: "Invalid tag! Please choose from the following: " + tags.join(", ")
-      })),
+      tags: z.array(
+        z.string().refine((tag) => tags.includes(tag), {
+          message:
+            "Invalid tag! Please choose from the following: " + tags.join(", "),
+        }),
+      ),
     }),
 });
 

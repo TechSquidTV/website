@@ -5,7 +5,7 @@ export type TagItem = {
   color: string;
 };
 
-export type ValidTags = typeof tags[number];
+export type ValidTags = (typeof tags)[number];
 
 type TagMap = {
   [key in ValidTags]: TagItem;

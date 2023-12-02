@@ -9,17 +9,18 @@ path: your-terminal-is-ugly
 tags:
   - linux
 ---
-import {Image} from 'astro:assets'
-import VSCodeTerminal from '../../images/blog/vscode-terminal.png'
-import WindowsTerminal from '../../images/blog/windows-terminal.png'
-import ITerm2 from '../../images/blog/iterm2.png'
-import TabbySH from '../../images/blog/tabby-sh.png'
-import OhMyZSHSticker from '../../images/blog/oh-my-zsh-sticker.png'
-import PowerLevel10k from '../../images/blog/powerlevel10k.png'
-import BatCLI from '../../images/blog/bat-cli.png'
-import HTOP from '../../images/blog/htop.png'
-import NeoVIMNightFox from '../../images/blog/neovim-nightfox.png'
-import LunarVim from '../../images/blog/lunarvim.png'
+
+import { Image } from "astro:assets";
+import VSCodeTerminal from "../../images/blog/vscode-terminal.png";
+import WindowsTerminal from "../../images/blog/windows-terminal.png";
+import ITerm2 from "../../images/blog/iterm2.png";
+import TabbySH from "../../images/blog/tabby-sh.png";
+import OhMyZSHSticker from "../../images/blog/oh-my-zsh-sticker.png";
+import PowerLevel10k from "../../images/blog/powerlevel10k.png";
+import BatCLI from "../../images/blog/bat-cli.png";
+import HTOP from "../../images/blog/htop.png";
+import NeoVIMNightFox from "../../images/blog/neovim-nightfox.png";
+import LunarVim from "../../images/blog/lunarvim.png";
 
 If you're a new developer, you've probably run across a command-line command or two and it's not uncommon to be a little intimidated by or just plain not like the terminal. With so many GUI tools out there like [GitHub Desktop](https://desktop.github.com/), why would anyone use an old command-line terminal that looks like it's from the 80s? Well, besides the fact that the command line can be a lot more versatile and efficient, it also doesn't have to look like the archaic dreary black-and-white system-font terminal we often see by default.
 
@@ -100,7 +101,7 @@ To verify we are now using `zsh`, let's check the running process and we should 
 
 ```shell
 $ echo $0
- 
+
 /usr/bin/zsh
 ```
 
@@ -126,7 +127,10 @@ _Boom_ you're done. Now, you can follow the [Oh My ZSH Docs](https://github.com/
 
 [PowerLevel10K](https://github.com/romkatv/powerlevel10k) will give us a quick path to a beautiful and functional terminal theme. _This_ is really the magic in creating a beautiful terminal experience. The main features we are going to get out of this is glyphs/icons, colors, and git information right in our prompt.
 
-<Image src={PowerLevel10k} alt="A themed terminal showing the multiple styles offered by PowerLevel10K" />
+<Image
+  src={PowerLevel10k}
+  alt="A themed terminal showing the multiple styles offered by PowerLevel10K"
+/>
 
 ##### Install PowerLevel10K for ZSH:
 
@@ -146,7 +150,7 @@ To take full advantage of our modern systems, we need modern applications. Most 
 
 [bat](https://github.com/sharkdp/bat) is a modern alternative to `cat` written in rust with several additional features, such as syntax highlighting and git integration.
 
-<Image src={BatCLI} alt="bat - a modern alternative to cat"/>
+<Image src={BatCLI} alt="bat - a modern alternative to cat" />
 
 #### Install `bat`
 
@@ -192,8 +196,10 @@ Run `top --version` to confirm after setting your alias.
 
 Neovim is a drop-in replacement for `vim`, the Linux master's favorite terminal text editor. Out of the box, you won't notice too much difference, except for some sensible defaults such as "Syntax highlighting". Neovim is also extensible via a LUA API and has a large library of available [plugins](https://github.com/neovim/neovim/wiki/Related-projects#plugins).
 
-<Image src={NeoVIMNightFox} alt="Neovim with customizations that make it look like a full IDE" />
-
+<Image
+  src={NeoVIMNightFox}
+  alt="Neovim with customizations that make it look like a full IDE"
+/>
 
 #### Install `neovim`
 
@@ -215,7 +221,6 @@ path+=("~/Applications/")
 ```
 
 You should now be able to run `nvim.appimage --version` and see that nvim is installed. However, right now we need to type out `nvim.appimage` to run neovim, so let's setup some aliases.
-
 
 ##### Set `neovim` Aliases
 
@@ -245,6 +250,7 @@ As mentioned above, because of Neovim's extensive API, there is a thriving commu
 <Image src={LunarVim} alt="LunarVim" />
 
 LunarVim is self-described as:
+
 > "An IDE layer for Neovim with sane defaults. Completely free and community driven".
 
 LunarVim looks beautiful and brings immense power to the terminal, but best of all, installing and configuring it is only a single line after we have installed _neovim_ and any pre-requisites.

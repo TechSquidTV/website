@@ -1,9 +1,9 @@
 ---
-import LayoutBase from "@layouts/LayoutBase.astro";
-import { getCollection, type CollectionEntry } from "astro:content";
-import { Image } from "astro:assets";
-import * as ldjson from "@utils/ldjson";
 import PostMeta from "@components/PostMeta.astro";
+import LayoutBase from "@layouts/LayoutBase.astro";
+import * as ldjson from "@utils/ldjson";
+import { Image } from "astro:assets";
+import { type CollectionEntry,getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -32,7 +32,7 @@ const { Content } = await post.render();
         transition:name={`heroImage ${post.id}`}
       />
     </div>
-    <article class="relative wrapper z-10 -mt-28 animate-slideUp overflow-scroll">
+    <article class="relative wrapper z-10 -mt-28 animate-slideUp">
       <div class="mx-auto card max-w-screen-lg">
         <div class="mb-8 md:px-8">
           <h1

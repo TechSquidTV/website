@@ -10,11 +10,12 @@ tags:
   - technology
   - coding
 ---
-import {Image} from 'astro:assets'
-import TSTVWordpressSite from '../../images/blog/tstv-website-wordpress.png'
-import VultrCPULeak from '../../images/blog/vultr-cpu-leak.jpg'
-import NuxtPerformanceVWordpress from '../../images/blog/nuxt-v-wordpress-speed.jpg'
-import NuxtPerformance from '../../images/blog/nuxt-performance.jpg'
+
+import { Image } from "astro:assets";
+import TSTVWordpressSite from "../../images/blog/tstv-website-wordpress.png";
+import VultrCPULeak from "../../images/blog/vultr-cpu-leak.jpg";
+import NuxtPerformanceVWordpress from "../../images/blog/nuxt-v-wordpress-speed.jpg";
+import NuxtPerformance from "../../images/blog/nuxt-performance.jpg";
 
 If you're reading this, you probably have your own blog, and I bet you've struggled with choosing a framework, static site generator, or hosting provider, and if you're like me, you've probably relocated your blog before.
 
@@ -22,7 +23,10 @@ I think I've found the perfect solution for me, and I expect we'll be using the 
 
 The original [TechSquidTV website](https://techsquidtv.com) website was thrown together in mid 2018, around the time I started my YouTube "career" and decided to get more serious about pursing code and development as a career after years of hobby interest. I wanted a place to most share my content in a way that Google could easily find and index it, hopefully promoting my video content through my blog to more search results. The objective was to be quick and get something online that looked good and was ready to work.
 
-<Image src={TSTVWordpressSite} alt="A screenshot of the old TechSquidTV website, which was built using WordPress." />
+<Image
+  src={TSTVWordpressSite}
+  alt="A screenshot of the old TechSquidTV website, which was built using WordPress."
+/>
 
 ## Why I Chose WordPress In The First Place
 
@@ -138,7 +142,10 @@ Netlify has too many free benefits to fit into this article, but with no downsid
 
 Admittedly, this screen shot was taken after a small optimization pass where I enabled lazy-loading of images and videos. So while not quite my _first_ pass, with little effort we have at minimum matched and in some ways exceeded the performance of the premium WordPress theme.
 
-<Image src={NuxtPerformanceVWordpress} alt="wordpress vs nuxt speed comparison" />
+<Image
+  src={NuxtPerformanceVWordpress}
+  alt="wordpress vs nuxt speed comparison"
+/>
 
 With minimal effort from there an a little direction from the reports, I couldn't resist taking one more pass before publishing.
 

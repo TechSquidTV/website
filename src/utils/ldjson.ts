@@ -1,20 +1,20 @@
-import type { CollectionEntry } from 'astro:content';
-import techsquidtv from '@data/techsquidtv.json';
+import techsquidtv from "@data/techsquidtv.json";
+import type { CollectionEntry } from "astro:content";
 
 function createSchema(data: object) {
   return {
     "@context": "https://schema.org",
     ...data,
-  }
+  };
 }
 
 const ldAuthor = {
   "@type": "Person",
-  "name": techsquidtv.name,
-  "alternateName": techsquidtv.username,
-  "url": techsquidtv.website,
-  "sameAs": techsquidtv.socials.map((s) => s.url)
-}
+  name: techsquidtv.name,
+  alternateName: techsquidtv.username,
+  url: techsquidtv.website,
+  sameAs: techsquidtv.socials.map((s) => s.url),
+};
 
 export function CreateBlog(post: CollectionEntry<"blog">) {
   const ldBlog = {

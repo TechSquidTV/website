@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
@@ -11,5 +11,5 @@ export default defineConfig({
     process.env.NODE_ENV === "development"
       ? "http://localhost:4321"
       : "https://techsquidtv.com",
-  integrations: [tailwind(), sitemap(), react(), embeds(), mdx(),],
+  integrations: [tailwind(), sitemap(), react(), embeds(), mdx()],
 });

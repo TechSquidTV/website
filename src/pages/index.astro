@@ -1,9 +1,9 @@
 ---
-import LayoutBase from "@layouts/LayoutBase.astro";
-import SocialsHeadless from "@components/Social/SocialsHeadless.astro";
-import { getCollection } from "astro:content";
-import { Image } from "astro:assets";
 import PostMeta from "@components/PostMeta.astro";
+import SocialsHeadless from "@components/Social/SocialsHeadless.astro";
+import LayoutBase from "@layouts/LayoutBase.astro";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 
 const blogPosts = await getCollection("blog");
 ---

@@ -9,9 +9,9 @@ path: will-we-ever-be-able-to-download-our-brains-like-in-westworld
 tags:
   - technology
 ---
-import {Image} from 'astro:assets'
-import WestworldNaturalLanguage from '../../images/blog/westworld-natural-language.gif'
 
+import { Image } from "astro:assets";
+import WestworldNaturalLanguage from "../../images/blog/westworld-natural-language.gif";
 
 If you haven’t seen HBO’s _**“Westworld”**_ then… eh, actually honestly, it’s a toss up, it’s up to you. Personally I think they over promised and under delivered, BUT it’s worth talking about because they went over some amazing concepts.
 
@@ -66,7 +66,10 @@ You can play with [Markov Chains](https://projects.haykranen.nl/markov/demo/) on
 
 Westworld gives us a great glimpse of how a true natural language processor might look.
 
-<Image src={WestworldNaturalLanguage} alt="A depection from Westworld showing a natural language processor-like UI showing sentences being contstructed from multiple possible word choices."/>
+<Image
+  src={WestworldNaturalLanguage}
+  alt="A depection from Westworld showing a natural language processor-like UI showing sentences being contstructed from multiple possible word choices."
+/>
 
 This is something that might be achievable with something similar to “Deep Learning” A.I.
 
@@ -114,13 +117,28 @@ At this point we are only missing the visual component.
 
 “[Deepfakes](https://en.wikipedia.org/wiki/Deepfake)” was an internet sensation for a while. With some footage (which is just a string of pictures) and a ton of images of someone’s face, a regular computer can utilize a deep learning algorithm to “face swap” with some A.I. magic sprinkled in, trained on the reference images.
 
-
 <div class="giphy-embed">
   <video class="w-full" autoplay="" loop="" muted="" playsinline="">
-    <source src="https://media.giphy.com/media/8FSLJbbl50RIa0AazA/giphy.mp4" type="video/mp4" />
-    <img src="https://media4.giphy.com/media/8FSLJbbl50RIa0AazA/giphy.gif" title="Your browser does not support the mp4 video codec." alt="Your browser does not support the mp4 video codec." />
+    <source
+      src="https://media.giphy.com/media/8FSLJbbl50RIa0AazA/giphy.mp4"
+      type="video/mp4"
+    />
+    <img
+      src="https://media4.giphy.com/media/8FSLJbbl50RIa0AazA/giphy.gif"
+      title="Your browser does not support the mp4 video codec."
+      alt="Your browser does not support the mp4 video codec."
+    />
   </video>
-  <small>Via <a href="https://media.giphy.com/media/8FSLJbbl50RIa0AazA/giphy.gif" target="_blank" title="(opens in a new window)">Giphy</a></small>
+  <small>
+    Via{" "}
+    <a
+      href="https://media.giphy.com/media/8FSLJbbl50RIa0AazA/giphy.gif"
+      target="_blank"
+      title="(opens in a new window)"
+    >
+      Giphy
+    </a>
+  </small>
 </div>
 
 On the left is actor Alec Baldwin portraying president Donald Trump. On the right, is the footage fed through an AI system on a home computer with hundreds or thousands of reference photos of Donald Trump.
