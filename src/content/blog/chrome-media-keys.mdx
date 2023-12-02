@@ -11,6 +11,7 @@ tags:
 ---
 import {Image} from 'astro:assets'
 import GoogleMusicPermissions from '../../images/blog/google-play-music-permissions.jpg'
+import PlayMusicExtension from '../../images/blog/play-music-extension.jpg'
 
 Have you ever been using Spotify or iTunes on your computer while browsing Reddit and you go to hit the next or play/pause key on your keyboard and nothing happens? Me too! And it was driving me nuts.
 
@@ -23,7 +24,8 @@ A little Googling and it was easy to find [the culprit](https://developer.chrome
 1. Check your currently installed apps and extensions here: [chrome://apps/](chrome://apps/) and [chrome://extensions/](chrome://extensions/)
 2. Check for media apps, music players, things like [Google Play Music](https://chrome.google.com/webstore/detail/google-play-music/fahmaaghhglfmonjliepjlchgpgfmobi/related) and Plex and disable them.
 
-<nuxt-picture src="./posts/img/Play-Music-Extension.jpg" width="500px" fit="contain" alt="google play music extension"></nuxt-picture>
+<Image src={PlayMusicExtension} alt="google play music extension" />
+
 
 **You’re done!**
 
