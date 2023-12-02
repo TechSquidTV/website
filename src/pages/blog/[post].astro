@@ -2,7 +2,7 @@
 import LayoutBase from "@layouts/LayoutBase.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
-import * as ldjson from '@utils/ldjson'
+import * as ldjson from "@utils/ldjson";
 import PostMeta from "@components/PostMeta.astro";
 
 export async function getStaticPaths() {
@@ -32,21 +32,18 @@ const { Content } = await post.render();
         transition:name={`heroImage ${post.id}`}
       />
     </div>
-    <article class="relative wrapper z-10 -mt-28 animate-slideUp">
-      <div class="mx-auto card max-w-screen-md">
-        <div class="mx-8">
-          <div class="mb-8">
-            <h1
-              class="text-center font-bold tracking-wide my-4 text-5xl leading-[4rem]"
-            >
-              {post.data.title}
-            </h1>
-            <PostMeta post={post} />
-            </div>
-          </div>
-          <div class="md-content">
-            <Content />
-          </div>
+    <article class="relative wrapper z-10 -mt-28 animate-slideUp overflow-scroll">
+      <div class="mx-auto card max-w-screen-lg">
+        <div class="mb-8 md:px-8">
+          <h1
+            class="text-center font-bold my-4 text-3xl md:text-4xl xl:text-5xl"
+          >
+            {post.data.title}
+          </h1>
+          <PostMeta post={post} />
+        </div>
+        <div class="md-content md:px-8">
+          <Content />
         </div>
       </div>
     </article>
@@ -59,10 +56,6 @@ const { Content } = await post.render();
 />
 
 <style is:global>
-  .md-content {
-    @apply mx-auto;
-  }
-
   .md-content p {
     @apply my-4;
   }
