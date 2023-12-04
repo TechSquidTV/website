@@ -1,0 +1,157 @@
+---
+title: How to install WordPress with Docker-Compose
+publishDate: 12-11-2018
+description: Docker makes it easy to manage and develop online web applications and Docker-Compose makes it simple to manage multiple Docker containers.
+heroImage: ../../images/blog/docker-compose-thumbnail.webp
+heroImageAlt: "The youtube thumbnail image of TechSquidTV's video Learn Docker-Compose In 10 Minutes. It features the Docker and Wordpress logos."
+oldPermalink: "https://techsquidtv.com/blog/How_to_Docker_Compose"
+path: learning-docker-compose-with-wordpress
+tags:
+  - linux
+---
+
+https://www.youtube.com/watch?v=exmBvjlZr7U
+
+Docker makes it easy to manage and develop online web applications and Docker-Compose makes it simple to manage multiple Docker containers. With only 2 containers and an incredibly simple configuration file, we can launch our own WordPress installation in under 10 minutes.
+
+# What is Docker?
+
+Docker is a platform that allows you to isolate applications and all of their dependencies to a “container” that can easily be stopped, started, updated or removed at any time. Docker containers as they are called are automatically created from simple config files.
+
+If you aren’t familiar with Docker, you should check out our previous post and video just on Docker!
+
+> [What Is Docker?](/blog/what-is-docker)
+
+## What is Docker-Compose?
+
+– Is what I aim to teach in our latest video “[Learn Docker-Compose with WordPress](https://www.youtube.com/watch?v=exmBvjlZr7U)” while subsequently setting up a WordPress website. Docker-Compose is another tool that builds on what we have learned about Docker.
+
+In the real world, most applications require more than one “service” to run. A web application isn’t just a web application; it’s a database, a front-end application, a back-end server with an API service, and anything else that’s required to be running to allow the full application to function. Ideally, each “micro-service” is developed in their own separate docker container.
+
+Docker-Compose allows us to bundle these containers together and interact with each other as a single application.
+
+## Creating a Docker-Compose.yml file
+
+A docker-compose file for WordPress only requires two containers, the WordPress container, and a separate container for a database.
+
+```yaml
+version: '3'
+services:
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    volumes:
+      - wp_data:/var/www/html
+    ports:
+      - '80:80'
+    restart_policy:
+      condition: on-failure
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: my_wordpress_db_password
+
+  db:
+    image: mariadb
+    volumes:
+      - db_data:/var/lib/mysql
+    restart_policy:
+      condition: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: my_db_root_password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: my_wordpress_db_password
+volumes:
+  wp_data:
+  db_data:
+```
+
+Save the file as `docker-compose.yml`. To learn more about creating your own Docker-Compose files, watch the video above.
+
+## Install Docker
+
+You can follow these directions directly from Docker’s own documentation: [https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce)
+
+1. Update the system with:
+
+```shell
+sudo apt-get update
+```
+
+2. Install required packages to allow apt to install repositories over HTTPS:
+
+```shell
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+```
+
+3. Add Docker’s official GPG key:
+
+```shell
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
+
+4. Add the stable branch repo to your mirrors list:
+
+```shell
+sudo add-apt-repository \
+  "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) \
+  stable"
+```
+
+5. Update again now that Docker has been added:
+
+```shell
+sudo apt-get update
+```
+
+6. Finally, install Docker-Ce:
+
+```shell
+sudo apt-get install docker-ce
+```
+
+## Install Docker-Compose
+
+Once Docker has been installed, install Docker-Compose. You can also follow this guide on the official docs: [https://docs.docker.com/compose/install/#install-compose](https://docs.docker.com/compose/install/#install-compose)
+
+1. Download the latest version of Docker-compose:
+
+```shell
+sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+
+2. Ensure the binary has permission to be executed:
+
+```shell
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+3. Verify by checking the version:
+
+```shell
+docker-compose --version
+```
+
+## Start Docker-Compose server
+
+Once your server has Docker and Docker-Compose installed, we can launch our WordPress server.
+
+1. Move the `docker-compose.yml` file onto your sever in a location that makes sense for you (ex: `~/wordpress/docker-compose.yml`).
+2. From the `~/wordpress` directory run:
+
+```shell
+docker-compose up -d
+```
+
+The `-d` switch will cause docker-compose to run in the background as a daemon, which will allow you to close the shell without ending the docker-compose session.
+
+## You’re finished!
+
+You can now visit your WordPress blog by visiting the IP address of your server. You will be greeted with the setup page.
