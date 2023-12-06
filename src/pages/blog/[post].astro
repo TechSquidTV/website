@@ -33,7 +33,7 @@ const { Content } = await post.render();
       />
     </div>
     <article class="relative wrapper z-10 -mt-28 animate-slideUp">
-      <div class="mx-auto card max-w-screen-lg">
+      <div class="mx-auto card w-full max-w-screen-lg">
         <div class="mb-8 md:px-8">
           <h1
             class="text-center font-bold my-4 text-3xl md:text-4xl xl:text-5xl"
@@ -97,15 +97,16 @@ const { Content } = await post.render();
     @apply rounded-lg mx-auto;
   }
 
-  .md-content pre > code {
-    @apply px-4;
+  .md-content pre:has(code) {
+    @apply rounded-sm border border-smoke-800 p-1;
   }
 
-  .md-content pre:has(code) {
-    @apply rounded-lg border border-smoke-800 py-2;
+  .md-content code {
+    @apply overflow-x-auto
   }
 
   lite-youtube {
     @apply mx-auto;
   }
+
 </style>
