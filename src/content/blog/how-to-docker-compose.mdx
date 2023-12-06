@@ -35,7 +35,7 @@ Docker-Compose allows us to bundle these containers together and interact with e
 A docker-compose file for WordPress only requires two containers, the WordPress container, and a separate container for a database.
 
 ```yaml
-version: '3'
+version: "3"
 services:
   wordpress:
     depends_on:
@@ -44,7 +44,7 @@ services:
     volumes:
       - wp_data:/var/www/html
     ports:
-      - '80:80'
+      - "80:80"
     restart_policy:
       condition: on-failure
     environment:

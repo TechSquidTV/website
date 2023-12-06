@@ -13,7 +13,11 @@ tags:
 
 Unit-Testing Bash is something I never considered was even possible, nor did it cross my mind how critical Bash scripts often are often going un-tested. If you are in the semi-rare situation where you are publishing Bash scripts to production, you may want to pay attention. The rest of you are reading, I assume for shock value.
 
-<script id="asciicast-LQbYYy7h5IYlNu0pzG11Ji2MR" src="https://asciinema.org/a/LQbYYy7h5IYlNu0pzG11Ji2MR.js" async></script>
+<script
+  id="asciicast-LQbYYy7h5IYlNu0pzG11Ji2MR"
+  src="https://asciinema.org/a/LQbYYy7h5IYlNu0pzG11Ji2MR.js"
+  async
+></script>
 
 In my day job, I create CI integrations for a large CI platform, mostly in Bash. Bash is extremely portable, running on most Linux distributions and mostly compatible with MacOS. A more common scenario might be deploying shell scripts to Ansible, or distributing bash scripts directly like [CodeCov's Bash Uploader](https://docs.codecov.com/docs/about-the-codecov-bash-uploader)(_until recently_).
 
@@ -32,6 +36,7 @@ If you are already familiar with unit-testing in languages like JavaScript, you 
 If you haven't written a lot of Bash in the past, you've probably written fairly linear scripts, without functions, all in a single file. For small scripts that may be find but let's take a look at how we can write our Bash in a way that's manageable and testable.
 
 There are two main ways to approach writing testable Bash:
+
 1. Write small single-purpose scripts that could be executed in sequential order.
 2. Create a "main" script, and define "functions" in one or more dependency scripts.
 
@@ -139,7 +144,9 @@ $ git clone https://github.com/bats-core/bats-core.git
 $ cd bats-core
 $ ./install.sh /usr/local
 ```
+
 or
+
 ```shell
 # Install BATS-Core via NPM
 $ npm install -g bats
@@ -180,7 +187,7 @@ Now don't go running anything yet, there is an issue we'll need to take care of 
 
 `@test` is a special syntax for BATS which is nothing more than a wrapper for a standard shell function. The first "_argument_" here is the test description/name and within this function is your test code. BATS will automatically iterate each test case and report back the results individually, we'll take a look at that soon.
 
-What runs within this test case is any valid bash code. If a _non-zero_ status code is returned during this test it will be considered a failure. So we want to execute some code within this test and ensure a non-zero exit code is raised if we see unexpected behavior. 
+What runs within this test case is any valid bash code. If a _non-zero_ status code is returned during this test it will be considered a failure. So we want to execute some code within this test and ensure a non-zero exit code is raised if we see unexpected behavior.
 
 Additionally, BATS comes with another special helper function `run` which will execute the given command and quietly store the exit status code and any output to the variables `status` and `output`. Using `run`, we can specifically test for expected exit codes in our test cases.
 
@@ -195,6 +202,7 @@ run addNumbers 5 3
   [ "$status" -eq 0 ]
   [ "$output" = 8 ]
 ```
+
 In this test, we expect no issues so we check to ensure `$status` is equal to zero (`0`). We also know that the result echoed to standard output, which is recorded by the run function under $output. So, we will also test for the output, which we expect to be equal to `8`.
 
 This one test now checks two conditions to be considered valid.
@@ -247,11 +255,15 @@ setup() {
 
 Run `bats <directory>` to execute the tests
 
-<script id="asciicast-LQbYYy7h5IYlNu0pzG11Ji2MR" src="https://asciinema.org/a/LQbYYy7h5IYlNu0pzG11Ji2MR.js" async></script>
+<script
+  id="asciicast-LQbYYy7h5IYlNu0pzG11Ji2MR"
+  src="https://asciinema.org/a/LQbYYy7h5IYlNu0pzG11Ji2MR.js"
+  async
+></script>
 
 ## Conclusion
 
-That's really all there is to it! Go forth and write clean and testable bash scripts! 
+That's really all there is to it! Go forth and write clean and testable bash scripts!
 
 Consider running your tests automatically though a CI provider, or adding a git pre-commit hook to ensure that your scripts are tested before you commit them.
 
