@@ -1,0 +1,50 @@
+---
+title: Synology’s DS920+ is a NAS powerhouse
+publishDate: 12-11-2018
+description: A review and deep-dive of Synology's DS920+, RAID, and data storage. Watch TechSquidTV's video on Raid 5 and using a home nas.
+heroImage: ../../images/blog/synology-thumbnail.webp
+heroImageAlt: "The youtube thumbnail of TechSquidTV's video showcasing the Synology DS920+."
+oldPermalink: "https://techsquidtv.com/blog/Synology_ds920plus_nas"
+path: synology-ds920plus-nas
+tags:
+  - hardware
+---
+
+The Synology DiskStation DS920+ is here, the latest refresh in the DS9 line of Network Attached Storage devices from Synology. The last iteration to come to use was back in 2018 with the DS918+.
+
+https://www.youtube.com/watch?v=RyWMjyqVXkY
+
+Synology is one of the most recognizable manufactures of commercial “NAS” machines. For the uninitiated, a NAS (Network Attached Storage) is nothing more than a computer with some hard drives in it, for the explicit purpose of backing up data over the network. This is typically done using “RAID” a storage technology that allows us to treat many physical hard drives as a single virtual disk.
+
+Behind the scenes, RAID can make use of these physical drives in a number of configurations that balance between total storage capacity, speed, and redundancy. This both protects your data and may even allow you to access it faster.
+
+# Specs:
+
+- **CPU:** Intel Celeron J4125 4-core 2.0 (base) / 2.7 (burst) GHz
+- **RAM:** 4 GB DDR4 (Expandable to 8GB)
+- **Drive Bays:** 4
+- **NVMe Slots:** 2
+- **LAN:** 2x Gigabit
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=ro0027-20&language=en_US&marketplace=amazon&region=US&placement=B087Z34F3R&asins=B087Z34F3R&linkId=a811a583642197713dc4ca768af66fa0&show_border=true&link_opens_in_new_window=true"></iframe>
+
+# What kind of hard drives should you use in a NAS?
+
+You may have heard recently some talk about a “scandal” involving Western Digital and other hard Drive manufacturers who were labeling their Hard Drives for use in NAS devices, while using a data recording technology that is not suited for the type of work a NAS drive will likely perform. This incorrect recording style drastically reduces the performance of hard drives used in RAID setups, where data will be spread out across multiple drives.
+
+There are two main ways to record data to a magnetic disk, CMR (conventional magnetic recording) and SMR (shingled magnetic recording).
+
+CMR is great for typical computing as it is able to densely pack data onto the magnetic medium, meaning we the consumer can get larger hard drives, or hard drives will use fewer platters. CMR drives are more cost-efficient per gigabyte.
+
+However, CMR is written in a way that expects relevant data to be physically located near each other on the same disk, which causes performance issues when your RAID controller is expecting a different type of recording technology to be used.
+
+Most any RAID system you configure by default will be expecting a different type of hard drive, using SMR technology. In SMR hard drives, data is not packed as efficiently, and so these drives are often more expensive, and typically smaller in storage capacity. However, the reduced complexity of the design allows for NAS systems to more efficiently read and write data from multiple drives at the same time.
+
+When purchasing a hard drive for your NAS, ensure it has the word “NAS” printed on it, which typically indicates it is indeed an SMR drive.
+
+Seagate has recently publicized a chart to break down each of their drives and what technology it uses.
+https://www.seagate.com/internal-hard-drives/cmr-smr-list/
+
+In the video above, we are using four Seagate IronWolf 8TB drives.
+
+<iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ss&ref=as_ss_li_til&ad_type=product_link&tracking_id=ro0027-20&language=en_US&marketplace=amazon&region=US&placement=B084ZV4DXB&asins=B084ZV4DXB&linkId=81d78f85d52a60dea8fab8b3cb9b31f1&show_border=true&link_opens_in_new_window=true"></iframe>
