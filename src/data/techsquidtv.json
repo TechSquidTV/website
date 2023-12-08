@@ -6,37 +6,44 @@
     {
       "name": "Twitter",
       "url": "https://twitter.com/TechSquidTV",
-      "icon": "x"
-    },
-    {
-      "name": "GitHub",
-      "url": "https://github.com/KyleTryon",
-      "icon": "github"
-    },
-    {
-      "name": "YouTube",
-      "url": "https://www.youtube.com/techsquidtv",
-      "icon": "youtube"
-    },
-    {
-      "name": "Instagram",
-      "url": "https://www.instagram.com/techsquidtv/",
-      "icon": "instagram"
-    },
-    {
-      "name": "LinkedIn",
-      "url": "https://www.linkedin.com/in/kyle-tryon/",
-      "icon": "linkedin"
-    },
-    {
-      "name": "Twitch",
-      "url": "https://www.twitch.tv/techsquidtv",
-      "icon": "twitch"
+      "icon": "x",
+      "brandColor": "#FFFFFF"
     },
     {
       "name": "Mastodon",
       "url": "https://fosstodon.org/@techsquidtv",
-      "icon": "mastodon"
+      "icon": "mastodon",
+      "brandColor": "#6364FF"
+    },
+    {
+      "name": "GitHub",
+      "url": "https://github.com/KyleTryon",
+      "icon": "github",
+      "brandColor": "#4078c0"
+    },
+    {
+      "name": "YouTube",
+      "url": "https://www.youtube.com/techsquidtv",
+      "icon": "youtube",
+      "brandColor": "#ff0000"
+    },
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com/techsquidtv/",
+      "icon": "instagram",
+      "brandColor": "#e1306c"
+    },
+    {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/in/kyle-tryon/",
+      "icon": "linkedin",
+      "brandColor": "#0a66c2"
+    },
+    {
+      "name": "Twitch",
+      "url": "https://www.twitch.tv/techsquidtv",
+      "icon": "twitch",
+      "brandColor": "#9146ff"
     }
   ]
 }
