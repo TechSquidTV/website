@@ -5,31 +5,38 @@
   "socials": [
     {
       "name": "Twitter",
-      "url": "https://twitter.com/TechSquidTV"
+      "url": "https://twitter.com/TechSquidTV",
+      "icon": "x"
     },
     {
       "name": "GitHub",
-      "url": "https://github.com/KyleTryon"
+      "url": "https://github.com/KyleTryon",
+      "icon": "github"
     },
     {
       "name": "YouTube",
-      "url": "https://www.youtube.com/techsquidtv"
+      "url": "https://www.youtube.com/techsquidtv",
+      "icon": "youtube"
     },
     {
       "name": "Instagram",
-      "url": "https://www.instagram.com/techsquidtv/"
+      "url": "https://www.instagram.com/techsquidtv/",
+      "icon": "instagram"
     },
     {
       "name": "LinkedIn",
-      "url": "https://www.linkedin.com/in/kyle-tryon/"
+      "url": "https://www.linkedin.com/in/kyle-tryon/",
+      "icon": "linkedin"
     },
     {
       "name": "Twitch",
-      "url": "https://www.twitch.tv/techsquidtv"
+      "url": "https://www.twitch.tv/techsquidtv",
+      "icon": "twitch"
     },
     {
       "name": "Mastodon",
-      "url": "https://fosstodon.org/@techsquidtv"
+      "url": "https://fosstodon.org/@techsquidtv",
+      "icon": "mastodon"
     }
   ]
 }
