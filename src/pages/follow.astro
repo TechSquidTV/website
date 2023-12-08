@@ -1,0 +1,36 @@
+---
+import Icon, { type IconName } from '@components/Icon.astro'
+import techsquidtv from '@data/techsquidtv.json'
+import Avatar from '@images/brand/tstvprofile.png'
+import LayoutBase from "@layouts/LayoutBase.astro";
+import { Image } from "astro:assets";
+---
+
+<LayoutBase>
+  <main class="wrapper">
+    <div class="mt-20">
+      <header class="flex flex-col justify-center items-center text-center my-4">
+        <Image src={Avatar} alt="Kyle a.k.a TechSquidTV" class="rounded-full w-32 xl:w-48" />
+        <h1
+            class="font-semibold text-3xl xl:text-4xl"
+          >
+            @techsquidtv
+          </h1>
+          <a href="mailto:business@techsquidtv.com" class="text-sm">business@techsquidtv.com</a>
+      </header>
+      <ul class="flex flex-col space-y-3">
+        {
+          techsquidtv.socials.map((social) => (
+            <li class="card transition-scale duration-300 hover:scale-[102%]">
+              <a class="flex flex-row space-x-3 items-center" href={social.url}>
+                <Icon name={social.icon as IconName} />
+                <span>{social.name}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </main>
+</LayoutBase>
+
