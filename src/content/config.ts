@@ -24,7 +24,6 @@ const blogCollection = defineCollection({
         .transform((str) => new Date(str))
         .optional(),
       path: z.string(),
-      oldPermalink: z.string().optional(),
       tags: z.array(
         z.string().refine((tag) => tags.includes(tag), {
           message:
