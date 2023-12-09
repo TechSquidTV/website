@@ -23,7 +23,6 @@ const blogCollection = defineCollection({
         .string()
         .transform((str) => new Date(str))
         .optional(),
-      path: z.string(),
       tags: z.array(
         z.string().refine((tag) => tags.includes(tag), {
           message:
