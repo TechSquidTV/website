@@ -28,6 +28,12 @@
       "brandColor": "#ff0000"
     },
     {
+      "name": "Discord",
+      "url": "https://discord.gg/x9WYxubx2j",
+      "icon": "discord",
+      "brandColor": "#5865F2"
+    },
+    {
       "name": "Instagram",
       "url": "https://www.instagram.com/techsquidtv/",
       "icon": "instagram",
