@@ -1,0 +1,34 @@
+---
+import Icon from "@components/Icon.astro";
+import techsquidtv from "@data/techsquidtv.json";
+import Avatar from "@images/brand/tstvprofile.png"
+import LayoutBase from "@layouts/LayoutBase.astro";
+import { Image } from "astro:assets";
+
+const YouTube = (techsquidtv.socials).find(social => social.name === "YouTube")?.url ?? "https://www.youtube.com/techsquidtv";
+
+---
+
+<LayoutBase>
+  <main class="mt-24 wrapper">
+    <div class="card">
+      <div class="flex justify-center">
+        <Image src={Avatar} alt="Kyle Tryon" width="200" height="200" class="rounded-full" />
+      </div>
+      <p>
+      I am Kyle Tryon, also known as @TechSquidTV, a life-long self-taught developer and general tinkerer, turned remote Senior Software Developer.
+    </p>
+    <p>
+      I created the <a href={YouTube}>TechSquidTV</a> YouTube channel back in 2016 while working a retail job to document my journey becoming a developer and to teach others along the way.
+      Since then, I've been working remotely for one of the premiere CI/CD providers in the world, continuing to develop my skills, and working on some interesting side projects in open-source.
+    </p>
+    <p>
+      Growing up in a non-technical house-hold in the mid-90's, there were not a lot of available quality resources for learning about technology or programming. I started content creation around the age of 14 to begin contributing higher quality technical tutorial content on YouTube.
+      I began learning in tandem with web development, software like Adobe After Effects and Illustrator, so that I could create better visual explainations of the concepts I was learning. I've recently added 3D modeling and animation to my content as well with Blender.
+    </p>
+    <p>
+      Here on this site, I hope to share my experiments and code and freely share my knowledge with the world. I hope you find something useful here!
+    </p>
+    </div>
+  </main>
+</LayoutBase>
