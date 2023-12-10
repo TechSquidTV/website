@@ -1,0 +1,63 @@
+---
+import Icon from "@components/Icon.astro";
+import techsquidtv from "@data/techsquidtv.json";
+import LayoutBase from "@layouts/LayoutBase.astro";
+const publicKey = techsquidtv.gpg.publicKey.replace(/\\n/g, "\n");
+---
+
+<LayoutBase>
+  <main class="wrapper mt-24">
+    <header class="text-center mb-4">
+      <div class="flex flex-row justify-center items-center">
+        <h1 class="text-2xl font-semibold">@TechSquidTV</h1>
+        <span class="text-blue-400 -mt-3"><Icon name={"verified"} /></span>
+      </div>
+      <div class="text-sm">
+        <p>
+          Some websites attempt to charge for basic security measures like
+          account verification. In the decentralized web, we can use a personal
+          website, and a GPG to verify our online presence
+        </p>
+        <p>
+          Find my official social accounts on <a href="/follow">/follow</a>, or
+          utilize my GPG key to verify my identity via encrypted message.
+        </p>
+      </div>
+    </header>
+    <div class="flex flex-col space-y-2 text-smoke-300">
+      <div class="flex flex-row justify-between items-center card">
+        <Icon name={"fingerprint"} />
+        <span class="text-emerald-200">{techsquidtv.gpg.fingerprint}</span>
+      </div>
+      <div class="flex flex-row justify-between items-center card">
+        <Icon name={"key"} />
+        <a
+          href="/sig/A606F9A583AD5E69738E241226BF4A861BD3AE79.asc"
+          class="shadow-sm border border-smoke-300 transition-colors duration-250 hover:bg-emerald-200 hover:border-smoke-600 hover:text-black rounded py-1 px-2"
+          >download public key</a
+        >
+      </div>
+      <div class="flex flex-row justify-between items-center card">
+        <textarea
+          name="pgpkey"
+          id="pgpkey"
+          cols="80"
+          rows="10"
+          class="bg-transparent text-sm text-emerald-200 w-full rounded"
+          readonly
+        >
+          {publicKey}
+        </textarea>
+      </div>
+      <div>
+        <a
+          href="https://keybase.io/kyletryon"
+          class="card inline-flex flex-row space-x-2 transition-colors duration-250 hover:bg-emerald-200 hover:border-smoke-600 hover:text-black"
+        >
+          <Icon name={"keybase"} />
+          <span>Keybase</span>
+        </a>
+      </div>
+    </div>
+  </main>
+</LayoutBase>

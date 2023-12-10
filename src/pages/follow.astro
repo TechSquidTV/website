@@ -23,8 +23,10 @@ import { Image } from "astro:assets";
             @techsquidtv
           </h2>
         </div>
-        
-          <a href={`mailto:${techsquidtv.email}`} class="flex flex-row space-x-2 text-sm"><Icon name={"email"}/><span>{techsquidtv.email}</span></a>
+        <div class="flex flex-col justify-center items-center text-xs">
+          <a href={`mailto:${techsquidtv.email}`} class="flex flex-row space-x-2"><Icon name={"email"}/><span>{techsquidtv.email}</span></a>
+          <a href="/verify" class="flex flex-row text-emerald-200 underline"><span>verify</span><Icon name={"verified"} size={3}/></a>
+        </div>
       </header>
       <ul class="flex flex-col space-y-3">
         {
