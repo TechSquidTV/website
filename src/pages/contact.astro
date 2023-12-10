@@ -1,0 +1,35 @@
+---
+import Icon from "@components/Icon.astro";
+import techsquidtv from "@data/techsquidtv.json";
+import LayoutBase from "@layouts/LayoutBase.astro";
+
+---
+
+<LayoutBase>
+  <main class="mt-24 wrapper">
+    <div class="flex flex-col items-center text-sm mb-2">
+      <a href={`mailto:${techsquidtv.email}`} class="flex flex-row items-center space-x-2"><Icon name={"email"}/><span>{techsquidtv.email}</span></a>
+      <a href="/verify" class="flex flex-row text-emerald-200 underline"><span>verify</span><Icon name={"verified"} size={3}/></a>
+    </div>
+    <div class="card">
+      <form>
+        <div class="flex flex-col space-y-2">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Homer Simpson" class="bg-smoke-950 p-1 rounded-sm"/>
+        </div>
+        <div class="flex flex-col space-y-2">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="mail@domain.com" class="bg-smoke-950 p-1 rounded-sm"/>
+          <p class="text-xs text-gray-400">I will never share your email with anyone else.</p>
+        </div>
+        <div class="flex flex-col space-y-2">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Hello, I'd like to talk about..." class="bg-smoke-950 p-1 rounded-sm"></textarea>
+        </div>
+        <div class="flex flex-col space-y-2">
+          <button type="submit" class="btn btn-primary">Send</button>
+        </div>
+      </form>
+    </div>
+  </main>
+</LayoutBase>
