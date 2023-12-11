@@ -27,6 +27,7 @@ export default defineConfig({
     "/blog/The_Windows_Ugly_Sweater": "/blog/the-windows-ugly-sweater",
     "/blog/What_Is_Docker": "/blog/what-is-docker",
     "/blog/Will_We_Ever_Be_Able_To_Download_Our_Brains_Like_In_Westworld": "/blog/will-we-ever-be-able-to-download-our-brains-like-in-westworld",
-    "/blog/Fixing_an_ugly_terminal": "/blog/your-terminal-is-ugly"
+    "/blog/Fixing_an_ugly_terminal": "/blog/your-terminal-is-ugly",
+    "/blog/tags": "/blog",
   }
 });

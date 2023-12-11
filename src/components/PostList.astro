@@ -29,7 +29,7 @@ if (tag) {
 
 <ul class="flex flex-col space-y-3">
       {
-        blogPosts.map((post) => {
+        blogPostResults.map((post) => {
           return (
             <li class="card w-full">
               <a href={new URL(`/blog/${post.slug}`, Astro.site).href}>

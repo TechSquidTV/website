@@ -1,0 +1,40 @@
+---
+import PostList from "@components/PostList.astro";
+import PostTag from "@components/PostTag.astro";
+import LayoutBase from "@layouts/LayoutBase.astro";
+import { tags } from "@utils/blogTag";
+import type { InferGetStaticPropsType } from "astro";
+
+
+
+export async function getStaticPaths() {
+  console.log(tags)
+  return tags.map((tag) => {
+    return {
+      params: {
+        tag: tag,
+      },
+      props: { tag: tag }
+    };
+  });
+}
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const {tag} = Astro.props;
+---
+
+<LayoutBase>
+  <main class="wrapper mt-20">
+    <header>
+      <div
+        class="flex flex-row justify-center overflow-auto p-1 space-x-2 my-2"
+      >
+        {
+          tags.map((t) => {
+            return <PostTag tag={t} />;
+          })
+        }
+      </div>
+    </header>
+    <PostList tag={tag} />
+  </main>
+</LayoutBase>
