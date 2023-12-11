@@ -57,7 +57,7 @@ Let's create a function that will take in two numbers and add them together, the
 
 There are multiple syntaxes to write a function in shell, but we'll stick with this.
 
-```bash
+```bash title="functions.sh"
 #!/bin/sh
 
 addNumbers() {
@@ -80,7 +80,7 @@ The `$0` variable contains the current shell, and each numeric value above that
 
 Now, we don't actually want our `functions.sh` file to execute, we only want it to contain the functions we want to call in `main.sh`, and test. So, let's remove the `addNumbers 1 2`
 
-```bash
+```bash title="functions.sh"
 #!/bin/sh
 
 addNumbers() {
@@ -91,7 +91,7 @@ addNumbers() {
 
 Let's add one more example to our `functions.sh` file, another function that will square the input.
 
-```bash
+```bash title="functions.sh"
 #!/bin/sh
 
 addNumbers() {
@@ -107,7 +107,7 @@ squareResult() {
 
 We have here two functions, but we can't yet do anything with them. So let's open up `main.sh` and add the following code:
 
-```bash
+```bash title="main.sh"
 #!/bin/sh
 . functions.sh
 sum=$(addNumbers 1 2)
@@ -172,7 +172,7 @@ A `.bat` file is nothing more than a simple bash script with some fancy syntax s
 
 Let's write our first test case.
 
-```bash
+```bash title="tests.bats"
 #!/usr/bin/env bats
 @test "addNumbers 5 + 3 | expect 8" {
   run addNumbers 5 3
@@ -196,7 +196,7 @@ And of course, before actually checking the output, we first check to ensure tha
 
 You can read about `run` and other built-in functions on the [documentation here](https://github.com/bats-core/bats-core#run-test-other-commands).
 
-```bash
+```bash title="tests.bats"
 run addNumbers 5 3
   [ "$status" -eq 0 ]
   [ "$output" = 8 ]
@@ -210,7 +210,7 @@ Now I mentioned a moment ago, we aren't quite done yet, we haven't actually impo
 
 We're going to add a `setup` function to our BATS tests, which is another special function that will run before every one of our tests. Here, we will load in our functions from `functions.sh`.
 
-```bash
+```bash title="tests.bats"
 #!/usr/bin/env bats
 
 setup() {
@@ -229,7 +229,7 @@ We're just about done, but for the sake the example, since we have two functions
 
 **Final test.bats**
 
-```bash
+```bash title="tests.bats"
 #!/usr/bin/env bats
 
 setup() {
@@ -270,7 +270,7 @@ As a final thought, I considered "What if you want to ship a single script, rath
 
 You can create a `package.sh` file that will replace the line that sources our functions, with the contents of the `functions.sh` file instead.
 
-```bash
+```bash title="package.sh"
 # Inject the functions directly into the main.sh file
 # Useful for production.
 # https://unix.stackexchange.com/a/49438
