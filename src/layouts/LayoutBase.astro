@@ -18,7 +18,6 @@ const {
   description = "Open-source developer and tech educator, Kyle A.K.A TechSquidTV. Software development tutorials, videos, and fun code experiments.",
   ogImage = "/opengraph/images/default-opengraph.png",
 } = Astro.props as Props;
-const noiseTexture = `url('${new URL("/assets/noise.svg", Astro.site).href}')`;
 
 ---
 
@@ -38,7 +37,7 @@ const noiseTexture = `url('${new URL("/assets/noise.svg", Astro.site).href}')`;
   </body>
 </html>
 
-<style is:global define:vars={{noiseTexture}}>
+<style is:global>
 
 *, *:before, *:after {
     box-sizing: border-box;
@@ -54,8 +53,7 @@ html, body {
 
 body {
   font-family: 'Outfit Variable', sans-serif;
-  background-image: var(--noiseTexture);
-  @apply flex flex-col bg-no-repeat bg-cover bg-center bg-fixed leading-relaxed;
+  @apply flex flex-col leading-relaxed;
 }
 
 h1, h2, h3, h4, h5, h6 {
