@@ -21,9 +21,9 @@ export function NavMenuButton({ className = "" }: NavMenuButtonProps) {
   return (
     <button onClick={toggleMenu} aria-label="Toggle menu" class={className}>
       {isMenuOpen ? (
-        <div class="w-5 h-5" dangerouslySetInnerHTML={{ __html: MenuIcon }} />
-      ) : (
         <div class="w-5 h-5" dangerouslySetInnerHTML={{ __html: CloseIcon }} />
+      ) : (
+        <div class="w-5 h-5" dangerouslySetInnerHTML={{ __html: MenuIcon }} />
       )}
     </button>
   );
