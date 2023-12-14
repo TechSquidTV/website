@@ -3,16 +3,33 @@
   "compilerOptions": {
     "strictNullChecks": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "react",
-    "baseUrl": ".",
+    "jsxImportSource": "preact",
+    "baseUrl": "/Users/kyletryon/Documents/Projects/TechSquidTV-Website",
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@content/*": ["src/content/*"],
-      "@assets/*": ["src/public/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@images/*": ["src/images/*"],
-      "@utils/*": ["src/utils/*"],
-      "@data/*": ["src/data/*"]
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@content/*": [
+        "src/content/*"
+      ],
+      "@assets/*": [
+        "src/public/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
+      "@images/*": [
+        "src/images/*"
+      ],
+      "@icons/*": [
+        "src/icons/*"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
+      "@data/*": [
+        "src/data/*"
+      ]
     }
   }
 }

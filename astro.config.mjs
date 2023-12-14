@@ -2,17 +2,17 @@ import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import react from "@astrojs/react";
 import embeds from "astro-embed/integration";
 import sentry from "@sentry/astro";
 import spotlightjs from "@spotlightjs/astro";
-
 import expressiveCode from "astro-expressive-code";
+
+import preact from "@astrojs/preact";
 
 // https://astro.build/config
 export default defineConfig({
   site: process.env.NODE_ENV === "development" ? "http://localhost:4321" : "https://techsquidtv.com",
-  integrations: [tailwind(), sitemap(), react(), embeds(), expressiveCode(), mdx(), sentry(), spotlightjs()],
+  integrations: [tailwind(), sitemap(), preact(), embeds(), expressiveCode(), mdx(), sentry(), spotlightjs()],
   redirects: {
     "/blog/Choosing_a_standing_desk": "/blog/choosing-a-standing-desk",
     "/blog/Chrome_media_keys": "/blog/chrome-media-keys",
@@ -28,6 +28,6 @@ export default defineConfig({
     "/blog/What_Is_Docker": "/blog/what-is-docker",
     "/blog/Will_We_Ever_Be_Able_To_Download_Our_Brains_Like_In_Westworld": "/blog/will-we-ever-be-able-to-download-our-brains-like-in-westworld",
     "/blog/Fixing_an_ugly_terminal": "/blog/your-terminal-is-ugly",
-    "/blog/tags": "/blog",
+    "/blog/tags": "/blog"
   }
 });

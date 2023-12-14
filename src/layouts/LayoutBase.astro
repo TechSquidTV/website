@@ -4,7 +4,7 @@ import '@fontsource-variable/outfit';
 
 import Footer from "@components/Footer.astro";
 import Head from "@components/Head.astro";
-import Navigation from "@components/Navigation.astro";
+import NavMain from "@components/Nav/NavMain";
 
 
 interface Props {
@@ -29,7 +29,9 @@ const {
     ogImage={ogImage}
   />
   <body class="flex flex-col">
-    <Navigation />
+    <div class="flex fixed top-4 left-0 right-0 z-50 justify-center">
+      <NavMain client:load/>
+    </div>
     <div class="flex-1">
       <slot />
     </div>  

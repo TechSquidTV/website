@@ -17,6 +17,7 @@
   "dependencies": {
     "@astrojs/check": "^0.3.1",
     "@astrojs/mdx": "^2.0.0",
+    "@astrojs/preact": "^3.0.1",
     "@astrojs/react": "^3.0.7",
     "@astrojs/sitemap": "^3.0.3",
     "@astrojs/tailwind": "^5.0.3",
@@ -31,7 +32,7 @@
     "astro-expressive-code": "^0.29.3",
     "astro-navbar": "^2.3.0",
     "date-fns": "^2.30.0",
-    "react": "^18.2.0",
+    "preact": "^10.6.5",
     "react-dom": "^18.2.0",
     "satori": "^0.10.11",
     "sharp": "^0.32.6",
