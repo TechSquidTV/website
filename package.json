@@ -30,7 +30,6 @@
     "astro": "^4.0.2",
     "astro-embed": "^0.6.1",
     "astro-expressive-code": "^0.29.3",
-    "astro-navbar": "^2.3.0",
     "date-fns": "^2.30.0",
     "preact": "^10.6.5",
     "react-dom": "^18.2.0",
