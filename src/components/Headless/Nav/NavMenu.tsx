@@ -18,7 +18,9 @@ export const NavMenu: FunctionComponent<NavMenuProps> = ({
   className
 }) => {
   const [isMenuOpen, setMenuOpen] = useState(true);
-  const toggleMenu = () => setMenuOpen(!isMenuOpen);
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
 
   const smallScreenBreakpoint = 768;
   

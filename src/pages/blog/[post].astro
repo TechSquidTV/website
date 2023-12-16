@@ -1,4 +1,6 @@
 ---
+import { type MenuItem } from "@components/Headless/Nav/NavMenuItems";
+import NavTOC from "@components/Nav/NavTOC";
 import PostMeta from "@components/PostMeta.astro";
 import LayoutBase from "@layouts/LayoutBase.astro";
 import * as ldjson from "@utils/ldjson";
@@ -19,7 +21,7 @@ export async function getStaticPaths() {
 
 type Props = CollectionEntry<"blog">;
 const post = Astro.props;
-const { Content } = await post.render();
+const { Content, headings } = await post.render();
 ---
 
 <LayoutBase>
@@ -34,13 +36,18 @@ const { Content } = await post.render();
     </div>
     <article class="relative wrapper z-10 -mt-28 animate-slideUp">
       <div class="mx-auto card w-full max-w-screen-lg">
-        <div class="mb-8 md:px-8">
+        <div class="md:px-8">
           <h1
             class="font-extrabold my-6 text-4xl md:text-4xl xl:text-5xl"
           >
             {post.data.title}
           </h1>
-          <PostMeta post={post} />
+          <div class="my-2">
+            <PostMeta post={post} />
+          </div>
+          <div class="rounded p-2 bg-smoke-950">
+            <NavTOC headings={headings} client:load/>
+          </div>
         </div>
         <div class="md-content md:px-8">
           <Content />

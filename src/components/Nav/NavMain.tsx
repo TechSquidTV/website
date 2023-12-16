@@ -5,20 +5,20 @@ import LogoIcon from "@icons/techsquidtv.svg?raw";
 
 const menuItems: MenuItem[] = [
   {
-    name: "blog",
-    url: "/blog",
+    text: "blog",
+    href: "/blog",
   },
   {
-    name: "about",
-    url: "/about",
+    text: "about",
+    href: "/about",
   },
   {
-    name: "follow",
-    url: "/follow",
+    text: "follow",
+    href: "/follow",
   },
   {
-    name: "contact",
-    url: "/contact",
+    text: "contact",
+    href: "/contact",
   },
 ];
 

@@ -3,8 +3,8 @@ import { h } from "preact";
 import { useContext } from "preact/hooks";
 
 export type MenuItem = {
-  name: string;
-  url: string;
+  text: string;
+  href: string;
 };
 
 interface NavMenuItemsProps {
@@ -31,9 +31,9 @@ export function NavMenuItems({
   return (
     <ul class={`${isMenuOpen ? "" : "hidden"} ${classNames.ul}`}>
       {items.map((item) => (
-        <li key={item.name} className={classNames.li}>
-          <a href={item.url} className={classNames.a}>
-            {item.name}
+        <li key={item.text} className={classNames.li}>
+          <a href={item.href} className={classNames.a}>
+            {item.text}
           </a>
         </li>
       ))}
