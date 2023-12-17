@@ -50,12 +50,26 @@ const {
 html, body {
   height: auto;
   min-height: 100vh;
+  overflow-y: scroll;
   @apply bg-smoke-950 text-smoke-100;
 }
 
 body {
   font-family: 'Outfit Variable', sans-serif;
   @apply flex flex-col leading-relaxed;
+}
+
+body::::-webkit-scrollbar-track {
+  background: transparent; /* Making the track transparent */
+}
+
+body::-webkit-scrollbar-thumb {
+  @apply bg-smoke-300;
+  border-radius: 1rem; /* Rounded corners */
+}
+
+body::-webkit-scrollbar {
+  @apply w-2
 }
 
 h1, h2, h3, h4, h5, h6 {
