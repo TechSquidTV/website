@@ -37,10 +37,10 @@ if (limit) {
       {
         blogPostResults.map((post) => {
           return (
-            <li class="card w-full" transition:name={`${post.id}-list-card`}>
-              <a href={new URL(`/blog/${post.slug}`, Astro.site).href}>
-                <article class="flex flex-col md:flex-row">
-                  <div class="md:w-80 md:h-full mb-2 md:mb-0">
+            <li class="card w-full @container/postListItem" transition:name={`${post.id}-list-card`}>
+              <a href={new URL(`/blog/${post.slug}`, Astro.site).href} class="">
+                <article class="flex flex-col @lg/postListItem:flex-row">
+                  <div class="mb-2 @lg/postListItem:w-80 h-full">
                     <Image
                       src={post.data.heroImage}
                       alt={post.data.heroImageAlt || post.data.title}
