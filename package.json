@@ -25,6 +25,7 @@
     "@fontsource-variable/outfit": "^5.0.8",
     "@sentry/astro": "^7.85.0",
     "@spotlightjs/astro": "^1.0.0",
+    "@tailwindcss/container-queries": "^0.1.1",
     "@types/react": "^18.2.42",
     "@types/react-dom": "^18.2.17",
     "astro": "^4.0.2",

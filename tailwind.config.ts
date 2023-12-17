@@ -49,7 +49,7 @@ export default {
     },
   },
   safelist: getTailwindSafeList(),
-  plugins: [],
+  plugins: [require("@tailwindcss/container-queries")],
 };
 
 function getTailwindSafeList() {

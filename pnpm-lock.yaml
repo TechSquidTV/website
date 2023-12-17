@@ -35,6 +35,9 @@ dependencies:
   '@spotlightjs/astro':
     specifier: ^1.0.0
     version: 1.0.0(@sentry/astro@7.85.0)(astro@4.0.2)
+  '@tailwindcss/container-queries':
+    specifier: ^0.1.1
+    version: 0.1.1(tailwindcss@3.3.6)
   '@types/react':
     specifier: ^18.2.42
     version: 18.2.42
@@ -1390,6 +1393,14 @@ packages:
   /@spotlightjs/sidecar@1.0.0:
     resolution: {integrity: sha512-OVyIetoyF8+POvfLbKuW6U3+STjiudxF4ugpxwCWCM+KIp9ZMJNmtQyXAsxkCrXTbWVtt88Pj2duZRPsQiYr7Q==}
     hasBin: true
+    dev: false
+
+  /@tailwindcss/container-queries@0.1.1(tailwindcss@3.3.6):
+    resolution: {integrity: sha512-p18dswChx6WnTSaJCSGx6lTmrGzNNvm2FtXmiO6AuA1V4U5REyoqwmT6kgAsIMdjo07QdAfYXHJ4hnMtfHzWgA==}
+    peerDependencies:
+      tailwindcss: '>=3.2.0'
+    dependencies:
+      tailwindcss: 3.3.6
     dev: false
 
   /@types/acorn@4.0.6:
