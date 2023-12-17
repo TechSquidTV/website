@@ -1,11 +1,7 @@
 ---
-import PostMeta from "@components/PostMeta.astro";
 import SocialsHeadless from "@components/Headless/SocialNav.astro";
 import LayoutBase from "@layouts/LayoutBase.astro";
-import { Image } from "astro:assets";
-import { getCollection } from "astro:content";
 
-const blogPosts = await getCollection("blog");
 ---
 
 <LayoutBase>
@@ -21,34 +17,6 @@ const blogPosts = await getCollection("blog");
     />
   </header>
   <main class="wrapper">
-    <ul class="flex flex-col space-y-3">
-      {
-        blogPosts.map((post) => {
-          return (
-            <li class="card w-full">
-              <a href={new URL(`/blog/${post.slug}`, Astro.site).href}>
-                <article class="flex flex-col md:flex-row">
-                  <div class="md:w-80 md:h-full mb-2 md:mb-0">
-                    <Image
-                      src={post.data.heroImage}
-                      alt={post.data.heroImageAlt || post.data.title}
-                      class="rounded-lg object-cover object-center w-full h-full shadow-lg"
-                      transition:name={`heroImage ${post.id}`}
-                    />
-                  </div>
-                  <div class="flex md:flex-1 flex-col py-2 mx-8">
-                    <h2 class="text-4xl font-bold text-smoke-50 mb-2 break-words">
-                      {post.data.title}
-                    </h2>
-                    <p class="flex-1">{post.data.description}</p>
-                    <PostMeta post={post} />
-                  </div>
-                </article>
-              </a>
-            </li>
-          );
-        })
-      }
-    </ul>
+
   </main>
 </LayoutBase>
