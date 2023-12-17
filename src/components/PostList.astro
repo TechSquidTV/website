@@ -6,8 +6,9 @@ import { getCollection } from "astro:content";
 
 type Props = {
   tag?: ValidTags
+  limit?: number
 }
-const { tag } = Astro.props
+const { tag, limit } = Astro.props
 
 // Retrieve blog posts and sort by publish date
 const blogPosts = await getCollection("blog");
@@ -23,6 +24,11 @@ if (tag) {
   blogPostResults = blogPosts.filter((post) => {
     return post.data.tags.includes(tag);
   });
+}
+
+// Filter blog posts by limit
+if (limit) {
+  blogPostResults = blogPostResults.slice(0, limit);
 }
 
 ---
