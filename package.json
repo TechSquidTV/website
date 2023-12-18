@@ -32,6 +32,7 @@
     "astro-embed": "^0.6.1",
     "astro-expressive-code": "^0.29.3",
     "date-fns": "^2.30.0",
+    "fast-xml-parser": "^4.3.2",
     "preact": "^10.6.5",
     "react-dom": "^18.2.0",
     "satori": "^0.10.11",
