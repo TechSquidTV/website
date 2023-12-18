@@ -1,6 +1,7 @@
 ---
-import { XMLParser } from "fast-xml-parser";
+import Icon from "@components/Icon.astro";
 import { Image } from "astro:assets";
+import { XMLParser } from "fast-xml-parser";
 
 type Author = {
   name: string;
@@ -67,7 +68,10 @@ const video = rss.feed.entry[0];
 ---
 
 <div class="flex flex-row md:flex-col w-full h-full">
-  <a href={video["media:group"]["media:content"]["@_url"]} class="flex-1">
+  <a href={video["media:group"]["media:content"]["@_url"]} class="flex-1 relative">
+    <div class="absolute top-1/2 right-1/2 transform translate-x-1/2 -translate-y-1/2 m-2">
+      <Icon name="playCircle" size={24} />
+    </div>
       <Image
         class="rounded-lg object-cover object-center w-full h-full lg:h-64 shadow-xl"
         src={video["media:group"]["media:thumbnail"]["@_url"]}
