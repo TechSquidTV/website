@@ -73,7 +73,7 @@ const video = rss.feed.entry[0];
       <Icon name="playCircle" size={24} />
     </div>
       <Image
-        class="rounded-lg object-cover object-center w-full h-full md:h-52 shadow-xl"
+        class="rounded-lg object-cover object-center w-full h-full sm:h-48 md:h-52 xl:h-64 shadow-xl"
         src={video["media:group"]["media:thumbnail"]["@_url"]}
         alt={video["media:group"]["media:title"]}
         width={parseInt(video["media:group"]["media:content"]["@_width"])}
