@@ -24,7 +24,7 @@ import { Image } from "astro:assets";
           </h2>
         </div>
         <div class="flex flex-col justify-center items-center text-xs">
-          <a href={`mailto:${techsquidtv.email}`} class="flex flex-row space-x-2"><Icon name={"email"}/><span>{techsquidtv.email}</span></a>
+          <a href={`mailto:${techsquidtv.email}`} target="_blank" class="flex flex-row space-x-2"><Icon name={"email"}/><span>{techsquidtv.email}</span></a>
           <a href="/verify" class="flex flex-row text-emerald-200 underline"><span>verify</span><Icon name={"verified"} size={3}/></a>
         </div>
       </header>
@@ -32,7 +32,7 @@ import { Image } from "astro:assets";
         {
           techsquidtv.socials.map((social) => (
             <li class="card transition-scale duration-300 hover:scale-[102%]">
-              <a class="flex flex-row space-x-3 items-center" href={social.url}>
+              <a class="flex flex-row space-x-3 items-center" target="_blank" href={social.url}>
                 <Icon name={social.icon as IconName} />
                 <span>{social.name}</span>
               </a>

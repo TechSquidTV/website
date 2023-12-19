@@ -50,7 +50,7 @@ const {classNames} = Astro.props as Props
     {socialItems.map(item => {
       return (
         <li class={classNames?.li}>
-          <a class={classNames?.a} href={item.href}>
+          <a target="_blank" class={classNames?.a} href={item.href}>
             <Icon name={item.icon} />
             <span class="sr-only">{item.name}</span>
           </a>
