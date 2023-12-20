@@ -2,6 +2,7 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "strictNullChecks": true,
+    "esModuleInterop": true,
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "baseUrl": "/Users/kyletryon/Documents/Projects/TechSquidTV-Website",

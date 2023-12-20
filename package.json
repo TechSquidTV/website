@@ -5,14 +5,18 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "pnpm run build-setup && astro build && pnpm run kill-assets",
     "preview": "astro preview",
     "astro": "astro",
     "lint:ci": "eslint --ext .astro,.js,.jsx,.ts,.tsx .",
     "lint": "eslint --ext .astro,.js,.jsx,.ts,.tsx . --fix",
     "format:ci": "prettier --check .",
     "format": "prettier --write .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build-setup": "pnpm run serve-assets & pnpm run wait-for-assets",
+    "serve-assets": "serve -p 3001 --no-port-switching ./src/images",
+    "wait-for-assets": "wait-on -t 5000 http://localhost:3001/opengraph/tstv-og-bg.png",
+    "kill-assets": "kill-port 3001 || true"
   },
   "dependencies": {
     "@astrojs/check": "^0.3.3",
@@ -33,10 +37,11 @@
     "astro-expressive-code": "^0.29.4",
     "date-fns": "^2.30.0",
     "fast-xml-parser": "^4.3.2",
+    "gray-matter": "^4.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "satori": "^0.10.11",
-    "sharp": "^0.32.6",
+    "sharp": "^0.33.1",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.3.3"
   },
@@ -50,6 +55,8 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "prettier": "^3.1.1",
     "prettier-plugin-astro": "^0.12.2",
-    "vitest": "^0.34.6"
+    "serve": "^14.2.1",
+    "vitest": "^0.34.6",
+    "wait-on": "^7.2.0"
   }
 }
