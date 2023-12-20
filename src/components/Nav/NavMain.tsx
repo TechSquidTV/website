@@ -1,6 +1,8 @@
 import NavMenu from "@components/Headless/Nav/NavMenu";
 import NavMenuButton from "@components/Headless/Nav/NavMenuButton";
-import NavMenuItems, { type MenuItem }  from "@components/Headless/Nav/NavMenuItems";
+import NavMenuItems, {
+  type MenuItem,
+} from "@components/Headless/Nav/NavMenuItems";
 import LogoIcon from "@icons/techsquidtv.svg?raw";
 
 const menuItems: MenuItem[] = [

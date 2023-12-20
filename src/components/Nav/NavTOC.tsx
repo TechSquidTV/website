@@ -3,9 +3,11 @@ import NavTOCButton from "@components/Headless/Nav/NavTOCButton";
 import { NavTOCMenuItems } from "@components/Headless/Nav/NavTOCMenuItems";
 import type { MarkdownHeading } from "astro";
 
-
-export default function PostTOCNav({ headings }: { headings: MarkdownHeading[] }) {
-  
+export default function PostTOCNav({
+  headings,
+}: {
+  headings: MarkdownHeading[];
+}) {
   return (
     <NavMenu className="flex flex-col text-sm">
       <div>

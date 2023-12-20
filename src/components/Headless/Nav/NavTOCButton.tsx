@@ -18,7 +18,8 @@ export function NavMenuButton({ className = "" }: NavMenuButtonProps) {
 
   const { isMenuOpen, toggleMenu } = context;
 
-  const baseStyle = "flex flex-row space-x-1 px-1 text-sm py-1 text-lg border border-smoke-800 rounded-sm hover:bg-smoke-700";
+  const baseStyle =
+    "flex flex-row space-x-1 px-1 text-sm py-1 text-lg border border-smoke-800 rounded-sm hover:bg-smoke-700";
   const openStyle = "bg-smoke-700";
   const closeStyle = "bg-smoke-950";
 
