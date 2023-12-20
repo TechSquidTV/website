@@ -1,6 +1,6 @@
 import { defineCollection, z } from "astro:content";
 
-import { tags } from "../utils/blogTag";
+import { tags, type ValidTags } from "../utils/blogTag";
 
 const blogCollection = defineCollection({
   schema: ({ image }) =>
@@ -24,7 +24,7 @@ const blogCollection = defineCollection({
         .transform((str) => new Date(str))
         .optional(),
       tags: z.array(
-        z.string().refine((tag) => tags.includes(tag), {
+        z.string().refine((tag) => tags.includes(tag as ValidTags), {
           message:
             "Invalid tag! Please choose from the following: " + tags.join(", "),
         }),
