@@ -2,8 +2,8 @@
 import { NavContext } from "@components/Headless/Nav/NavMenu";
 import CloseIcon from "@icons/close.svg?raw";
 import MenuIcon from "@icons/menu.svg?raw";
-import { h } from "preact";
-import { useContext } from "preact/hooks";
+import { useContext } from "react";
+
 
 interface NavMenuButtonProps {
   className?: string;
@@ -27,7 +27,7 @@ export function NavMenuButton({ className = "" }: NavMenuButtonProps) {
     <button
       onClick={toggleMenu}
       aria-label="Toggle menu"
-      class={
+      className={
         className +
         " " +
         baseStyle +
@@ -36,9 +36,9 @@ export function NavMenuButton({ className = "" }: NavMenuButtonProps) {
       }
     >
       {isMenuOpen ? (
-        <div class="w-5 h-5" dangerouslySetInnerHTML={{ __html: CloseIcon }} />
+        <div className="w-5 h-5" dangerouslySetInnerHTML={{ __html: CloseIcon }} />
       ) : (
-        <div class="w-5 h-5" dangerouslySetInnerHTML={{ __html: MenuIcon }} />
+        <div className="w-5 h-5" dangerouslySetInnerHTML={{ __html: MenuIcon }} />
       )}
       <span>Contents</span>
     </button>

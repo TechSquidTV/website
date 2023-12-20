@@ -1,8 +1,8 @@
 import { NavContext } from "@components/Headless/Nav/NavMenu";
 import { type MenuItem } from "@components/Headless/Nav/NavMenuItems";
 import { type MarkdownHeading } from "astro";
-import { h } from "preact";
-import { useContext } from "preact/hooks";
+import { useContext } from "react";
+
 
 type TOCHeading = {
   heading: MenuItem;
@@ -39,18 +39,18 @@ export function NavTOCMenuItems({ headings }: { headings: MarkdownHeading[] }) {
 
   const { isMenuOpen } = context;
   return (
-    <ol class={(isMenuOpen ? "" : "hidden") + " mt-1"}>
+    <ol className={(isMenuOpen ? "" : "hidden") + " mt-1"}>
       {TOC(headings).map((heading) => {
         return (
-          <li class="my-1">
-            <a href={`#${heading.heading.href}`} class="font-bold">
+          <li className="my-1">
+            <a href={`#${heading.heading.href}`} className="font-bold">
               {heading.heading.text}
             </a>
             {heading.subItems.length > 0 && (
-              <ol class="ml-2">
+              <ol className="ml-2">
                 {heading.subItems.map((subItem) => {
                   return (
-                    <li class="my-1 text-smoke-300">
+                    <li className="my-1 text-smoke-300">
                       <a href={`#${subItem.href}`}>{subItem.text}</a>
                     </li>
                   );

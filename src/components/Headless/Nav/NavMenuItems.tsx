@@ -1,6 +1,6 @@
 import { NavContext } from "@components/Headless/Nav/NavMenu";
-import { h } from "preact";
-import { useContext } from "preact/hooks";
+import { useContext } from "react";
+
 
 export type MenuItem = {
   text: string;
@@ -29,7 +29,7 @@ export function NavMenuItems({
   const { isMenuOpen } = context;
 
   return (
-    <ul class={`${isMenuOpen ? "" : "hidden"} ${classNames.ul}`}>
+    <ul className={`${isMenuOpen ? "" : "hidden"} ${classNames.ul}`}>
       {items.map((item) => (
         <li key={item.text} className={classNames.li}>
           <a href={item.href} className={classNames.a}>

@@ -1,5 +1,4 @@
-import { createContext, type FunctionComponent, h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { createContext, type FunctionComponent, type ReactNode,useEffect,useState } from "react";
 
 // Define the context and its type
 interface NavContextType {
@@ -10,11 +9,12 @@ export const NavContext = createContext<NavContextType | undefined>(undefined);
 
 interface NavMenuProps {
   className?: string;
+  children?: ReactNode; // Add this line to include children
 }
 
 export const NavMenu: FunctionComponent<NavMenuProps> = ({
-  children,
   className,
+  children,
 }) => {
   const [isMenuOpen, setMenuOpen] = useState(true);
   const toggleMenu = () => {
@@ -38,7 +38,7 @@ export const NavMenu: FunctionComponent<NavMenuProps> = ({
 
   return (
     <NavContext.Provider value={{ isMenuOpen, toggleMenu }}>
-      <nav class={className}>{children}</nav>
+      <nav className={className}>{children}</nav>
     </NavContext.Provider>
   );
 };
