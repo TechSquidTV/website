@@ -50,7 +50,7 @@ export function NavTOCMenuItems({ headings }: { headings: MarkdownHeading[] }) {
               <ol className="ml-2">
                 {heading.subItems.map((subItem) => {
                   return (
-                    <li className="my-1 text-smoke-300">
+                    <li className="my-1 text-smoke-300" key={subItem.href}>
                       <a href={`#${subItem.href}`}>{subItem.text}</a>
                     </li>
                   );
