@@ -3,8 +3,9 @@ import NavTOC from "@components/Nav/NavTOC";
 import PostMeta from "@components/PostMeta.astro";
 import LayoutBase from "@layouts/LayoutBase.astro";
 import * as ldjson from "@utils/ldjson";
+import type { InferGetStaticPropsType } from "astro";
 import { Image } from "astro:assets";
-import { type CollectionEntry,getCollection } from "astro:content";
+import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -18,7 +19,7 @@ export async function getStaticPaths() {
   });
 }
 
-type Props = CollectionEntry<"blog">;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const post = Astro.props;
 const { Content, headings } = await post.render();
 ---
