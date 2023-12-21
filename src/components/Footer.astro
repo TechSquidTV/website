@@ -1,6 +1,17 @@
 ---
+import Icon from "./Icon.astro";
 const copywrite = `© ${new Date().getFullYear()} TechSquidTV`;
 ---
-<footer class="wrapper text-center">
-  <span>{copywrite}</span>
+
+<footer class="wrapper w-full my-4">
+  <div class="w-full flex justify-between items-center">
+    <div>
+      <span>{copywrite}</span>
+    </div>
+    <div class="text-amber-500">
+      <a href={`${Astro.site}/rss.xml`}>
+        <Icon name="rss" />
+      </a>
+    </div>
+  </div>
 </footer>
