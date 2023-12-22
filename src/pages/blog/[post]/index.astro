@@ -6,6 +6,7 @@ import * as ldjson from "@utils/ldjson";
 import type { InferGetStaticPropsType } from "astro";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
+import Newsletter from '@components/Newsletter.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -54,6 +55,9 @@ const { Content, headings } = await post.render();
         </div>
       </div>
     </article>
+    <div class=" wrapper my-3">
+        <Newsletter />
+      </div>
   </main>
 </LayoutBase>
 

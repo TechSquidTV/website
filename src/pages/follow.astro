@@ -1,5 +1,6 @@
 ---
 import Icon, { type IconName } from '@components/Icon.astro'
+import Newsletter from '@components/Newsletter.astro';
 import techsquidtv from '@data/techsquidtv.json'
 import Avatar from '@images/brand/tstvprofile.png'
 import LayoutBase from "@layouts/LayoutBase.astro";
@@ -40,6 +41,9 @@ import { Image } from "astro:assets";
           ))
         }
       </ul>
+      <div class="my-3">
+        <Newsletter />
+      </div>
     </div>
   </main>
 </LayoutBase>
