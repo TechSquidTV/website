@@ -1,6 +1,6 @@
 ---
 import NavTOC from "@components/Nav/NavTOC";
-import Newsletter from '@components/Newsletter.astro';
+import Newsletter from "@components/Newsletter.astro";
 import PostMeta from "@components/PostMeta.astro";
 import LayoutBase from "@layouts/LayoutBase.astro";
 import * as ldjson from "@utils/ldjson";
@@ -25,7 +25,10 @@ const post = Astro.props;
 const { Content, headings } = await post.render();
 ---
 
-<LayoutBase ogImage={`blog/${post.slug}/${post.slug}-og.png`} description={post.data.description}>
+<LayoutBase
+  ogImage={`blog/${post.slug}/${post.slug}-og.png`}
+  description={post.data.description}
+>
   <main class="">
     <div class="relative w-full h-96 overflow-hidden">
       <Image
@@ -38,16 +41,14 @@ const { Content, headings } = await post.render();
     <article class="relative wrapper z-10 -mt-28 animate-slideUp">
       <div class="mx-auto card w-full max-w-screen-lg">
         <div class="md:px-8">
-          <h1
-            class="font-extrabold my-6 text-4xl md:text-4xl xl:text-5xl"
-          >
+          <h1 class="font-extrabold my-6 text-4xl md:text-4xl xl:text-5xl">
             {post.data.title}
           </h1>
           <div class="my-2">
             <PostMeta post={post} />
           </div>
           <div class="rounded p-2 bg-smoke-950">
-            <NavTOC headings={headings} client:load/>
+            <NavTOC headings={headings} client:load />
           </div>
         </div>
         <div class="md-content md:px-8">
@@ -55,9 +56,9 @@ const { Content, headings } = await post.render();
         </div>
       </div>
     </article>
-    <div class=" wrapper my-3">
-        <Newsletter />
-      </div>
+    <div class="wrapper w-full my-3">
+      <div class="max-w-screen-lg w-full mx-auto"><Newsletter /></div>
+    </div>
   </main>
 </LayoutBase>
 
@@ -104,5 +105,4 @@ const { Content, headings } = await post.render();
   lite-youtube {
     @apply mx-auto;
   }
-
 </style>
