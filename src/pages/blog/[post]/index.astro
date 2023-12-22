@@ -1,12 +1,12 @@
 ---
 import NavTOC from "@components/Nav/NavTOC";
+import Newsletter from '@components/Newsletter.astro';
 import PostMeta from "@components/PostMeta.astro";
 import LayoutBase from "@layouts/LayoutBase.astro";
 import * as ldjson from "@utils/ldjson";
 import type { InferGetStaticPropsType } from "astro";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import Newsletter from '@components/Newsletter.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
