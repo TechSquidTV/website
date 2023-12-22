@@ -24,7 +24,7 @@ const post = Astro.props;
 const { Content, headings } = await post.render();
 ---
 
-<LayoutBase>
+<LayoutBase ogImage={`${post.slug}/${post.slug}-og.png`}>
   <main class="">
     <div class="relative w-full h-96 overflow-hidden">
       <Image
