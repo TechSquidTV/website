@@ -27,7 +27,7 @@ const menuItems: MenuItem[] = [
 export default function PostTOCNav() {
   return (
     <NavMenu className="flex flex-row items-center text-center px-4 py-2 text-smoke-100 border border-smoke-900 border-opacity-30 bg-smoke-800 bg-opacity-30 backdrop-blur-md rounded-md md:rounded-full shadow-lg">
-      <a href="/">
+      <a href="/" aria-label="home">
         <div
           className="w-8 h-8 flex justify-center items-center px-1"
           dangerouslySetInnerHTML={{ __html: LogoIcon }}
