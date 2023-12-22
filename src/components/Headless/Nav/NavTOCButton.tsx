@@ -26,7 +26,7 @@ export function NavMenuButton({ className = "" }: NavMenuButtonProps) {
   return (
     <button
       onClick={toggleMenu}
-      aria-label="Toggle menu"
+      aria-label="Toggle contents menu"
       className={
         className +
         " " +
