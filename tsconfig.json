@@ -5,7 +5,7 @@
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    "baseUrl": "/Users/kyletryon/Documents/Projects/TechSquidTV-Website",
+    "baseUrl": "./",
     "paths": {
       "@components/*": [
         "src/components/*"
