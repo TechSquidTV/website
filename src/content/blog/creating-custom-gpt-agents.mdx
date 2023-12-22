@@ -1,0 +1,256 @@
+---
+title: Creating custom ChatGPT agents for fun and for profit!
+publishDate: 12-22-2023
+updatedDate: 12-22-2023
+description: OpenAI released custom "gpts", or custom agents we can instruct through prompts and apis. Let's take a look at how to make, share, (and profit?) from these gpts
+heroImage: ../../images/blog/ai-bot-factory-thumbnail.png
+heroImageAlt: "Ai generated image of a factory assembly line creating a series of ai robots"
+slug: creating-custom-chatgpt-agents-for-fun-and-for-profit
+tags:
+  - technology
+---
+import { Image } from "astro:assets";
+import ChatGPT from   "../../images/blog/chatgpt-center-of-us.png";
+import ChevyFail from "../../images/blog/chevy-chatbot-fail.png";
+import CustomGPTLaunch from "../../images/blog/custom-gpts-launch.png";
+import WallStreetDoctorAvatar from "../../images/blog/wallstreet-doctor-avatar.png";
+import GoTutorAvatar from "../../images/blog/go-tutor-avatar.webp";
+import PhillyGPTAvatar from "../../images/blog/philly-gpt-avatar.webp";
+import PhillyDaily from "../../images/blog/phillygpt-daily.png";
+import MyGPTs from "../../images/blog/my-gpts.png";
+import CreateGPTForm from "../../images/blog/create-gpt-form.png";
+import GPTInstructions from "../../images/blog/gpt-instructions-example.png";
+
+Just over a year ago (November 30, 2022), OpenAI launched ChatGPT, a sort of "interface" to the GPT-3 text-generation model that allowed us to have full conversations with the GPT-3 model. Before then, we had only seen GPT models used for text completion or generation, where we could seed it with some text and allow it to continue on its own. If you use GitHub's Copilot, this is the typical behavior of the auto-complete function (powered by GPT4+).
+
+<Image src={ChatGPT} alt="ChatGPT interface - asking for the location of the center of the US as an example, and getting back a satisfactory response. approximately 39.8333333°N latitude and 98.585522°W longitude" />
+
+Since then, OpenAI has been working on a number of add-ons to the ChatGPT product to allow for custom functionality, and maybe even monetization.
+
+## Plugins are dead?
+In March of 2023, OpenAI announced [chatGPT Plugins](https://openai.com/blog/chatgpt-plugins) and launched with a number of partners such as Instacart, KAYAK, Expedia and more. The plan with Plugins were, to allow users to chat with a customized version of ChatGPT that had access to third-party API. OpenAPI launched the developer documentation and promised a path to a plugin store were developers would be able to submit their own plugins. But the waitlist was never fully opened up. 
+
+In my testing, most of the plugins were not really useful and I would bet they saw little adoption. In many cases, having a dedicated ChatGPT bot one of these third-party services, just doesn't make any sense. Why would I want to chat with Instacart? Wouldn't it make more sense for Instacart to have their own ChatGPT powered support bot on their own app? Well, eventually they probably will, but as we recently saw from [Chevy](https://gizmodo.com/ai-chevy-dealership-chatgpt-bot-customer-service-fail-1851111825), they probably don't want people using their AI bots for doing homework or saying things it probably shouldn't.
+
+<Image src={ChevyFail} alt="Twitter user @ChrisJBakke uses basic prompt engineering to get a local chevy dealership's ChatGPT support bot to agree to sell a car at $1" />
+-[via @ChrisJBakke on twitter](https://twitter.com/ChrisJBakke/status/1736533308849443121)
+
+While chatting with these specialized agents can be great in theory, I've also found too often that the _chat_ interface is just not the optimal experience. For example, there _was_ a Zillow plugin at launch, and it would be able to search the Zillow database on your behalf. But getting your results back as a few items in a list.. with no pictures is objectively worse than going to the Zillow app and browsing the map.
+
+OpenAI hasn't explicitly stated that plugins are dead, but this morning they send out an email to those of us on the waitlist, reminding us of the new "GPTs" feature released a few months ago.
+
+>Thank you for your interest in developing a ChatGPT plugin. We’ve taken our learnings from plugins and created GPTs. They can use actions to call APIs similarly to plugins, provide custom instructions, invoke DALL·E and more. Each GPT has its own unique link so they can easily be shared and early next year we’ll launch the GPT Store.
+>
+>If you previously explored building a plugin, much of the developer setup is similar, you can learn more about moving to or building a custom action from scratch in our developer documentation. 
+>
+>Thank you again for your interest in building this ecosystem with us. We are excited to see what GPTs you create!
+>
+>- The OpenAI Team
+
+The good news is, I've been using GPTs for a while now and I'm excited to share how I use them and what they can do for you.
+
+## Long live GPTs!
+
+In November, OpenAI released [GPTs](https://openai.com/blog/introducing-gpts), essentially customized ChatGPT agents for specific tasks. You can configure a GPT with a custom system prompt to provide it with instructions on how it should behave, essentially "programming" it, and give it access to documents, and even APIs for live data. On top of that, it can access the typical built in features of ChatGPT like web browsing, analysis (python execution), and image generation.
+
+<Image src={CustomGPTLaunch} alt="Custom GPTs available at launch, such as Game-Time, which claims to understand board game rules." />
+
+GPTs are created right in the ChatGPT interface with no coding and can easily be created and shared by anyone. It is now extremely simple to make simple one-off tools for specific personal tasks.
+
+## Try These GPTs
+
+These are the three custom GPTs I currently maintain and use myself. In order to use a custom GPT, you do need a premium ChatGPT account.
+
+### WallStreet Doctor
+<Image src={WallStreetDoctorAvatar} alt="An ai generated cartoonish doctor with stock bar charts behind him" width="100px" />
+
+This GPT is actually very simple and only takes advantage of prompting to provide you with a tailored GPT client that specifically knows to browse Yahoo finance and other sources for stock news and information and can summarize the latest news for you using the web browsing feature. This is an excellent way to consume daily stock market updates.
+
+[Try WallStreet Doctor](https://chat.openai.com/g/g-dpzrWcrVp-wallstreet-doctor)
+
+### Go Tutor
+
+<Image src={GoTutorAvatar} alt="A character of similar design to the Go Gopher mascot, wearing a graduation cap" width="100px"  />
+
+Go Tutor is my _most used_ GPT and has been an indispensable tool in aiding my Go programming journey. While ChatGPT does receive updates every few months, it does not always have the most up-to-date information about many specific topics. If you use ChatGPT as of today, and ask it for assistance with Go code, I have found it will often respond with Go 1.18 code, which includes some deprecated functionality we no longer use in the current version of Go. So here is how we can use GPTs to provide a more relevant Go teacher.
+
+This GPT has been given the latest Go documentation to read and instructed to disregard outdated snippets of code it may have been previously trained on.
+
+[Try Go Tutor](https://chat.openai.com/g/g-LeJT06NLP-go-tutor)
+
+### PhillyGPT
+
+<Image src={PhillyGPTAvatar} alt="Danny DeVito's face on Ben Franklin" width="100px"  />
+
+Ironically the most advanced GPT on my list. This Danny DeVito / Ben Franklin hybrid bot is your personal guide to Philadelphia.
+
+This GPT has been given access to the local SEPTA public transportation API, and thus can give you live updates, travel alerts, directions, arrival estimations, and more. In the files uploaded to the GPT include data on different bus stops and landmarks, as well as a list of web sources the GPT model knows to reference when looking for specific data on the web.
+
+Why not ask PhillyGPT for a daily update for Philadelphians?
+
+<Image src={PhillyDaily} alt="A collection of daily news, weather, and sports" />
+
+[Try PhillyGPT](https://chat.openai.com/g/g-GlYMtkbse-phillygpt)
+
+## Creating a GPT
+
+Creating a GPT is very easy, and though I would prefer a git-flow.. currently we create them in the ChatGPT interface. 
+
+Go to [https://chat.openai.com/gpts/mine](https://chat.openai.com/gpts/mine) and select `Create a GPT`
+
+<Image src={MyGPTs} alt="Create a new GPT" />
+
+Interestingly, you can create a GPT just by _talking_ to chatGPT, but we are going to switch into the form version of the interface.
+
+<Image src={CreateGPTForm} alt="Create a new GPT form" />
+
+Getting started is straight forward with the `name` of your GPT, description, and above that you will see the "+" to add an avatar image, which can be uploaded _or_ you can generate one with DallE on-the-fly, which is how all of mine above were created.
+
+### Instructions
+
+_Instructions_ are analogous to the _system prompt_ for those who have worked with the ChatGPT API. The way to think about this, is, with every question that someone may ask your GPT, this set of "Instructions" is going to magically get sent with their question to ChatGPT before getting a response.
+
+So for instance, if you have instructions like:
+
+```text
+| input        | response   |
+|--------------|------------|
+| how are you? | excellent! |
+```
+
+ChatGPT is _usually_ intelligent enough to recognize that we are instructing it to respond to specific inputs a specific way. Try adding these instructions to your bot, and test out the response on the right.
+
+<Image src={GPTInstructions} alt="test out your instructions in the live chatGPT session" />
+
+You can be as generic or prescriptive as you want, it's a good practice to routinely test the kinds of responses you get with the live preview.
+
+This area does not need to only contain inputs and responses for example, nor does it need to be in the markdown table format I have shown. Feel free to use this area to describe the _personality_ of your agent, or otherwise attempt to modify the behavior of the agent with _prompt engineering_.
+
+ChatGPT is also updating all the time, so prompts that previously did not work may work in the future. When I started with GPTs, it was _IMPOSSIBLE_ to convince the agent to visit a specific web page, it was only able to perform a Bing search. Since one of the more recent updates, I have not only been able to get a GPT to go to a specific URL, I have been able to get a single prompt to visit _multiple_ specific URLs and aggregate their results.
+
+#### Prompt engineering
+
+Prompt engineering is the practice of what we have described above, iterating on prompts to fine-tune the output from GPT models. OpenAI provides a great [introductory guide to Prompt Engineering](https://platform.openai.com/docs/guides/prompt-engineering) that is highly worth going over if you are new to the subject.
+
+Prompt engineering is a fascinating subject that goes much deeper than it may initially appear, so we may do a separate post just on this subject, but let's leave you with a few general tips.
+
+##### Tip 1. Flat data
+
+LLMs (Large Language Models) operate on a principal of "distance" between inputs to derive context and meaning (very hand-wavy, see Cosign similarity). When an LLM looks at a chunk of text, it doesn't necessarily see sentences, but instead groups of words* (tokens) that are in close proximity. This is largely how most natural language works, and works great when reading from books and websites, and most of the data the LLM was trained on.
+
+Knowing this, when we write instructions to our LLM, we want to try to avoid deeply nested data formats like JSON, where the "value" may be physically far away from the "key". Not that the LLM _can't_ read a format like JSON, but to optimize our outputs, we can generally expect better results if we flatten our data, especially the longer our instruction data is.
+
+##### Tip 2. Provide example input and outputs
+
+Begin by writing the most minimal prompt you can to optimize for low token usage. Then, begin fine-tuning the instructions to alter the output by giving it example inputs. Keep in mind, you do not need to be completely rigid in your example, ChatGPT can typically understand the concepts of things like `{placeholders}` or sentiment.
+
+For example, if you want a certain type of response when a user asks about the weather, you do not need to add an example for every way someone _could_ ask about the weather, you could simply state `weather` as the input, and then give an example output to show the GPT how to _format_ the output.
+
+```text
+input: weather
+response: | 
+  The weather is {weather} today.
+    - {temperature}
+    - {humidity}
+    - {wind}
+```
+
+##### Tip 3. Chain-of-thought responses
+
+There is a concept in prompt engineering known as _chain-of-thought_, where an LLM takes a complex question, pre-processes it into multiple less complex steps, and then executes them in order. This was a commonly explored technique with GPT-3, and was fairly successful at improving the overall effectiveness of the LLMs by reducing the amount of tokens per question, and simply, reducing the chance of error by reducing complexity.
+
+ChatGPT-4 appears to _naturally_ be able to perform at least some extent of chain-of-thought, without any additional programming. We may simply instruct our LLM on which steps it needs to take, and it is getting remarkably good at this.
+
+Below, is the actual prompt of my [WallStreet Doctor GPT](https://chat.openai.com/g/g-dpzrWcrVp-wallstreet-doctor), which has been prompted with a set of "commands", each of which has their own steps. And this works, _nearly flawlessly_
+
+```text
+## Commands
+ - Get latest earnings report {TICKER}:
+    steps:
+        - If no {TICKER} is provided, ask for clarification
+        - Browse to `https://seekingalpha.com/symbol/{TICKER}/earnings/transcripts`
+        - Navigate to the top 'Earnings Call Transcript'
+        - Summarize the page
+- Analyze a stock {TICKER}:
+    steps:
+        - If no {TICKER} is provided, ask for clarification
+        - Web search 'simplywall.st {TICKER}'
+        - Locate the result with the link that beings with 'https://simplywall.st/stocks/'
+        - Summarize the page
+```
+
+### Conversation starters
+
+Conversation starters are simply a pre-selection of possible questions to ask your bot. These can be a great way to get new users started with interacting with your bot. Consider having a custom response or chain-of-thought response for these special questions. Congrats 🎉
+
+### Knowledge
+
+Knowledge is where these custom GPTs start to actually become legitimate improvements over just simply using ChatGPT with a fancy prompt. Until this point, all we have done is give a prompt to ChatGPT. Now, we need to give it some knowledge, that it would not have had otherwise.
+
+What Knowledge allows us to do is upload files (think mostly text based, i.e. PDF, Markdown, HTML, CSV, etc.) to ChatGPT, and have it "indexed" into what is called a vector database. We'll come back with another post on what a vector database is, but for now, think about it as a database of information that would be far too large to put in the instructions. 
+
+For my [Go Tutor](https://chat.openai.com/g/g-LeJT06NLP-go-tutor) GPT, what I did was find the most relevant up-to-date documentation for the latest version of Go, as well as a few blog posts, and simply upload them to the GPT. This is what allows Go Tutor to answer questions about Go with data on Go 1.21, even though ChatGPT seems to only be trained on Go 1.18.
+
+### Capabilities
+
+Capabilities should _typically_ be left on but you may want to turn off some of the built-in capabilities that come with ChatGPT to better tune your responses.
+
+The options now are:
+ - Web Browsing
+ - DALL·E (Image Generation)
+ - Code Interpreter (Python)
+  
+### Actions
+
+Finally, we come full-circle to ChatGPT plugins, which may have been replaced by this feature. GPTs can now accept an OpenAPI spec file, and intelligently reach out to the API for live data when relevant (based on the schema data).
+
+And pro-tip, even if a certain service does not provide an OpenAPI spec, ChatGPT is excellent at helping you generate one for an existing API by giving it example input and outputs, and asking for an OpenAPI spec.
+
+This is how the [PhillyGPT](https://chat.openai.com/g/g-GlYMtkbse-phillygpt) GPT is able to provide live updates on SEPTA public transportation.
+
+```json
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SEPTA Bus And Trolley",
+    "description": "Use this documentation to test out all of the available SEPTA bus/trolley API's",
+    "version": "v0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://www3.septa.org/api"
+    }
+  ],
+  "paths": {
+    "/TransitViewAll/index.php": {
+      "get": {
+        "description": "Returns all buses and trolley locations.",
+        "operationId": "TransitViewAll",
+        "parameters": [],
+        "deprecated": false
+      }
+    }
+  }
+}
+```
+
+## Profiting from a GPT
+
+Are you still here? You didn't just skip to this section did you? 👀
+Alright, let's talk profit and moving forward.
+
+### GPT Store
+
+They seem a little behind on their promised timeline, but OpenAI has expressed that there _will_ be a "GPT Store" coming soon, and given the phrase "Store" rather than something like "Hub" seems to imply they are keeping monetization in mind.
+
+While it is possible to add credentials to the Actions API calls in custom GPTs, we have not seen of any way that users could supply their own API tokens, yet, which may be a primary way that developers monetize their GPTs. However, given that method excludes OpenAI from the majority of the monetization, I expect we might not see such a feature. Instead, I expect if we do get paid plugins, it may be on a credit basis or subscription.
+
+### Affiliate Marketing / Drop shipping
+
+I am not looking forward to the storm of these low effort attempts to monetize GPTs, but it would be naive not not expect this to happen, so take this as a warning.
+
+One of OpenAI's own examples, takes art generated with Dall·E and assist you in getting custom stickers ordered with a 3rd party supplier using the AI generated art.
+
+I can already envision the torrent of GPTs tuned to provide affiliate marking links, drop-shipped products, and general advertising.
+
+I am not advocating for any of these things, but I can easily see more AI customized products as GPTs. The flow from image to customize product is already an easy pipeline. Simply instruct your GPT to produce a specific kind of art and push it as that niche. Anyway, that's a long way to say I'll have a Kawaii anime custom iPhone case bot soon.
