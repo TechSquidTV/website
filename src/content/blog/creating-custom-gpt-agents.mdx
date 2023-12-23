@@ -1,7 +1,7 @@
 ---
 title: Creating custom ChatGPT agents for fun and for profit!
 publishDate: 12-22-2023
-updatedDate: 12-22-2023
+updatedDate: 12-23-2023
 description: OpenAI released custom "gpts", or custom agents we can instruct through prompts and apis. Let's take a look at how to make, share, (and profit?) from these gpts
 heroImage: ../../images/blog/ai-bot-factory-thumbnail.png
 heroImageAlt: "Ai generated image of a factory assembly line creating a series of ai robots"
@@ -28,9 +28,11 @@ Just over a year ago (November 30, 2022), OpenAI launched ChatGPT, a sort of "in
 Since then, OpenAI has been working on a number of add-ons to the ChatGPT product to allow for custom functionality, and maybe even monetization.
 
 ## Plugins are dead?
-In March of 2023, OpenAI announced [chatGPT Plugins](https://openai.com/blog/chatgpt-plugins) and launched with a number of partners such as Instacart, KAYAK, Expedia and more. The plan with Plugins were, to allow users to chat with a customized version of ChatGPT that had access to third-party API. OpenAPI launched the developer documentation and promised a path to a plugin store were developers would be able to submit their own plugins. But the waitlist was never fully opened up. 
+In March of 2023, OpenAI announced [ChatGPT Plugins](https://openai.com/blog/chatgpt-plugins) and launched with a number of partners such as Instacart, KAYAK, Expedia and more. The plan with Plugins were, to allow users to chat with a customized version of ChatGPT that had access to third-party APIs. OpenAPI launched the developer documentation and promised a path to a plugin store were developers would be able to submit their own plugins. But the waitlist was never fully opened up. 
 
-In my testing, most of the plugins were not really useful and I would bet they saw little adoption. In many cases, having a dedicated ChatGPT bot one of these third-party services, just doesn't make any sense. Why would I want to chat with Instacart? Wouldn't it make more sense for Instacart to have their own ChatGPT powered support bot on their own app? Well, eventually they probably will, but as we recently saw from [Chevy](https://gizmodo.com/ai-chevy-dealership-chatgpt-bot-customer-service-fail-1851111825), they probably don't want people using their AI bots for doing homework or saying things it probably shouldn't.
+In my testing, most of the plugins were not actually useful and I would bet they saw little adoption. In many cases, having a dedicated ChatGPT bot for one of these third-party services, just doesn't make any sense. Why would I want to chat with Instacart? Wouldn't it make more sense for Instacart to have their own ChatGPT powered support bot on their own app? 
+
+Well, eventually they probably will, but as we recently saw from [Chevy](https://gizmodo.com/ai-chevy-dealership-chatgpt-bot-customer-service-fail-1851111825), they probably don't want people using their AI bots for doing homework or saying things it probably shouldn't.
 
 <Image src={ChevyFail} alt="Twitter user @ChrisJBakke uses basic prompt engineering to get a local chevy dealership's ChatGPT support bot to agree to sell a car at $1" />
 -[via @ChrisJBakke on twitter](https://twitter.com/ChrisJBakke/status/1736533308849443121)
@@ -82,9 +84,9 @@ This GPT has been given the latest Go documentation to read and instructed to di
 
 <Image src={PhillyGPTAvatar} alt="Danny DeVito's face on Ben Franklin" width="100px"  />
 
-Ironically the most advanced GPT on my list. This Danny DeVito / Ben Franklin hybrid bot is your personal guide to Philadelphia.
+Ironically the most advanced GPT on my list, this Danny DeVito / Ben Franklin hybrid bot is your personal guide to Philadelphia.
 
-This GPT has been given access to the local SEPTA public transportation API, and thus can give you live updates, travel alerts, directions, arrival estimations, and more. In the files uploaded to the GPT include data on different bus stops and landmarks, as well as a list of web sources the GPT model knows to reference when looking for specific data on the web.
+PhillyGPT has been given access to the local SEPTA public transportation API, and thus can give you live updates, travel alerts, directions, arrival estimations, and more. In the files uploaded to the GPT include data on different bus stops and landmarks, as well as a list of web sources the GPT model knows to reference when looking for specific data on the web.
 
 Why not ask PhillyGPT for a daily update for Philadelphians?
 
@@ -104,7 +106,7 @@ Interestingly, you can create a GPT just by _talking_ to chatGPT, but we are goi
 
 <Image src={CreateGPTForm} alt="Create a new GPT form" />
 
-Getting started is straight forward with the `name` of your GPT, description, and above that you will see the "+" to add an avatar image, which can be uploaded _or_ you can generate one with DallE on-the-fly, which is how all of mine above were created.
+Getting started is straight forward with the `name` of your GPT, description, and above that you will see the "+" to add an avatar image, which can be uploaded _or_ you can generate one with DALL·E on-the-fly, which is how all of mine above were created.
 
 ### Instructions
 
