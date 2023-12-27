@@ -14,7 +14,7 @@ interface Props {
 }
 
 const {
-  title = "TechSquidTV",
+  title,
   description = "Open-source developer and tech educator, Kyle A.K.A TechSquidTV. Software development tutorials, videos, and fun code experiments.",
   ogImage = "/opengraph/images/default-opengraph.png",
 } = Astro.props as Props;
@@ -24,7 +24,7 @@ const {
 <!doctype html>
 <html lang="en">
   <Head
-    title={title}
+    title={`TechSquidTV${ title ? ` | ${title}` : "" }`}
     description={description}
     ogImage={ogImage}
   />

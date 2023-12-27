@@ -22,7 +22,7 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const {tag} = Astro.props;
 ---
 
-<LayoutBase>
+<LayoutBase title={tag}>
   <main class="wrapper mt-20">
     <header>
       <div
