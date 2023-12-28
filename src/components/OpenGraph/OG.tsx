@@ -56,19 +56,24 @@ export default function OG(
           display: "flex",
           flexDirection: "column",
           flex: "1",
-          width: "100%",
           margin: "2.5rem",
-          height: "85%",
-          borderRadius: "24px",
-          backgroundImage: `url(http://localhost:3001/blog/${heroImageURL})`,
-          backgroundSize: "contain",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          alignItems: "center",
-          justifyContent: "center",
         }}
-      ></div>
-      <img src="http://localhost:3001/opengraph/tstv-badge.png" style={{position: "absolute", bottom: "0", right: "0", zIndex: 100}} width="146px"/>
+      >
+        <img
+          src={`http://localhost:3001/blog/${heroImageURL}`}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: "24px",
+          }}
+        />
+      </div>
+      <img
+        src="http://localhost:3001/opengraph/tstv-badge.png"
+        style={{ position: "absolute", bottom: "0", right: "0", zIndex: 100 }}
+        width="146px"
+      />
     </div>
   );
 }
