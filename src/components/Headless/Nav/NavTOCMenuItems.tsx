@@ -3,7 +3,6 @@ import { type MenuItem } from "@components/Headless/Nav/NavMenuItems";
 import { type MarkdownHeading } from "astro";
 import { useContext } from "react";
 
-
 type TOCHeading = {
   heading: MenuItem;
   subItems: MenuItem[];

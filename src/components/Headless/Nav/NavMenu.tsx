@@ -1,4 +1,10 @@
-import { createContext, type FunctionComponent, type ReactNode,useEffect,useState } from "react";
+import {
+  createContext,
+  type FunctionComponent,
+  type ReactNode,
+  useEffect,
+  useState,
+} from "react";
 
 // Define the context and its type
 interface NavContextType {

@@ -12,14 +12,14 @@ export async function SVG(component: JSX.Element) {
       {
         name: "Inter",
         data: await fs.readFile(
-          "./src/images/opengraph/fonts/Inter-Regular.ttf"
+          "./src/images/opengraph/fonts/Inter-Regular.ttf",
         ),
         weight: 400,
       },
       {
         name: "Inter",
         data: await fs.readFile(
-          "./src/images/opengraph/fonts/Inter-ExtraBold.ttf"
+          "./src/images/opengraph/fonts/Inter-ExtraBold.ttf",
         ),
         weight: 800,
       },

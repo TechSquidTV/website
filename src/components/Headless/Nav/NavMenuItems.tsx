@@ -1,7 +1,6 @@
 import { NavContext } from "@components/Headless/Nav/NavMenu";
 import { useContext } from "react";
 
-
 export type MenuItem = {
   text: string;
   href: string;

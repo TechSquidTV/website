@@ -1,4 +1,3 @@
-
 export default function OG(
   title: string = "TechSquidTV - Kyle from the internet",
   heroImageURL: string,
@@ -6,19 +5,19 @@ export default function OG(
   const backgroundImageURL = "http://localhost:3001/opengraph/tstv-og-bg.png";
   const fontSize = (title: string) => {
     if (title.length < 18) {
-      return "7rem"
+      return "7rem";
     }
     if (title.length < 28) {
-      return "5.5rem"
+      return "5.5rem";
     }
     if (title.length < 46) {
-      return "5rem"
+      return "5rem";
     }
     if (title.length < 52) {
-      return "5rem"
+      return "5rem";
     }
-    return "4rem"
-  }
+    return "4rem";
+  };
   return (
     <div
       style={{

@@ -7,7 +7,8 @@ export async function GET(context: APIContext) {
 
   return rss({
     title: "TechSquidTV Blog",
-    description: "Open-source developer and tech educator, Kyle A.K.A TechSquidTV. Software development tutorials, videos, and fun code experiments.",
+    description:
+      "Open-source developer and tech educator, Kyle A.K.A TechSquidTV. Software development tutorials, videos, and fun code experiments.",
     site: context.site ?? "https://techsquidtv.com",
     items: blog.map((post) => ({
       title: post.data.title,

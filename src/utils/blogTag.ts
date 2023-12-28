@@ -1,4 +1,11 @@
-export const tags = ["hardware", "linux", "coding", "technology", "gaming", "nerd"] as const;
+export const tags = [
+  "hardware",
+  "linux",
+  "coding",
+  "technology",
+  "gaming",
+  "nerd",
+] as const;
 
 export type TagItem = {
   href: string;

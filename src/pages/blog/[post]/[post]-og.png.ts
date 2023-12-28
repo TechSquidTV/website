@@ -5,7 +5,6 @@ import { getCollection } from "astro:content";
 import fs from "fs/promises";
 import matter from "gray-matter";
 
-
 export async function getStaticPaths() {
   const blog = await getCollection("blog");
   const blogData = await getBlogFrontmatterCollection();
@@ -20,7 +19,7 @@ export async function getStaticPaths() {
         heroImage: postData?.heroImage.replace("../../images/blog/", ""),
       },
     };
-  })
+  });
 }
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
@@ -36,14 +35,13 @@ export const GET: APIRoute = async function get({ props }) {
 };
 
 const getBlogFrontmatterCollection = async () => {
-
-  const contentDir = 'src/content/blog';
+  const contentDir = "src/content/blog";
   const files = await fs.readdir(contentDir);
-  const mdx = files.filter(file => file.endsWith('.mdx'));
-  const frontmatter = mdx.map(async file => {
-    const content = await fs.readFile(`${contentDir}/${file}`, 'utf-8');
+  const mdx = files.filter((file) => file.endsWith(".mdx"));
+  const frontmatter = mdx.map(async (file) => {
+    const content = await fs.readFile(`${contentDir}/${file}`, "utf-8");
     const { data } = matter(content);
     return data;
   });
   return Promise.all(frontmatter);
-}
+};
