@@ -1,4 +1,4 @@
-export const tags = ["hardware", "linux", "coding", "technology", "gaming"] as const;
+export const tags = ["hardware", "linux", "coding", "technology", "gaming", "nerd"] as const;
 
 export type TagItem = {
   href: string;
@@ -31,5 +31,9 @@ export const tagMap: TagMap = {
   gaming: {
     href: "/blog/tags/gaming",
     color: "rose-400",
-  }
+  },
+  nerd: {
+    href: "/blog/tags/nerd",
+    color: "cyan-200",
+  },
 };
