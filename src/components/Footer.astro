@@ -8,10 +8,17 @@ const copywrite = `© ${new Date().getFullYear()} TechSquidTV`;
     <div>
       <span>{copywrite}</span>
     </div>
-    <div class="text-amber-500">
-      <a href={`${Astro.site}/rss.xml`}>
-        <Icon name="rss" />
-      </a>
+    <div class="flex flex-row space-x-4">
+      <div class="text-gray-500">
+        <a href="https://github.com/TechSquidTV/website" target="_blank" >
+          <Icon name="git" />
+        </a>
+      </div>
+      <div class="text-amber-500">
+        <a href={`${Astro.site}/rss.xml`}>
+          <Icon name="rss" />
+        </a>
+      </div>
     </div>
   </div>
 </footer>
