@@ -6,8 +6,8 @@ export async function GET(context: APIContext) {
   const blog = await getCollection("blog");
 
   return rss({
-    title: "Buzz’s Blog",
-    description: "A humble Astronaut’s guide to the stars",
+    title: "TechSquidTV Blog",
+    description: "Open-source developer and tech educator, Kyle A.K.A TechSquidTV. Software development tutorials, videos, and fun code experiments.",
     site: context.site ?? "https://techsquidtv.com",
     items: blog.map((post) => ({
       title: post.data.title,
