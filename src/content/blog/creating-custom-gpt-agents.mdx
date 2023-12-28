@@ -1,7 +1,7 @@
 ---
 title: Creating custom ChatGPT agents for fun and for profit!
 publishDate: 12-22-2023
-updatedDate: 12-23-2023
+updatedDate: 12-27-2023
 description: OpenAI released custom "gpts", or custom agents we can instruct through prompts and apis. Let's take a look at how to make, share, (and profit?) from these gpts
 heroImage: ../../images/blog/ai-bot-factory-thumbnail.png
 heroImageAlt: "Ai generated image of a factory assembly line creating a series of ai robots"
@@ -138,7 +138,7 @@ Prompt engineering is a fascinating subject that goes much deeper than it may in
 
 ##### Tip 1. Flat data
 
-LLMs (Large Language Models) operate on a principal of "distance" between inputs to derive context and meaning (very hand-wavy, see Cosign similarity). When an LLM looks at a chunk of text, it doesn't necessarily see sentences, but instead groups of words* (tokens) that are in close proximity. This is largely how most natural language works, and works great when reading from books and websites, and most of the data the LLM was trained on.
+LLMs (Large Language Models) operate on a principal of "distance" between inputs to derive context and meaning (very hand-wavy, see Cosine Similarity). When an LLM looks at a chunk of text, it doesn't necessarily see sentences, but instead groups of words* (tokens) that are in close proximity. This is largely how most natural language works, and works great when reading from books and websites, and most of the data the LLM was trained on.
 
 Knowing this, when we write instructions to our LLM, we want to try to avoid deeply nested data formats like JSON, where the "value" may be physically far away from the "key". Not that the LLM _can't_ read a format like JSON, but to optimize our outputs, we can generally expect better results if we flatten our data, especially the longer our instruction data is.
 
