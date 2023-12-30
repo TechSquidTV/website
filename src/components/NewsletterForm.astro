@@ -1,0 +1,36 @@
+---
+
+---
+
+<div>
+  <h2 class="text-lg font-bold my-0">Newsletter</h2>
+  <p class="text-sm italic my-0">
+    Let's stay in touch! Get notified of new posts and videos
+  </p>
+  <div class="card mt-2">
+<form
+    class="flex flex-row justify-between items-center space-x-4"
+    name="newsletter"
+    method="POST"
+    data-netlify="true"
+  >
+    <div class="flex flex-col flex-1">
+      <input
+        type="text"
+        name="email"
+        placeholder="human@tstv.me"
+        class="rounded-sm p-2 bg-smoke-950 my-1 text-sm"
+      />
+    </div>
+    <button
+        type="submit"
+        class="rounded bg-smoke-800 hover:bg-smoke-700 py-2 px-4 transition-colors duration-200"
+        >Subscribe</button
+      >
+  </form>
+  </div>
+  
+  <span class="text-xs text-smoke-300 text-center block mt-1"
+      >Your email will never be shared. 1-2 emails per month max</span
+    >
+</div>
