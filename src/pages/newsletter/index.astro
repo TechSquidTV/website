@@ -1,0 +1,29 @@
+---
+import NewsletterForm from "@components/NewsletterForm.astro";
+import Avatar from "@images/brand/tstvprofile.png";
+import LayoutBase from "@layouts/LayoutBase.astro";
+import { Image } from "astro:assets";
+---
+
+<LayoutBase title="newsletter">
+  <main class="mt-24 wrapper">
+    <div class="flex justify-center">
+      <Image
+        src={Avatar}
+        alt="Kyle Tryon"
+        class="rounded-full w-32 xl:w-48"
+        transition:name={"tstv-avatar"}
+      />
+    </div>
+    <div class="flex flex-col mx-auto w-1/2 text-center">
+      <h1 class="text-2xl font-bold mt-4">TechSquidTV Newsletter</h1>
+    <p>
+      Don't rely on algorithms or notifications to keep up with my content, let's connect directly! Ready to read on your time, waiting in your inbox.
+    </p>
+    <p>
+      1 or 2 emails per month
+    </p>
+    </div>
+    <NewsletterForm />
+  </main>
+</LayoutBase>
