@@ -18,6 +18,11 @@ export default {
         none: "none",
         blur: "blur(20px)",
       },
+      backgroundImage: (theme: any) => ({
+        bigsur: `linear-gradient(to top right, ${theme(
+          "colors.violet.500"
+        )}, ${theme("colors.orange.300")})`,
+      }),
       colors: {
         smoke: {
           50: "#eaebeb",
