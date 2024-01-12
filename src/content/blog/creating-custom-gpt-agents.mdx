@@ -141,7 +141,7 @@ _Instructions_ are analogous to the _system prompt_ for those who have worked wi
 
 So for instance, if you have instructions like:
 
-```text
+```txt
 | input        | response   |
 |--------------|------------|
 | how are you? | excellent! |
@@ -178,7 +178,7 @@ Begin by writing the most minimal prompt you can to optimize for low token usage
 
 For example, if you want a certain type of response when a user asks about the weather, you do not need to add an example for every way someone _could_ ask about the weather, you could simply state `weather` as the input, and then give an example output to show the GPT how to _format_ the output.
 
-```text
+```txt
 input: weather
 response: |
   The weather is {weather} today.
@@ -195,7 +195,7 @@ ChatGPT-4 appears to _naturally_ be able to perform at least some extent of chai
 
 Below, is the actual prompt of my [WallStreet Doctor GPT](https://chat.openai.com/g/g-dpzrWcrVp-wallstreet-doctor), which has been prompted with a set of "commands", each of which has their own steps. And this works, _nearly flawlessly_
 
-```text
+```txt
 ## Commands
  - Get latest earnings report {TICKER}:
     steps:
