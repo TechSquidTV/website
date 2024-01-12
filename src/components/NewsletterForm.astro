@@ -13,6 +13,7 @@
       name="newsletter"
       method="POST"
       data-netlify="true"
+      netlify-honeypot="dontCheckMe"
     >
       <div class="flex flex-col flex-1">
         <input
@@ -21,6 +22,11 @@
           placeholder="human@tstv.me"
           class="rounded-sm p-2 bg-smoke-950 my-1 text-sm"
         />
+        <p class="hidden">
+          <label>
+            Don’t fill this out if you’re human: <input name="dontCheckMe" />
+          </label>
+        </p>
       </div>
       <button
         type="submit"

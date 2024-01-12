@@ -12,11 +12,16 @@ import LayoutBase from "@layouts/LayoutBase.astro";
       <a href="/verify" class="flex flex-row text-emerald-200 underline"><span>verify</span><Icon name={"verified"} size={3}/></a>
     </div>
     <div class="card">
-      <form name="contact" method="POST" data-netlify="true">
+      <form name="contact" method="POST" data-netlify="true" netlify-honeypot="dontCheckMe">
         <div class="flex flex-col space-y-2">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" placeholder="Homer Simpson" class="bg-smoke-950 p-1 rounded-sm"/>
         </div>
+        <p class="hidden">
+          <label>
+            Don’t fill this out if you’re human: <input name="dontCheckMe" />
+          </label>
+        </p>
         <div class="flex flex-col space-y-2">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" placeholder="mail@domain.com" class="bg-smoke-950 p-1 rounded-sm"/>
