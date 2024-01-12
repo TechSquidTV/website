@@ -20,7 +20,7 @@ export default {
       },
       backgroundImage: (theme: any) => ({
         bigsur: `linear-gradient(to top right, ${theme(
-          "colors.violet.500"
+          "colors.violet.500",
         )}, ${theme("colors.orange.300")})`,
       }),
       colors: {
