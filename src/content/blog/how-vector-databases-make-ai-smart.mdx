@@ -13,8 +13,8 @@ tags:
 import { Image } from "astro:assets";
 import Embeddings from "../../images/blog/similarity-search-embeddings.png";
 import VectorSpace from "../../images/blog/simplified-vector-space.png";
-import Brain from "../../images/blog/download-brain.png"
-import  RAGDiagram from "../../images/blog/rag-diagram.png"
+import Brain from "../../images/blog/download-brain.png";
+import RAGDiagram from "../../images/blog/rag-diagram.png";
 
 LLMs like OpenAI's GPT-4 were trained on nearly every book, article, and paper ever written. Ask ChatGPT what team won the World Cup in 2022, it will confidently answer correctly `Argentina`. But this is data the LLM has been _trained_ on. Try asking an LLM (ignoring ChatGPT Pro's web browsing capability) about a more current event, or one it likely doesn't have data on, such as, who won your local high school football game last night and it will usually invent a nonsense answer.
 
@@ -24,7 +24,7 @@ While ChatGPT is amusing for some, and even valuable for simple general tasks, i
 
 ### Prompt instructions are not knowledge
 
-If you have used or dabbled with the ChatGPT API, or seen the "custom instructions" feature of ChatGPT (or [created a custom GPT](https://techsquidtv.com/blog/creating-custom-chatgpt-agents-for-fun-and-for-profit/)) you may know that it is possible to supply a "system" prompt, or "instructions. This is essentially how you would _program_ your customized ChatGPT agent. 
+If you have used or dabbled with the ChatGPT API, or seen the "custom instructions" feature of ChatGPT (or [created a custom GPT](https://techsquidtv.com/blog/creating-custom-chatgpt-agents-for-fun-and-for-profit/)) you may know that it is possible to supply a "system" prompt, or "instructions. This is essentially how you would _program_ your customized ChatGPT agent.
 
 While you can put in some basic information in here you would like your GPT agent to know, like your business name, phone number, and such, there is a limited "context". So, it is not feasible to reference all of the data you may need access to. Realistically the amount of information we expect a human (let alone an "AI") to retain and recall is incredibly impressive, and to imitate this, will need a different solution.
 
@@ -47,7 +47,11 @@ And while the context size of these prompts continues to improve, meaning we _ca
 
 We may have a comparatively enormous amount of data we want to "teach" to our AI, certainly more than would fit in the prompt context. Think about what we as humans are expected to retain, you don't get all of your information from a single source, and you pick up new information over time.
 
-<Image width={720} src={Brain} alt="A minimalist 3d render by TechSquidTV of a glass brain downloading information" />
+<Image
+  width={720}
+  src={Brain}
+  alt="A minimalist 3d render by TechSquidTV of a glass brain downloading information"
+/>
 
 ### Pre-training
 
@@ -66,13 +70,13 @@ Imagine, thousands of customers, hundreds of thousands of service repair tickets
 ```json title="Customer Service Ticket"
 [
   {
-    date: "2024-01-01",
-    time: "12:00",
-    make: "Toyota",
-    model: "Corolla",
-    year: 2016,
-    customer_comment: "Hearing a thumping noise when driving over 30mph",
-    repair_comment: "low pressure in back rear tire, needs rotation"
+    "date": "2024-01-01",
+    "time": "12:00",
+    "make": "Toyota",
+    "model": "Corolla",
+    "year": 2016,
+    "customer_comment": "Hearing a thumping noise when driving over 30mph",
+    "repair_comment": "low pressure in back rear tire, needs rotation"
   }
 ]
 ```
@@ -85,22 +89,29 @@ This option is still quite expensive and, though we can train our model on data,
 
 ### Embeddings
 
-Embeddings are the secret to creating accurate and "intelligent" responses. Embeddings are the result of processing data into what is called a _vector space_. This process converts each "word"* of our input data into a set of numbers that represents the "meaning" of that word (or _really_ collection of `tokens`). With this collection of data, we can do a "similarity search" to compare what information we have is most relevant to what the user is asking.
+Embeddings are the secret to creating accurate and "intelligent" responses. Embeddings are the result of processing data into what is called a _vector space_. This process converts each "word"\* of our input data into a set of numbers that represents the "meaning" of that word (or _really_ collection of `tokens`). With this collection of data, we can do a "similarity search" to compare what information we have is most relevant to what the user is asking.
 
 This is where things start getting very exciting for LLM chat bots, as we can take advantage of this advanced searching algorithm to prime our LLM chat bot with the correct answer before we ask it a question. Keep reading, you'll see what I mean.
 
-<Image width={720} src={Embeddings} alt="Word2Vec embedding demonstration showing words represented as columns of data" />
+<Image
+  width={720}
+  src={Embeddings}
+  alt="Word2Vec embedding demonstration showing words represented as columns of data"
+/>
 
 > source: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0231189#sec004
 
 In the English language, we have a lot of words which when written are spelled exactly the same but have entirely different meanings. In some contexts, the meaning of the same word can change based on the words surrounding it. In reality rather than "words" we now use "tokens" which are smaller chunks of characters, and the data you see in the vector space is the "meaning" of each token, even if the "meaning" is too abstract to make sense to us humans. To compare the similarity between words, is now simplified as we can look at the "likeness" of the vectors representing those words.
 
-
 ## Similarity Search
 
-The embeddings we mentioned before are created by using an embedding model, such as [Word2Vec](https://www.tensorflow.org/text/tutorials/word2vec) or OpenAI's [text-embedding-ada-002](https://platform.openai.com/docs/guides/embeddings), to create a multi-dimensional "table" of data from the content we want to "teach" to our LLM. This table contains a collection of each unique word* of our data, and the vector representation of that word.
+The embeddings we mentioned before are created by using an embedding model, such as [Word2Vec](https://www.tensorflow.org/text/tutorials/word2vec) or OpenAI's [text-embedding-ada-002](https://platform.openai.com/docs/guides/embeddings), to create a multi-dimensional "table" of data from the content we want to "teach" to our LLM. This table contains a collection of each unique word\* of our data, and the vector representation of that word.
 
-<Image width={720} src={VectorSpace} alt="A 3d space filled with groups of like objects. Each group is represented by a vector, and the distance between two groups is represented by the distance between their vectors." />
+<Image
+  width={720}
+  src={VectorSpace}
+  alt="A 3d space filled with groups of like objects. Each group is represented by a vector, and the distance between two groups is represented by the distance between their vectors."
+/>
 
 > source: https://odsc.com/blog/getting-started-with-vector-based-search/
 
@@ -114,17 +125,22 @@ https://www.youtube.com/watch?v=e9U0QAFbfLI
 
 RAG is the latest tech jargon describing a technique of using similarity search and embeddings with LLMs to produce more accurate responses to user questions.
 
-<Image width={720} src={RAGDiagram} alt="A diagram showing how a user's input question is paired with the response from the vector database before asking ChatGPT to transform the request into a response." />
+<Image
+  width={720}
+  src={RAGDiagram}
+  alt="A diagram showing how a user's input question is paired with the response from the vector database before asking ChatGPT to transform the request into a response."
+/>
 
 Let's break down what's happening in this example, and explain why RAG can produce excellent results.
 
 In our example scenario, we are a tech company with a documentation website that has a lot of useful information, but it is frequently updated and LLMs like ChatGPT are not aware of our business. So when we ask ChatGPT how to install our product's CLI, we are unable to get a valid answer. Instead, we must implement RAG in our own ChatGPT powered assistant.
 
 ### Vectorize the documentation
+
 We first take our input sources and convert them to vector space. There are many ways to achieve this but it is common to use the Postgres database with the pgvector extension. [Supabase](https://supabase.com/docs/guides/ai) has been growing in popularity and offers database hosting and Github Actions that can help update your database as your documentation updates (this is not sponsored).
 
-
 ### Search the vector space for the user's input question
+
 We query the vector database with the user's input question. The question itself will be converted into an embedding, and then the database will use cosine similarity search to look for relevant information within the documentation. The result of this search will come with a "confidence" score, which can be used to determine how likely the response is to be relevant.
 
 ```txt title="Input Question"
@@ -132,6 +148,7 @@ What is the latest version of the CLI?
 ```
 
 ### Combine question and vector database response
+
 Assuming we have a response with a fairly high confidence score, we can combine the user's input question with the response from our vector database _before_ we ever reach out to ChatGPT. The trick here is we are not asking ChatGPT to answer the question, we are _giving_ ChatGPT the answer.
 
 ```txt title="Combined Input"
