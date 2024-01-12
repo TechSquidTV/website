@@ -3,7 +3,7 @@ title: How Vector Databases make AI smart
 publishDate: 01-12-2024
 updatedDate: 01-12-2024
 description: LLMs can answer questions they have been trained to answer. But how can you teach an old LLM new tricks? How Vector Databases are the unseen hero of AI.
-heroImage: ../../images/blog/vectorspace-thumbnail.webp
+heroImage: ../../images/blog/vectorspace-thumbnail.png
 heroImageAlt: "a collection of icospheres within a tesseract, depicting multi-dimensional vector space."
 slug: how-vector-databases-make-ai-smart
 tags:
@@ -30,7 +30,7 @@ While you can put in some basic information in here you would like your GPT agen
 
 What the system prompt _is_ good for, is for the instructions we give to our GPT agent, telling it how to respond in different scenarios and for fine-tuning responses after testing.
 
-```text
+```txt
 Persona: American Male, 35 years old, Customer Service Agent
 Tone: Semi-casual, helpful
 Context: Customer is contacting us for a new support request on our SaaS product
@@ -127,14 +127,14 @@ We first take our input sources and convert them to vector space. There are many
 ### Search the vector space for the user's input question
 We query the vector database with the user's input question. The question itself will be converted into an embedding, and then the database will use cosine similarity search to look for relevant information within the documentation. The result of this search will come with a "confidence" score, which can be used to determine how likely the response is to be relevant.
 
-```text title="Input Question"
+```txt title="Input Question"
 What is the latest version of the CLI?
 ```
 
 ### Combine question and vector database response
 Assuming we have a response with a fairly high confidence score, we can combine the user's input question with the response from our vector database _before_ we ever reach out to ChatGPT. The trick here is we are not asking ChatGPT to answer the question, we are _giving_ ChatGPT the answer.
 
-```text title="Combined Input"
+```txt title="Combined Input"
 Question: What is the latest version of the CLI?
 Response: npm i package@1.2.3
 ```
@@ -145,7 +145,7 @@ In our theoretical example, the Vector Database found the snippet in the documen
 
 Now that we have a response that is relevant to the user's question, we can ask ChatGPT to transform the response into a human-readable answer. This is where the "magic" happens, as ChatGPT is now able to use the response from the vector database to create a response that is relevant to the user's question.
 
-```text title="ChatGPT Response"
+```txt title="ChatGPT Response"
 The latest version of the CLI is 1.2.3.
 ```
 
