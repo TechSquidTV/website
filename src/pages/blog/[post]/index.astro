@@ -91,6 +91,10 @@ const { Content, headings } = await post.render();
     @apply my-4 border-l-4 border-gray-400 pl-4 italic;
   }
 
+  .md-content ul, .md-content ol {
+    @apply my-4;
+  }
+
   .md-content ul {
     @apply list-disc list-inside;
   }
