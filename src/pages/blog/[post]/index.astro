@@ -42,7 +42,7 @@ const { Content, headings } = await post.render();
     <article class="relative wrapper z-10 -mt-28 animate-slideUp">
       <div class="mx-auto card w-full max-w-screen-lg">
         <div class="md:px-8">
-          <h1 class="font-extrabold my-6 text-4xl md:text-4xl xl:text-5xl">
+          <h1 class="font-extrabold text-gray-100 my-6 text-4xl md:text-4xl xl:text-5xl">
             {post.data.title}
           </h1>
           <div class="my-2">
@@ -74,7 +74,7 @@ const { Content, headings } = await post.render();
   .md-content h4,
   .md-content h5,
   .md-content h6 {
-    @apply mb-4 mt-6 font-bold;
+    @apply mb-4 mt-6 font-bold text-gray-100;
   }
 
   .md-content h2 {
@@ -105,6 +105,10 @@ const { Content, headings } = await post.render();
 
   .md-content img {
     @apply rounded-lg mx-auto;
+  }
+
+  .md-content p>code {
+    @apply rounded-sm bg-smoke-950 border border-emerald-200 text-emerald-200 px-1 py-0.5 text-sm;
   }
 
   lite-youtube {
