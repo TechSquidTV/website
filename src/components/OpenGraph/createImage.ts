@@ -2,8 +2,6 @@ import fs from "fs/promises";
 import satori from "satori";
 import sharp from "sharp";
 
-import OG from "./OG";
-
 export async function SVG(component: JSX.Element) {
   return await satori(component, {
     width: 1200,
