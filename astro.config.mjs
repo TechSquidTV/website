@@ -6,6 +6,7 @@ import embeds from "astro-embed/integration";
 import sentry from "@sentry/astro";
 import spotlightjs from "@spotlightjs/astro";
 import expressiveCode from "astro-expressive-code";
+import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
 import react from "@astrojs/react";
 
 // https://astro.build/config
@@ -19,7 +20,9 @@ export default defineConfig({
     tailwind(),
     sitemap(),
     embeds(),
-    expressiveCode(),
+    expressiveCode({
+      plugins: [pluginCollapsibleSections()],
+    }),
     mdx(),
     sentry(),
     spotlightjs(),
