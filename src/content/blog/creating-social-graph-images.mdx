@@ -69,7 +69,7 @@ We use React to make a component that we will render to an image for each of our
 
 `OG.tsx` is the actual React component that will be rendered to an image. This is where we will use the data from our blog post to generate the image.
 
-Here is the interesting trick, in order to get a background image in our component, we either need to reference a URL, or use base64 encoded strings. I experimented with base64 encoding and by build took over 20 minutes. While running the Astro development server, your images are served via a local server. However, unfortunately, these images are not served during the _build_ phase for Astro.
+Here is the interesting trick, in order to get a background image in our component, we either need to reference a URL, or use base64 encoded strings. I experimented with base64 encoding and my build took over 20 minutes. While running the Astro development server, your images are served via a local server. However, unfortunately, these images are not served during the _build_ phase for Astro.
 
 In order to set the background image, we will need to serve them separately during the build phase. We'll come back to this but, create an image for your background in `src/images/opengraph/` and we'll reference the image from `http://localhost:3001/opengraph/background.png`, which we'll talk about serving later.
 
