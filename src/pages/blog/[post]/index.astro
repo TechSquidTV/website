@@ -111,6 +111,13 @@ const { Content, headings } = await post.render();
     @apply rounded-sm bg-smoke-950 border border-emerald-200 text-emerald-200 px-1 py-0.5 text-sm;
   }
 
+.md-content ul ul, /* for nested unordered lists within .md-content */
+.md-content ol ol, /* for nested ordered lists within .md-content */
+.md-content ul ol, /* for an unordered list inside an ordered list within .md-content */
+.md-content ol ul  /* for an ordered list inside an unordered list within .md-content */ {
+  @apply m-0 ml-6;
+}
+
   lite-youtube {
     @apply mx-auto;
   }
