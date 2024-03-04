@@ -36,6 +36,7 @@
     "astro": "^4.2.6",
     "astro-embed": "^0.6.1",
     "astro-expressive-code": "^0.29.4",
+    "astro-icon": "^1.1.0",
     "date-fns": "^2.30.0",
     "fast-xml-parser": "^4.3.3",
     "gray-matter": "^4.0.3",
