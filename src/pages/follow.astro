@@ -1,5 +1,5 @@
 ---
-import Icon, { type IconName } from '@components/Icon.astro'
+import { Icon } from 'astro-icon/components'
 import Newsletter from '@components/Newsletter.astro';
 import techsquidtv from '@data/techsquidtv.json'
 import Avatar from '@images/brand/tstvprofile.png'
@@ -34,7 +34,7 @@ import { Image } from "astro:assets";
           techsquidtv.socials.map((social) => (
             <li class="card transition-scale duration-300 hover:scale-[102%]">
               <a class="flex flex-row space-x-3 items-center" target="_blank" href={social.url}>
-                <Icon name={social.icon as IconName} />
+                <Icon name={social.icon} />
                 <span>{social.name}</span>
               </a>
             </li>

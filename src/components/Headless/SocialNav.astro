@@ -1,5 +1,5 @@
 ---
-import Icon, { type IconName } from '@components/Icon.astro'
+import { Icon } from 'astro-icon/components'
 interface Props {
   classNames?: {
     container?: string
@@ -10,7 +10,7 @@ interface Props {
 }
 type SocialItem ={
   name: string,
-  icon: IconName,
+  icon: string,
   href: string,
 }
 
