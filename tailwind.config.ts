@@ -6,6 +6,10 @@ export default {
   theme: {
     extend: {
       keyframes: {
+        fadeIn: {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
         slideUp: {
           "0%": { transform: "translateY(100%)" },
           "100%": { transform: "translateY(0)" },
@@ -13,6 +17,7 @@ export default {
       },
       animation: {
         slideUp: "slideUp 0.5s ease forwards",
+        fade: "fadeIn 0.5s ease-in-out",
       },
       backdropFilter: {
         none: "none",
@@ -20,7 +25,7 @@ export default {
       },
       backgroundImage: (theme: any) => ({
         bigsur: `linear-gradient(to top right, ${theme(
-          "colors.violet.500",
+          "colors.violet.500"
         )}, ${theme("colors.orange.300")})`,
       }),
       colors: {
