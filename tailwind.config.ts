@@ -1,3 +1,4 @@
+import { fade } from "astro/virtual-modules/transitions.js";
 import { tagMap } from "./src/utils/blogTag";
 
 /** @type {import('tailwindcss').Config} */
@@ -9,6 +10,10 @@ export default {
         fadeIn: {
           from: { opacity: 0 },
           to: { opacity: 1 },
+        },
+        fadeOut: {
+          from: { opacity: 1 },
+          to: { opacity: 0 },
         },
         slideUp: {
           "0%": { transform: "translateY(100%)" },
