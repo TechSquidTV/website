@@ -100,9 +100,10 @@ const PriceList = {
     },
     {
       title: "Client SDKs",
-      description: "Connect with developers and expand your product through user-generated content fascilitated by robust client SDKs. Support for multiple languages and platforms." 
-    }
-  ]
+      description:
+        "Connect with developers and expand your product through user-generated content fascilitated by robust client SDKs. Support for multiple languages and platforms.",
+    },
+  ],
 };
 
 const Blob1 = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-name="Layer 2" viewBox="0 0 386 640">
@@ -125,10 +126,40 @@ const Blob1 = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w
     <path fill="url(#c)" d="M352 57a198 198 0 0 0-287 9c-116 115 38 263-7 330-41 61-91 179-27 230s319-46 344-235c23-175 9-296-23-334Z"/>
   </g>
 </svg>
-`
+`;
 ---
 
-<LayoutBase title="DevRel Services by TechSquidTV" description="DevRel services by TechSquidTV" ogImage="/static/images/devrel-service-og.png">
+<LayoutBase
+  title="DevRel Services by TechSquidTV"
+  description="DevRel services by TechSquidTV"
+  ogImage="/static/images/devrel-service-og.png"
+>
+  <nav
+    class="fixed hidden lg:flex right-4 top-1/2 transform -translate-y-1/2 opacity-0 transition-opacity duration-500 group"
+    aria-label="primary services navigation"
+    id="services-nav-secondary"
+  >
+    <ul
+      class="bg-opacity-5 bg-smoke-800 backdrop-blur py-2 lg:rounded-full flex flex-col"
+    >
+      {
+        serviceList.map((item) => {
+          return (
+            <li class="flex-1 text-center p-1">
+              <a
+                class="flex flex-row w-full h-full lg:rounded-full hover:bg-white hover:bg-opacity-[0.01] hover:backdrop-blur-xl transition-all duration-300 px-2 hover:shadow-sm"
+                href={`#${item.anchor}`}
+              >
+                <div class="flex flex-col justify-center items-center py-2">
+                  <Icon name={item.icon} size={46} />
+                </div>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </nav>
   <main class="relative wrapper flex mt-24 overflow-clip">
     <div class="absolute top-0 right-0 w-full h-full animate-fade">
       <Fragment set:html={Blob1} />
@@ -143,9 +174,8 @@ const Blob1 = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w
             <span class="block">TechSquidTV</span>
           </h1>
           <p class="opacity-85">
-            <span class="text-white"
-              >Kyle Tryon</span> is a <span class="text-blue-400"
-              >Staff Software Engineer</span
+            <span class="text-white">Kyle Tryon</span> is a <span
+              class="text-blue-400">Staff Software Engineer</span
             >, <span class="text-green-400">Open-Source Advocate</span>, <span
               class="text-gray-400">Educator</span
             >, <span class="text-purple-400">Animator</span>, <span
@@ -156,7 +186,7 @@ const Blob1 = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w
           </p>
         </div>
       </header>
-      <nav class="relative group my-6">
+      <nav class="relative group my-6" id="services-nav" aria-label="primary services navigation">
         <ul class="bg-opacity-5 bg-smoke-800 backdrop-blur lg:rounded-full">
           <div class="flex flex-col lg:flex-row">
             {
@@ -184,9 +214,13 @@ const Blob1 = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w
           </div>
         </ul>
       </nav>
+
       <section>
         <p class="text-center text-lg p-8">
-          <span class="font-semibold italic">DevRel As A Service</span> with TechSquidTV is a full-service solution for your developer outreach and content creation. Build your evergreen multi-platform content library while educating your audience and boosting SEO.<br />Contact for bundle packages.
+          <span class="font-semibold italic">DevRel As A Service</span> with TechSquidTV
+          is a full-service solution for your developer outreach and content creation.
+          Build your evergreen multi-platform content library while educating your
+          audience and boosting SEO.<br />Contact for bundle packages.
         </p>
       </section>
       <div class="flex flex-col space-y-12 my-2">
@@ -339,9 +373,17 @@ const Blob1 = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w
               <div class="px-2 mr-4 md:text-right">
                 <h2 id="code" class="text-4xl font-bold">CODE</h2>
                 <p class="text-lg">
-                  5+ years of experience <a href="https://github.com/search?q=org%3ACircleCI-Public+author%3AKyleTryon&type=pullrequests" >building integrations</a> for CI/CD pipelines.<br>
-                  Author of TypeScript SDK with over <a href="https://www.npmjs.com/package/@circleci/circleci-config-sdk">33K downloads per week</a>.<br />
-                  Designer and developer of sites like this one, or <a href="https://config.tips/">this one</a>.
+                  5+ years of experience <a
+                    href="https://github.com/search?q=org%3ACircleCI-Public+author%3AKyleTryon&type=pullrequests"
+                    >building integrations</a
+                  > for CI/CD pipelines.<br />
+                  Author of TypeScript SDK with over <a
+                    href="https://www.npmjs.com/package/@circleci/circleci-config-sdk"
+                    >33K downloads per week</a
+                  >.<br />
+                  Designer and developer of sites like this one, or <a
+                    href="https://config.tips/">this one</a
+                  >.
                 </p>
                 <p class="text-lg">
                   Main languages: Node / TypeScript, React, Go, BASH
@@ -387,3 +429,4 @@ const Blob1 = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w
 </LayoutBase>
 
 <script src="@scripts/fadeOnScroll.ts"></script>
+<script src="@scripts/servicesNavToggle.ts"></script>
