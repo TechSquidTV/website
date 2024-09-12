@@ -57,6 +57,7 @@ export default defineConfig({
     "/blog/Fixing_an_ugly_terminal": "/blog/your-terminal-is-ugly",
     "/blog/tags": "/blog",
     "/services/": "/services/devrel",
+    "/blog/where-in-the-world-is-static-shock-for-gba":"https://lostpixellore.com/blog/where-in-the-world-is-static-shock-for-gba",
   },
 
   output: "static",
