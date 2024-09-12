@@ -11,12 +11,15 @@ import react from "@astrojs/react";
 
 import icon from "astro-icon";
 
+import netlify from "@astrojs/netlify";
+
 // https://astro.build/config
 export default defineConfig({
   site:
     process.env.NODE_ENV === "development"
       ? "http://localhost:4321"
       : "https://techsquidtv.com",
+
   integrations: [
     react(),
     tailwind(),
@@ -30,6 +33,7 @@ export default defineConfig({
     spotlightjs(),
     icon(),
   ],
+
   redirects: {
     "/blog/Choosing_a_standing_desk": "/blog/choosing-a-standing-desk",
     "/blog/Chrome_media_keys": "/blog/chrome-media-keys",
@@ -54,4 +58,7 @@ export default defineConfig({
     "/blog/tags": "/blog",
     "/services/": "/services/devrel",
   },
+
+  output: "static",
+  adapter: netlify(),
 });
