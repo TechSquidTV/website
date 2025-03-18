@@ -1,4 +1,3 @@
-import { fade } from "astro/virtual-modules/transitions.js";
 import { tagMap } from "./src/utils/blogTag";
 
 /** @type {import('tailwindcss').Config} */
@@ -35,18 +34,18 @@ export default {
       }),
       colors: {
         smoke: {
-          50: "#eaebeb",
-          100: "#dadcdd",
-          200: "#c5c7c9",
-          300: "#a1a5aa",
-          400: "#787d82",
-          500: "#5e6368",
-          600: "#4e5155",
-          700: "#424448",
-          800: "#393b3c",
-          900: "#252627",
-          950: "#141415",
-          1000: "#0c0c0d",
+          "50": "#eaebeb",
+          "100": "#dadcdd",
+          "200": "#c5c7c9",
+          "300": "#a1a5aa",
+          "400": "#787d82",
+          "500": "#5e6368",
+          "600": "#4e5155",
+          "700": "#424448",
+          "800": "#393b3c",
+          "900": "#252627",
+          "950": "#141415",
+          "1000": "#0c0c0d",
         },
       },
     },
@@ -83,5 +82,5 @@ function getTailwindSafeList() {
     "h-24",
   ];
   const tagColors = Object.values(tagMap).map((tag) => `bg-${tag.color}`);
-  return [...iconSizes, ...tagColors];
+  return [...iconSizes, ...tagColors, "bg-smoke-950", "text-smoke-100"];
 }

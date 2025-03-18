@@ -1,11 +1,11 @@
 ---
-import '@fontsource-variable/inter';
-import '@fontsource-variable/outfit';
+import "../styles/global.css";
+import "@fontsource-variable/inter";
+import "@fontsource-variable/outfit";
 
 import Footer from "@components/Footer.astro";
 import Head from "@components/Head.astro";
 import NavMain from "@components/Nav/NavMain";
-
 
 interface Props {
   title?: string;
@@ -18,94 +18,99 @@ const {
   description = "Open-source developer and tech educator, Kyle A.K.A TechSquidTV. Software development tutorials, videos, and fun code experiments.",
   ogImage = "/opengraph/images/default-opengraph.png",
 } = Astro.props as Props;
-
 ---
 
 <!doctype html>
 <html lang="en">
   <Head
-    title={`TechSquidTV${ title ? ` | ${title}` : "" }`}
+    title={`TechSquidTV${title ? ` | ${title}` : ""}`}
     description={description}
     ogImage={ogImage}
   />
   <body class="flex flex-col">
     <div class="flex fixed top-4 left-0 right-0 z-50 justify-center">
-      <NavMain client:load/>
+      <NavMain client:load />
     </div>
     <div class="flex-1">
       <slot />
-    </div>  
+    </div>
     <Footer />
   </body>
 </html>
 
 <style is:global>
-
-*, *:before, *:after {
+  *,
+  *:before,
+  *:after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
   }
 
-html, body {
-  height: auto;
-  min-height: 100vh;
-  overflow-y: scroll;
-  @apply bg-smoke-950 text-smoke-100;
-  scroll-behavior: smooth;
-}
+  html,
+  body {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: scroll;
+    @apply bg-smoke-950 text-smoke-100;
+    scroll-behavior: smooth;
+  }
 
-body {
-  font-family: 'Outfit Variable', sans-serif;
-  @apply flex flex-col leading-relaxed;
-}
+  body {
+    font-family: "Outfit Variable", sans-serif;
+    @apply flex flex-col leading-relaxed;
+  }
 
-body::-webkit-scrollbar-track {
-  background: transparent; /* Making the track transparent */
-}
+  body::-webkit-scrollbar-track {
+    background: transparent; /* Making the track transparent */
+  }
 
-body::-webkit-scrollbar-thumb {
-  @apply bg-smoke-300;
-  border-radius: 1rem; /* Rounded corners */
-}
+  body::-webkit-scrollbar-thumb {
+    @apply bg-smoke-300;
+    border-radius: 1rem; /* Rounded corners */
+  }
 
-body::-webkit-scrollbar {
-  @apply w-2
-}
+  body::-webkit-scrollbar {
+    @apply w-2;
+  }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Inter', sans-serif;
-}
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Inter", sans-serif;
+  }
 
-p > a, .md-content a {
-  @apply text-emerald-200 underline
-}
+  p > a,
+  .md-content a {
+    @apply text-emerald-200 underline;
+  }
 
-p {
-  @apply my-4
-}
+  p {
+    @apply my-4;
+  }
 
-.wrapper {
-  @apply flex flex-col justify-center px-2 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl
-}
+  .wrapper {
+    @apply flex flex-col justify-center px-2 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl;
+  }
 
-.card {
-  @apply rounded-lg bg-no-repeat bg-cover bg-center bg-smoke-900 p-4
-}
+  .card {
+    @apply rounded-lg bg-no-repeat bg-cover bg-center bg-smoke-900 p-4;
+  }
 
-textarea:focus {
-  outline: none;
-}
+  textarea:focus {
+    outline: none;
+  }
 
+  .fade-on-scroll {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
 
-.fade-on-scroll {
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
-
-/* Apply transitions only after the initial hide */
-.fade-in-scroll {
-  opacity: 1;
-}
-
+  /* Apply transitions only after the initial hide */
+  .fade-in-scroll {
+    opacity: 1;
+  }
 </style>

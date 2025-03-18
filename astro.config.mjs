@@ -1,5 +1,5 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import embeds from "astro-embed/integration";
@@ -22,7 +22,6 @@ export default defineConfig({
 
   integrations: [
     react(),
-    tailwind(),
     sitemap(),
     embeds(),
     expressiveCode({
@@ -57,9 +56,14 @@ export default defineConfig({
     "/blog/Fixing_an_ugly_terminal": "/blog/your-terminal-is-ugly",
     "/blog/tags": "/blog",
     "/services/": "/services/devrel",
-    "/blog/where-in-the-world-is-static-shock-for-gba":"https://lostpixellore.com/blog/where-in-the-world-is-static-shock-for-gba",
+    "/blog/where-in-the-world-is-static-shock-for-gba":
+      "https://lostpixellore.com/blog/where-in-the-world-is-static-shock-for-gba",
   },
 
   output: "static",
   adapter: netlify(),
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });

@@ -15,9 +15,7 @@ const blogCollection = defineCollection({
         }),
       ),
       heroImageAlt: z.string(),
-      heroImage: image().refine((img) => img.width >= 1080, {
-        message: "Cover image must be at least 1080 pixels wide!",
-      }),
+      heroImage: image(),
       publishDate: z.string().transform((str) => new Date(str)),
       updateDate: z
         .string()
