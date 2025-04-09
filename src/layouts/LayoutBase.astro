@@ -39,6 +39,8 @@ const {
 </html>
 
 <style is:global>
+  @reference "../styles/global.css"
+
   *,
   *:before,
   *:after {
@@ -52,13 +54,12 @@ const {
     height: auto;
     min-height: 100vh;
     overflow-y: scroll;
-    @apply bg-smoke-950 text-smoke-100;
     scroll-behavior: smooth;
   }
 
   body {
     font-family: "Outfit Variable", sans-serif;
-    @apply flex flex-col leading-relaxed;
+
   }
 
   body::-webkit-scrollbar-track {
@@ -66,12 +67,7 @@ const {
   }
 
   body::-webkit-scrollbar-thumb {
-    @apply bg-smoke-300;
     border-radius: 1rem; /* Rounded corners */
-  }
-
-  body::-webkit-scrollbar {
-    @apply w-2;
   }
 
   h1,
@@ -83,22 +79,6 @@ const {
     font-family: "Inter", sans-serif;
   }
 
-  p > a,
-  .md-content a {
-    @apply text-emerald-200 underline;
-  }
-
-  p {
-    @apply my-4;
-  }
-
-  .wrapper {
-    @apply flex flex-col justify-center px-2 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl;
-  }
-
-  .card {
-    @apply rounded-lg bg-no-repeat bg-cover bg-center bg-smoke-900 p-4;
-  }
 
   textarea:focus {
     outline: none;

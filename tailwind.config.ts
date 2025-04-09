@@ -82,5 +82,5 @@ function getTailwindSafeList() {
     "h-24",
   ];
   const tagColors = Object.values(tagMap).map((tag) => `bg-${tag.color}`);
-  return [...iconSizes, ...tagColors, "bg-smoke-950", "text-smoke-100"];
+  return [...iconSizes, ...tagColors];
 }
