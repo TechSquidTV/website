@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import embeds from "astro-embed/integration";
@@ -12,6 +11,7 @@ import react from "@astrojs/react";
 import icon from "astro-icon";
 
 import netlify from "@astrojs/netlify";
+import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
@@ -22,7 +22,6 @@ export default defineConfig({
 
   integrations: [
     react(),
-    tailwind(),
     sitemap(),
     embeds(),
     expressiveCode({
@@ -45,8 +44,9 @@ export default defineConfig({
       "/blog/learning-docker-compose-with-wordpress",
     "/blog/How_to_speed_test_your_vps": "/blog/how-to-speed-test-your-vps",
     "/blog/Kubernetes_in_10_minutes": "/blog/kubernetes-in-10-minutes",
+    
     "/blog/Making_your_own_home_media_server_with_plex_and_Docker-Compose":
-      "/blog/making-a-home-media-server-with-plex-and-docker-compose",
+      "/blog/making-a-home-media-server-with-docker-compose",
     "/blog/Synology_ds920plus_nas": "/blog/synology-ds920plus-nas",
     "/blog/Testing_shell_scripts_with_bats":
       "/blog/testing-shell-scripts-with-bats",
@@ -62,4 +62,7 @@ export default defineConfig({
 
   output: "static",
   adapter: netlify(),
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });

@@ -1,7 +1,3 @@
-import { fade } from "astro/virtual-modules/transitions.js";
-import { tagMap } from "./src/utils/blogTag";
-
-/** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
@@ -24,14 +20,8 @@ export default {
         slideUp: "slideUp 0.5s ease forwards",
         fade: "fadeIn 0.5s ease-in-out",
       },
-      backdropFilter: {
-        none: "none",
-        blur: "blur(20px)",
-      },
-      backgroundImage: (theme: any) => ({
-        bigsur: `linear-gradient(to top right, ${theme(
-          "colors.violet.500"
-        )}, ${theme("colors.orange.300")})`,
+      backgroundImage: (theme) => ({
+        bigsur: `linear-gradient(to top right, ${theme("colors.violet.500")}, ${theme("colors.orange.300")})`,
       }),
       colors: {
         smoke: {
@@ -49,39 +39,25 @@ export default {
           1000: "#0c0c0d",
         },
       },
-    },
-    borderRadius: {
-      none: "0",
-      xs: "0.125rem",
-      sm: "0.25rem",
-      DEFAULT: "0.5rem",
-      md: "0.75rem",
-      lg: "1rem",
-      xl: "2rem",
-      "2xl": "4rem",
-      "3xl": "8rem",
-      full: "9999px",
+      borderRadius: {
+        none: "0",
+        xs: "0.125rem",
+        sm: "0.25rem",
+        DEFAULT: "0.5rem",
+        md: "0.75rem",
+        lg: "1rem",
+        xl: "2rem",
+        "2xl": "4rem",
+        "3xl": "8rem",
+        full: "9999px",
+      },
     },
   },
-  safelist: getTailwindSafeList(),
-  plugins: [require("@tailwindcss/container-queries")],
+  safelist: [
+    // Icon sizes used dynamically
+    "w-3","h-3","w-4","h-4","w-5","h-5","w-6","h-6","w-12","h-12","w-24","h-24",
+    // Tag colors from tagMap
+    "bg-green-400","bg-orange-400","bg-blue-400","bg-teal-400","bg-rose-400","bg-cyan-200"
+  ],
+  plugins: [],
 };
-
-function getTailwindSafeList() {
-  const iconSizes = [
-    "w-3",
-    "h-3",
-    "w-4",
-    "h-4",
-    "w-5",
-    "h-5",
-    "w-6",
-    "h-6",
-    "w-12",
-    "h-12",
-    "w-24",
-    "h-24",
-  ];
-  const tagColors = Object.values(tagMap).map((tag) => `bg-${tag.color}`);
-  return [...iconSizes, ...tagColors];
-}

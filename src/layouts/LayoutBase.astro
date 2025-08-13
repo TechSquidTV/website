@@ -28,7 +28,7 @@ const {
     description={description}
     ogImage={ogImage}
   />
-  <body class="flex flex-col">
+  <body class="flex flex-col bg-smoke-950 text-smoke-100 leading-relaxed">
     <div class="flex fixed top-4 left-0 right-0 z-50 justify-center">
       <NavMain client:load/>
     </div>
@@ -40,72 +40,35 @@ const {
 </html>
 
 <style is:global>
+@import "tailwindcss";
 
-*, *:before, *:after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+*, *:before, *:after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
   height: auto;
   min-height: 100vh;
   overflow-y: scroll;
-  @apply bg-smoke-950 text-smoke-100;
   scroll-behavior: smooth;
 }
 
-body {
-  font-family: 'Outfit Variable', sans-serif;
-  @apply flex flex-col leading-relaxed;
-}
+body { font-family: 'Outfit Variable', sans-serif; }
 
-body::-webkit-scrollbar-track {
-  background: transparent; /* Making the track transparent */
-}
+body::-webkit-scrollbar-track { background: transparent; }
+body::-webkit-scrollbar-thumb { background-color: rgb(206 212 218); border-radius: 1rem; }
+body::-webkit-scrollbar { width: 0.5rem; }
 
-body::-webkit-scrollbar-thumb {
-  @apply bg-smoke-300;
-  border-radius: 1rem; /* Rounded corners */
-}
+h1, h2, h3, h4, h5, h6 { font-family: 'Inter', sans-serif; }
 
-body::-webkit-scrollbar {
-  @apply w-2
-}
+p > a, .md-content a { color: rgb(187 247 208); text-decoration: underline; }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Inter', sans-serif;
-}
+p { margin-top: 1rem; margin-bottom: 1rem; }
 
-p > a, .md-content a {
-  @apply text-emerald-200 underline
-}
+.wrapper { display: flex; flex-direction: column; justify-content: center; padding-left: 0.5rem; padding-right: 0.5rem; margin-left: auto; margin-right: auto; }
 
-p {
-  @apply my-4
-}
+.card { border-radius: 0.5rem; background-repeat: no-repeat; background-size: cover; background-position: center; background-color: rgb(57 59 60); padding: 1rem; }
 
-.wrapper {
-  @apply flex flex-col justify-center px-2 mx-auto md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl
-}
+textarea:focus { outline: none; }
 
-.card {
-  @apply rounded-lg bg-no-repeat bg-cover bg-center bg-smoke-900 p-4
-}
-
-textarea:focus {
-  outline: none;
-}
-
-
-.fade-on-scroll {
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
-
-/* Apply transitions only after the initial hide */
-.fade-in-scroll {
-  opacity: 1;
-}
-
+.fade-on-scroll { opacity: 0; transition: opacity 1s ease-in-out; }
+.fade-in-scroll { opacity: 1; }
 </style>
