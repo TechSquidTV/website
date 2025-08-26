@@ -1,23 +1,105 @@
 ---
-import { Icon } from 'astro-icon/components';
-const copywrite = `© ${new Date().getFullYear()} TechSquidTV`;
+import SocialLinksGroup from "./SocialLinksGroup.astro";
+import { PERSONAL_INFO, SITE_TITLE } from "../consts";
+
+const today = new Date();
 ---
 
-<footer class="wrapper w-full my-4">
-  <div class="w-full flex justify-between items-center">
-    <div>
-      <span>{copywrite}</span>
-    </div>
-    <div class="flex flex-row space-x-4">
-      <div class="text-gray-500">
-        <a href="https://github.com/TechSquidTV/website" target="_blank" >
-          <Icon name="git" />
-        </a>
+<footer class="bg-bg-secondary border-border border-t">
+  <div class="mx-auto max-w-6xl px-8 py-12">
+    <!-- Main Footer Content -->
+    <div class="grid gap-8 md:grid-cols-3">
+      <!-- Brand Section -->
+      <div class="md:col-span-1">
+        <h3 class="text-text-primary mb-4 text-xl font-bold">{SITE_TITLE}</h3>
+        <p class="text-text-muted mb-4 text-sm leading-relaxed">
+          Open-source developer and tech educator creating practical tutorials,
+          videos, and content for the developer community.
+        </p>
+        <p class="text-text-subtle text-xs">
+          &copy; {today.getFullYear()}
+          {PERSONAL_INFO.name}. All rights reserved.
+        </p>
       </div>
-      <div class="text-amber-500">
-        <a href={`${Astro.site}rss.xml`}>
-          <Icon name="rss" />
-        </a>
+
+      <!-- Quick Links -->
+      <div class="md:col-span-1">
+        <h4 class="text-text-primary mb-4 text-lg font-semibold">
+          Quick Links
+        </h4>
+        <nav class="space-y-2">
+          <a
+            href="/blog"
+            class="text-text-muted hover:text-accent block text-sm transition-colors duration-200"
+          >
+            Blog
+          </a>
+          <a
+            href="/about"
+            class="text-text-muted hover:text-accent block text-sm transition-colors duration-200"
+          >
+            About
+          </a>
+          <a
+            href="/services/devrel"
+            class="text-text-muted hover:text-accent block text-sm transition-colors duration-200"
+          >
+            DevRel Services
+          </a>
+          <a
+            href="/contact"
+            class="text-text-muted hover:text-accent block text-sm transition-colors duration-200"
+          >
+            Contact
+          </a>
+          <a
+            href="/verify"
+            class="text-text-muted hover:text-accent block text-sm transition-colors duration-200"
+          >
+            Verify Identity
+          </a>
+        </nav>
+      </div>
+
+      <!-- Social Links -->
+      <div class="md:col-span-1">
+        <h4 class="text-text-primary mb-4 text-lg font-semibold">Connect</h4>
+        <SocialLinksGroup variant="icon" size="sm" layout="flex" />
+        <p class="text-text-muted mt-4 text-sm">
+          Follow for the latest tutorials, tips, and tech insights.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="border-border mt-8 border-t pt-8">
+      <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+        <div class="flex flex-wrap gap-4 text-xs">
+          <a
+            href="/rss.xml"
+            class="text-text-muted hover:text-accent transition-colors duration-200"
+          >
+            RSS Feed
+          </a>
+          <a
+            href="/sitemap-index.xml"
+            class="text-text-muted hover:text-accent transition-colors duration-200"
+          >
+            Sitemap
+          </a>
+          <a
+            href={PERSONAL_INFO.email}
+            class="text-text-muted hover:text-accent transition-colors duration-200"
+          >
+            {PERSONAL_INFO.email}
+          </a>
+        </div>
+        <div class="text-text-subtle text-xs">
+          Built with ❤️ using <a
+            href="https://astro.build"
+            class="text-accent hover:underline">Astro</a
+          >
+        </div>
       </div>
     </div>
   </div>

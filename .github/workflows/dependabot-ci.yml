@@ -1,0 +1,76 @@
+name: Dependabot CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  test-dependabot-changes:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.9.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm astro check
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Format check
+        run: pnpm format:check
+
+      - name: Comment on successful tests
+        if: success()
+        run: |
+          gh pr comment "$PR_URL" --body "✅ **Dependabot CI passed successfully!**
+
+          All checks completed:
+          - ✅ Dependencies installed
+          - ✅ TypeScript type checking passed
+          - ✅ Build completed successfully
+          - ✅ Code formatting is correct
+
+          This PR is ready for automated processing."
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment on failed tests
+        if: failure()
+        run: |
+          gh pr comment "$PR_URL" --body "❌ **Dependabot CI failed!**
+
+          One or more checks failed:
+          - Type checking
+          - Build process
+          - Code formatting
+
+          Please review the failed checks above. This PR will not be automatically merged until all tests pass.
+
+          You may need to manually fix conflicts or issues introduced by this dependency update."
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

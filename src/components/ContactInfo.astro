@@ -1,0 +1,46 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  email: string;
+  showVerify?: boolean;
+  verifyUrl?: string;
+  centered?: boolean;
+  className?: string;
+}
+
+const {
+  email,
+  showVerify = true,
+  verifyUrl = "/verify",
+  centered = true,
+  className = "",
+} = Astro.props;
+---
+
+<div
+  class={`
+	${centered ? "flex flex-col items-center" : "flex flex-col"}
+	gap-2
+	${className}
+`}
+>
+  <a
+    href={`mailto:${email}`}
+    class="text-accent hover:text-accent-dark hover:shadow-glow inline-flex items-center gap-2 font-medium no-underline transition-colors duration-200"
+  >
+    <Icon name="email" size={20} />
+    {email}
+  </a>
+  {
+    showVerify && (
+      <a
+        href={verifyUrl}
+        class="text-accent-green hover:text-accent-green inline-flex items-center gap-1 text-sm font-medium no-underline transition-colors duration-200"
+      >
+        <Icon name="verified" size={16} />
+        Verify identity
+      </a>
+    )
+  }
+</div>

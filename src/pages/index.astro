@@ -1,34 +1,484 @@
 ---
-import LatestYouTube from "@components/Headless/LatestYouTube.astro";
-import SocialsHeadless from "@components/Headless/SocialNav.astro";
-import PostList from "@components/PostList.astro";
-import LayoutBase from "@layouts/LayoutBase.astro";
+import { Image } from "astro:assets";
+import { getCollection, render } from "astro:content";
+import { Icon } from "astro-icon/components";
+import { YouTube } from "astro-embed";
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import Header from "../components/Header.astro";
+import ReadingTimeDisplay from "../components/ReadingTimeDisplay.astro";
+import SocialLink from "../components/SocialLink.astro";
+import SocialLinksGroup from "../components/SocialLinksGroup.astro";
+import {
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+  SOCIAL_LINKS,
+  YOUTUBE_CHANNEL_ID,
+} from "../consts";
+
+// Get latest blog posts
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+const latestPost = posts[0];
+const recentPosts = posts.slice(1, 3); // Get 2nd and 3rd most recent posts
+
+// Get reading time data for recent posts
+const recentPostsWithReadingTime = await Promise.all(
+  recentPosts.map(async (post) => {
+    const { remarkPluginFrontmatter } = await render(post);
+    return { ...post, readingTime: remarkPluginFrontmatter };
+  }),
+);
+
+// All social platforms will be shown in hero section
+
+// Fetch latest YouTube video via RSS
+let latestVideo = null;
+let videoId = null;
+
+// Function to extract YouTube video ID from URL
+function extractVideoId(url: string): string | null {
+  const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
+
+try {
+  const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`;
+  const response = await fetch(rssUrl);
+
+  if (response.ok) {
+    const xmlText = await response.text();
+
+    // Parse the XML to extract the latest video
+    const videoMatch = xmlText.match(/<entry>(.*?)<\/entry>/s);
+
+    if (videoMatch) {
+      const entry = videoMatch[1];
+
+      // Try CDATA first, then fallback to regular title
+      const titleCDataMatch = entry.match(
+        /<title><!\[CDATA\[(.*?)\]\]><\/title>/,
+      );
+      const titleRegularMatch = entry.match(/<title>(.*?)<\/title>/);
+      const titleMatch = titleCDataMatch || titleRegularMatch;
+
+      const linkMatch = entry.match(/<link rel="alternate" href="(.*?)"/);
+      const publishedMatch = entry.match(/<published>(.*?)<\/published>/);
+      const thumbnailMatch = entry.match(/<media:thumbnail url="(.*?)"/);
+
+      // Extract video ID directly from RSS (more reliable)
+      const videoIdMatch = entry.match(/<yt:videoId>(.*?)<\/yt:videoId>/);
+
+      if (titleMatch && linkMatch) {
+        latestVideo = {
+          title: titleMatch[1],
+          url: linkMatch[1],
+          published: publishedMatch?.[1] ? new Date(publishedMatch[1]) : null,
+          thumbnail: thumbnailMatch?.[1] || null,
+        };
+        // Use video ID from RSS, fallback to URL extraction
+        videoId = videoIdMatch?.[1] || extractVideoId(latestVideo.url);
+      }
+    }
+  }
+} catch (error) {
+  console.log("Could not fetch YouTube RSS:", error);
+}
 ---
 
-<LayoutBase>
-  <header class="flex flex-col md:space-y-4 px-12 mt-20 mb-4 justify-center text-center">
-    <h1 class="text-4xl text:xs-3xl md:text-8xl font-semibold text-white">TechSquidTV</h1>
-    <p class="text-2xl md:text-4xl">Open-Source developer and tech educator</p>
-    <SocialsHeadless
-      classNames={{
-        ul: "flex flex-row space-x-3",
-        li: "p-1",
-        container: "flex flex-row justify-center p-1",
-      }}
-    />
-  </header>
-  <main class="wrapper mt-8">
-    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-      <div class="flex flex-col flex-1">
-        <h2 class="text-3xl font-bold p-1">Latest Post</h2>
-        <PostList limit={1} />
-      </div>
-      <div class="flex flex-1 flex-col">
-        <h2 class="text-3xl font-bold p-1">Latest Video</h2>
-        <div class="flex flex-1 card">
-          <LatestYouTube channelID="UC7vYUkA-s5XVjS7UoyGSFbg" />
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      /* Custom gradient backgrounds */
+      .hero-gradient {
+        background:
+          radial-gradient(
+            ellipse at center top,
+            rgb(var(--color-accent) / 0.15) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse at 80% 20%,
+            rgb(var(--color-accent-purple) / 0.1) 0%,
+            transparent 50%
+          ),
+          var(--color-bg-primary);
+      }
+
+      /* Custom text shadows and glows */
+      .hero-title {
+        text-shadow: 0 0 30px rgb(var(--color-accent) / 0.4);
+      }
+
+      /* Custom hover effects */
+      .social-hover-group :global(a):hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: var(--shadow-glow);
+      }
+
+      .featured-hover:hover {
+        box-shadow: var(--shadow-glow);
+        transform: translateY(-3px);
+      }
+
+      .video-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgb(var(--color-accent) / 0.15);
+      }
+
+      /* Fix lite-youtube sizing */
+      .aspect-video lite-youtube {
+        width: 100% !important;
+        height: 100% !important;
+        display: block;
+      }
+
+      lite-youtube {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        margin: 0 auto;
+        display: block;
+      }
+
+      .post-hover:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgb(var(--color-accent) / 0.15);
+      }
+
+      /* Text clipping utilities */
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* Animation classes */
+      .animate-fade-in {
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      .animate-slide-up {
+        animation: slideUp 0.6s ease-out;
+      }
+
+      .animate-scale-in {
+        animation: scaleIn 0.5s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      /* Gradient text effect */
+      .gradient-text {
+        background: linear-gradient(
+          135deg,
+          var(--color-accent) 0%,
+          var(--color-accent-purple) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Glass morphism effect */
+      .glass {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+
+    <!-- Hero Section -->
+    <section
+      class="hero-gradient animate-fade-in px-8 py-24 text-center md:px-16"
+    >
+      <div class="mx-auto max-w-4xl">
+        <h1
+          class="hero-title animate-scale-in mb-6 text-5xl leading-tight font-bold md:text-7xl"
+        >
+          <span class="gradient-text">Tech</span><span class="text-text-primary"
+            >SquidTV</span
+          >
+        </h1>
+        <div
+          class="text-text-secondary animate-slide-up mb-4 text-xl font-medium md:text-2xl"
+        >
+          Open-Source Developer & Tech Educator
+        </div>
+        <p
+          class="text-text-muted animate-fade-in mx-auto mb-12 max-w-2xl text-base leading-relaxed md:text-lg"
+        >
+          Empowering developers with practical tutorials, DevRel insights, and
+          cutting-edge technology content. From Docker to Kubernetes, AI to
+          automation—let's build the future together.
+        </p>
+
+        <div
+          class="animate-slide-up mb-12 flex flex-col justify-center gap-6 sm:flex-row"
+        >
+          <a
+            href="/blog"
+            class="bg-accent text-bg-primary hover:bg-accent-dark shadow-accent/30 inline-flex items-center gap-3 rounded-xl px-8 py-4 text-lg font-semibold no-underline transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+          >
+            <Icon name="rss" size={20} />
+            Explore Blog
+          </a>
+          <a
+            href="/services/devrel"
+            class="bg-bg-tertiary text-text-primary border-border hover:bg-bg-secondary hover:border-accent inline-flex items-center gap-3 rounded-xl border-2 px-8 py-4 text-lg font-semibold no-underline shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+          >
+            <Icon name="github" size={20} />
+            DevRel Services
+          </a>
+        </div>
+
+        <div class="flex justify-center">
+          <SocialLinksGroup
+            variant="icon"
+            size="lg"
+            layout="flex"
+            className="social-hover-group"
+          />
         </div>
       </div>
-    </div>
-  </main>
-</LayoutBase>
+    </section>
+
+    <main class="mx-auto max-w-6xl p-8 pb-16">
+      <!-- Featured Post -->
+      <div class="animate-fade-in mb-12">
+        {
+          latestPost && (
+            <a
+              href={`/blog/${latestPost.data.slug || latestPost.id}/`}
+              class="bg-bg-secondary border-border featured-hover hover:border-accent animate-fade-in block overflow-hidden rounded-2xl border no-underline transition-all duration-300"
+            >
+              {latestPost.data.heroImage && (
+                <div class="relative overflow-hidden">
+                  <Image
+                    width={800}
+                    height={400}
+                    src={latestPost.data.heroImage}
+                    alt={latestPost.data.heroImageAlt || latestPost.data.title}
+                    class="h-64 w-full object-cover transition-transform duration-300 hover:scale-105 md:h-96 lg:h-[400px]"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                  <div class="absolute right-0 bottom-0 left-0 p-6 md:p-8 lg:p-12">
+                    <div class="mb-2 text-sm font-medium tracking-wide text-white/80 uppercase">
+                      <FormattedDate date={latestPost.data.publishDate} />
+                    </div>
+                    <h2 class="mb-4 text-2xl leading-tight font-bold text-white md:text-3xl lg:text-4xl">
+                      {latestPost.data.title}
+                    </h2>
+                    <p class="max-w-3xl text-base leading-relaxed text-white/90 md:text-lg lg:text-xl">
+                      {latestPost.data.description}
+                    </p>
+                    <div class="text-accent mt-6 inline-flex items-center text-lg font-semibold">
+                      Read Full Article
+                      <svg
+                        class="ml-2 h-5 w-5 transition-transform duration-200 group-hover:translate-x-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </a>
+          )
+        }
+      </div>
+
+      <!-- Content Grid -->
+      <div class="space-y-8 md:space-y-12">
+        <!-- Recent Posts -->
+        <div class="animate-slide-up">
+          <div class="mb-6 flex items-center gap-3">
+            <Icon name="rss" size={24} class="text-accent" />
+            <h3 class="text-text-primary text-2xl font-bold">Recent Posts</h3>
+          </div>
+          <div class="space-y-4">
+            {
+              recentPostsWithReadingTime.map((post) => (
+                <a
+                  href={`/blog/${post.data.slug || post.id}/`}
+                  class="bg-bg-secondary border-border post-hover hover:border-accent block rounded-xl border p-6 no-underline transition-all duration-300"
+                >
+                  <div class="text-text-muted mb-3 text-sm font-medium tracking-wide uppercase">
+                    <FormattedDate date={post.data.publishDate} />
+                  </div>
+                  <ReadingTimeDisplay
+                    minutesRead={post.readingTime?.minutesRead}
+                    wordCount={post.readingTime?.wordCount}
+                    className="mb-3"
+                  />
+                  <h4 class="text-text-primary hover:text-accent mb-3 text-lg leading-tight font-bold transition-colors duration-200">
+                    {post.data.title}
+                  </h4>
+                  <div class="text-accent inline-flex items-center font-medium">
+                    Read More
+                    <svg
+                      class="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- YouTube Section -->
+        <div class="animate-fade-in">
+          <div class="mb-6 flex items-center gap-3">
+            <Icon name="youtube" size={24} class="text-red-500" />
+            <h3 class="text-text-primary text-2xl font-bold">Latest Video</h3>
+          </div>
+          {
+            videoId && latestVideo ? (
+              <div class="bg-bg-secondary border-border rounded-xl border transition-all duration-300">
+                <div class="p-4 pb-3">
+                  <h4 class="text-text-primary mb-2 text-lg leading-tight font-bold">
+                    {latestVideo.title}
+                  </h4>
+                  {latestVideo.published && (
+                    <div class="text-text-muted text-sm font-medium">
+                      {new Intl.DateTimeFormat("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      }).format(latestVideo.published)}
+                    </div>
+                  )}
+                </div>
+                <div class="mx-auto aspect-video w-full">
+                  <YouTube id={videoId} />
+                </div>
+                <div class="p-4 pt-3 text-center">
+                  <a
+                    href={latestVideo.url}
+                    target="_blank"
+                    class="text-accent hover:text-accent-dark inline-flex items-center gap-2 font-semibold transition-colors duration-200"
+                  >
+                    <Icon name="youtube" size={18} />
+                    Watch on YouTube
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div class="bg-bg-secondary border-border rounded-xl border p-8 text-center">
+                <div class="mb-4 text-5xl">🎥</div>
+                <p class="text-text-muted mb-4 text-base">
+                  Check out my latest videos
+                </p>
+                <SocialLink
+                  name="Visit YouTube Channel"
+                  url={
+                    SOCIAL_LINKS.find((link) => link.name === "YouTube")!.url
+                  }
+                  icon="youtube"
+                  variant="compact"
+                  size="sm"
+                />
+              </div>
+            )
+          }
+        </div>
+      </div>
+
+      <!-- About Preview Section -->
+      <section
+        class="bg-bg-secondary border-border animate-slide-up mt-16 rounded-2xl border p-6 text-center md:mt-24 md:p-8 lg:p-12"
+      >
+        <h2
+          class="text-text-primary mb-4 text-2xl font-bold md:mb-6 md:text-3xl lg:text-4xl"
+        >
+          About <span class="gradient-text">TechSquidTV</span>
+        </h2>
+        <p
+          class="text-text-secondary mx-auto mb-6 max-w-3xl text-base leading-relaxed md:mb-8 md:text-lg"
+        >
+          I'm Kyle Tryon, a seasoned developer relations professional,
+          open-source advocate, and technology educator. With expertise in
+          DevOps, cloud technologies, and developer tools, I help teams and
+          individuals navigate the ever-evolving tech landscape through
+          practical content, consulting, and community building.
+        </p>
+        <div
+          class="flex flex-col justify-center gap-3 sm:flex-row md:gap-4 lg:gap-6"
+        >
+          <a
+            href="/about"
+            class="bg-bg-tertiary text-text-primary border-border hover:bg-bg-secondary hover:border-accent inline-flex items-center gap-3 rounded-xl border-2 px-6 py-3 font-semibold no-underline shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+          >
+            <Icon name="verified" size={18} />
+            Learn More
+          </a>
+          <a
+            href="/contact"
+            class="bg-bg-tertiary text-text-primary border-border hover:bg-bg-secondary hover:border-accent inline-flex items-center gap-3 rounded-xl border-2 px-6 py-3 font-semibold no-underline shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+          >
+            <Icon name="email" size={18} />
+            Get In Touch
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>

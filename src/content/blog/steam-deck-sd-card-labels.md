@@ -9,7 +9,7 @@ tags:
   - gaming
 ---
 
-I finally picked up a Steam Deck and was impressed when a friend told me it was not only possible to store your games on MicroSD cards, but that it was also [encouraged by Valve](https://twitter.com/lawrenceyang/status/1416485869091913728), and they offer [similar performance to the internal SSD](https://www.pcgamer.com/first-tests-show-steam-deck-sd-card-speed-rivals-the-ssd/). This opens up a world of possibilities, considering many modern games are getting near 100Gb in size. 
+I finally picked up a Steam Deck and was impressed when a friend told me it was not only possible to store your games on MicroSD cards, but that it was also [encouraged by Valve](https://twitter.com/lawrenceyang/status/1416485869091913728), and they offer [similar performance to the internal SSD](https://www.pcgamer.com/first-tests-show-steam-deck-sd-card-speed-rivals-the-ssd/). This opens up a world of possibilities, considering many modern games are getting near 100Gb in size.
 
 I have a large collection of ROMs, Clone Hero songs, games, and apps that I'd like to have access to, and being able to keep multiple cards, like Nintendo Switch games, is a great way to manage my library. But, unlike a Switch game card, there's no way to keep track of what is on each MicroSD card without plugging it into a computer or the Steam Deck itself. So, I created a solution.
 
@@ -17,7 +17,7 @@ I have a large collection of ROMs, Clone Hero songs, games, and apps that I'd li
 
 ![A table of SD card adapters with game box art on them.](../../images/blog/steam-deck-cards-top.png)
 
-This is a free and open-source design system, built on top of the [CC BY 3.0 Game-icons.net](https://game-icons.net/) library, that allows you to organize your MicroSD cards in an efficient and visually appealing way. The system consists of a full SDHC card adapter with a "box art" label that contains the artwork and a unique number. 
+This is a free and open-source design system, built on top of the [CC BY 3.0 Game-icons.net](https://game-icons.net/) library, that allows you to organize your MicroSD cards in an efficient and visually appealing way. The system consists of a full SDHC card adapter with a "box art" label that contains the artwork and a unique number.
 
 ![A carrying case for SD cards showing 4 of the custom labeled SD cards](../../images/blog/sd-card-wallet.png)
 
@@ -29,11 +29,11 @@ The number is used to match your MicroSD card to the adapter when they are not t
 
 The designs are open source and available for [_free_ on GitHub](https://github.com/TechSquidTV/steam-deck-card-labels). Each design is downloadable as an SVG file, which can be printed on sticker paper at home and cut out, or printed using an online service. The designs are made to fit a standard SDHC card and the `OL28` label template available from online retailers.
 
-* **Dimensions:** Each label is designed to fit within a 0.75" x 1" area, the typical size for a full-size SD card front label.
-* **Printing:**
-    * **Printer:** For the best results, a color laser printer and high gloss white paper are recommended. Due to the small size and limited paper choices, inkjet printers may not produce the best results.
-    * **Paper:** [OL28 White Gloss Laser](https://www.onlinelabels.com/products/ol28) from OnlineLabels.com (not affiliated).
-      * You can use a cheaper paper for inkjet printers, results may vary.
+- **Dimensions:** Each label is designed to fit within a 0.75" x 1" area, the typical size for a full-size SD card front label.
+- **Printing:**
+  - **Printer:** For the best results, a color laser printer and high gloss white paper are recommended. Due to the small size and limited paper choices, inkjet printers may not produce the best results.
+  - **Paper:** [OL28 White Gloss Laser](https://www.onlinelabels.com/products/ol28) from OnlineLabels.com (not affiliated).
+    - You can use a cheaper paper for inkjet printers, results may vary.
 
 ## Buy Steam Deck MicroSD Card Game Boxes
 

@@ -1,40 +1,138 @@
 ---
-import PostList from "@components/PostList.astro";
-import PostTag from "@components/PostTag.astro";
-import LayoutBase from "@layouts/LayoutBase.astro";
-import { tags } from "@utils/blogTag";
-import type { InferGetStaticPropsType } from "astro";
-
-
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import BaseHead from "../../../components/BaseHead.astro";
+import Footer from "../../../components/Footer.astro";
+import FormattedDate from "../../../components/FormattedDate.astro";
+import Header from "../../../components/Header.astro";
+import { SITE_TITLE } from "../../../consts";
 
 export async function getStaticPaths() {
-  console.log(tags)
-  return tags.map((tag) => {
+  const allPosts = await getCollection("blog");
+  const uniqueTags = [
+    ...new Set(allPosts.map((post) => post.data.tags ?? []).flat()),
+  ];
+
+  return uniqueTags.map((tag) => {
+    const filteredPosts = allPosts
+      .filter((post) => post.data.tags?.includes(tag))
+      .sort(
+        (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+      );
+
     return {
-      params: {
-        tag: tag,
-      },
-      props: { tag: tag }
+      params: { tag },
+      props: { posts: filteredPosts, tag },
     };
   });
 }
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-const {tag} = Astro.props;
+
+const { posts, tag } = Astro.props;
 ---
 
-<LayoutBase title={tag}>
-  <main class="wrapper mt-20">
-    <header>
-      <div
-        class="flex flex-row justify-center overflow-auto p-1 space-x-2 my-2"
-      >
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`${tag} Posts - ${SITE_TITLE}`}
+      description={`All posts tagged with ${tag}`}
+    />
+    <style>
+      body {
+        padding-top: 2rem;
+      }
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .tag-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .tag-header h1 {
+        color: var(--color-text-primary);
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+      .tag-header p {
+        color: var(--color-text-secondary);
+        font-size: 1.2rem;
+      }
+      .posts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+      .post-card {
+        background: var(--color-bg-tertiary);
+        border-radius: 16px;
+        padding: 1.5rem;
+        border: 1px solid var(--color-border);
+        transition: all 0.3s ease;
+      }
+      .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-glow);
+      }
+      .post-card a {
+        text-decoration: none;
+        color: inherit;
+      }
+      .post-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+      }
+      .post-card h2 {
+        color: var(--color-text-primary);
+        margin: 0 0 0.5rem 0;
+        font-size: 1.3rem;
+      }
+      .post-card p {
+        color: var(--color-text-secondary);
+        margin: 0 0 1rem 0;
+        line-height: 1.5;
+      }
+      .post-date {
+        color: var(--color-text-muted);
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="tag-header">
+        <h1>#{tag}</h1>
+        <p>
+          {posts.length} post{posts.length !== 1 ? "s" : ""} tagged with "{tag}"
+        </p>
+      </div>
+      <div class="posts-grid">
         {
-          tags.map((t) => {
-            return <PostTag tag={t} />;
-          })
+          posts.map((post) => (
+            <article class="post-card">
+              <a href={`/blog/${post.data.slug || post.id}/`}>
+                {post.data.heroImage && (
+                  <Image
+                    src={post.data.heroImage}
+                    alt={post.data.heroImageAlt || post.data.title}
+                  />
+                )}
+                <h2>{post.data.title}</h2>
+                <p>{post.data.description}</p>
+                <time class="post-date">
+                  <FormattedDate date={post.data.publishDate} />
+                </time>
+              </a>
+            </article>
+          ))
         }
       </div>
-    </header>
-    <PostList tag={tag} />
-  </main>
-</LayoutBase>
+    </main>
+    <Footer />
+  </body>
+</html>

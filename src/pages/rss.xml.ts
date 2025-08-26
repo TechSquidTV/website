@@ -1,27 +1,17 @@
+import { getCollection } from "astro:content";
 import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
-import { getCollection } from "astro:content";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 
 export async function GET(context: APIContext) {
-  const blog = await getCollection("blog");
-
+  const posts = await getCollection("blog");
   return rss({
-    title: "TechSquidTV Blog",
-    description:
-      "Open-source developer and tech educator, Kyle A.K.A TechSquidTV. Software development tutorials, videos, and fun code experiments.",
-    site: context.site ?? "https://techsquidtv.com",
-    items: blog.map((post) => ({
-      title: post.data.title,
-      description: post.data.description,
-      link: `/blog/${post.slug}/`,
-      pubDate: post.data.publishDate,
-      category: post.data.tags[0],
-      enclosure: {
-        url: post.data.heroImage.src,
-        type: "image/png",
-        length: 1200000, //currently unable to calculate size.
-      },
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    site: context.site as URL,
+    items: posts.map((post) => ({
+      ...post.data,
+      link: `/blog/${post.data.slug || post.id}/`,
     })),
-    customData: `<language>en-us</language>`,
   });
 }

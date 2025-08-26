@@ -1,0 +1,54 @@
+---
+interface Props {
+  variant?: "pillbox" | "nav" | "panel";
+  className?: string;
+}
+
+const { variant = "panel", className = "" } = Astro.props;
+
+const variantClasses = {
+  pillbox:
+    "glass-pillbox inline-flex items-center rounded-full border border-white/[0.08] bg-white/[0.03] py-2 pl-2 pr-4 backdrop-blur-[12px] backdrop-saturate-150 transition-all duration-300 ease-out hover:bg-white/[0.06] hover:border-white/[0.12] hover:-translate-y-px md:py-1.5 md:pl-1.5 md:pr-3 md:bg-white/[0.05] md:border-white/[0.1]",
+  nav: "floating-pill-nav flex items-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-3 backdrop-blur-lg backdrop-saturate-180",
+  panel:
+    "rounded-xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-lg backdrop-saturate-150",
+};
+---
+
+<div class={`${variantClasses[variant]} ${className}`}>
+  <slot />
+</div>
+
+<style>
+  /* Inset shadows for glass effects (Tailwind can't do inset box-shadows) */
+  .glass-pillbox {
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+  }
+
+  .glass-pillbox:hover {
+    box-shadow:
+      0 6px 24px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  .floating-pill-nav {
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+  }
+
+  /* Accessibility: Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .glass-pillbox {
+      transition: none !important;
+    }
+
+    .glass-pillbox:hover {
+      transform: none;
+    }
+  }
+</style>

@@ -1,29 +1,81 @@
 ---
-import NewsletterForm from "@components/NewsletterForm.astro";
-import Avatar from "@images/brand/tstvprofile.png";
-import LayoutBase from "@layouts/LayoutBase.astro";
-import { Image } from "astro:assets";
+import Avatar from "../../components/Avatar.astro";
+import Button from "../../components/Button.astro";
+import FormInput from "../../components/FormInput.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AvatarImage from "../../images/brand/tstvprofile.png";
 ---
 
-<LayoutBase title="newsletter">
-  <main class="mt-24 wrapper">
-    <div class="flex justify-center">
-      <Image
-        src={Avatar}
-        alt="Kyle Tryon"
-        class="rounded-full w-32 xl:w-48"
-        transition:name={"tstv-avatar"}
+<BaseLayout
+  title="Newsletter - TechSquidTV"
+  description="Subscribe to the TechSquidTV newsletter for updates on latest blog posts, projects, and videos"
+  maxWidth="md"
+>
+  <PageHeader title="Stay in the Loop">
+    <div class="mb-6 flex justify-center">
+      <Avatar src={AvatarImage} alt="Kyle Tryon - TechSquidTV" size="xl" />
+    </div>
+    <p class="text-text-secondary mx-auto max-w-2xl text-lg leading-relaxed">
+      Get notified about new blog posts, project releases, and video updates.
+      I'll send out occasional emails with the good stuff—no spam, ever.
+    </p>
+  </PageHeader>
+
+  <div class="border-border mt-8 border-t pt-8">
+    <form
+      name="newsletter"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="dontCheckMe"
+      class="w-full"
+    >
+      <div class="absolute left-[-9999px] opacity-0">
+        <label>
+          Don't fill this out if you're human: <input name="dontCheckMe" />
+        </label>
+      </div>
+
+      <FormInput
+        id="name"
+        name="name"
+        label="Name"
+        placeholder="Your name"
+        required
       />
-    </div>
-    <div class="flex flex-col mx-auto w-1/2 text-center">
-      <h1 class="text-2xl font-bold mt-4">TechSquidTV Newsletter</h1>
-    <p>
-      Don't rely on algorithms or notifications to keep up with my content, let's connect directly! Ready to read on your time, waiting in your inbox.
+
+      <FormInput
+        type="email"
+        id="email"
+        name="email"
+        label="Email"
+        placeholder="your.email@domain.com"
+        note="Your email will only be used for newsletter updates. No spam, ever."
+        required
+      />
+
+      <Button type="submit" variant="primary" fullWidth>
+        Subscribe to Newsletter
+      </Button>
+    </form>
+  </div>
+
+  <div class="border-border mt-12 border-t pt-8 text-center">
+    <h3 class="text-text-primary mb-4 text-xl font-semibold">
+      What You'll Get:
+    </h3>
+    <ul class="mb-8 list-none space-y-3 p-0 md:text-left">
+      <li class="text-text-secondary text-base">
+        📝 New blog post notifications
+      </li>
+      <li class="text-text-secondary text-base">
+        🚀 Project launch announcements
+      </li>
+      <li class="text-text-secondary text-base">🎥 Latest video updates</li>
+      <li class="text-text-secondary text-base">💡 Exclusive tech insights</li>
+    </ul>
+    <p class="text-text-muted text-sm italic">
+      Usually one email every few weeks. You can unsubscribe anytime.
     </p>
-    <p>
-      1-2 emails per month, pure content. No spam, no ads, no B.S.
-    </p>
-    </div>
-    <NewsletterForm />
-  </main>
-</LayoutBase>
+  </div>
+</BaseLayout>

@@ -1,17 +1,13 @@
-import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
-import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
-import embeds from "astro-embed/integration";
-import sentry from "@sentry/astro";
-import spotlightjs from "@spotlightjs/astro";
-import expressiveCode from "astro-expressive-code";
-import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
-import react from "@astrojs/react";
+// @ts-check
 
+import mdx from "@astrojs/mdx";
+import { defineConfig } from "astro/config";
 import icon from "astro-icon";
 
-import netlify from "@astrojs/netlify";
+import tailwindcss from "@tailwindcss/vite";
+import sitemap from "@astrojs/sitemap";
+import embeds from "astro-embed/integration";
+import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,19 +16,11 @@ export default defineConfig({
       ? "http://localhost:4321"
       : "https://techsquidtv.com",
 
-  integrations: [
-    react(),
-    tailwind(),
-    sitemap(),
-    embeds(),
-    expressiveCode({
-      plugins: [pluginCollapsibleSections()],
-    }),
-    mdx(),
-    sentry(),
-    spotlightjs(),
-    icon(),
-  ],
+  integrations: [sitemap(), icon(), embeds(), mdx()],
+
+  markdown: {
+    remarkPlugins: [remarkReadingTime],
+  },
 
   redirects: {
     "/blog/Choosing_a_standing_desk": "/blog/choosing-a-standing-desk",
@@ -57,9 +45,11 @@ export default defineConfig({
     "/blog/Fixing_an_ugly_terminal": "/blog/your-terminal-is-ugly",
     "/blog/tags": "/blog",
     "/services/": "/services/devrel",
-    "/blog/where-in-the-world-is-static-shock-for-gba":"https://lostpixellore.com/blog/where-in-the-world-is-static-shock-for-gba",
+    "/blog/where-in-the-world-is-static-shock-for-gba":
+      "https://lostpixellore.com/blog/where-in-the-world-is-static-shock-for-gba",
   },
 
-  output: "static",
-  adapter: netlify(),
+  vite: {
+    plugins: [tailwindcss(), sitemap()],
+  },
 });
