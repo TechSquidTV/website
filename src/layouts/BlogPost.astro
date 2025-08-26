@@ -1,0 +1,131 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import BaseHead from "../components/BaseHead.astro";
+import StructuredData from "../components/StructuredData.astro";
+import BreadcrumbSchema from "../components/BreadcrumbSchema.astro";
+import Footer from "../components/Footer.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import Header from "../components/Header.astro";
+import ReadingTimeDisplay from "../components/ReadingTimeDisplay.astro";
+import { PERSONAL_INFO, SITE_TITLE } from "../consts";
+
+type Props = CollectionEntry<"blog">["data"] & {
+  readingTime?: {
+    minutesRead?: string;
+    readingTimeMinutes?: number;
+    wordCount?: number;
+  };
+};
+
+const {
+  title,
+  description,
+  publishDate,
+  updatedDate,
+  heroImage,
+  readingTime,
+  tags,
+} = Astro.props;
+
+// Generate blog-specific OG image URL
+// Extract the blog slug from pathname (remove /blog/ prefix and trailing slash)
+const blogSlug = Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "");
+const blogOgImageUrl = new URL(`/open-graph/blog/${blogSlug}.png`, Astro.site)
+  .href;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead
+      title={title}
+      description={description}
+      ogImage={blogOgImageUrl}
+      type="article"
+      publishDate={publishDate}
+      tags={tags}
+    />
+    <StructuredData
+      type="BlogPosting"
+      pageUrl={Astro.url.href}
+      title={title}
+      description={description}
+      publishDate={publishDate}
+      updatedDate={updatedDate}
+      readingTime={readingTime?.readingTimeMinutes}
+      wordCount={readingTime?.wordCount}
+    />
+    <BreadcrumbSchema
+      items={[
+        { name: SITE_TITLE, url: Astro.site!.toString() },
+        { name: "Blog", url: `${Astro.site}blog/` },
+        { name: title, url: Astro.url.href },
+      ]}
+    />
+  </head>
+
+  <body>
+    <Header />
+    <main class="w-full">
+      <article itemscope itemtype="https://schema.org/BlogPosting">
+        {
+          heroImage && (
+            <div class="mb-8 w-full">
+              <Image
+                width={1020}
+                height={510}
+                src={heroImage}
+                alt=""
+                class="shadow-card border-border mx-auto block h-auto w-full max-w-4xl rounded-2xl border"
+              />
+            </div>
+          )
+        }
+        <div class="prose prose-lg text-text-secondary mx-auto max-w-3xl px-4">
+          <div class="border-border mb-8 border-b pb-8 text-center">
+            <div class="mb-4">
+              <div class="text-text-muted mb-2 text-base">
+                <time
+                  itemprop="datePublished"
+                  datetime={publishDate.toISOString()}
+                >
+                  <FormattedDate date={publishDate} />
+                </time>
+              </div>
+              <ReadingTimeDisplay
+                minutesRead={readingTime?.minutesRead}
+                wordCount={readingTime?.wordCount}
+                className="mb-2 justify-center"
+              />
+              {
+                updatedDate && (
+                  <div class="text-text-subtle text-sm italic">
+                    Last updated on{" "}
+                    <time
+                      itemprop="dateModified"
+                      datetime={updatedDate.toISOString()}
+                    >
+                      <FormattedDate date={updatedDate} />
+                    </time>
+                  </div>
+                )
+              }
+            </div>
+            <h1
+              class="text-text-primary mb-0 text-4xl leading-tight font-bold md:text-5xl"
+              itemprop="headline"
+            >
+              {title}
+            </h1>
+
+            <!-- Author information for SEO -->
+            <meta itemprop="author" content={PERSONAL_INFO.name} />
+            <link itemprop="url" href={Astro.url.href} />
+          </div>
+          <slot />
+        </div>
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>

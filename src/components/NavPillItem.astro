@@ -1,0 +1,65 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  isActive?: boolean;
+  className?: string;
+}
+
+const { href, label, isActive = false, className = "" } = Astro.props;
+---
+
+<a
+  href={href}
+  class={`pill-nav-item relative inline-flex items-center justify-center mx-1 px-5 py-2.5 rounded-full text-sm font-bold text-text-secondary no-underline whitespace-nowrap transition-all duration-300 ease-out hover:text-text-primary hover:-translate-y-px ${className}`}
+  data-active={isActive}
+>
+  {label}
+</a>
+
+<style>
+  /* Text shadow for navigation text */
+  .pill-nav-item {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Pill nav hover effects with ::before pseudo-element */
+  .pill-nav-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  .pill-nav-item:hover::before {
+    opacity: 1;
+  }
+
+  /* Active state styling */
+  .pill-nav-item[data-active="true"] {
+    color: var(--color-accent);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  /* Accessibility: Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .pill-nav-item {
+      transition: none !important;
+    }
+
+    .pill-nav-item:hover {
+      transform: none;
+    }
+  }
+</style>

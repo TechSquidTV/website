@@ -29,9 +29,10 @@ While many of the concepts we talk about for generating open graph images may be
 
 Install [**React** for Astro](https://docs.astro.build/en/guides/integrations-guide/react/):
 
-``` shell
+```shell
 pnpm astro add react
 ```
+
 See the official docs above for other install methods
 
 Install [**Satori**](https://github.com/vercel/satori) + [**Sharp**](https://github.com/lovell/sharp) + [**Gray-Matter**](https://github.com/jonschlinkert/gray-matter)
@@ -40,9 +41,9 @@ Install [**Satori**](https://github.com/vercel/satori) + [**Sharp**](https://git
 pnpm add satori sharp gray-matter
 ```
 
-* **Satori**: Converts React components to SVG images.
-* **Sharp**: Image processing library for converting SVG to PNG.
-* **Gray-Matter**: Parses front-matter from markdown files.
+- **Satori**: Converts React components to SVG images.
+- **Sharp**: Image processing library for converting SVG to PNG.
+- **Gray-Matter**: Parses front-matter from markdown files.
 
 ### Dev dependencies
 
@@ -52,18 +53,21 @@ For reasons we'll get into shortly, we will need to serve up our images in a loc
 pnpm add -D serve wait-on kill-port
 ```
 
-* **Serve**: Serve static files from a directory.
-* **Wait-on**: A simple tool to wait on our files to be served before progressing.
-* **Kill-port**: Specify a port and kill the process listening on it. Useful in cleanup.
+- **Serve**: Serve static files from a directory.
+- **Wait-on**: A simple tool to wait on our files to be served before progressing.
+- **Kill-port**: Specify a port and kill the process listening on it. Useful in cleanup.
 
 ## Create image as React component
 
 We use React to make a component that we will render to an image for each of our pages. We design our image exactly as if it were a small webpage using HTML/CSS. We don't strictly _need_ React to achieve a similar effect, but Satori requires we pass in our component as a React component-like object, so we will create the component as a `tsx` file.
 
-<Image src={PreviewBreakdown} width={500} alt="A 3d representation of the layers that make up the image we will be creating" />
+<Image
+  src={PreviewBreakdown}
+  width={500}
+  alt="A 3d representation of the layers that make up the image we will be creating"
+/>
 
- In your `components` directory, create a new directory named `OpenGraph` (or anything you want). We'll need a `createImage.ts` file, and an `OG.tsx` component.
-
+In your `components` directory, create a new directory named `OpenGraph` (or anything you want). We'll need a `createImage.ts` file, and an `OG.tsx` component.
 
 ### Create `OG.tsx`
 
@@ -78,7 +82,7 @@ export default function OG(
   title: string = "<Site Name> - Default Title",
   heroImageURL: string,
 ) {
-  const basePath = "http://localhost:3001/"
+  const basePath = "http://localhost:3001/";
   const backgroundImageURL = `${basePath}opengraph/background.png`;
   return (
     <div
@@ -139,7 +143,6 @@ export default function OG(
     </div>
   );
 }
-
 ```
 
 I've included some of the styling I use in my images, but use this as a template and feel free to remove or add to it.
@@ -261,8 +264,9 @@ This will generate for us a URL structure where our blog post will live at: `/bl
 And our image for the blog post will live at `/blog/<title>/<title>-og.png`
 
 ```ts title="pages/blog/[post]/[post]-og.png.ts"
-import { PNG } from "@components/OpenGraph/createImage";
-import OG from "@components/OpenGraph/OG";
+{
+  /* OpenGraph components removed - not available in current setup */
+}
 import type { APIRoute, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import fs from "fs/promises";
@@ -308,10 +312,9 @@ const getBlogFrontmatterCollection = async () => {
   });
   return Promise.all(frontmatter);
 };
-
 ```
 
-### Breakdown 
+### Breakdown
 
 ```ts title="pages/blog/[post]/[post]-og.png.ts" {12,3,5}
 export async function getStaticPaths() {
@@ -408,7 +411,7 @@ const ogImageURL = new URL(ogImage, Astro.site).href;
 	<meta property="twitter:title" content={title} />
 	<meta property="twitter:description" content={description} />
 	<meta property="twitter:image" content={ogImageURL} />
-	
+
 </head>
 ```
 
@@ -434,7 +437,11 @@ The `build` script is modified to first serve our images on a local server on po
 
 If the Astro build ever fails for some reason, you can run `pnpm run kill-assets` to kill the asset server and try again.
 
-<Image src={OGDist} width={400} alt="The dist directory after the build containing the blog post next to the og image" />
+<Image
+  src={OGDist}
+  width={400}
+  alt="The dist directory after the build containing the blog post next to the og image"
+/>
 
 ## Conclusion
 

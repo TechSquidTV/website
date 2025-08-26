@@ -1,0 +1,79 @@
+---
+import SocialLink from "./SocialLink.astro";
+import { SOCIAL_LINKS } from "../consts";
+
+interface Props {
+  variant?: "card" | "icon" | "compact";
+  size?: "sm" | "md" | "lg";
+  className?: string;
+  layout?: "grid" | "flex" | "stack";
+  showDescriptions?: boolean;
+}
+
+const {
+  variant = "icon",
+  size = "md",
+  className = "",
+  layout = "flex",
+  showDescriptions = false,
+} = Astro.props;
+
+const layoutClasses = {
+  grid: "grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4",
+  flex: "flex flex-wrap gap-3",
+  stack: "flex flex-col gap-3",
+};
+
+// Add descriptions for card variant
+const socialLinksWithDescriptions = SOCIAL_LINKS.map((link) => ({
+  ...link,
+  description: showDescriptions ? getSocialDescription(link.name) : undefined,
+}));
+
+function getSocialDescription(name: string): string {
+  const descriptions: Record<string, string> = {
+    Twitter: "Tech thoughts and quick updates",
+    Mastodon: "Open source social networking",
+    GitHub: "Open source projects and code",
+    YouTube: "Tech tutorials and coding content",
+    Discord: "Join the community discussion",
+    Instagram: "Behind the scenes content",
+    LinkedIn: "Professional networking",
+    Twitch: "Live coding and tech streams",
+  };
+  return descriptions[name] || `Follow on ${name}`;
+}
+---
+
+<div class={`social-links-group ${layoutClasses[layout]} ${className}`}>
+  {
+    socialLinksWithDescriptions.map((social) => (
+      <SocialLink
+        name={social.name}
+        url={social.url}
+        icon={social.icon}
+        description={social.description}
+        variant={variant}
+        size={size}
+      />
+    ))
+  }
+</div>
+
+<style>
+  .social-links-group {
+    --social-gap: 0.75rem;
+  }
+
+  .social-links-group.flex {
+    gap: var(--social-gap);
+  }
+
+  .social-links-group.grid {
+    gap: var(--social-gap);
+  }
+
+  .social-links-group.stack {
+    gap: var(--social-gap);
+  }
+</style>

@@ -1,63 +1,55 @@
 ---
-import { Icon } from 'astro-icon/components';
-import techsquidtv from "@data/techsquidtv.json";
-import LayoutBase from "@layouts/LayoutBase.astro";
-const publicKey = techsquidtv.gpg.publicKey.replace(/\\n/g, "\n");
+import { Icon } from "astro-icon/components";
+import Button from "../components/Button.astro";
+import PageHeader from "../components/PageHeader.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { GPG_INFO } from "../consts";
+
+const { fingerprint, publicKeyUrl } = GPG_INFO;
 ---
 
-<LayoutBase>
-  <main class="wrapper mt-24">
-    <header class="text-center mb-4">
-      <div class="flex flex-row justify-center items-center">
-        <h1 class="text-2xl font-semibold">@TechSquidTV</h1>
-        <span class="text-blue-400 -mt-3"><Icon name={"verified"} /></span>
-      </div>
-      <div class="text-sm">
-        <p>
-          Some websites attempt to charge for basic security measures like
-          account verification. In the decentralized web, we can use a personal
-          website, and a GPG key to verify our online presence.
-        </p>
-        <p>
-          Find my official social accounts on <a href="/follow">/follow</a>, or
-          utilize my GPG key to verify my identity via encrypted message.
-        </p>
-      </div>
-    </header>
-    <div class="flex flex-col space-y-2 text-smoke-300">
-      <div class="flex flex-row justify-between items-center card">
-        <Icon name={"fingerprint"} />
-        <span class="text-emerald-200">{techsquidtv.gpg.fingerprint}</span>
-      </div>
-      <div class="flex flex-row justify-between items-center card">
-        <Icon name={"key"} />
-        <a
-          href="/sig/A606F9A583AD5E69738E241226BF4A861BD3AE79.asc"
-          class="shadow-sm border border-smoke-300 transition-colors duration-250 hover:bg-emerald-200 hover:border-smoke-600 hover:text-black rounded py-1 px-2"
-          >download public key</a
-        >
-      </div>
-      <div class="flex flex-row justify-between items-center card">
-        <textarea
-          name="pgpkey"
-          id="pgpkey"
-          cols="80"
-          rows="10"
-          class="bg-transparent text-sm text-emerald-200 w-full rounded"
-          readonly
-        >
-          {publicKey}
-        </textarea>
-      </div>
-      <div>
-        <a
-          href="https://keybase.io/kyletryon"
-          class="card inline-flex flex-row space-x-2 transition-colors duration-250 hover:bg-emerald-200 hover:border-smoke-600 hover:text-black"
-        >
-          <Icon name={"keybase"} />
-          <span>Keybase</span>
-        </a>
-      </div>
+<BaseLayout
+  title="Verify Identity - TechSquidTV"
+  description="Verify the identity of Kyle Tryon using cryptographic verification"
+  maxWidth="lg"
+>
+  <PageHeader title="Identity Verification">
+    <Icon name="verified" size={32} class="text-accent mx-auto mb-6" />
+    <div
+      class="text-text-secondary mx-auto max-w-2xl space-y-4 text-lg leading-relaxed"
+    >
+      <p>
+        I am Kyle Tryon, and I want to help you verify my identity. This page
+        provides cryptographic verification methods to ensure that
+        communications are actually from me. In an age of increasing digital
+        impersonation, I believe identity verification is important.
+      </p>
     </div>
-  </main>
-</LayoutBase>
+  </PageHeader>
+
+  <div class="mt-12 grid gap-8">
+    <section
+      class="bg-bg-tertiary border-border hover:border-accent hover:shadow-card rounded-2xl border p-8 transition-all duration-300 hover:-translate-y-1"
+    >
+      <h2
+        class="text-text-primary mb-6 flex items-center gap-3 text-xl font-semibold"
+      >
+        <Icon name="fingerprint" size={24} class="text-accent" />
+        GPG Public Key Fingerprint
+      </h2>
+      <div
+        class="bg-bg-code border-border mb-6 rounded-lg border p-4 text-center"
+      >
+        <code
+          class="text-accent font-mono text-sm tracking-wider break-all select-all md:text-base md:break-normal"
+        >
+          {fingerprint}
+        </code>
+      </div>
+      <Button href={publicKeyUrl} variant="primary" fullWidth>
+        <Icon name="key" size={20} />
+        Download Public Key
+      </Button>
+    </section>
+  </div>
+</BaseLayout>

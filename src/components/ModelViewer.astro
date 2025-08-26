@@ -1,0 +1,179 @@
+---
+export interface Props {
+  src: string;
+  alt?: string;
+  poster?: string;
+  loading?: "auto" | "lazy" | "eager";
+  reveal?: "auto" | "manual";
+  withCredentials?: boolean;
+
+  // AR/Camera controls
+  ar?: boolean;
+  arModes?: string;
+  arScale?: "auto" | "fixed";
+  cameraControls?: boolean;
+  cameraOrbit?: string;
+  cameraTarget?: string;
+  fieldOfView?: string;
+  maxCameraOrbit?: string;
+  minCameraOrbit?: string;
+  maxFieldOfView?: string;
+  minFieldOfView?: string;
+
+  // Environment & lighting
+  environmentImage?: string;
+  skyboxImage?: string;
+  exposure?: number;
+  shadowIntensity?: number;
+  shadowSoftness?: number;
+
+  // Animation
+  animationName?: string;
+  animationCrossfadeDuration?: number;
+  autoplay?: boolean;
+
+  // Styling
+  backgroundColor?: string;
+  width?: string;
+  height?: string;
+  className?: string;
+
+  // iOS specific
+  iosSrc?: string;
+}
+
+const {
+  src,
+  alt = "3D Model",
+  poster,
+  loading = "lazy",
+  reveal = "auto",
+  withCredentials = false,
+
+  ar = false,
+  arModes = "webxr scene-viewer quick-look",
+  arScale = "auto",
+  cameraControls = true,
+  cameraOrbit,
+  cameraTarget,
+  fieldOfView,
+  maxCameraOrbit,
+  minCameraOrbit,
+  maxFieldOfView,
+  minFieldOfView,
+
+  environmentImage,
+  skyboxImage,
+  exposure,
+  shadowIntensity,
+  shadowSoftness,
+
+  animationName,
+  animationCrossfadeDuration,
+  autoplay = false,
+
+  backgroundColor,
+  width = "100%",
+  height = "400px",
+  className = "",
+
+  iosSrc,
+} = Astro.props;
+
+// Build attributes object for the model-viewer element
+const modelViewerAttrs: Record<string, any> = {
+  src,
+  alt,
+  loading,
+  reveal: reveal,
+  ...(poster && { poster }),
+  ...(withCredentials && { "with-credentials": true }),
+
+  ...(ar && { ar: true }),
+  ...(ar && { "ar-modes": arModes }),
+  ...(ar && arScale !== "auto" && { "ar-scale": arScale }),
+  ...(cameraControls && { "camera-controls": true }),
+  ...(cameraOrbit && { "camera-orbit": cameraOrbit }),
+  ...(cameraTarget && { "camera-target": cameraTarget }),
+  ...(fieldOfView && { "field-of-view": fieldOfView }),
+  ...(maxCameraOrbit && { "max-camera-orbit": maxCameraOrbit }),
+  ...(minCameraOrbit && { "min-camera-orbit": minCameraOrbit }),
+  ...(maxFieldOfView && { "max-field-of-view": maxFieldOfView }),
+  ...(minFieldOfView && { "min-field-of-view": minFieldOfView }),
+
+  ...(environmentImage && { "environment-image": environmentImage }),
+  ...(skyboxImage && { "skybox-image": skyboxImage }),
+  ...(exposure && { exposure }),
+  ...(shadowIntensity && { "shadow-intensity": shadowIntensity }),
+  ...(shadowSoftness && { "shadow-softness": shadowSoftness }),
+
+  ...(animationName && { "animation-name": animationName }),
+  ...(animationCrossfadeDuration && {
+    "animation-crossfade-duration": animationCrossfadeDuration,
+  }),
+  ...(autoplay && { autoplay: true }),
+
+  ...(iosSrc && { "ios-src": iosSrc }),
+};
+
+const style = [
+  `width: ${width}`,
+  `height: ${height}`,
+  backgroundColor && `background-color: ${backgroundColor}`,
+]
+  .filter(Boolean)
+  .join("; ");
+---
+
+<model-viewer {...modelViewerAttrs} style={style} class={className}>
+  <slot />
+</model-viewer>
+
+<script>
+  // Import the model-viewer module
+  import "@google/model-viewer";
+</script>
+
+<style>
+  model-viewer {
+    display: block;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+
+  model-viewer:not([poster]) {
+    background-color: #f3f4f6;
+  }
+
+  /* Loading spinner */
+  model-viewer::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e5e7eb;
+    border-top: 3px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 1;
+  }
+
+  model-viewer[loaded]::before {
+    display: none;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+</style>

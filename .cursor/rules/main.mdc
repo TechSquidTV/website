@@ -1,0 +1,77 @@
+---
+alwaysApply: true
+---
+  ```
+
+### Astro-Specific Guidelines
+- **Components**: Use `.astro` extension for Astro components
+- **Layouts**: Store in `src/layouts/`
+- **Pages**: Store in `src/pages/` (file-based routing)
+- **Images**: Use `astro:assets` for optimized images
+- **Content Collections**: Use Astro's content collections API for blog posts
+- **Static files**: Place in `public/` directory
+
+### TypeScript Guidelines
+- **Strict mode**: Follow TypeScript strict mode practices
+- **Type imports**: Use `import type` for type-only imports
+- **Content types**: Use `CollectionEntry<'blog'>` for blog post types
+- **Props typing**: Always type Astro component props
+
+### File Naming Conventions
+- **Components**: PascalCase (e.g., `BaseHead.astro`)
+- **Pages**: kebab-case (e.g., `[...slug].astro`)
+- **Blog posts**: kebab-case (e.g., `how-to-create-a-good-github-issue.mdx`)
+- **Images**: kebab-case (e.g., `docker-compose-thumbnail.png`)
+
+### Code Style
+- **Indentation**: Use tabs (as per project convention)
+- **Quotes**: Use single quotes for strings
+- **Semicolons**: Include semicolons
+- **Line length**: Keep reasonable line lengths (120 chars max)
+
+### Performance Considerations
+- **Image optimization**: Use Astro's `Image` component for all images
+- **Static generation**: Ensure all pages are statically generated
+- **Bundle size**: Keep JavaScript minimal (Astro's zero-JS by default)
+- **SEO**: Include proper meta tags via `BaseHead.astro`
+
+### Redirects Management
+- **Legacy URLs**: Handle in `astro.config.mjs` redirects object
+- **SEO preservation**: Maintain 301 redirects for migrated content
+- **Pattern**: Map old WordPress-style URLs to new kebab-case URLs
+
+### Content Guidelines
+- **Images**: Store blog images in `src/images/blog/`
+- **Alt text**: Always provide meaningful alt text for images
+- **Import images**: Use Astro's asset imports in MDX files
+- **Responsive**: Ensure images work across device sizes
+
+### Development Workflow
+1. **Start dev server**: `pnpm dev`
+2. **Create new blog post**: Add `.mdx` file in `src/content/blog/`
+3. **Add images**: Place in `src/images/blog/` and import in MDX
+4. **Test locally**: Verify content renders correctly
+5. **Type check**: Run `pnpm astro check` before committing
+6. **Build test**: Run `pnpm build` to ensure production build works
+
+### Common Commands
+```bash
+# Development
+pnpm dev                 # Start dev server
+pnpm build              # Production build
+pnpm preview            # Preview build locally
+pnpm astro check        # Type checking
+pnpm astro sync         # Sync content types
+
+# Package management
+pnpm install            # Install dependencies
+pnpm add <package>      # Add dependency
+pnpm add -D <package>   # Add dev dependency
+pnpm remove <package>   # Remove dependency
+```
+
+---
+
+**Last Updated**: Generated for current project structure
+**Update Trigger**: Modify when `astro.config.mjs` changes or project structure evolves
+**Project**: TechSquidTV Astro Blog (Static Site)

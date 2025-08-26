@@ -1,55 +1,68 @@
 ---
-import techsquidtv from "@data/techsquidtv.json";
-import Avatar from "@images/brand/tstvprofile.png";
-import LayoutBase from "@layouts/LayoutBase.astro";
-import { Image } from "astro:assets";
+import Avatar from "../components/Avatar.astro";
+import PageHeader from "../components/PageHeader.astro";
+import StructuredData from "../components/StructuredData.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AvatarImage from "../images/brand/tstvprofile.png";
+import { SOCIAL_LINKS, PERSONAL_INFO, SITE_TITLE } from "../consts";
 
-const YouTube =
-  techsquidtv.socials.find((social) => social.name === "YouTube")?.url ??
-  "https://www.youtube.com/techsquidtv";
+const YouTube = SOCIAL_LINKS.find((link) => link.name === "YouTube")!.url;
 ---
 
-<LayoutBase>
-  <main class="mt-24 wrapper">
-    <div class="card">
-      <div class="mx-auto px-8">
-        <div class="flex justify-center">
-          <Image
-            src={Avatar}
-            alt="Kyle Tryon"
-            class="rounded-full w-32 xl:w-48"
-            transition:name={"tstv-avatar"}
-          />
-        </div>
-        <p>
-          I am Kyle Tryon, also known as @TechSquidTV, a life-long self-taught
-          developer and general tinkerer, turned remote Senior Software
-          Developer.
-        </p>
-        <p>
-          I created the <a href={YouTube}>TechSquidTV</a> YouTube channel back in
-          2016 while working a retail job to document my journey becoming a developer
-          and to teach others along the way. Since then, I've been working remotely
-          for one of the premiere CI/CD providers in the world, continuing to develop
-          my skills, and working on some interesting side projects in open-source.
-        </p>
-        <p>
-          Growing up in a non-technical house-hold in the mid-90's, there were
-          not a lot of available quality resources for learning about technology
-          or programming. I started content creation around the age of 14 to
-          begin contributing higher quality technical tutorial content on
-          YouTube. I began learning in tandem with web development, software
-          like Adobe After Effects and Illustrator, so that I could create
-          better visual explainations of the concepts I was learning. I've
-          recently added 3D modeling and animation to my content as well with
-          Blender.
-        </p>
-        <p>
-          Here on this site, I hope to share my experiments and code and freely
-          share my knowledge with the world. I hope you find something useful
-          here!
-        </p>
-      </div>
+<BaseLayout
+  title={`About - ${SITE_TITLE}`}
+  description={`Learn about ${PERSONAL_INFO.name}, the developer and educator behind ${SITE_TITLE}`}
+  maxWidth="lg"
+>
+  <StructuredData />
+
+  <PageHeader title={`About ${SITE_TITLE}`}>
+    <div class="mb-8 flex justify-center">
+      <Avatar
+        src={AvatarImage}
+        alt={`${PERSONAL_INFO.name} - ${SITE_TITLE}`}
+        size="xl"
+      />
     </div>
-  </main>
-</LayoutBase>
+  </PageHeader>
+
+  <div
+    class="text-text-secondary space-y-6 leading-relaxed"
+    itemscope
+    itemtype="https://schema.org/Person"
+  >
+    <meta itemprop="name" content={PERSONAL_INFO.name} />
+    <meta itemprop="alternateName" content={PERSONAL_INFO.username} />
+    <meta itemprop="jobTitle" content={PERSONAL_INFO.jobTitle} />
+    <meta itemprop="url" content={PERSONAL_INFO.website} />
+
+    <p class="text-lg">
+      I am <span itemprop="name">{PERSONAL_INFO.name}</span>, also known as <span
+        itemprop="alternateName">@{PERSONAL_INFO.username}</span
+      >, a life-long self-taught developer and general tinkerer, turned remote <span
+        itemprop="jobTitle">{PERSONAL_INFO.jobTitle}</span
+      >.
+    </p>
+    <p class="text-lg">
+      I created the <a href={YouTube} target="_blank">{SITE_TITLE}</a> YouTube channel
+      back in 2016 while working a retail job to document my journey becoming a developer
+      and to teach others along the way. Since then, I've been working remotely for
+      one of the premiere CI/CD providers in the world, continuing to develop my
+      skills, and working on some interesting side projects in open-source.
+    </p>
+    <p class="text-lg">
+      Growing up in a non-technical house-hold in the mid-90's, there were not a
+      lot of available quality resources for learning about technology or
+      programming. I started content creation around the age of 14 to begin
+      contributing higher quality technical tutorial content on YouTube. I began
+      learning in tandem with web development, software like Adobe After Effects
+      and Illustrator, so that I could create better visual explanations of the
+      concepts I was learning. I've recently added 3D modeling and animation to
+      my content as well with Blender.
+    </p>
+    <p class="text-lg">
+      Here on this site, I hope to share my experiments and code and freely
+      share my knowledge with the world. I hope you find something useful here!
+    </p>
+  </div>
+</BaseLayout>

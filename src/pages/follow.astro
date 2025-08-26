@@ -1,50 +1,40 @@
 ---
-import { Icon } from 'astro-icon/components'
-import Newsletter from '@components/Newsletter.astro';
-import techsquidtv from '@data/techsquidtv.json'
-import Avatar from '@images/brand/tstvprofile.png'
-import LayoutBase from "@layouts/LayoutBase.astro";
-import { Image } from "astro:assets";
+import Avatar from "../components/Avatar.astro";
+import ContactInfo from "../components/ContactInfo.astro";
+import PageHeader from "../components/PageHeader.astro";
+import SocialLink from "../components/SocialLink.astro";
+import SocialLinksGroup from "../components/SocialLinksGroup.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AvatarImage from "../images/brand/tstvprofile.png";
+import { PERSONAL_INFO } from "../consts";
+
+const email = PERSONAL_INFO.email;
 ---
 
-<LayoutBase>
-  <main class="wrapper">
-    <div class="mt-20">
-      <header class="flex flex-col justify-center items-center text-center my-4">
-        <Image src={Avatar} alt="Kyle a.k.a TechSquidTV" class="rounded-full w-32 xl:w-48" transition:name={"tstv-avatar"} />
-        <div class="my-2">
-          <h1
-            class="font-semibold text-3xl xl:text-4xl"
-          >
-            Kyle Tryon
-          </h1>
-        <h2
-            class="text-lg xl:text-xl"
-          >
-            @techsquidtv
-          </h2>
-        </div>
-        <div class="flex flex-col justify-center items-center text-xs">
-          <a href={`mailto:${techsquidtv.email}`} target="_blank" class="flex flex-row space-x-2"><Icon name={"email"}/><span>{techsquidtv.email}</span></a>
-          <a href="/verify" class="flex flex-row text-emerald-200 underline"><span>verify</span><Icon name={"verified"} size={3}/></a>
-        </div>
-      </header>
-      <ul class="flex flex-col space-y-3">
-        {
-          techsquidtv.socials.map((social) => (
-            <li class="card transition-scale duration-300 hover:scale-[102%]">
-              <a class="flex flex-row space-x-3 items-center" target="_blank" href={social.url}>
-                <Icon name={social.icon} />
-                <span>{social.name}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-      <div class="my-3">
-        <Newsletter />
-      </div>
+<BaseLayout
+  title="Follow - TechSquidTV"
+  description="Connect with Kyle Tryon across social platforms"
+  maxWidth="md"
+>
+  <PageHeader title="TechSquidTV" subtitle="Kyle Tryon">
+    <div class="mb-6 flex justify-center">
+      <Avatar src={AvatarImage} alt="Kyle Tryon - TechSquidTV" size="xl" />
     </div>
-  </main>
-</LayoutBase>
+    <ContactInfo email={email} className="mb-8" />
+  </PageHeader>
 
+  <div class="flex flex-col gap-4">
+    <!-- All Social Media Links -->
+    <SocialLinksGroup variant="card" layout="stack" showDescriptions={true} />
+
+    <!-- Blog Link -->
+    <SocialLink
+      name="Blog"
+      url="/blog"
+      icon="rss"
+      description="Latest blog posts and articles"
+      external={false}
+      variant="card"
+    />
+  </div>
+</BaseLayout>

@@ -1,0 +1,74 @@
+---
+import { PERSONAL_INFO } from "../consts";
+import Avatar from "./Avatar.astro";
+import SocialLinksGroup from "./SocialLinksGroup.astro";
+import AvatarImage from "../images/brand/tstvprofile.png";
+
+interface Props {
+  showSocials?: boolean;
+  size?: "sm" | "md" | "lg";
+}
+
+const { showSocials = true, size = "md" } = Astro.props;
+
+const sizeClasses = {
+  sm: "text-sm",
+  md: "text-base",
+  lg: "text-lg",
+};
+
+const avatarSizes = {
+  sm: "sm" as const,
+  md: "md" as const,
+  lg: "lg" as const,
+};
+---
+
+<div class="author-info" itemscope itemtype="https://schema.org/Person">
+  <meta itemprop="name" content={PERSONAL_INFO.name} />
+  <meta itemprop="alternateName" content={PERSONAL_INFO.username} />
+  <meta itemprop="url" content={PERSONAL_INFO.website} />
+  <meta itemprop="email" content={PERSONAL_INFO.email} />
+
+  <div class="flex items-center gap-4">
+    <Avatar
+      src={AvatarImage}
+      alt={`${PERSONAL_INFO.name} - ${PERSONAL_INFO.username}`}
+      size={avatarSizes[size]}
+    />
+
+    <div class="flex-1">
+      <div class={`font-semibold ${sizeClasses[size]}`}>
+        <span itemprop="name">{PERSONAL_INFO.name}</span>
+      </div>
+      <div class={`text-text-muted ${sizeClasses[size]}`}>
+        <span itemprop="alternateName">@{PERSONAL_INFO.username}</span>
+      </div>
+      <div class={`text-text-subtle text-sm`}>
+        {PERSONAL_INFO.jobTitle} & Tech Educator
+      </div>
+
+      {
+        showSocials && (
+          <div class="mt-2">
+            <SocialLinksGroup
+              variant="icon"
+              size="sm"
+              layout="flex"
+              className="justify-start"
+            />
+          </div>
+        )
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .author-info {
+    border: 1px solid rgb(var(--color-border));
+    border-radius: 0.75rem;
+    padding: 1rem;
+    background: rgb(var(--color-surface));
+  }
+</style>

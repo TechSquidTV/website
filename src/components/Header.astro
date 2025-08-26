@@ -1,0 +1,233 @@
+---
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import { SITE_TITLE } from "../consts";
+import Avatar from "../images/brand/tstvprofile.png";
+import NavPillItem from "./NavPillItem.astro";
+import MobileNavItem from "./MobileNavItem.astro";
+import GlassContainer from "./GlassContainer.astro";
+
+const currentPath = Astro.url.pathname;
+
+// Navigation data
+const navItems = [
+  {
+    href: "/blog",
+    label: "Blog",
+    icon: "rss",
+    isActive: currentPath.startsWith("/blog"),
+  },
+  {
+    href: "/about",
+    label: "About",
+    icon: "verified",
+    isActive: currentPath === "/about",
+  },
+  {
+    href: "/follow",
+    label: "Follow",
+    icon: "youtube",
+    isActive: currentPath === "/follow",
+  },
+  {
+    href: "/contact",
+    label: "Contact",
+    icon: "email",
+    isActive: currentPath === "/contact",
+  },
+];
+---
+
+<header class="mobile-glass-header sticky top-0 z-50">
+  <!-- Advanced Backdrop Filter Elements -->
+  <div class="mobile-backdrop-blur"></div>
+  <div class="relative z-10 container mx-auto max-w-6xl p-4">
+    <nav
+      class="relative flex items-center justify-between lg:grid lg:grid-cols-3 lg:items-center"
+    >
+      <!-- Logo/Brand Section -->
+      <div class="flex items-center lg:justify-self-start">
+        <GlassContainer variant="pillbox">
+          <a
+            href="/"
+            class="flex items-center space-x-3 no-underline transition-all duration-300 hover:scale-105"
+          >
+            <Image
+              src={Avatar}
+              alt="TechSquidTV Logo"
+              width={32}
+              height={32}
+              class="rounded-full transition-all duration-300"
+            />
+            <span
+              class="text-text-primary m-0 inline-block leading-none font-bold"
+            >
+              {SITE_TITLE}
+            </span>
+          </a>
+        </GlassContainer>
+      </div>
+
+      <!-- Desktop Navigation - Floating Pill (Centered) -->
+      <div class="hidden lg:flex lg:justify-self-center">
+        <GlassContainer variant="nav">
+          {
+            navItems.map((item) => (
+              <NavPillItem
+                href={item.href}
+                label={item.label}
+                isActive={item.isActive}
+              />
+            ))
+          }
+        </GlassContainer>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="flex items-center lg:justify-self-end">
+        <button
+          id="mobile-menu-btn"
+          class="text-text-muted hover:bg-bg-tertiary hover:text-accent rounded-lg p-1.5 transition-all duration-200 lg:hidden"
+          aria-label="Toggle mobile menu"
+          aria-expanded="false"
+        >
+          <Icon name="menu" size={20} />
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Navigation Menu -->
+    <div
+      id="mobile-menu"
+      class="mobile-menu border-border bg-bg-secondary mt-4 hidden origin-top rounded-xl border p-4 backdrop-blur-lg transition-all duration-300 ease-out lg:hidden"
+    >
+      <div class="flex flex-col space-y-2">
+        {
+          navItems.map((item) => (
+            <MobileNavItem
+              href={item.href}
+              label={item.label}
+              icon={item.icon}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</header>
+<style>
+  /* Mobile Glass Header Backdrop (complex gradients need custom CSS) */
+  .mobile-glass-header {
+    background: transparent;
+  }
+
+  @media (max-width: 1023px) {
+    .mobile-glass-header {
+      background: hsl(10 10% 8% / 0.95);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    @supports (backdrop-filter: blur(16px)) {
+      .mobile-glass-header {
+        background: hsl(10 10% 8% / 0.8);
+      }
+
+      .mobile-backdrop-blur {
+        position: absolute;
+        inset: 0;
+        -webkit-backdrop-filter: blur(16px) saturate(180%) brightness(1.1);
+        backdrop-filter: blur(16px) saturate(180%) brightness(1.1);
+        background: linear-gradient(
+          to bottom,
+          hsl(10 10% 12% / 0.9) 0%,
+          hsl(10 10% 8% / 0.6) 50%,
+          transparent 100%
+        );
+        pointer-events: none;
+        z-index: -1;
+      }
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-backdrop-blur {
+      display: none;
+    }
+  }
+
+  /* Mobile menu animation states */
+  .mobile-menu.hidden {
+    opacity: 0;
+    transform: scaleY(0.95);
+    pointer-events: none;
+  }
+
+  .mobile-menu:not(.hidden) {
+    opacity: 1;
+    transform: scaleY(1);
+    animation: slideDown 0.3s ease;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px) scaleY(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scaleY(1);
+    }
+  }
+
+  /* Accessibility: Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Mobile menu toggle functionality
+    const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener("click", () => {
+        const isHidden = mobileMenu.classList.contains("hidden");
+
+        if (isHidden) {
+          mobileMenu.classList.remove("hidden");
+          mobileMenuBtn.setAttribute("aria-expanded", "true");
+        } else {
+          mobileMenu.classList.add("hidden");
+          mobileMenuBtn.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      // Close mobile menu when clicking outside
+      document.addEventListener("click", (event) => {
+        if (
+          !mobileMenu.contains(event.target as Node) &&
+          !mobileMenuBtn.contains(event.target as Node)
+        ) {
+          mobileMenu.classList.add("hidden");
+          mobileMenuBtn.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      // Close mobile menu on escape key
+      document.addEventListener("keydown", (event) => {
+        if (
+          event.key === "Escape" &&
+          !mobileMenu.classList.contains("hidden")
+        ) {
+          mobileMenu.classList.add("hidden");
+          mobileMenuBtn.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
+  });
+</script>

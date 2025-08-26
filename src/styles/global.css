@@ -1,0 +1,238 @@
+/*
+  The CSS in this style tag is based off of Bear Blog's default CSS.
+  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
+  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
+ */
+
+@import "tailwindcss";
+
+@theme {
+  /* Modern Tech Marketing Dark Theme */
+  --color-accent: #00d9ff; /* Bright cyan for CTAs and links */
+  --color-accent-dark: #0099cc; /* Darker cyan for hover states */
+  --color-accent-purple: #6366f1; /* Purple accent for variety */
+  --color-accent-green: #10b981; /* Success/accent green */
+
+  /* Dark theme backgrounds */
+  --color-bg-primary: #0a0a0b; /* Almost black primary background */
+  --color-bg-secondary: #111113; /* Slightly lighter secondary */
+  --color-bg-tertiary: #1a1a1d; /* Cards and elevated surfaces */
+  --color-bg-code: #0d1117; /* Code blocks background */
+
+  /* Text colors */
+  --color-text-primary: #ffffff; /* Pure white for headings */
+  --color-text-secondary: #e5e7eb; /* Light gray for body text */
+  --color-text-muted: #9ca3af; /* Muted gray for meta info */
+  --color-text-subtle: #6b7280; /* Very muted for subtle text */
+
+  /* Border and divider colors */
+  --color-border: #2a2a2e; /* Subtle borders */
+  --color-border-light: #3a3a3f; /* Lighter borders for focus */
+  --color-divider: #1f1f23; /* Divider lines */
+
+  /* Legacy aliases for existing code */
+  --color-black: 255 255 255; /* White text in dark theme */
+  --color-gray: 156 163 175; /* Muted gray */
+  --color-gray-light: 55 55 62; /* Dark gray for light elements */
+  --color-gray-dark: 229 231 235; /* Light gray for dark elements */
+
+  --font-family-atkinson: "Atkinson", sans-serif;
+
+  /* Modern shadows with glow effects */
+  --shadow-custom:
+    0 1px 3px rgb(0 0 0 / 0.5), 0 4px 16px rgb(0 0 0 / 0.3),
+    0 0 0 1px rgb(255 255 255 / 0.05);
+  --shadow-glow: 0 0 20px rgb(var(--color-accent) / 0.3);
+  --shadow-card:
+    0 4px 6px rgb(0 0 0 / 0.3), 0 10px 20px rgb(0 0 0 / 0.2),
+    0 0 0 1px rgb(255 255 255 / 0.05);
+}
+
+:root {
+  --dark-gradient: linear-gradient(
+    135deg,
+    var(--color-bg-primary) 0%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-tertiary) 100%
+  );
+  --hero-gradient: radial-gradient(
+    ellipse at top,
+    rgb(var(--color-accent) / 0.1) 0%,
+    transparent 50%
+  );
+}
+@font-face {
+  font-family: "Atkinson";
+  src: url("/fonts/atkinson-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson";
+  src: url("/fonts/atkinson-bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+body {
+  font-family: var(--font-family-atkinson);
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  background: var(--color-bg-primary);
+  background-image: var(--hero-gradient);
+  background-attachment: fixed;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  color: var(--color-text-secondary);
+  font-size: 20px;
+  line-height: 1.7;
+}
+main {
+  background: var(--color-bg-secondary);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 0.5rem 0;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+  font-weight: 600;
+}
+h1 {
+  font-size: 3.052em;
+}
+h2 {
+  font-size: 2.441em;
+}
+h3 {
+  font-size: 1.953em;
+}
+h4 {
+  font-size: 1.563em;
+}
+h5 {
+  font-size: 1.25em;
+}
+strong,
+b {
+  font-weight: 700;
+}
+a {
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+/* Only apply accent color to regular content links, not styled components */
+.prose a,
+main p a,
+main li a,
+a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]) {
+  color: var(--color-accent);
+}
+
+.prose a:hover,
+main p a:hover,
+main li a:hover,
+a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]):hover {
+  color: var(--color-accent-dark);
+  text-shadow: 0 0 8px rgb(var(--color-accent) / 0.4);
+}
+p {
+  margin-bottom: 1em;
+}
+.prose p {
+  margin-bottom: 2em;
+}
+textarea {
+  width: 100%;
+  font-size: 16px;
+}
+input {
+  font-size: 16px;
+}
+table {
+  width: 100%;
+}
+img {
+  max-width: 100%;
+  height: auto;
+}
+code {
+  padding: 3px 6px;
+  background-color: var(--color-bg-code);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  color: var(--color-accent);
+  font-size: 0.9em;
+}
+pre {
+  padding: 1.5em;
+  border-radius: 12px;
+  background: var(--color-bg-code);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  overflow-x: auto;
+}
+pre > code {
+  all: unset;
+}
+blockquote {
+  border-left: 4px solid var(--color-accent);
+  background: var(--color-bg-tertiary);
+  padding: 1.5em 1.5em 1.5em 2em;
+  margin: 2em 0;
+  border-radius: 0 12px 12px 0;
+  font-size: 1.1em;
+  font-style: italic;
+  color: var(--color-text-muted);
+  box-shadow: var(--shadow-card);
+}
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-border) 20%,
+    var(--color-accent) 50%,
+    var(--color-border) 80%,
+    transparent 100%
+  );
+  margin: 3em 0;
+}
+@media (max-width: 720px) {
+  body {
+    font-size: 18px;
+  }
+  main {
+    padding: 1em;
+  }
+}
+
+.sr-only {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  /* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
+  clip: rect(1px 1px 1px 1px);
+  /* maybe deprecated but we need to support legacy browsers */
+  clip: rect(1px, 1px, 1px, 1px);
+  /* modern browsers, clip-path works inwards from each corner */
+  clip-path: inset(50%);
+  /* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
+  white-space: nowrap;
+}
+
+/* Legacy component styles - these are now handled by Astro components with Tailwind utilities */

@@ -1,0 +1,142 @@
+---
+import {
+  PERSONAL_INFO,
+  SOCIAL_LINKS,
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+  EXPERTISE_AREAS,
+} from "../consts";
+
+interface Props {
+  type?: "Person" | "BlogPosting";
+  pageUrl?: string;
+  title?: string;
+  description?: string;
+  publishDate?: Date;
+  updatedDate?: Date;
+  readingTime?: number;
+  wordCount?: number;
+}
+
+const {
+  type = "Person",
+  pageUrl = Astro.url.href,
+  title,
+  description,
+  publishDate,
+  updatedDate,
+  readingTime,
+  wordCount,
+} = Astro.props;
+
+// Build comprehensive author object
+const authorSchema = {
+  "@type": "Person",
+  "@id": `${Astro.site}#author`,
+  name: PERSONAL_INFO.name,
+  alternateName: PERSONAL_INFO.username,
+  url: PERSONAL_INFO.website,
+  email: PERSONAL_INFO.email,
+  image: {
+    "@type": "ImageObject",
+    url: `${Astro.site}brand/tstvprofile.png`,
+    width: 400,
+    height: 400,
+  },
+  description: SITE_DESCRIPTION,
+  jobTitle: PERSONAL_INFO.jobTitle,
+  worksFor: [
+    {
+      "@type": "Organization",
+      name: PERSONAL_INFO.company,
+    },
+    {
+      "@type": "Organization",
+      name: PERSONAL_INFO.corporateCompany,
+    },
+  ],
+  knowsAbout: EXPERTISE_AREAS, // ← Now uses the constants!
+  sameAs: SOCIAL_LINKS.map((link) => link.url),
+  mainEntityOfPage: `${Astro.site}about`,
+};
+
+let schema;
+
+if (type === "BlogPosting" && title) {
+  // Blog post schema with authorship + reading metrics
+  schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description: description,
+    url: pageUrl,
+    datePublished: publishDate?.toISOString(),
+    dateModified: (updatedDate || publishDate)?.toISOString(),
+    author: authorSchema,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_TITLE,
+      url: Astro.site,
+      logo: {
+        "@type": "ImageObject",
+        url: `${Astro.site}favicon.svg`,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": pageUrl,
+    },
+    image: {
+      "@type": "ImageObject",
+      url: `${pageUrl.replace(/\/$/, "")}.png`.replace(
+        "/blog/",
+        "/open-graph/blog/",
+      ),
+    },
+    // 📖 READING METRICS (part of BlogPosting, not Author!)
+    ...(wordCount && { wordCount: wordCount }),
+    ...(readingTime && { timeRequired: `PT${Math.ceil(readingTime)}M` }),
+  };
+} else {
+  // Person/Organization schema for general pages
+  schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      authorSchema,
+      {
+        "@type": "Organization",
+        "@id": `${Astro.site}#organization`,
+        name: SITE_TITLE,
+        url: Astro.site,
+        logo: {
+          "@type": "ImageObject",
+          url: `${Astro.site}favicon.svg`,
+        },
+        founder: {
+          "@id": `${Astro.site}#author`,
+        },
+        sameAs: SOCIAL_LINKS.map((link) => link.url),
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${Astro.site}#website`,
+        url: Astro.site,
+        name: SITE_TITLE,
+        description: SITE_DESCRIPTION,
+        publisher: {
+          "@id": `${Astro.site}#organization`,
+        },
+        author: {
+          "@id": `${Astro.site}#author`,
+        },
+      },
+    ],
+  };
+}
+---
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(schema)}
+  is:inline
+/>

@@ -1,0 +1,65 @@
+---
+interface Props {
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "sm" | "md" | "lg";
+  type?: "button" | "submit" | "reset";
+  href?: string;
+  target?: "_blank" | "_self" | "_parent" | "_top";
+  disabled?: boolean;
+  fullWidth?: boolean;
+  className?: string;
+}
+
+const {
+  variant = "primary",
+  size = "md",
+  type = "button",
+  href,
+  target = "_self",
+  disabled = false,
+  fullWidth = false,
+  className = "",
+} = Astro.props;
+
+const baseClasses =
+  "inline-flex items-center justify-center gap-2 font-semibold transition-all duration-300 rounded-lg no-underline cursor-pointer";
+
+const variantClasses = {
+  primary:
+    "bg-accent text-bg-primary hover:bg-accent-dark hover:-translate-y-1 hover:shadow-lg shadow-accent/30",
+  secondary:
+    "bg-bg-tertiary text-text-primary border-2 border-border hover:bg-bg-secondary hover:border-accent hover:-translate-y-1 hover:shadow-lg shadow-black/10",
+  ghost:
+    "text-accent hover:text-accent-dark hover:bg-accent/5 border border-transparent hover:border-accent/20",
+};
+
+const sizeClasses = {
+  sm: "px-4 py-2 text-sm",
+  md: "px-6 py-3 text-base",
+  lg: "px-8 py-4 text-lg",
+};
+
+const disabledClasses = "opacity-50 cursor-not-allowed hover:transform-none";
+const fullWidthClasses = fullWidth ? "w-full" : "";
+
+const allClasses = `
+	${baseClasses}
+	${variantClasses[variant]}
+	${sizeClasses[size]}
+	${disabled ? disabledClasses : ""}
+	${fullWidthClasses}
+	${className}
+`.trim();
+---
+
+{
+  href ? (
+    <a href={href} target={target} class={allClasses} aria-disabled={disabled}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} disabled={disabled} class={allClasses}>
+      <slot />
+    </button>
+  )
+}

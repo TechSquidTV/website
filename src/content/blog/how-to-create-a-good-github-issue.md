@@ -62,10 +62,10 @@ You can find similar information in [System Settings](https://support.microsoft.
 
 You can also find your Node version by running `node -v` in your terminal, and similar with other tools. Given that, we might share context similar to this:
 
-> * **Package Version**: 1.0.0 (this is the thing you are trying to use)
-> * **Operating system:** MacOS Sonoma 14.3.1, M1
-> * **Node Version**: v21.6.1
-> * **Package Manager**: pnpm 8.15.1
+> - **Package Version**: 1.0.0 (this is the thing you are trying to use)
+> - **Operating system:** MacOS Sonoma 14.3.1, M1
+> - **Node Version**: v21.6.1
+> - **Package Manager**: pnpm 8.15.1
 
 This additional context can help contributors determine if maybe the package isn't compatible with the version of Node you may be using, or maybe the issue was already fixed in a newer version of the package.
 
@@ -74,11 +74,12 @@ This additional context can help contributors determine if maybe the package isn
 What action triggered the issue? This might mean attempting to use a certain feature or functionality and running into an error. Try to provide reproducible steps to perform so that others can replicate your issue.
 
 > Error is triggered when accessing the `count()` method on `Counter`.
-> 
+>
 > Steps to reproduce:
+>
 > 1. Create a new Counter object
 > 2. Call the `count()` method
-> 
+>
 > ```typescript
 > const c = new Counter();
 > console.log(c.count());
@@ -89,7 +90,7 @@ What action triggered the issue? This might mean attempting to use a certain fea
 What was the result of the action? This could be an error message, a log, or an unexpected behavior.
 
 > Error:
-> 
+>
 > ```
 > Property 'count' does not exist on type
 > ```
@@ -113,44 +114,54 @@ Screenshots, screen recordings, links, and any other assets that might be helpfu
 An important distinction to remember is screenshots are _not_ replacements for copy and pasting real code/text or links. Real code and text can be searched and copied, but screenshots and videos can provide excellent additional context.
 
 Every major modern operating system has built-in tools for recording a small region of your screen. Need help recording your screen? Try these out:
-* Windows: [Snipping Tool](https://www.microsoft.com/en-us/windows/learning-center/how-to-record-screen-windows-11#:~:text=To%20open%20Snipping%20Tool%2C%20simply,countdown%20begin%20for%20your%20recording)
-* Mac: [Screenshot](https://support.apple.com/en-us/102618)
-* Linux/Gnome: [Gnome Screenshot](https://help.gnome.org/users/gnome-help/stable/screen-shot-record.html.en)
-* Linux/KDE: [KDE Spectacle](https://apps.kde.org/spectacle/)
+
+- Windows: [Snipping Tool](https://www.microsoft.com/en-us/windows/learning-center/how-to-record-screen-windows-11#:~:text=To%20open%20Snipping%20Tool%2C%20simply,countdown%20begin%20for%20your%20recording)
+- Mac: [Screenshot](https://support.apple.com/en-us/102618)
+- Linux/Gnome: [Gnome Screenshot](https://help.gnome.org/users/gnome-help/stable/screen-shot-record.html.en)
+- Linux/KDE: [KDE Spectacle](https://apps.kde.org/spectacle/)
 
 ## Issue Template
 
 If you're looking for a template to guide you to creating a good issue, or even a good issue template for your own repository, consider including these "C.A.R.E." components. Here's a bare-bones template example you can adapt to your specific needs.
 
-
 ```markdown title="ISSUE_TEMPLATE.md"
-
 ## Brief Description
+
 <!-- A concise summary of the problem you are experiencing. -->
 
 ## Context
+
 <!-- Include relevant information about your environment. This may include the operating system, architecture, the version of the package of software, or the runtime version. -->
 
 **Version:**
+
 <!-- The version of the package of software you are using. -->
+
 **Operating System:**
+
 <!-- Your OS Type, Version, and CPU architecture -->
+
 **Runtime Version:**
+
 <!-- The version of the runtime (node for example) you are using, if applicable. -->
 
 ## Action
+
 <!-- What you were trying to do? -->
 <!-- Include steps to reproduce -->
 
 ## Result
+
 <!-- What happened? -->
 <!-- Share any errors, logs, or screenshots that can easily demonstrate the issue. -->
 
 ## Expected
+
 <!-- What did you expect to happen? -->
 <!-- Share exactly what you expected to happen, give an example -->
 
 ## Supporting Assets
+
 <!-- Screenshots, screen recordings, links, and any other assets that might be helpful. -->
 <!-- This does not need to be its own section, you can instead add assets in the appropriate section above. -->
 ```

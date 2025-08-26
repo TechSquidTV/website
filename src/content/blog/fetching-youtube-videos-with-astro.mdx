@@ -8,7 +8,6 @@ slug: astro-fetching-youtube-videos-with-rss
 tags:
   - coding
 ---
-import LatestYouTube from "@components/Headless/LatestYouTube.astro";
 
 One of the most common reasons you'll hear someone mention that they need a full backend server running for their personal website, is for "dynamic" content. For example, you might want to show your latest YouTube video on your homepage, which requires making an authenticated request to the YouTube API, and now you need to proxy that request through your server to keep your API key secret. Wildly complicated for fetching a YouTube video, and how often are videos uploaded? Once a week? Once a month? Let's explore another option.
 
@@ -28,7 +27,7 @@ The first key difference in our static site workflow, is we are using Astro. Whi
 
 ### How to get the RSS feed for a YouTube channel
 
-Remember RSS? Youtube may have actually forgotten about it, because if you check the RSS feed for a channel, you'll see they still refer to the video's mimetype as `x-shockwave-flash`. 
+Remember RSS? Youtube may have actually forgotten about it, because if you check the RSS feed for a channel, you'll see they still refer to the video's mimetype as `x-shockwave-flash`.
 
 [![YouTube still refers to videos as x-shockwave-flash in RSS](../../images/blog/youtube-flash-rss.jpg)](https://x.com/TechSquidTV/status/1736603761655599487)
 
@@ -49,11 +48,13 @@ The best way to find the channel ID:
 
 #### How to get the RSS feed
 
-Now that we have the channel ID, we can construct the URL for the RSS feed. The URL is: 
+Now that we have the channel ID, we can construct the URL for the RSS feed. The URL is:
+
 ```txt
 https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}
 ```
- Replace `{channelID}` with the channel's ID.
+
+Replace `{channelID}` with the channel's ID.
 
 ### Building The YouTube Astro Component
 
@@ -125,7 +126,7 @@ type Props = {
 };
 ```
 
-Our `LatestYouTube` component will accept a `channelID` prop, which will allow us to fetch the latest video from any channel. We'll use the `fetch` API to get the RSS feed, and then parse the XML with `fast-xml-parser` as the `YouTubeRSS` type we defined above. Finally, to grab just the latest video, we set `video` to the first entry in the `feed`'s `entry` array. 
+Our `LatestYouTube` component will accept a `channelID` prop, which will allow us to fetch the latest video from any channel. We'll use the `fetch` API to get the RSS feed, and then parse the XML with `fast-xml-parser` as the `YouTubeRSS` type we defined above. Finally, to grab just the latest video, we set `video` to the first entry in the `feed`'s `entry` array.
 
 ```tsx title="LatestYouTube.astro"
 const { channelID } = Astro.props;
@@ -142,30 +143,40 @@ const rss = parser.parse(rssData) as YouTubeRSS;
 const video = rss.feed.entry[0];
 ```
 
-Now for the markup. This part is going to be subjective to your site's design. Here, I use `tailwind` with Astro's image component and an icon component to show an image of the video thumbnail with a play button overlay, and a link to the video. 
+Now for the markup. This part is going to be subjective to your site's design. Here, I use `tailwind` with Astro's image component and an icon component to show an image of the video thumbnail with a play button overlay, and a link to the video.
 
 ```tsx title="LatestYouTube.astro"
-<div class="flex flex-col w-full h-full">
-  <a href={video["media:group"]["media:content"]["@_url"]} target="_blank" class="flex-1 relative">
-    <div class="absolute top-1/2 right-1/2 transform translate-x-1/2 -translate-y-1/2 m-2">
+<div class="flex h-full w-full flex-col">
+  <a
+    href={video["media:group"]["media:content"]["@_url"]}
+    target="_blank"
+    class="relative flex-1"
+  >
+    <div class="absolute top-1/2 right-1/2 m-2 translate-x-1/2 -translate-y-1/2 transform">
       <Icon name="playCircle" size={24} />
     </div>
-      <Image
-        class="rounded-lg object-cover object-center w-full h-full sm:h-48 md:h-52 xl:h-64 shadow-xl"
-        src={video["media:group"]["media:thumbnail"]["@_url"]}
-        alt={video["media:group"]["media:title"]}
-        width={parseInt(video["media:group"]["media:content"]["@_width"])}
-        height={parseInt(video["media:group"]["media:content"]["@_height"])}
-      />
+    <Image
+      class="h-full w-full rounded-lg object-cover object-center shadow-xl sm:h-48 md:h-52 xl:h-64"
+      src={video["media:group"]["media:thumbnail"]["@_url"]}
+      alt={video["media:group"]["media:title"]}
+      width={parseInt(video["media:group"]["media:content"]["@_width"])}
+      height={parseInt(video["media:group"]["media:content"]["@_height"])}
+    />
   </a>
-    <div class="flex flex-1 flex-col justify-between py-2 mx-8">
-      <h2 class="text-4xl font-bold text-smoke-50 mb-2 break-words">
-        {video["media:group"]["media:title"]}
-      </h2>
-      <div class="my-1 text-sm">
-        <a class="rounded-full inline-flex flex-row items-center px-2 ring-1 ring-smoke-800 text-smoke-300" target="_blank" href={video["media:group"]["media:content"]["@_url"]}>watch</a>
-      </div>
+  <div class="mx-8 flex flex-1 flex-col justify-between py-2">
+    <h2 class="text-smoke-50 mb-2 text-4xl font-bold break-words">
+      {video["media:group"]["media:title"]}
+    </h2>
+    <div class="my-1 text-sm">
+      <a
+        class="ring-smoke-800 text-smoke-300 inline-flex flex-row items-center rounded-full px-2 ring-1"
+        target="_blank"
+        href={video["media:group"]["media:content"]["@_url"]}
+      >
+        watch
+      </a>
     </div>
+  </div>
 </div>
 ```
 
@@ -173,7 +184,7 @@ Now for the markup. This part is going to be subjective to your site's design. H
 
 Here's a live demo of the component in action. Let's set the channel ID to someone a bit more active on YouTube than I am. Enjoy the latest video from [FreeCodeCamp](https://www.freecodecamp.org/)
 
-<LatestYouTube channelID="UC8butISFwT-Wl7EV0hUK0BQ" />
+_Demo component would appear here showing the latest FreeCodeCamp video_
 
 ### Automatically updating the site with the latest video
 

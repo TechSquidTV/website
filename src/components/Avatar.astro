@@ -1,0 +1,44 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  size?: "sm" | "md" | "lg" | "xl";
+  className?: string;
+}
+
+const { src, alt, size = "md", className = "" } = Astro.props;
+
+const sizeClasses = {
+  sm: "w-12 h-12",
+  md: "w-16 h-16",
+  lg: "w-24 h-24",
+  xl: "w-32 h-32",
+};
+
+const imageSizes = {
+  sm: { width: 48, height: 48 },
+  md: { width: 64, height: 64 },
+  lg: { width: 96, height: 96 },
+  xl: { width: 128, height: 128 },
+};
+---
+
+<Image
+  src={src}
+  alt={alt}
+  width={imageSizes[size].width}
+  height={imageSizes[size].height}
+  class={`
+		rounded-full 
+		border-2 border-border 
+		shadow-card
+		transition-all duration-300
+		hover:border-accent 
+		hover:shadow-glow 
+		hover:scale-105
+		${sizeClasses[size]}
+		${className}
+	`}
+/>
