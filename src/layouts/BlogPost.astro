@@ -125,12 +125,12 @@ const blogOgImageUrl = new URL(`/open-graph/blog/${blogSlug}.png`, Astro.site)
           {
             tags && tags.length > 0 && (
               <section class="mb-8">
-                <div class="flex flex-wrap gap-2 justify-center">
+                <div class="flex flex-wrap justify-center gap-2">
                   {tags.map((tag) => (
                     <a
                       href={`/blog/tags/${tag}/`}
                       rel="tag"
-                      class="bg-bg-secondary border-border hover:border-accent hover:text-accent inline-block px-3 py-1 text-sm rounded-full border transition-colors duration-200"
+                      class="bg-bg-secondary border-border hover:border-accent hover:text-accent inline-block rounded-full border px-3 py-1 text-sm transition-colors duration-200"
                     >
                       #{tag}
                     </a>
