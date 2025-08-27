@@ -8,6 +8,10 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import embeds from "astro-embed/integration";
 import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
+import remarkToc from "remark-toc";
+import rehypeExternalLinks from "rehype-external-links";
+
+import netlify from "@astrojs/netlify";
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,7 +23,19 @@ export default defineConfig({
   integrations: [sitemap(), icon(), embeds(), mdx()],
 
   markdown: {
-    remarkPlugins: [remarkReadingTime],
+    remarkPlugins: [
+      remarkReadingTime,
+      [remarkToc, { heading: "Table of Contents", maxDepth: 4, tight: true }],
+    ],
+    rehypePlugins: [
+      [
+        rehypeExternalLinks,
+        {
+          target: "_blank",
+          rel: ["nofollow", "noopener"],
+        },
+      ],
+    ],
   },
 
   redirects: {
@@ -52,4 +68,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss(), sitemap()],
   },
+
+  adapter: netlify(),
 });

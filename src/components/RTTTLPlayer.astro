@@ -1,0 +1,917 @@
+---
+interface Props {
+  rtttl?: string;
+  title?: string;
+  showControls?: boolean;
+  showVisualization?: boolean;
+  showInput?: boolean;
+  autoplay?: boolean;
+  className?: string;
+  width?: string;
+  height?: string;
+}
+
+const {
+  rtttl = "",
+  title = "RTTTL Player",
+  showControls = true,
+  showVisualization = false,
+  showInput = true,
+  autoplay = false,
+  className = "",
+  width = "100%",
+  height = "auto",
+} = Astro.props;
+
+// Generate unique ID for this player instance
+const playerId = `rtttl-player-${Math.random().toString(36).substring(2, 11)}`;
+
+// Built-in RTTTL examples
+const builtInExamples = [
+  {
+    name: "Nokia",
+    rtttl: "Nokia:d=4,o=5,b=125:8e6,8d6,8f#,8g#,8c#6,8b,8d,8e,8b,8a,8c#,8e,2a",
+  },
+  {
+    name: "Futurama",
+    rtttl:
+      "Futurama:o=5,d=8,b=112,b=112:e,4e,4e,a,4a,4d,4d,e,4e,4e,e,4a,4g#,4d,d,f#,f#,4e,4e,e,4a,4g#,4b,16b,16b,g,g,f#,f#,4e,4e,a,4a,4d,4d,e,g,f#,4e,e,4a,4g#,4d,d,f#,f#,4e,4e,e,4a,4g#,4b,16b,16b,g,g,f#,f#,p,16e,16e,e,d#,d,d,c#,c#",
+  },
+  {
+    name: "Eiffel 65 - Blue (Da Ba Dee)",
+    rtttl:
+      "Blue (Eiffel 65):d=2,o=5,b=500:32p,b,c6,e,g,c6,d6,g,b,1c6,e,g,e6,1f6,e6,d6,c6,e,g,c6,d6,g,b,1c6,e,g,e6,1f6,e6,d6,c6,e,g,c6,d6,g,b,1c6,e,g,e6,1f6,e6,d6,c6,e,g,c6,b,e,g,4a",
+  },
+  {
+    name: "Kim Possible",
+    rtttl: "Kim Possible:d=16,o=5,b=200:d6,8p,d6,8p,f6,32p,d6",
+  },
+  {
+    name: "The Simpsons",
+    rtttl:
+      "The Simpsons:d=4,o=5,b=160:32p,c.6,e6,f#6,8a6,g.6,e6,c6,8a,8f#,8f#,8f#,2g,8p,8p,8f#,8f#,8f#,8g,a#.,8c6,8c6,8c6,c6",
+  },
+  {
+    name: "Super Mario",
+    rtttl:
+      "Mario:d=4,o=5,b=100:16e6,16e6,32p,8e6,16c6,8e6,8g6,8p,8g,8p,8c6,16p,8g,16p,8e,16p,8a,8b,16a#,8a,16g.,16e6,16g6,8a6,16f6,8g6,8e6,16c6,16d6,8b,16p,8c6,16p,8g,16p,8e,16p,8a,8b,16a#,8a,16g.,16e6,16g6,8a6,16f6,8g6,8e6,16c6,16d6,8b,8p,16g6,16f#6,16f6,16d#6,16p,16e6,16p,16g#,16a,16c6,16p,16a,16c6,16d6",
+  },
+  {
+    name: "Sk8erboy",
+    rtttl:
+      "Sk8er Boi:d=8,o=5,b=160:a,a,a,a#,a,4f,p,a,a,a,a,a#,a,4f,p,f,f,f,4e,4e,4g,4e,4f.,4p,a,a,a,a#,a,4f,p,a,a,a,a,a#,a,4f,p,f,f,f,4e,4e,4g,4e,4f.",
+  },
+];
+---
+
+<div
+  class={`rtttl-player ${className}`}
+  style={`width: ${width}; height: ${height};`}
+  data-player-id={playerId}
+  data-rtttl={rtttl}
+  data-autoplay={autoplay}
+  data-show-visualization={showVisualization}
+  data-examples={JSON.stringify(builtInExamples)}
+>
+  {
+    showInput && (
+      <div class="rtttl-input-section">
+        <h3 class="rtttl-title">{title}</h3>
+
+        <div class="rtttl-input-group">
+          <label class="rtttl-label">Choose Example:</label>
+          <select class="rtttl-select">
+            <option value="">-- Select an example --</option>
+            {builtInExamples.map((example) => (
+              <option value={example.rtttl}>{example.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <div class="rtttl-input-group">
+          <label class="rtttl-label">Or enter RTTTL string:</label>
+          <textarea
+            class="rtttl-textarea"
+            placeholder="Enter RTTTL string (e.g., Nokia:d=4,o=5,b=125:8e6,8d6,8f#,8g#...)"
+            rows="3"
+          >{rtttl}</textarea>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    showControls && (
+      <div class="rtttl-controls">
+        {!showInput && <h3 class="rtttl-title">{title}</h3>}
+        <div class="rtttl-button-group">
+          <button class="rtttl-btn rtttl-play" data-action="play">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            Play
+          </button>
+          <button class="rtttl-btn rtttl-pause" data-action="pause" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+            </svg>
+            Pause
+          </button>
+          <button class="rtttl-btn rtttl-stop" data-action="stop" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 6h12v12H6z" />
+            </svg>
+            Stop
+          </button>
+        </div>
+        <div class="rtttl-progress">
+          <div class="rtttl-progress-bar" />
+          <div class="rtttl-time">
+            <span class="rtttl-current-time">0:00</span>
+            <span class="rtttl-total-time">0:00</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    showVisualization && (
+      <div class="rtttl-visualization">
+        <canvas class="rtttl-canvas" width="400" height="100" />
+      </div>
+    )
+  }
+
+  <div class="rtttl-status" data-status="ready">Ready</div>
+</div>
+
+<style>
+  .rtttl-player {
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 2rem 0;
+    font-family: var(--font-family-atkinson);
+    box-shadow: var(--shadow-card);
+    line-height: 1.5;
+  }
+
+  .rtttl-title {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .rtttl-input-section {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .rtttl-input-group {
+    margin-bottom: 0.75rem;
+  }
+
+  .rtttl-input-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .rtttl-label {
+    display: inline-block;
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    padding: 0.125rem 0.375rem;
+    border-left: 3px solid transparent;
+  }
+
+  .rtttl-select {
+    width: 100%;
+    padding: 0.375rem 0.5rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    color: var(--color-text-primary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .rtttl-select:focus {
+    outline: none;
+    border-left-color: var(--color-accent);
+    background: var(--color-bg-primary);
+    box-shadow: 0 0 8px rgb(var(--color-accent) / 0.2);
+  }
+
+  .rtttl-textarea {
+    width: 100%;
+    padding: 0.5rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    color: var(--color-text-primary);
+    font-size: 0.8rem;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+    resize: vertical;
+    margin-bottom: 0.375rem;
+    min-height: 3rem;
+    line-height: 1.4;
+    transition: all 0.2s ease;
+  }
+
+  .rtttl-textarea:focus {
+    outline: none;
+    border-left-color: var(--color-accent);
+    background: var(--color-bg-primary);
+    box-shadow: 0 0 8px rgb(var(--color-accent) / 0.2);
+  }
+
+  .rtttl-textarea::placeholder {
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+  }
+
+  .rtttl-controls {
+    margin-bottom: 0.75rem;
+  }
+
+  .rtttl-button-group {
+    display: flex;
+    gap: 0.375rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .rtttl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem 0.25rem 0.5rem;
+    background: transparent;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .rtttl-btn:hover:not(:disabled) {
+    color: var(--color-accent);
+    background: var(--color-bg-secondary);
+    border-left-color: var(--color-accent);
+    text-shadow: 0 0 8px rgb(var(--color-accent) / 0.4);
+  }
+
+  .rtttl-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .rtttl-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .rtttl-progress {
+    position: relative;
+    background: var(--color-bg-secondary);
+    border-radius: 3px;
+    height: 4px;
+    margin-bottom: 0.375rem;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+
+  .rtttl-progress-bar {
+    height: 100%;
+    background: var(--color-accent);
+    width: 0%;
+    transition: width 0.1s ease;
+  }
+
+  .rtttl-time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.375rem;
+  }
+
+  .rtttl-visualization {
+    margin: 0.75rem 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  .rtttl-canvas {
+    display: block;
+    width: 100%;
+    height: 60px;
+  }
+
+  .rtttl-status {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin: 0;
+    padding: 0.125rem 0.375rem;
+    border-left: 3px solid transparent;
+    display: inline-block;
+  }
+
+  .rtttl-status[data-status="playing"] {
+    color: var(--color-accent);
+    border-left-color: var(--color-accent);
+    text-shadow: 0 0 8px rgb(var(--color-accent) / 0.4);
+  }
+
+  .rtttl-status[data-status="error"] {
+    color: #ef4444;
+    border-left-color: #ef4444;
+  }
+
+  /* Compact mobile layout */
+  @media (max-width: 720px) {
+    .rtttl-player {
+      padding: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    .rtttl-button-group {
+      gap: 0.25rem;
+    }
+
+    .rtttl-btn {
+      padding: 0.25rem 0.375rem;
+      font-size: 0.75rem;
+    }
+
+    .rtttl-canvas {
+      height: 50px;
+    }
+  }
+</style>
+
+<script>
+  interface RTTTLNote {
+    duration: number;
+    pitch: string;
+    octave: number;
+    frequency: number;
+    isRest: boolean;
+  }
+
+  interface RTTTLData {
+    name: string;
+    defaults: {
+      duration: number;
+      octave: number;
+      bpm: number;
+    };
+    notes: RTTTLNote[];
+  }
+
+  class RTTTLPlayer {
+    private audioContext: AudioContext | null = null;
+    private currentNoteIndex = 0;
+    private isPlaying = false;
+    private isPaused = false;
+    private timeoutId: number | null = null;
+
+    private rtttlData: RTTTLData | null = null;
+    private analyser: AnalyserNode | null = null;
+    private visualizationId: number | null = null;
+    private staticVisualizationId: number | null = null;
+
+    constructor(
+      private playerId: string,
+      private rtttl: string,
+      private showVisualization: boolean = false,
+    ) {
+      if (this.rtttl) {
+        this.parseRTTTL();
+      }
+      this.initializePlayer();
+
+      if (this.showVisualization) {
+        this.startStaticVisualization();
+      }
+    }
+
+    public loadNewRTTTL(newRtttl: string): void {
+      this.stop();
+      this.rtttl = newRtttl;
+      this.parseRTTTL();
+      this.updateStatus(
+        this.rtttlData ? "Loaded new RTTTL" : "Failed to parse RTTTL",
+        this.rtttlData ? "ready" : "error",
+      );
+    }
+
+    private parseRTTTL(): void {
+      try {
+        const parts = this.rtttl.split(":");
+        if (parts.length !== 3) {
+          throw new Error("Invalid RTTTL format");
+        }
+
+        const name = parts[0].trim();
+        const defaults = this.parseDefaults(parts[1]);
+        const notes = this.parseNotes(parts[2], defaults);
+
+        this.rtttlData = { name, defaults, notes };
+      } catch (error) {
+        console.error("Error parsing RTTTL:", error);
+        this.updateStatus("Error parsing RTTTL", "error");
+      }
+    }
+
+    private parseDefaults(defaultsStr: string): {
+      duration: number;
+      octave: number;
+      bpm: number;
+    } {
+      const defaults = { duration: 4, octave: 6, bpm: 63 };
+
+      defaultsStr.split(",").forEach((part) => {
+        const [key, value] = part.trim().split("=");
+        switch (key.toLowerCase()) {
+          case "d":
+            defaults.duration = parseInt(value);
+            break;
+          case "o":
+            defaults.octave = parseInt(value);
+            break;
+          case "b":
+            defaults.bpm = parseInt(value);
+            break;
+        }
+      });
+
+      return defaults;
+    }
+
+    private parseNotes(notesStr: string, defaults: any): RTTTLNote[] {
+      const noteStrings = notesStr
+        .split(",")
+        .map((n) => n.trim())
+        .filter((n) => n);
+      const notes: RTTTLNote[] = [];
+
+      for (const noteStr of noteStrings) {
+        const note = this.parseNote(noteStr, defaults);
+        if (note) notes.push(note);
+      }
+
+      return notes;
+    }
+
+    private parseNote(noteStr: string, defaults: any): RTTTLNote | null {
+      const match = noteStr.match(/^(\d+)?([a-g]#?|p)(\d+)?\.?$/i);
+      if (!match) return null;
+
+      const duration = parseInt(match[1]) || defaults.duration;
+      const pitch = match[2].toLowerCase();
+      const octave = parseInt(match[3]) || defaults.octave;
+      const isRest = pitch === "p";
+
+      const frequency = isRest ? 0 : this.getFrequency(pitch, octave);
+
+      return {
+        duration,
+        pitch,
+        octave,
+        frequency,
+        isRest,
+      };
+    }
+
+    private getFrequency(pitch: string, octave: number): number {
+      const noteFrequencies: { [key: string]: number } = {
+        c: 16.35,
+        "c#": 17.32,
+        d: 18.35,
+        "d#": 19.45,
+        e: 20.6,
+        f: 21.83,
+        "f#": 23.12,
+        g: 24.5,
+        "g#": 25.96,
+        a: 27.5,
+        "a#": 29.14,
+        b: 30.87,
+      };
+
+      const baseFreq = noteFrequencies[pitch];
+      return baseFreq ? baseFreq * Math.pow(2, octave) : 440;
+    }
+
+    private initializePlayer(): void {
+      const player = document.querySelector(
+        `[data-player-id="${this.playerId}"]`,
+      );
+      if (!player) return;
+
+      // Initialize Web Audio Context on first user interaction
+      const playBtn = player.querySelector(
+        '[data-action="play"]',
+      ) as HTMLButtonElement;
+      const pauseBtn = player.querySelector(
+        '[data-action="pause"]',
+      ) as HTMLButtonElement;
+      const stopBtn = player.querySelector(
+        '[data-action="stop"]',
+      ) as HTMLButtonElement;
+
+      playBtn?.addEventListener("click", () => this.play());
+      pauseBtn?.addEventListener("click", () => this.pause());
+      stopBtn?.addEventListener("click", () => this.stop());
+
+      // Handle example dropdown
+      const selectEl = player.querySelector(
+        ".rtttl-select",
+      ) as HTMLSelectElement;
+      selectEl?.addEventListener("change", (e) => {
+        const target = e.target as HTMLSelectElement;
+        if (target.value) {
+          this.loadFromDropdown(target.value);
+        }
+      });
+
+      // Auto-load RTTTL when textarea changes (with debounce)
+      const textarea = player.querySelector(
+        ".rtttl-textarea",
+      ) as HTMLTextAreaElement;
+      if (textarea) {
+        let debounceTimeout: number;
+        textarea.addEventListener("input", () => {
+          clearTimeout(debounceTimeout);
+          debounceTimeout = window.setTimeout(() => {
+            if (textarea.value.trim()) {
+              this.loadNewRTTTL(textarea.value.trim());
+            }
+          }, 500); // 500ms debounce
+        });
+      }
+
+      // Auto-play if enabled (requires user interaction first)
+      const autoplay = player.getAttribute("data-autoplay") === "true";
+      if (autoplay) {
+        // We can't autoplay due to browser restrictions, but we can prepare
+        this.updateStatus(
+          "Click play to start (autoplay blocked by browser)",
+          "ready",
+        );
+      }
+    }
+
+    private loadFromDropdown(rtttlString: string): void {
+      const player = document.querySelector(
+        `[data-player-id="${this.playerId}"]`,
+      );
+      const textarea = player?.querySelector(
+        ".rtttl-textarea",
+      ) as HTMLTextAreaElement;
+
+      // Update textarea with selected example
+      if (textarea) {
+        textarea.value = rtttlString;
+      }
+
+      this.loadNewRTTTL(rtttlString);
+    }
+
+    private async initAudioContext(): Promise<void> {
+      if (!this.audioContext) {
+        this.audioContext = new (window.AudioContext ||
+          (window as any).webkitAudioContext)();
+
+        if (this.showVisualization) {
+          this.analyser = this.audioContext.createAnalyser();
+          this.analyser.fftSize = 256;
+          this.analyser.connect(this.audioContext.destination);
+        }
+      }
+
+      if (this.audioContext.state === "suspended") {
+        await this.audioContext.resume();
+      }
+    }
+
+    async play(): Promise<void> {
+      if (!this.rtttlData) return;
+
+      await this.initAudioContext();
+
+      if (this.isPaused) {
+        this.isPaused = false;
+      } else {
+        this.currentNoteIndex = 0;
+      }
+
+      this.isPlaying = true;
+      this.updateControls();
+      this.updateStatus("Playing...", "playing");
+
+      if (this.showVisualization) {
+        this.startVisualization();
+      }
+
+      this.playNextNote();
+    }
+
+    pause(): void {
+      if (!this.isPlaying) return;
+
+      this.isPlaying = false;
+      this.isPaused = true;
+
+      if (this.timeoutId) {
+        clearTimeout(this.timeoutId);
+        this.timeoutId = null;
+      }
+
+      this.updateControls();
+      this.updateStatus("Paused", "paused");
+      this.stopVisualization();
+    }
+
+    stop(): void {
+      this.isPlaying = false;
+      this.isPaused = false;
+      this.currentNoteIndex = 0;
+
+      if (this.timeoutId) {
+        clearTimeout(this.timeoutId);
+        this.timeoutId = null;
+      }
+
+      this.updateControls();
+      this.updateStatus("Stopped", "ready");
+      this.updateProgress(0);
+      this.stopVisualization();
+
+      // Resume static visualization after stopping
+      if (this.showVisualization) {
+        this.startStaticVisualization();
+      }
+    }
+
+    private playNextNote(): void {
+      if (!this.isPlaying || !this.rtttlData || !this.audioContext) return;
+
+      if (this.currentNoteIndex >= this.rtttlData.notes.length) {
+        this.stop();
+        this.updateStatus("Finished", "ready");
+        return;
+      }
+
+      const note = this.rtttlData.notes[this.currentNoteIndex];
+      const noteDuration =
+        (60 / this.rtttlData.defaults.bpm) * (4 / note.duration) * 1000;
+
+      if (!note.isRest && note.frequency > 0) {
+        this.playTone(note.frequency, noteDuration / 1000);
+      }
+
+      this.updateProgress(
+        (this.currentNoteIndex / this.rtttlData.notes.length) * 100,
+      );
+
+      this.currentNoteIndex++;
+      this.timeoutId = window.setTimeout(
+        () => this.playNextNote(),
+        noteDuration,
+      );
+    }
+
+    private playTone(frequency: number, duration: number): void {
+      if (!this.audioContext) return;
+
+      const oscillator = this.audioContext.createOscillator();
+      const gainNode = this.audioContext.createGain();
+
+      oscillator.connect(gainNode);
+
+      if (this.analyser) {
+        gainNode.connect(this.analyser);
+      } else {
+        gainNode.connect(this.audioContext.destination);
+      }
+
+      oscillator.frequency.setValueAtTime(
+        frequency,
+        this.audioContext.currentTime,
+      );
+      oscillator.type = "square";
+
+      // Simple envelope for smoother sound
+      gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(
+        0.1,
+        this.audioContext.currentTime + 0.01,
+      );
+      gainNode.gain.exponentialRampToValueAtTime(
+        0.01,
+        this.audioContext.currentTime + duration - 0.01,
+      );
+      gainNode.gain.linearRampToValueAtTime(
+        0,
+        this.audioContext.currentTime + duration,
+      );
+
+      oscillator.start(this.audioContext.currentTime);
+      oscillator.stop(this.audioContext.currentTime + duration);
+    }
+
+    private startStaticVisualization(): void {
+      const player = document.querySelector(
+        `[data-player-id="${this.playerId}"]`,
+      );
+      const canvas = player?.querySelector(
+        ".rtttl-canvas",
+      ) as HTMLCanvasElement;
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d")!;
+      let time = 0;
+
+      const drawStatic = () => {
+        this.staticVisualizationId = requestAnimationFrame(drawStatic);
+        time += 0.02;
+
+        ctx.fillStyle = "rgb(24, 24, 27)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Create a simple wave pattern
+        const bars = 32;
+        const barWidth = canvas.width / bars;
+
+        for (let i = 0; i < bars; i++) {
+          const height =
+            (Math.sin(time + i * 0.3) * 0.3 + 0.5) * canvas.height * 0.4;
+          const x = i * barWidth;
+
+          ctx.fillStyle = `rgba(94, 234, 212, 0.3)`;
+          ctx.fillRect(x, canvas.height - height, barWidth - 2, height);
+        }
+      };
+
+      drawStatic();
+    }
+
+    private startVisualization(): void {
+      // Stop static visualization when playing
+      this.stopStaticVisualization();
+
+      if (!this.analyser) return;
+
+      const player = document.querySelector(
+        `[data-player-id="${this.playerId}"]`,
+      );
+      const canvas = player?.querySelector(
+        ".rtttl-canvas",
+      ) as HTMLCanvasElement;
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d")!;
+      const bufferLength = this.analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      const draw = () => {
+        if (!this.isPlaying) {
+          // Resume static visualization when not playing
+          if (this.showVisualization) {
+            this.startStaticVisualization();
+          }
+          return;
+        }
+
+        this.visualizationId = requestAnimationFrame(draw);
+
+        this.analyser!.getByteFrequencyData(dataArray);
+
+        ctx.fillStyle = "rgb(24, 24, 27)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const barWidth = (canvas.width / bufferLength) * 2.5;
+        let barHeight;
+        let x = 0;
+
+        for (let i = 0; i < bufferLength; i++) {
+          barHeight = (dataArray[i] / 255) * canvas.height;
+
+          ctx.fillStyle = `rgb(94, 234, 212)`;
+          ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+
+          x += barWidth + 1;
+        }
+      };
+
+      draw();
+    }
+
+    private stopVisualization(): void {
+      if (this.visualizationId) {
+        cancelAnimationFrame(this.visualizationId);
+        this.visualizationId = null;
+      }
+    }
+
+    private stopStaticVisualization(): void {
+      if (this.staticVisualizationId) {
+        cancelAnimationFrame(this.staticVisualizationId);
+        this.staticVisualizationId = null;
+      }
+    }
+
+    private updateControls(): void {
+      const player = document.querySelector(
+        `[data-player-id="${this.playerId}"]`,
+      );
+      if (!player) return;
+
+      const playBtn = player.querySelector(
+        '[data-action="play"]',
+      ) as HTMLButtonElement;
+      const pauseBtn = player.querySelector(
+        '[data-action="pause"]',
+      ) as HTMLButtonElement;
+      const stopBtn = player.querySelector(
+        '[data-action="stop"]',
+      ) as HTMLButtonElement;
+
+      playBtn.disabled = this.isPlaying;
+      pauseBtn.disabled = !this.isPlaying;
+      stopBtn.disabled = !this.isPlaying && !this.isPaused;
+    }
+
+    private updateProgress(percentage: number): void {
+      const player = document.querySelector(
+        `[data-player-id="${this.playerId}"]`,
+      );
+      const progressBar = player?.querySelector(
+        ".rtttl-progress-bar",
+      ) as HTMLElement;
+
+      if (progressBar) {
+        progressBar.style.width = `${percentage}%`;
+      }
+    }
+
+    private updateStatus(message: string, status: string): void {
+      const player = document.querySelector(
+        `[data-player-id="${this.playerId}"]`,
+      );
+      const statusEl = player?.querySelector(".rtttl-status") as HTMLElement;
+
+      if (statusEl) {
+        statusEl.textContent = message;
+        statusEl.setAttribute("data-status", status);
+      }
+    }
+  }
+
+  // Initialize all RTTTL players on the page
+  document.addEventListener("DOMContentLoaded", () => {
+    const players = document.querySelectorAll(".rtttl-player");
+
+    players.forEach((playerEl) => {
+      const playerId = playerEl.getAttribute("data-player-id")!;
+      let rtttl = playerEl.getAttribute("data-rtttl") || "";
+      const showVisualization =
+        playerEl.getAttribute("data-show-visualization") === "true";
+      const examples = JSON.parse(
+        playerEl.getAttribute("data-examples") || "[]",
+      );
+
+      // If no RTTTL provided and examples exist, use the first example
+      if (!rtttl && examples.length > 0) {
+        rtttl = examples[0].rtttl;
+
+        // Update textarea with default example
+        const textarea = playerEl.querySelector(
+          ".rtttl-textarea",
+        ) as HTMLTextAreaElement;
+        if (textarea) {
+          textarea.value = rtttl;
+        }
+      }
+
+      const player = new RTTTLPlayer(playerId, rtttl, showVisualization);
+
+      // Store reference for potential external access
+      (playerEl as any).rtttlPlayer = player;
+    });
+  });
+</script>
