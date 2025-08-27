@@ -13,6 +13,7 @@
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@astrojs/mdx": "^4.3.4",
+    "@astrojs/netlify": "^6.5.9",
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.5.1",
     "@google/model-viewer": "^4.1.0",
@@ -25,10 +26,13 @@
     "gray-matter": "^4.0.3",
     "mdast-util-to-string": "^4.0.0",
     "reading-time": "^1.5.0",
+    "rehype-external-links": "^3.0.0",
+    "remark-toc": "^9.0.0",
     "sharp": "^0.34.2",
     "tailwindcss": "^4.1.12",
     "three": "^0.179.1",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "unist-util-visit": "^5.0.0"
   },
   "packageManager": "pnpm@10.9.0+sha512.0486e394640d3c1fb3c9d43d49cf92879ff74f8516959c235308f5a8f62e2e19528a65cdc2a3058f587cde71eba3d5b56327c8c33a97e4c4051ca48a10ca2d5f",
   "devDependencies": {

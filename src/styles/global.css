@@ -151,6 +151,11 @@ p {
 .prose p {
   margin-bottom: 2em;
 }
+.prose video {
+  margin-bottom: 2em;
+  border-radius: var(--radius-lg);
+}
+
 textarea {
   width: 100%;
   font-size: 16px;
@@ -184,6 +189,73 @@ pre {
 pre > code {
   all: unset;
 }
+.prose pre:has(code) {
+  margin-bottom: 2em;
+}
+.prose ul {
+  margin-bottom: 2em;
+}
+
+/* List styling for prose */
+.prose ul,
+.prose ol {
+  margin-bottom: 2em;
+  padding-left: 1.75em;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose li {
+  margin-bottom: 0.5em;
+  line-height: 1.7;
+}
+
+.prose li:last-child {
+  margin-bottom: 0;
+}
+
+/* Nested lists */
+.prose ul ul,
+.prose ol ol,
+.prose ul ol,
+.prose ol ul {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose ul ul {
+  list-style-type: circle;
+}
+
+.prose ul ul ul {
+  list-style-type: square;
+}
+
+/* List item content spacing */
+.prose li > *:first-child {
+  margin-top: 0;
+}
+
+.prose li > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Tighter spacing for lists with simple content */
+.prose li > p:only-child {
+  margin-bottom: 0;
+}
+
+.prose img {
+  margin-bottom: 2em;
+  border-radius: var(--radius-lg);
+}
+
 blockquote {
   border-left: 4px solid var(--color-accent);
   background: var(--color-bg-tertiary);
@@ -233,6 +305,118 @@ hr {
   clip-path: inset(50%);
   /* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
   white-space: nowrap;
+}
+
+/* Table of Contents styling - styled like RTTTLPlayer component */
+.prose h2#table-of-contents {
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: 12px 12px 0 0;
+  padding: 1rem 1rem 0.75rem 1rem;
+  margin: 2rem 0 0 0;
+  font-family: var(--font-family-atkinson);
+  box-shadow: var(--shadow-card);
+  line-height: 1.5;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.prose h2#table-of-contents + ul {
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  padding: 0 1rem 1rem 1rem;
+  margin: 0 0 2rem 0;
+  font-family: var(--font-family-atkinson);
+  box-shadow: var(--shadow-card);
+  line-height: 1.5;
+  list-style: none;
+}
+
+.prose h2#table-of-contents + ul li {
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+}
+
+.prose h2#table-of-contents + ul li:last-child {
+  margin-bottom: 0;
+}
+
+/* TOC links styled exactly like RTTTLPlayer labels */
+.prose h2#table-of-contents + ul a {
+  display: inline-block;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  padding: 0.125rem 0.375rem;
+  border-left: 3px solid transparent;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+/* Hover effects matching RTTTLPlayer buttons */
+.prose h2#table-of-contents + ul a:hover {
+  color: var(--color-accent);
+  background: var(--color-bg-secondary);
+  border-left-color: var(--color-accent);
+  text-shadow: 0 0 8px rgb(var(--color-accent) / 0.4);
+}
+
+/* Nested TOC items styling */
+.prose h2#table-of-contents + ul ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--color-border);
+  margin-left: 0.25rem;
+}
+
+.prose h2#table-of-contents + ul ul li {
+  margin-bottom: 0.25rem;
+}
+
+.prose h2#table-of-contents + ul ul a {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  padding: 0.125rem 0.25rem;
+}
+
+.prose h2#table-of-contents + ul ul a:hover {
+  color: var(--color-accent);
+  background: var(--color-bg-secondary);
+  border-left-color: var(--color-accent);
+  text-shadow: 0 0 8px rgb(var(--color-accent) / 0.4);
+}
+
+/* Third level nesting (h4 headings) */
+.prose h2#table-of-contents + ul ul ul {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--color-border);
+  margin-left: 0.25rem;
+}
+
+.prose h2#table-of-contents + ul ul ul li {
+  margin-bottom: 0.25rem;
+}
+
+.prose h2#table-of-contents + ul ul ul a {
+  font-size: 0.7rem;
+  color: var(--color-text-subtle);
+  padding: 0.075rem 0.25rem;
+}
+
+.prose h2#table-of-contents + ul ul ul a:hover {
+  color: var(--color-accent);
+  background: var(--color-bg-secondary);
+  border-left-color: var(--color-accent);
+  text-shadow: 0 0 8px rgb(var(--color-accent) / 0.4);
 }
 
 /* Legacy component styles - these are now handled by Astro components with Tailwind utilities */

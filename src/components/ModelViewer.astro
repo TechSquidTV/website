@@ -164,7 +164,8 @@ const style = [
     z-index: 1;
   }
 
-  model-viewer[loaded]::before {
+  model-viewer[loaded]::before,
+  model-viewer.no-spinner::before {
     display: none;
   }
 
