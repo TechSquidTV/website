@@ -1,0 +1,278 @@
+---
+title: "I Made An ESP32 On-Call Beeper"
+publishDate: "08-28-2025"
+updatedDate: "08-28-2025"
+description: "I built a retro-style beeper (pager) for Sentry's Hack Week 2025. Let's see what we can accomplish in a week with somewhat limited experience and AI."
+heroImage: "../../images/blog/tx-1_beeper_hero.png"
+heroImageAlt: "A custom-built beeper device showing the retro LCD display and compact form factor"
+tags:
+  - hardware
+  - diy
+  - electronics
+  - retro
+---
+
+import ModelViewer from "../../components/ModelViewer.astro";
+import { Image } from "astro:assets";
+import ESP32S3 from "../../images/blog/esp32-s3-tft-feather.webp";
+import BeeperDrawing from "../../images/blog/beeper_drawing.webp";
+import BeeperTapping from "../../images/blog/beeper-tapping.webp";
+import BrokerService from "../../images/blog/beeper_broker_service.png";
+import RTTTLPlayer from "../../components/RTTTLPlayer.astro";
+
+I recently joined [Sentry](https://sentry.io), and landed just in time to join their [annual Hack Week](https://x.com/getsentry/status/1960393044399718730).
+
+Every year, Sentry employees are encouraged to spend one week working on a passion project. A common theme is folks adding new and interesting features to the product that they otherwise would not have had time to work on.
+
+I did not do that. I built a beeper.
+
+## The Sentry Alert TX-1 Beeper
+
+<ModelViewer
+  src="/assets/beeper_sentry_alert_tx1.glb"
+  alt="TX-1 Beeper 3D Model"
+  height="500px"
+  cameraControls={true}
+  autoplay={true}
+  ar={true}
+  backgroundColor="#111113"
+  cameraOrbit="-150deg 70deg 160m"
+  minCameraOrbit="auto auto 100m"
+  maxCameraOrbit="auto auto 160m"
+  exposure="1"
+  shadowIntensity="0.8"
+  shadowSoftness="0.3"
+  loading="eager"
+  reveal="auto"
+  className="beeper-model no-spinner"
+/>
+
+The **Sentry Alert TX-1** is an ESP32-powered device that receives alerts over MQTT, using a webhook bridge to connect with Sentry to notify you when your apps or services are experiencing issues. A _true_ on-call pager.
+
+GitHub Repo: [KyleTryon/sentry-alert-tx-1](https://github.com/KyleTryon/sentry-alert-tx-1)
+
+## Table of Contents
+
+## Building the Beeper
+
+Truth be told, I cheated.
+
+I started hearing about Hack Week about a month before it started, and took the time to not only come up with the idea, but decide on the hardware, and begin the design work.
+If I was going to be able to convince anyone to join my team, I had to make sure they were able to buy whatever parts were needed in time.
+
+Though, no one was crazy enough to join the beeper team, so I got myself a headstart.
+
+### Picking the parts
+
+I _really_ wanted the beeper to be able to receive SMS messages over cellular. However, I pretty quickly discovered that the current landscape of modern cellular IoT is... complicated.
+
+A lot has happened to cellular networks in the last few years, and getting connected is not as simple as it used to be. While a few boards exist, most are far too large for this project, or lacked the proper I/O.
+
+If anyone is interested in jumping down this rabbit hole, at the time of writing this, the [nRF9151](https://www.nordicsemi.com/Nordic-news/2024/09/nRF9151-the-smallest-and-lowest-power-cellular-IoT-solution-for-the-massive-IoT-market) seems to be the best option for a cellular "SiP" (System in Package), but even so, there are not a lot of options for development boards.
+
+#### The ESP32-S3 Reverse TFT Feather
+
+I ended up settling on the [Adafruit ESP32-S3 Reverse TFT Feather](https://www.adafruit.com/product/5691), a small wifi-enabled board with a 1.14" TFT display and three programmable buttons.
+
+<Image src={ESP32S3} alt="Adafruit ESP32-S3 Reverse TFT Feather" />
+
+The board is tiny, 51mm x 23mm (_or 2" x 0.9"_). It has USB-C for both data and charging, and the minimum features we need to create a prototype "beeper" in a week are all there.
+
+#### Buzzers, Batteries, and Blinky Lights
+
+To complete the Beeper, we need a compatible battery, a speaker, and an LED.
+
+- [SMD Passive Buzzer 9025](https://www.aliexpress.us/item/2251832678338636.html?spm=a2g0o.order_list.order_list_main.23.27df180231M7EZ&gatewayAdapt=glo2usa)
+- [3mm LED](https://www.aliexpress.us/item/3256805522196114.html?spm=a2g0o.order_list.order_list_main.29.27df180231M7EZ&gatewayAdapt=glo2usa) (any color but you will need to add the proper resistor. ~220Ω is fine for most colors)
+- [Lithium Ion Polymer Battery Ideal For Feathers - 3.7V 400mAh](https://www.adafruit.com/product/3898)
+
+### 3D Printing the Enclosure
+
+The enclosure is far from perfect, but given the time constraints, it looks pretty good. There are a few issues with the design, and to be completely honest, I can't actually close and assemble mine.
+
+The main issue is, there are M2 screw holes for both the feather board and to hold the case together. In my experimenting, I was unable to thread those holes with a tap.
+
+It could be that the hole is so small that it is difficult to tap by my unskilled hand without damaging it, and would maybe be possible with a drill press, manually turning the chuck.
+
+<Image src={BeeperTapping} alt="Beeper Tapping" />
+
+To get across the finish line, I quickly designed some plastic pins that can be glued in to hold the PCB in place. For the back, I realized I need to have access to the battery to turn it off (I should have implemented an external switch), and opted to just leave it open for now.
+
+You may be thinking, "why not use metal threaded inserts?". It's just too small. Because of the small size, we are using a resin 3D printer, which does not use thermoplastics, so you can not set an insert in with heat.
+
+<Image src={BeeperDrawing} alt="Beeper Drawing" />
+
+But even if you were to use glue or similar, the design of this particular Adafruit board is just too crowded. There are just millimeters between the buttons, the screen, and the mounting holes. Every spare _micrometer_ is used to make the buttons and trim fit the board.
+
+The final design is the result of many iterations on very rough designs in Fusion 360. There are a few holes in the model according to my slicer, but the auto-fix feature seemed to work fine.
+
+Maybe one day I will go in and create a clean V2 based on this design. Anyone know much about getting custom PCBs made?
+
+[STL files](https://github.com/KyleTryon/sentry-alert-tx-1/tree/main/STLs) are available on GitHub.
+
+## The Software Bits
+
+While I have worked with Arduino-like boards and ESP32s before, I have never been proficient in more advanced C++, and this was a _big_ challenge to complete in a week.
+
+Possibly to the disappointment of many readers, I turned to Cursor with Claude-4-sonnet and GPT-5 to build out _everything_. It was a challenge to get started and required starting over a few times, but once I started working with the agents to tackle smaller problems and features one-at-a-time, a lot of progress started to happen.
+
+I started putting a lot of emphasis on breaking out libraries and components in an idiomatic way, like I might with a React project. I didn't really know what the common patterns of complex C++ apps look like, so I let the AI handle the specifics.
+
+### The Beeper OS
+
+The Beeper "OS" is a state management system that manages rendering "Screen" components, each of which manages its own state and UI, with a shared renderer. "Screens" behave like "apps" that can be navigated between using the three buttons on the board.
+
+The most common screen component is a menu, which is responsible for common navigation using the three buttons on the board. Using the menus, you can navigate between different screens like the alerts screen, settings, and games.
+
+<video
+  src="/assets/beeper_pong.mp4"
+  alt="Beeper Pong"
+  loop
+  autoplay
+  muted
+  playsinline
+  lazy
+/>
+
+#### Alerts
+
+When a new message comes in on MQTT, it will [trigger](https://github.com/KyleTryon/sentry-alert-tx-1/blob/87c7148518e4e04ffb0604702b2ec001ac7b8800/AlertTX-1/AlertTX-1.ino#L51) an alert screen pop up, enable the LED, and play the user-selected ringtone.
+
+<video
+  src="/assets/beeper_alert.webm"
+  alt="Beeper Alert"
+  loop
+  autoplay
+  muted
+  playsinline
+  lazy
+/>
+
+#### Ringtones
+
+Ringtones are stored as [RTTTL (Ring Tone Text Transfer Language)](https://en.wikipedia.org/wiki/Ring_Tone_Text_Transfer_Language) strings. RTTTL is a very simple format for storing and sharing simple ringtones, developed by Nokia in 1996. It is not as powerful as MIDI, but with a simple buzzer for a speaker, it is the perfect solution for our ringtone management.
+
+We actually store the ringtones as text files, and then through `make` with some Python, we convert them to a binary format that is more memory efficient for the ESP32. We have some other code in there at the moment that should theoretically assist with a future Guitar-Hero-style game, but I was unable to get it working in time.
+
+Try listening to some of the [included ringtones](https://github.com/KyleTryon/sentry-alert-tx-1/tree/main/AlertTX-1/data/ringtones).
+
+<RTTTLPlayer
+  rtttl="Nokia:d=4,o=5,b=125:8e6,8d6,8f#,8g#,8c#6,8b,8d,8e,8b,8a,8c#,8e,2a"
+  title="RTTTL Ringtone Player"
+  showVisualization={true}
+/>
+
+### Deploying the Beeper
+
+The beeper needs two additional services to function. An MQTT broker (like [Mosquitto](https://mosquitto.org/)) and a [webhook bridge](https://github.com/KyleTryon/sentry-alert-tx-1/tree/main/Beeper-Service) to connect with [Sentry](https://docs.sentry.io/organization/integrations/integration-platform/webhooks/).
+The bridge could potentially be expanded to support additional notification services.
+
+<Image src={BrokerService} alt="Beeper Broker Service" />
+
+The webhook bridge is a simple Fastify (Node.js) server that listens for webhooks from Sentry and forwards them to the MQTT broker.
+
+We then run the bridge and Mosquitto broker via [Docker Compose](https://github.com/KyleTryon/sentry-alert-tx-1/blob/main/Beeper-Service/docker-compose.yml) in a Digital Ocean droplet.
+And we can use [Caddy](https://caddyserver.com/) to easily setup a custom domain and SSL.
+
+Once deployed, we can configure Sentry to send our customized alerts to our bridge `https://beeper.example.com/webhook`, which will then process and forward the data to our MQTT broker, which the beeper is subscribed to.
+
+## What I Learned
+
+You might suspect that because so much of this project was vibe-coded, maybe not much was learned. I would disagree!
+
+But it is true that I did _not_ come away from this project with a much deeper understanding of C++.
+But that's ok, because my time during that week was spent doing and learning a lot of other things, and at least by myself, it would not have been possible to complete on-time without the help of the AI.
+
+### CAD Design & Resin Printing
+
+I only recently got started using Fusion 360, within the last year. Earlier this year I designed and (mostly...) built a [VHS tape cleaner (on @LostPixelLore)](https://www.tiktok.com/@lostpixellore/video/7474464860089175326).
+
+This was my first time making an enclosure for a development board, which required extreme precision. I was aware of a lot of things I could have done better, but with the time constraint, I continuously winged it until something worked.
+
+<video
+  src="/assets/beeper-fusion-360-timelapse.webm"
+  alt="Fusion 360 Time Lapse beeper design"
+  loop
+  autoplay
+  muted
+  playsinline
+  lazy
+/>
+
+Because of the small size and precision, I opted to try out a resin 3D printer for the first time as well. I am a member of [Hive76](https://www.hive76.org/), a local hackerspace in Philadelphia that has a wide range of cool tools to play with.
+
+I _may_ now be obsessed with resin printing. It is better suited for small organic shapes, like D&D minis, as straight lines are a bit harder to achieve.
+But, with enough tweaks and trial and error, I was able to get some excellent results.
+
+The resin also takes to sanding far better than FDM, where the layer lines often begin to separate.
+
+Still, I think this exercise showed me that, at least in this current configuration, this beeper could never be a product where the build scales enough to sell as a product.
+Even experimenting with printing numerous shells and buttons in different ways, only a select few of the resulting parts were usable. And even then, it was only after a decent amount of manual post-processing.
+
+### Working with AI Agents
+
+Maybe it's tough to call learning how to tell AI to do something, "learning". But it was an interesting exercise in using modern, highly-capable agentic AI to truly act as another member of my team, handling the task with my management overseeing the process.
+
+Cursor Background agents were amazing for completely automating tasks, and not bothering me to approve tool calls or worry about destroying code. When you launch a task in Cursor as a background agent, it checks out a new branch and automatically opens a pull request.
+
+This let me easily spin up multiple tasks based on instruction documents (often also written with AI input) I would prepare for new features or aspects of the architecture.
+
+Once I determined what libraries I wanted to use, and began getting a _basic_ sense of the project structure I was looking for, I was able to just tell Cursor what I wanted and build out the skeleton.
+
+Once that "skeleton" was in place, Cursor was able to query it and be more intelligent about using the structures in place when adding new features.
+
+Eventually it got to a place where I would have Cursor iterate on features, upload the code to the beeper, monitor the serial output and debug itself.
+
+It was truly impressive, and with no real signs of AI's abilities slowing down, I struggle to even imagine where we will be in another year.
+
+## What Would v2 Look Like?
+
+This was a really great _prototype_, which is all it was meant to be. The process of building it was a great learning experience, and uncovered a number of issues in the overall plan and design that prevent it from becoming a product.
+
+### A Custom PCB
+
+Using an Adafruit Feather board with an ESP32-S3 was a great choice for a prototype.
+The standard size and popularity of the product made it easy to find 3d models and code resources that were already battle-tested. Even though we found a _suitable_ board, there were still some design flaws, and not all of the features we wanted were possible or built-in.
+
+If I were to do it again, I would want to take it to the next level with a custom PCB. The Feather form factor is great, but the limited footprint forced the tactile buttons to be too close to the screen and mounting holes, making adding buttons an extreme challenge.
+
+Just another 10mm or so on either side of the board would have allowed for a lot more tolerance in the design, which may have made print warping a smaller issue.
+
+Another feature we really missed out on was cellular connectivity. I would want to investigate building the board around the [nRF9151](https://www.nordicsemi.com/Products/nRF9151), which would give us the connectivity we need, but is also significantly less powerful.
+It is likely a co-processor would be needed, which has a lot of other concerns that come along with it.
+
+Finally, while we are at it, we can include the 9025 buzzer and LED through-hole on the board, making assembly a single board. We could even look into snap-fitting the board to the enclosure to eliminate one set of screws.
+
+### A Better Enclosure
+
+I learned a lot building multiple versions of this enclosure. Trying to make sure the parts fit together without brittle pegs and pins that snap off immediately was a challenge.
+
+In the end, I discovered more of a "sliding-track" design, where the parts register with eachother by sliding larger tabs into tracks.
+If we are relying on screws to hold the parts together firmly, we can worry about fewer and larger registration points, rather than multiple small fragile pins.
+
+<video
+  src="/assets/beeper-fusion360-track.webm"
+  alt="Beeper Enclosure Sliding Track Fusion 360"
+  loop
+  autoplay
+  muted
+  playsinline
+  lazy
+/>
+
+Make screws work. The biggest failure of this entire project was the inability to actually assemble the enclosure with screws. It should be possible to tap directly into the resin, but I was unable to get it to work.
+I decided early on I did not want to use a snap-fit design, which is both brittle and usually permanent. The next time around I want to ensure there is enough free space to allow for metal threaded inserts, at least for assembling the enclosure.
+If we were to resin print, we still would need to use glue or something to set the threads in place, but that would still be a significant improvement.
+
+What about injection molding? Certainly outside my realm of expertise (but what wasn't in this project?), but with the ability to potentially create the mold designs and CNC services readily available (even Hive76 has a CNC mill), it may not be an unobtainable option.
+
+Injection molds, especially when paired with with a single custom PCB, would make this a _full_ market-ready product.
+
+Til' next Hack Week 🫡
+
+<span class="text-sm">
+  _P.S. technically I have a newsletter, but I am so against spam, I have
+  _never_ sent out an email blast. This article will be the first time
+  subscribers will get an email from me! Like this find of stuff, very
+  infrequently? [Subscribe here](/newsletter). I also have [RSS](/rss.xml)!_
+</span>
