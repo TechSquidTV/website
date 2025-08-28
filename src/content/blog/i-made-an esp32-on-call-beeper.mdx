@@ -8,7 +8,6 @@ heroImageAlt: "A custom-built beeper device showing the retro LCD display and co
 tags:
   - hardware
   - diy
-
 ---
 
 import ModelViewer from "../../components/ModelViewer.astro";
@@ -18,12 +17,15 @@ import BeeperDrawing from "../../images/blog/beeper_drawing.webp";
 import BeeperTapping from "../../images/blog/beeper-tapping.webp";
 import BrokerService from "../../images/blog/beeper_broker_service.png";
 import RTTTLPlayer from "../../components/RTTTLPlayer.astro";
+import NewsletterCallout from "../../components/NewsletterCallout.astro";
+import WikiLink from "../../components/WikiLink.astro";
+import { Icon } from "astro-icon/components";
 
 I recently joined [Sentry](https://sentry.io), and landed just in time to join their [annual Hack Week](https://x.com/getsentry/status/1960393044399718730).
 
 Every year, Sentry employees are encouraged to spend one week working on a passion project. A common theme is folks adding new and interesting features to the product that they otherwise would not have had time to work on.
 
-I did not do that. I built a beeper.
+I did not do that. I built a <WikiLink url="https://en.wikipedia.org/wiki/Pager" tooltip="A pager is a wireless telecommunications device that receives and displays alphanumeric or voice messages, widely used in the 1980s-1990s for emergency services and professionals.">beeper</WikiLink>.
 
 ## The Sentry Alert TX-1 Beeper
 
@@ -46,7 +48,7 @@ I did not do that. I built a beeper.
   className="beeper-model no-spinner"
 />
 
-The **Sentry Alert TX-1** is an ESP32-powered device that receives alerts over MQTT, using a webhook bridge to connect with Sentry to notify you when your apps or services are experiencing issues. A _true_ on-call pager.
+The **Sentry Alert TX-1** is an ESP32-powered device that receives alerts over MQTT, using a webhook bridge to connect with Sentry to notify you when your apps or services are experiencing issues. A _true_ on-call <WikiLink url="https://en.wikipedia.org/wiki/Pager" tooltip="A pager is a wireless telecommunications device that receives and displays alphanumeric or voice messages, widely used in the 1980s-1990s for emergency services and professionals.">pager</WikiLink>.
 
 GitHub Repo: [KyleTryon/sentry-alert-tx-1](https://github.com/KyleTryon/sentry-alert-tx-1)
 
@@ -89,7 +91,7 @@ To complete the Beeper, we need a compatible battery, a speaker, and an LED.
 
 The enclosure is far from perfect, but given the time constraints, it looks pretty good. There are a few issues with the design, and to be completely honest, I can't actually close and assemble mine.
 
-The main issue is, there are M2 screw holes for both the feather board and to hold the case together. In my experimenting, I was unable to thread those holes with a tap.
+The main issue is, there are M2 screw holes for both the Feather board and to hold the case together. In my experimenting, I was unable to thread those holes with a tap.
 
 It could be that the hole is so small that it is difficult to tap by my unskilled hand without damaging it, and would maybe be possible with a drill press, manually turning the chuck.
 
@@ -101,19 +103,22 @@ You may be thinking, "why not use metal threaded inserts?". It's just too small.
 
 <Image src={BeeperDrawing} alt="Beeper Drawing" />
 
-But even if you were to use glue or similar, the design of this particular Adafruit board is just too crowded. There are just millimeters between the buttons, the screen, and the mounting holes. Every spare _micrometer_ is used to make the buttons and trim fit the board.
+But even if you were to use glue or similar, the design of this particular Adafruit board is too crowded. There are just millimeters between the buttons, the screen, and the mounting holes. Every spare _micrometer_ is used to make the buttons and trim fit the board.
 
-The final design is the result of many iterations on very rough designs in Fusion 360. There are a few holes in the model according to my slicer, but the auto-fix feature seemed to work fine.
+The final design is the result of many iterations on very rough designs in Fusion 360. There are even a few holes in the model according to my slicer, but the auto-fix feature seemed to work fine.
 
-Maybe one day I will go in and create a clean V2 based on this design. Anyone know much about getting custom PCBs made?
+Maybe one day I will go in and create a clean V2 based on this design.
 
-[STL files](https://github.com/KyleTryon/sentry-alert-tx-1/tree/main/STLs) are available on GitHub.
+<span class="flex flex-row border-border items-center gap-2 px-2 py-1 mb-[2em] border-2 rounded-sm">
+  <Icon name="file-3d" size={20} />
+  <span> <a href="https://github.com/KyleTryon/sentry-alert-tx-1/tree/main/STLs">STL files</a> are available on GitHub.</span>
+</span>
 
 ## The Software Bits
 
 While I have worked with Arduino-like boards and ESP32s before, I have never been proficient in more advanced C++, and this was a _big_ challenge to complete in a week.
 
-Possibly to the disappointment of many readers, I turned to Cursor with Claude-4-sonnet and GPT-5 to build out _everything_. It was a challenge to get started and required starting over a few times, but once I started working with the agents to tackle smaller problems and features one-at-a-time, a lot of progress started to happen.
+Possibly to the disappointment of many readers, I turned to Cursor with Claude-4-sonnet and GPT-5 to build out _everything_. It was a challenge to get started and required starting over a few times, but once I got down a solid boilerplate, and I started working with the agents to tackle smaller problems and features one-at-a-time, a lot of progress started to happen.
 
 I started putting a lot of emphasis on breaking out libraries and components in an idiomatic way, like I might with a React project. I didn't really know what the common patterns of complex C++ apps look like, so I let the AI handle the specifics.
 
@@ -164,7 +169,8 @@ Try listening to some of the [included ringtones](https://github.com/KyleTryon/s
 ### Deploying the Beeper
 
 The beeper needs two additional services to function. An MQTT broker (like [Mosquitto](https://mosquitto.org/)) and a [webhook bridge](https://github.com/KyleTryon/sentry-alert-tx-1/tree/main/Beeper-Service) to connect with [Sentry](https://docs.sentry.io/organization/integrations/integration-platform/webhooks/).
-The bridge could potentially be expanded to support additional notification services.
+
+The bridge could potentially be expanded to support additional notification services, like [if a Netlify deployment fails](https://docs.netlify.com/deploy/deploy-notifications/#http-post-request), or if you [get a new order on Shopify](https://help.shopify.com/en/manual/fulfillment/setup/notifications/webhooks).
 
 <Image src={BrokerService} alt="Beeper Broker Service" />
 
@@ -208,6 +214,8 @@ The resin also takes to sanding far better than FDM, where the layer lines often
 Still, I think this exercise showed me that, at least in this current configuration, this beeper could never be a product where the build scales enough to sell as a product.
 Even experimenting with printing numerous shells and buttons in different ways, only a select few of the resulting parts were usable. And even then, it was only after a decent amount of manual post-processing.
 
+If there was more space on the board, we could have built in looser tolerances that might have made prints a little more compliant.
+
 ### Working with AI Agents
 
 Maybe it's tough to call learning how to tell AI to do something, "learning". But it was an interesting exercise in using modern, highly-capable agentic AI to truly act as another member of my team, handling the task with my management overseeing the process.
@@ -246,6 +254,8 @@ Finally, while we are at it, we can include the 9025 buzzer and LED through-hole
 
 I learned a lot building multiple versions of this enclosure. Trying to make sure the parts fit together without brittle pegs and pins that snap off immediately was a challenge.
 
+#### Design Improvements
+
 In the end, I discovered more of a "sliding-track" design, where the parts register with eachother by sliding larger tabs into tracks.
 If we are relying on screws to hold the parts together firmly, we can worry about fewer and larger registration points, rather than multiple small fragile pins.
 
@@ -259,19 +269,35 @@ If we are relying on screws to hold the parts together firmly, we can worry abou
   lazy
 />
 
-Make screws work. The biggest failure of this entire project was the inability to actually assemble the enclosure with screws. It should be possible to tap directly into the resin, but I was unable to get it to work.
-I decided early on I did not want to use a snap-fit design, which is both brittle and usually permanent. The next time around I want to ensure there is enough free space to allow for metal threaded inserts, at least for assembling the enclosure.
+I would try removing the two smaller side pins shown here.
+
+#### Assembly Challenges
+
+**Make screws work.** The biggest failure of this entire project was the inability to actually assemble the enclosure with screws. It should be possible to tap directly into the resin, but I was unable to get it to work.
+
+I decided early on I did not want to use a snap-fit design, which is both brittle and usually permanent. The next time around I want to ensure there is enough free space to allow for **metal threaded inserts**, at least for assembling the enclosure.
+
 If we were to resin print, we still would need to use glue or something to set the threads in place, but that would still be a significant improvement.
 
-What about injection molding? Certainly outside my realm of expertise (but what wasn't in this project?), but with the ability to potentially create the mold designs and CNC services readily available (even Hive76 has a CNC mill), it may not be an unobtainable option.
+#### Future Manufacturing
 
-Injection molds, especially when paired with with a single custom PCB, would make this a _full_ market-ready product.
+What about **injection molding**? Certainly outside my realm of expertise (but what wasn't in this project?), but with the ability to potentially create the mold designs and CNC services readily available (even Hive76 has a CNC mill), it may not be an unobtainable option.
+
+Injection molds, especially when paired with with a single custom PCB, would make this a _full_ **market-ready product**.
 
 Til' next Hack Week 🫡
 
-<span class="text-sm">
-  _P.S. technically I have a newsletter, but I am so against spam, I have
-  _never_ sent out an email blast. This article will be the first time
-  subscribers will get an email from me! Like this find of stuff, very
-  infrequently? [Subscribe here](/newsletter). I also have [RSS](/rss.xml)!_
-</span>
+<NewsletterCallout variant="inline" title="Enjoyed this deep dive?">
+  <span class="text-sm">
+    <em>
+      P.S. technically I have a newsletter, but I am so against spam, I have
+      never sent out an email blast. This article will be the first time
+      subscribers will get an email from me! Like this kind of stuff, very
+      infrequently? Subscribe below or{" "}
+      <a href="/newsletter" class="newsletter-link">
+        visit the full signup page
+      </a>
+      .
+    </em>
+  </span>
+</NewsletterCallout>
