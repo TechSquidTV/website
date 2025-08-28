@@ -41,6 +41,18 @@ export const SOCIAL_LINKS = [
     brandColor: "#FFFFFF",
   },
   {
+    name: "BlueSky",
+    url: "https://bsky.app/profile/techsquidtv.com",
+    icon: "bluesky",
+    brandColor: "#1185FE",
+  },
+  {
+    name: "YouTube",
+    url: "https://youtube.com/@techsquidtv",
+    icon: "youtube",
+    brandColor: "#ff0000",
+  },
+  {
     name: "Mastodon",
     url: "https://fosstodon.org/@techsquidtv",
     icon: "mastodon",
@@ -52,24 +64,14 @@ export const SOCIAL_LINKS = [
     icon: "github",
     brandColor: "#4078c0",
   },
-  {
-    name: "YouTube",
-    url: "https://youtube.com/@techsquidtv",
-    icon: "youtube",
-    brandColor: "#ff0000",
-  },
+
   {
     name: "Discord",
     url: "https://discord.gg/x9WYxubx2j",
     icon: "discord",
     brandColor: "#5865F2",
   },
-  {
-    name: "Instagram",
-    url: "https://www.instagram.com/techsquidtv/",
-    icon: "instagram",
-    brandColor: "#e1306c",
-  },
+
   {
     name: "LinkedIn",
     url: "https://linkedin.com/in/kyletryon",

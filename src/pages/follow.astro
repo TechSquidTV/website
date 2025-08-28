@@ -2,18 +2,20 @@
 import Avatar from "../components/Avatar.astro";
 import ContactInfo from "../components/ContactInfo.astro";
 import PageHeader from "../components/PageHeader.astro";
-import SocialLink from "../components/SocialLink.astro";
-import SocialLinksGroup from "../components/SocialLinksGroup.astro";
+import GlassContainer from "../components/GlassContainer.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AvatarImage from "../images/brand/tstvprofile.png";
-import { PERSONAL_INFO } from "../consts";
+import { PERSONAL_INFO, SITE_TITLE, SOCIAL_LINKS } from "../consts";
+import { Icon } from "astro-icon/components";
 
 const email = PERSONAL_INFO.email;
+const pageTitle = `Follow ${PERSONAL_INFO.name} - ${SITE_TITLE}`;
+const pageDescription = `Connect with ${PERSONAL_INFO.name} (${PERSONAL_INFO.username}) across all social platforms. Follow for tech content, open source projects, developer tutorials, and more.`;
 ---
 
 <BaseLayout
-  title="Follow - TechSquidTV"
-  description="Connect with Kyle Tryon across social platforms"
+  title={pageTitle}
+  description={pageDescription}
   maxWidth="md"
 >
   <PageHeader title="TechSquidTV" subtitle="Kyle Tryon">
@@ -21,20 +23,86 @@ const email = PERSONAL_INFO.email;
       <Avatar src={AvatarImage} alt="Kyle Tryon - TechSquidTV" size="xl" />
     </div>
     <ContactInfo email={email} className="mb-8" />
+    <div class="mb-8 text-center">
+      <p class="text-text-muted text-lg leading-relaxed">
+        {PERSONAL_INFO.jobTitle} specializing in <strong>developer experience</strong>, 
+        <strong>open source</strong>, and <strong>tech education</strong>. 
+        Follow for tutorials, projects, and tech insights.
+      </p>
+    </div>
   </PageHeader>
 
-  <div class="flex flex-col gap-4">
-    <!-- All Social Media Links -->
-    <SocialLinksGroup variant="card" layout="stack" showDescriptions={true} />
-
-    <!-- Blog Link -->
-    <SocialLink
-      name="Blog"
-      url="/blog"
-      icon="rss"
-      description="Latest blog posts and articles"
-      external={false}
-      variant="card"
-    />
+  <div class="space-y-6">
+    <!-- Social Media Section -->
+    <section>
+      <div class="flex flex-col gap-3 max-w-md mx-auto">
+        {
+          SOCIAL_LINKS.map((social) => (
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-4 p-4 bg-bg-tertiary border border-border rounded-xl text-text-primary no-underline transition-all duration-300 hover:bg-bg-code hover:border-accent hover:-translate-y-1 hover:shadow-card group"
+              style={`--brand-color: ${social.brandColor}`}
+            >
+              <div class="glass-circle flex items-center justify-center p-4 rounded-full border border-white/[0.08] bg-white/[0.03] backdrop-blur-[12px] backdrop-saturate-150 transition-all duration-300 ease-out group-hover:bg-white/[0.06] group-hover:border-white/[0.12]">
+                <Icon
+                  name={social.icon}
+                  size={24}
+                  class="text-text-primary transition-colors duration-300 group-hover:text-accent"
+                />
+              </div>
+              <span class="flex-1 text-center text-xl font-semibold text-text-primary group-hover:text-accent transition-colors duration-300">
+                {social.name}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
   </div>
+
+  <!-- Structured Data for Link Tree -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": PERSONAL_INFO.name,
+      "alternateName": PERSONAL_INFO.username,
+      "description": pageDescription,
+      "url": PERSONAL_INFO.website,
+      "email": PERSONAL_INFO.email,
+      "jobTitle": PERSONAL_INFO.jobTitle,
+      "worksFor": {
+        "@type": "Organization",
+        "name": PERSONAL_INFO.corporateCompany
+      },
+      "sameAs": SOCIAL_LINKS.map(link => link.url)
+    }
+  })}>
+  </script>
 </BaseLayout>
+
+<style>
+  /* Perfect glass circles for icons */
+  .glass-circle {
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+  }
+
+  .glass-circle:hover {
+    box-shadow:
+      0 6px 24px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  /* Accessibility: Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .glass-circle {
+      transition: none !important;
+    }
+  }
+</style>
