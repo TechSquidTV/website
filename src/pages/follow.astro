@@ -45,13 +45,13 @@ const pageDescription = `Connect with ${PERSONAL_INFO.name} (${PERSONAL_INFO.use
               class="flex items-center gap-4 p-4 bg-bg-tertiary border border-border rounded-xl text-text-primary no-underline transition-all duration-300 hover:bg-bg-code hover:border-accent hover:-translate-y-1 hover:shadow-card group"
               style={`--brand-color: ${social.brandColor}`}
             >
-              <div class="glass-circle flex items-center justify-center p-4 rounded-full border border-white/[0.08] bg-white/[0.03] backdrop-blur-[12px] backdrop-saturate-150 transition-all duration-300 ease-out group-hover:bg-white/[0.06] group-hover:border-white/[0.12]">
+              <GlassContainer variant="circle">
                 <Icon
                   name={social.icon}
                   size={24}
                   class="text-text-primary transition-colors duration-300 group-hover:text-accent"
                 />
-              </div>
+              </GlassContainer>
               <span class="flex-1 text-center text-xl font-semibold text-text-primary group-hover:text-accent transition-colors duration-300">
                 {social.name}
               </span>
