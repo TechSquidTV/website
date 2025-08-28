@@ -83,7 +83,12 @@ const builtInExamples = [
           <select class="rtttl-select">
             <option value="">-- Select an example --</option>
             {builtInExamples.map((example) => (
-              <option value={example.rtttl}>{example.name}</option>
+              <option
+                value={example.rtttl}
+                selected={rtttl.trim() === example.rtttl}
+              >
+                {example.name}
+              </option>
             ))}
           </select>
         </div>
@@ -94,9 +99,8 @@ const builtInExamples = [
             class="rtttl-textarea"
             placeholder="Enter RTTTL string (e.g., Nokia:d=4,o=5,b=125:8e6,8d6,8f#,8g#...)"
             rows="3"
-          >
-            {rtttl}
-          </textarea>
+            data-rtttl-content={rtttl}
+          />
         </div>
       </div>
     )
@@ -555,11 +559,21 @@ const builtInExamples = [
         ".rtttl-textarea",
       ) as HTMLTextAreaElement;
       if (textarea) {
+        // Set initial content from data attribute, trimmed
+        const initialContent = textarea.getAttribute("data-rtttl-content");
+        if (initialContent) {
+          textarea.value = initialContent.trim();
+        }
+
         let debounceTimeout: number;
         textarea.addEventListener("input", () => {
           clearTimeout(debounceTimeout);
           debounceTimeout = window.setTimeout(() => {
             if (textarea.value.trim()) {
+              // Clear dropdown selection when user manually inputs
+              if (selectEl && selectEl.value) {
+                selectEl.value = "";
+              }
               this.loadNewRTTTL(textarea.value.trim());
             }
           }, 500); // 500ms debounce
@@ -587,7 +601,7 @@ const builtInExamples = [
 
       // Update textarea with selected example
       if (textarea) {
-        textarea.value = rtttlString;
+        textarea.value = rtttlString.trim();
       }
 
       this.loadNewRTTTL(rtttlString);
@@ -906,7 +920,15 @@ const builtInExamples = [
           ".rtttl-textarea",
         ) as HTMLTextAreaElement;
         if (textarea) {
-          textarea.value = rtttl;
+          textarea.value = rtttl.trim();
+        }
+
+        // Update dropdown selection to match default example
+        const selectEl = playerEl.querySelector(
+          ".rtttl-select",
+        ) as HTMLSelectElement;
+        if (selectEl) {
+          selectEl.value = rtttl;
         }
       }
 

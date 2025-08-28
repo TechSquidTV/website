@@ -60,7 +60,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
 
     // Clip title if too long (approximately 60 characters for readability)
     const clippedTitle = title.length > 60 ? title.slice(0, 57) + "..." : title;
-    
+
     return {
       title: clippedTitle,
       description:
@@ -73,7 +73,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
       font: {
         title: {
           families: ["Inter"],
-          weight: "ExtraBold", 
+          weight: "ExtraBold",
           size: 68, // Slightly smaller to accommodate longer titles
           color: [255, 255, 255],
           lineHeight: 1.1,
