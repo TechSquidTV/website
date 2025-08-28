@@ -38,10 +38,11 @@ const postsWithReadingTime = await Promise.all(
                   src={post.data.heroImage}
                   alt=""
                   class={`border-border group-hover:border-accent group-hover:shadow-card mb-2 w-full rounded-xl border object-cover transition-all duration-300 ${index === 0 ? "max-h-96" : "h-48 sm:h-40 md:h-44"} `}
+                  transition:name={`hero-${post.data.slug || post.id}`}
                 />
               )}
               <h4
-                class={`text-text-primary group-hover:text-accent mb-2 flex-grow leading-tight font-semibold transition-colors duration-300 ${index === 0 ? "text-3xl sm:text-xl md:text-2xl" : "text-lg"} `}
+                class={`text-text-primary group-hover:text-accent !mb-2 flex-grow leading-tight font-semibold transition-colors duration-300 ${index === 0 ? "text-lg md:!text-4xl lg:!text-5xl md:!my-10 lg:!my-12" : "text-lg"} `}
               >
                 {post.data.title}
               </h4>

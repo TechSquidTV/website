@@ -20,19 +20,29 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const {
   title,
   description,
+  image,
   ogImage,
   type = "website",
   publishDate,
   tags,
 } = Astro.props;
 
-// Generate OG image URL if not provided
-const pathname = Astro.url.pathname;
-// Handle root path and clean up trailing slashes
-const cleanPath = pathname === "/" ? "/index" : pathname.replace(/\/$/, "");
-const defaultOgImageUrl = new URL(`/open-graph${cleanPath}.png`, Astro.site)
-  .href;
-const ogImageUrl = ogImage || defaultOgImageUrl;
+// Generate OG image URL
+let ogImageUrl: string;
+
+if (image) {
+  // Use the provided ImageMetadata (e.g., hero image for blog posts)
+  ogImageUrl = new URL(image.src, Astro.site).href;
+} else if (ogImage) {
+  // Use the provided string URL
+  ogImageUrl = ogImage;
+} else {
+  // Generate default OG image URL based on pathname
+  const pathname = Astro.url.pathname;
+  // Handle root path and clean up trailing slashes
+  const cleanPath = pathname === "/" ? "/index" : pathname.replace(/\/$/, "");
+  ogImageUrl = new URL(`/open-graph${cleanPath}.png`, Astro.site).href;
+}
 
 // Get social profile URLs for verification
 const twitterProfile = SOCIAL_LINKS.find(

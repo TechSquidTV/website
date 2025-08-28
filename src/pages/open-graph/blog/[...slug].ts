@@ -58,35 +58,38 @@ export const { getStaticPaths, GET } = OGImageRoute({
       );
     }
 
+    // Clip title if too long (approximately 60 characters for readability)
+    const clippedTitle = title.length > 60 ? title.slice(0, 57) + "..." : title;
+    
     return {
-      title,
+      title: clippedTitle,
       description:
-        description?.slice(0, 100) + (description?.length > 100 ? "..." : ""),
+        description?.slice(0, 80) + (description?.length > 80 ? "..." : ""),
       bgImage: {
         path: backgroundImage,
       },
-      // Clean design with minimal padding like previous style
-      padding: 64,
+      // Reduced padding to position elements closer to bottom
+      padding: 40,
       font: {
         title: {
           families: ["Inter"],
-          weight: "ExtraBold",
-          size: 72, // Large bold title like previous design
+          weight: "ExtraBold", 
+          size: 68, // Slightly smaller to accommodate longer titles
           color: [255, 255, 255],
           lineHeight: 1.1,
         },
         description: {
           families: ["Inter"],
           weight: "Normal",
-          size: 32, // Clear readable description
+          size: 28, // Slightly smaller for better balance
           color: [209, 213, 219],
           lineHeight: 1.3,
         },
       },
-      // Prominent logo badge matching previous style
+      // TechSquidTV badge positioned bottom-right
       logo: {
         path: badge,
-        size: [146, 107],
+        size: [120, 88], // Slightly smaller for better proportion
       },
       fonts: [
         "./src/images/opengraph/fonts/Inter-ExtraBold.ttf",

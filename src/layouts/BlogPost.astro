@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import { ClientRouter } from "astro:transitions";
 import BaseHead from "../components/BaseHead.astro";
 import StructuredData from "../components/StructuredData.astro";
 import BreadcrumbSchema from "../components/BreadcrumbSchema.astro";
@@ -28,11 +29,8 @@ const {
   tags,
 } = Astro.props;
 
-// Generate blog-specific OG image URL
 // Extract the blog slug from pathname (remove /blog/ prefix and trailing slash)
 const blogSlug = Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "");
-const blogOgImageUrl = new URL(`/open-graph/blog/${blogSlug}.png`, Astro.site)
-  .href;
 ---
 
 <html lang="en">
@@ -40,7 +38,7 @@ const blogOgImageUrl = new URL(`/open-graph/blog/${blogSlug}.png`, Astro.site)
     <BaseHead
       title={title}
       description={description}
-      ogImage={blogOgImageUrl}
+      image={heroImage}
       type="article"
       publishDate={publishDate}
       tags={tags}
@@ -65,6 +63,7 @@ const blogOgImageUrl = new URL(`/open-graph/blog/${blogSlug}.png`, Astro.site)
   </head>
 
   <body>
+    <ClientRouter />
     <Header />
     <main class="mx-auto my-4 w-full max-w-4xl px-6 pt-14">
       <article itemscope itemtype="https://schema.org/BlogPosting">
@@ -77,6 +76,7 @@ const blogOgImageUrl = new URL(`/open-graph/blog/${blogSlug}.png`, Astro.site)
                 src={heroImage}
                 alt={`Hero image for ${title}`}
                 class="mb-8 h-auto w-full rounded-lg"
+                transition:name={`hero-${blogSlug}`}
               />
             )
           }

@@ -6,6 +6,27 @@
 
 @import "tailwindcss";
 
+@layer utilities {
+  /* Ensure utility classes override the aggressive reset */
+  .my-1 { margin-top: 0.25rem; margin-bottom: 0.25rem; }
+  .my-2 { margin-top: 0.5rem; margin-bottom: 0.5rem; }
+  .my-3 { margin-top: 0.75rem; margin-bottom: 0.75rem; }
+  .my-4 { margin-top: 1rem; margin-bottom: 1rem; }
+  .my-5 { margin-top: 1.25rem; margin-bottom: 1.25rem; }
+  .my-6 { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+  .my-8 { margin-top: 2rem; margin-bottom: 2rem; }
+  
+  @media (min-width: 640px) {
+    .sm\:my-3 { margin-top: 0.75rem; margin-bottom: 0.75rem; }
+    .sm\:my-5 { margin-top: 1.25rem; margin-bottom: 1.25rem; }
+    .sm\:my-10 { margin-top: 2.5rem; margin-bottom: 2.5rem; }
+  }
+  
+  @media (min-width: 768px) {
+    .md\:my-8 { margin-top: 2rem; margin-bottom: 2rem; }
+  }
+}
+
 @theme {
   /* Modern Tech Marketing Dark Theme */
   --color-accent: #00d9ff; /* Bright cyan for CTAs and links */
