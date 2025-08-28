@@ -13,11 +13,7 @@ const pageTitle = `Follow ${PERSONAL_INFO.name} - ${SITE_TITLE}`;
 const pageDescription = `Connect with ${PERSONAL_INFO.name} (${PERSONAL_INFO.username}) across all social platforms. Follow for tech content, open source projects, developer tutorials, and more.`;
 ---
 
-<BaseLayout
-  title={pageTitle}
-  description={pageDescription}
-  maxWidth="md"
->
+<BaseLayout title={pageTitle} description={pageDescription} maxWidth="md">
   <PageHeader title="TechSquidTV" subtitle="Kyle Tryon">
     <div class="mb-6 flex justify-center">
       <Avatar src={AvatarImage} alt="Kyle Tryon - TechSquidTV" size="xl" />
@@ -25,8 +21,10 @@ const pageDescription = `Connect with ${PERSONAL_INFO.name} (${PERSONAL_INFO.use
     <ContactInfo email={email} className="mb-8" />
     <div class="mb-8 text-center">
       <p class="text-text-muted text-lg leading-relaxed">
-        {PERSONAL_INFO.jobTitle} specializing in <strong>developer experience</strong>, 
-        <strong>open source</strong>, and <strong>tech education</strong>. 
+        {PERSONAL_INFO.jobTitle} specializing in <strong
+          >developer experience</strong
+        >,
+        <strong>open source</strong>, and <strong>tech education</strong>.
         Follow for tutorials, projects, and tech insights.
       </p>
     </div>
@@ -35,24 +33,24 @@ const pageDescription = `Connect with ${PERSONAL_INFO.name} (${PERSONAL_INFO.use
   <div class="space-y-6">
     <!-- Social Media Section -->
     <section>
-      <div class="flex flex-col gap-3 max-w-md mx-auto">
+      <div class="mx-auto flex max-w-md flex-col gap-3">
         {
           SOCIAL_LINKS.map((social) => (
             <a
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center gap-4 p-4 bg-bg-tertiary border border-border rounded-xl text-text-primary no-underline transition-all duration-300 hover:bg-bg-code hover:border-accent hover:-translate-y-1 hover:shadow-card group"
+              class="bg-bg-tertiary border-border text-text-primary hover:bg-bg-code hover:border-accent hover:shadow-card group flex items-center gap-4 rounded-xl border p-4 no-underline transition-all duration-300 hover:-translate-y-1"
               style={`--brand-color: ${social.brandColor}`}
             >
               <GlassContainer variant="circle">
                 <Icon
                   name={social.icon}
                   size={24}
-                  class="text-text-primary transition-colors duration-300 group-hover:text-accent"
+                  class="text-text-primary group-hover:text-accent transition-colors duration-300"
                 />
               </GlassContainer>
-              <span class="flex-1 text-center text-xl font-semibold text-text-primary group-hover:text-accent transition-colors duration-300">
+              <span class="text-text-primary group-hover:text-accent flex-1 text-center text-xl font-semibold transition-colors duration-300">
                 {social.name}
               </span>
             </a>
@@ -63,25 +61,28 @@ const pageDescription = `Connect with ${PERSONAL_INFO.name} (${PERSONAL_INFO.use
   </div>
 
   <!-- Structured Data for Link Tree -->
-  <script type="application/ld+json" is:inline set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    "mainEntity": {
-      "@type": "Person",
-      "name": PERSONAL_INFO.name,
-      "alternateName": PERSONAL_INFO.username,
-      "description": pageDescription,
-      "url": PERSONAL_INFO.website,
-      "email": PERSONAL_INFO.email,
-      "jobTitle": PERSONAL_INFO.jobTitle,
-      "worksFor": {
-        "@type": "Organization",
-        "name": PERSONAL_INFO.corporateCompany
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      mainEntity: {
+        "@type": "Person",
+        name: PERSONAL_INFO.name,
+        alternateName: PERSONAL_INFO.username,
+        description: pageDescription,
+        url: PERSONAL_INFO.website,
+        email: PERSONAL_INFO.email,
+        jobTitle: PERSONAL_INFO.jobTitle,
+        worksFor: {
+          "@type": "Organization",
+          name: PERSONAL_INFO.corporateCompany,
+        },
+        sameAs: SOCIAL_LINKS.map((link) => link.url),
       },
-      "sameAs": SOCIAL_LINKS.map(link => link.url)
-    }
-  })}>
-  </script>
+    })}
+  />
 </BaseLayout>
 
 <style>

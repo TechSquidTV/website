@@ -1,0 +1,162 @@
+---
+import { Icon } from "astro-icon/components";
+
+export interface Props {
+	url: string;
+	text?: string;
+	tooltip?: string;
+	showIcon?: boolean;
+}
+
+const { 
+	url, 
+	text, 
+	tooltip,
+	showIcon = true 
+} = Astro.props;
+
+// Extract article title from Wikipedia URL as fallback
+const getArticleTitle = (wikipediaUrl: string): string => {
+	try {
+		const match = wikipediaUrl.match(/\/wiki\/(.+)$/);
+		if (match) {
+			return decodeURIComponent(match[1]).replace(/_/g, ' ');
+		}
+	} catch (e) {
+		// Fallback to URL if parsing fails
+	}
+	return wikipediaUrl;
+};
+
+// Check if there's slot content
+const hasSlotContent = Astro.slots.has('default');
+const fallbackText = text || getArticleTitle(url);
+---
+
+<span 
+	class="wiki-link-wrapper" 
+	data-tooltip={tooltip}
+	data-has-tooltip={tooltip ? 'true' : 'false'}
+>
+	<a 
+		href={url}
+		target="_blank"
+		rel="noopener noreferrer"
+		class="wiki-link"
+		aria-label={tooltip ? `${hasSlotContent ? 'Wikipedia link' : fallbackText} - ${tooltip}` : (hasSlotContent ? 'Wikipedia link' : fallbackText)}
+	>
+		{hasSlotContent ? <slot /> : fallbackText}
+	</a>
+	{showIcon && <Icon name="search" class="wiki-icon" aria-hidden="true" />}
+</span>
+
+<style>
+	.wiki-link-wrapper {
+		position: relative;
+		display: inline;
+	}
+
+	.wiki-link {
+		color: rgb(59 130 246); /* blue-500 */
+		text-decoration: underline;
+		text-decoration-style: dashed;
+		text-decoration-color: rgb(59 130 246);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 2px;
+		transition: all 0.2s ease;
+	}
+
+	.wiki-link:hover {
+		color: rgb(29 78 216); /* blue-700 */
+		text-decoration-color: rgb(29 78 216);
+		text-decoration-thickness: 2px;
+	}
+
+	.wiki-icon {
+		width: 0.5rem; 
+		height: 0.5rem; 
+		opacity: 0.6;
+		vertical-align: super;
+		transition: opacity 0.2s ease;
+		display: inline-block;
+	}
+
+	.wiki-link-wrapper:hover .wiki-icon {
+		opacity: 1;
+	}
+
+	/* Tooltip styles */
+	.wiki-link-wrapper[data-has-tooltip="true"]:hover::after {
+		content: attr(data-tooltip);
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		background: rgb(31 41 55); /* gray-800 */
+		color: white;
+		padding: 12px 16px;
+		border-radius: 8px;
+		font-size: 0.875rem; /* 14px */
+		line-height: 1.5;
+		white-space: normal;
+		width: 400px;
+		box-shadow: 0 8px 16px -4px rgb(0 0 0 / 0.2);
+		z-index: 50;
+		pointer-events: none;
+		margin-bottom: 8px;
+	}
+
+	/* Tooltip arrow */
+	.wiki-link-wrapper[data-has-tooltip="true"]:hover::before {
+		content: '';
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		border: 5px solid transparent;
+		border-top-color: rgb(31 41 55); /* gray-800 */
+		z-index: 50;
+		pointer-events: none;
+	}
+
+	/* Responsive tooltip positioning */
+	@media (max-width: 640px) {
+		.wiki-link-wrapper[data-has-tooltip="true"]:hover::after {
+			position: absolute;
+			bottom: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+			width: auto;
+			max-width: calc(100vw - 2rem);
+			min-width: 250px;
+			margin-bottom: 8px;
+		}
+
+		.wiki-link-wrapper[data-has-tooltip="true"]:hover::before {
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
+
+	/* Dark mode support */
+	@media (prefers-color-scheme: dark) {
+		.wiki-link {
+			color: rgb(96 165 250); /* blue-400 */
+			text-decoration-color: rgb(96 165 250);
+		}
+
+		.wiki-link:hover {
+			color: rgb(147 197 253); /* blue-300 */
+			text-decoration-color: rgb(147 197 253);
+		}
+
+		.wiki-link-wrapper[data-has-tooltip="true"]:hover::after {
+			background: rgb(17 24 39); /* gray-900 */
+			border: 1px solid rgb(75 85 99); /* gray-600 */
+		}
+
+		.wiki-link-wrapper[data-has-tooltip="true"]:hover::before {
+			border-top-color: rgb(17 24 39); /* gray-900 */
+		}
+	}
+</style>

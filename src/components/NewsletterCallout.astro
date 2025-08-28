@@ -1,0 +1,466 @@
+---
+import Button from "./Button.astro";
+import FormInput from "./FormInput.astro";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  variant?: "simple" | "inline" | "full";
+  title?: string;
+  className?: string;
+  showRss?: boolean;
+}
+
+const {
+  variant = "simple",
+  title,
+  className = "",
+  showRss = true,
+} = Astro.props;
+
+// Generate unique IDs for form elements
+const formId = `newsletter-${Math.random().toString(36).substring(2, 11)}`;
+const emailId = `email-${formId}`;
+const nameId = `name-${formId}`;
+---
+
+<div class={`newsletter-callout newsletter-${variant} ${className}`}>
+  {
+    variant === "simple" && (
+      <div class="newsletter-simple">
+        <div class="newsletter-header">
+          <Icon name="email" size={20} class="newsletter-icon" />
+          <span class="newsletter-title">Stay Updated</span>
+        </div>
+        <slot>
+          <p class="newsletter-text">
+            <em>
+              P.S. I have a newsletter, but I'm so against spam, I very rarely
+              send emails. Like this kind of stuff, very infrequently?
+              <a href="/newsletter" class="newsletter-link">
+                Subscribe here
+              </a>
+              {showRss && (
+                <Fragment>
+                  . I also have{" "}
+                  <a href="/rss.xml" class="newsletter-link">
+                    RSS
+                  </a>
+                </Fragment>
+              )}
+              !
+            </em>
+          </p>
+        </slot>
+      </div>
+    )
+  }
+
+  {
+    variant === "inline" && (
+      <div class="newsletter-inline">
+        <div class="newsletter-content">
+          <div class="newsletter-header">
+            <Icon name="email" size={24} class="newsletter-icon" />
+            <div>
+              <h3 class="newsletter-title">{title || "Stay in the Loop"}</h3>
+              <p class="newsletter-subtitle">
+                I <i>rarely</i> send emails, if you want only the good stuff,
+                subscribe here.
+              </p>
+            </div>
+          </div>
+
+          <form
+            name="newsletter-inline"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="dontCheckMe"
+            class="newsletter-form"
+          >
+            <div class="absolute left-[-9999px] opacity-0">
+              <label>
+                Don't fill this out if you're human:{" "}
+                <input name="dontCheckMe" />
+              </label>
+            </div>
+
+            <div class="newsletter-form-group">
+              <input
+                type="email"
+                id={emailId}
+                name="email"
+                placeholder="homer.simpson@example.com"
+                required
+                class="newsletter-email-input"
+              />
+              <Button
+                type="submit"
+                variant="primary"
+                size="md"
+                className="newsletter-submit"
+              >
+                <Icon name="email" size={16} />
+                Subscribe
+              </Button>
+            </div>
+          </form>
+
+          {showRss && (
+            <div class="newsletter-rss">
+              <Icon name="rss" size={16} />
+              <span>
+                Prefer RSS?{" "}
+                <a href="/rss.xml" class="newsletter-link">
+                  Grab the feed
+                </a>
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  {
+    variant === "full" && (
+      <div class="newsletter-full">
+        <div class="newsletter-header">
+          <Icon name="email" size={32} class="newsletter-icon" />
+          <div>
+            <h3 class="newsletter-title">{title || "Join the Newsletter"}</h3>
+            <p class="newsletter-subtitle">
+              Get notified about new posts, projects, and tech insights.
+            </p>
+          </div>
+        </div>
+
+        <div class="newsletter-benefits">
+          <div class="benefit-item">
+            <span class="benefit-emoji">📝</span>
+            <span>New blog post notifications</span>
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-emoji">🚀</span>
+            <span>Project launch announcements</span>
+          </div>
+          <div class="benefit-item">
+            <span class="benefit-emoji">💡</span>
+            <span>Exclusive tech insights</span>
+          </div>
+        </div>
+
+        <form
+          name="newsletter-full"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="dontCheckMe"
+          class="newsletter-form"
+        >
+          <div class="absolute left-[-9999px] opacity-0">
+            <label>
+              Don't fill this out if you're human: <input name="dontCheckMe" />
+            </label>
+          </div>
+
+          <div class="newsletter-form-fields">
+            <input
+              type="text"
+              id={nameId}
+              name="name"
+              placeholder="Your name"
+              class="newsletter-input"
+            />
+            <input
+              type="email"
+              id={emailId}
+              name="email"
+              placeholder="your.email@domain.com"
+              required
+              class="newsletter-input"
+            />
+          </div>
+
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            fullWidth
+            className="newsletter-submit"
+          >
+            <Icon name="email" size={16} />
+            Subscribe to Newsletter
+          </Button>
+        </form>
+
+        <div class="newsletter-footer">
+          <p class="newsletter-promise">
+            No spam, ever. Usually one email every few weeks.
+          </p>
+          {showRss && (
+            <div class="newsletter-rss">
+              <Icon name="rss" size={16} />
+              <span>
+                Prefer RSS?{" "}
+                <a href="/rss.xml" class="newsletter-link">
+                  Grab the feed
+                </a>
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .newsletter-callout {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    border-left: 4px solid var(--color-accent);
+    font-family: var(--font-family-atkinson);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .newsletter-callout::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-accent),
+      transparent
+    );
+    opacity: 0.3;
+  }
+
+  /* Simple variant */
+  .newsletter-simple {
+    text-align: left;
+  }
+
+  .newsletter-simple .newsletter-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-simple .newsletter-title {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: 1rem;
+  }
+
+  .newsletter-simple .newsletter-text {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  /* Inline variant */
+  .newsletter-inline .newsletter-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .newsletter-inline .newsletter-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .newsletter-inline .newsletter-subtitle {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .newsletter-form-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-email-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    background: var(--color-bg-code);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .newsletter-email-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px rgb(var(--color-accent) / 0.1);
+  }
+
+  /* Full variant */
+  .newsletter-full .newsletter-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .newsletter-full .newsletter-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .newsletter-full .newsletter-subtitle {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .newsletter-benefits {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--color-bg-tertiary);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+  }
+
+  .benefit-emoji {
+    font-size: 1.25rem;
+    width: 2rem;
+    text-align: center;
+  }
+
+  .newsletter-form-fields {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .newsletter-input {
+    padding: 0.875rem 1rem;
+    background: var(--color-bg-code);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+  }
+
+  .newsletter-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px rgb(var(--color-accent) / 0.1);
+  }
+
+  .newsletter-footer {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+
+  .newsletter-promise {
+    margin: 0 0 1rem 0;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  /* Shared styles */
+  .newsletter-icon {
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .newsletter-link {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: all 0.2s ease;
+  }
+
+  .newsletter-link:hover {
+    text-decoration-color: var(--color-accent);
+    text-shadow: 0 0 8px rgb(var(--color-accent) / 0.3);
+  }
+
+  .newsletter-rss {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .newsletter-rss .newsletter-link {
+    font-size: inherit;
+  }
+
+  .newsletter-form {
+    position: relative;
+  }
+
+  .newsletter-submit {
+    white-space: nowrap;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 720px) {
+    .newsletter-callout {
+      margin-top: 2rem;
+      padding: 1.5rem;
+    }
+
+    .newsletter-form-group {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .newsletter-form-fields {
+      gap: 0.75rem;
+    }
+
+    .newsletter-inline .newsletter-header,
+    .newsletter-full .newsletter-header {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .newsletter-benefits {
+      padding: 1rem;
+    }
+
+    .benefit-item {
+      font-size: 0.85rem;
+    }
+  }
+</style>
