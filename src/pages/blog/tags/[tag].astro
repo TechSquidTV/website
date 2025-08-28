@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
+import { ClientRouter } from "astro:transitions";
 import BaseHead from "../../../components/BaseHead.astro";
 import Footer from "../../../components/Footer.astro";
 import FormattedDate from "../../../components/FormattedDate.astro";
@@ -103,6 +104,7 @@ const { posts, tag } = Astro.props;
     </style>
   </head>
   <body>
+    <ClientRouter />
     <Header />
     <main>
       <div class="tag-header">
@@ -120,6 +122,7 @@ const { posts, tag } = Astro.props;
                   <Image
                     src={post.data.heroImage}
                     alt={post.data.heroImageAlt || post.data.title}
+                    transition:name={`hero-${post.data.slug || post.id}`}
                   />
                 )}
                 <h2>{post.data.title}</h2>
