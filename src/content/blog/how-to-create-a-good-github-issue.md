@@ -1,7 +1,6 @@
 ---
 title: How To Create A Good GitHub Issue
 publishDate: "03-07-2024"
-updatedDate: "08-29-2025"
 description: Help others help you by creating a good GitHub issue. A guide to creating a high-quality issues and improving your chance of getting help using C.A.R.E.S.
 heroImage: ../../images/blog/thumbnail-open-github-issue.png
 heroImageAlt: "3D render by TechSquidTV of a metal pen next to the open GitHub issue symbol."
