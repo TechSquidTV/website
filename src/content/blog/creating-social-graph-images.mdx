@@ -1,7 +1,7 @@
 ---
 title: How I generate Open Graph images for my Astro-based blog
 publishDate: "01-23-2024"
-updatedDate: "01-23-2024"
+updatedDate: "08-29-2025"
 description: Here's how I automatically generate preview images for every post on my Astro blog. Make sure you have open graph images for social sharing.
 heroImage: ../../images/blog/open-graph-3d-render.png
 heroImageAlt: "A minimalist render of icospheres floating in space, one showing the @ symbol in neon. Image created by TechSquidTV in Blender."
@@ -337,7 +337,7 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 Astro great ways to interact with our collections but _unfortunately_ the heroImage URL returned by astro at build time will not be the value we entered, but instead the location of the image at _build-time_, which looks something like `/_astro/abcdefg...png`, which is another issue we have to solve for.
 
-You can see we have a sort of copy of our blog's data in `blogData`, which is where we actually get our Hero Image URL. Also take note that we run `replace` on the value to remove those `../` from the path, which wont be needed here.
+You can see we have a sort of copy of our blog's data in `blogData`, which is where we actually get our Hero Image URL. Also take note that we run `replace` on the value to remove those `../` from the path, which won't be needed here.
 
 ```ts title="pages/blog/[post]/[post]-og.png.ts"
 const getBlogFrontmatterCollection = async () => {
@@ -440,6 +440,6 @@ If the Astro build ever fails for some reason, you can run `pnpm run kill-assets
 
 There we have it! On every build of our site now, each post will get a custom Open Graph image, hopefully driving better click rates on our posts, by offering a more enticing preview of our content.
 
-From a technical standpoint, this was not as straight-forward as it could have been due to the way images are handled differently during the build phase in Astro. The next step may be to open an issue on the Astro repository to report the use-case and and share this workaround with the dev team. If anything gets updated to make the process easier, I'll issue an update at the top of the post.
+From a technical standpoint, this was not as straight-forward as it could have been due to the way images are handled differently during the build phase in Astro. The next step may be to open an issue on the Astro repository to report the use-case and share this workaround with the dev team. If anything gets updated to make the process easier, I'll issue an update at the top of the post.
 
 Remember, if you want to dive deeper into the code or anything else on this blog, the code is [fully open source](https://github.com/TechSquidTV/website). And join the [newsletter](http://localhost:4321/newsletter)!
