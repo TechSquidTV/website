@@ -1,7 +1,7 @@
 ---
 title: Making Steam Deck SD Cards Look Like Game Cartridges
-publishDate: 02-4-2024
-updatedDate: 02-4-2024
+publishDate: "02-04-2024"
+updatedDate: "08-29-2025"
 description: Discover how to transform your Steam Deck SD cards into nostalgic game cartridges with this free and open-source design system.
 heroImage: ../../images/blog/steam-deck-sd-card.png
 heroImageAlt: "A table of SD card adapters with game box art on them."
