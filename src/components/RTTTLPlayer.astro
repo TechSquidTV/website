@@ -64,7 +64,7 @@ const builtInExamples = [
 ];
 ---
 
-<div
+<rtttl-player
   class={`rtttl-player ${className}`}
   style={`width: ${width}; height: ${height};`}
   data-player-id={playerId}
@@ -150,10 +150,12 @@ const builtInExamples = [
   }
 
   <div class="rtttl-status" data-status="ready">Ready</div>
-</div>
+</rtttl-player>
 
 <style>
+  rtttl-player,
   .rtttl-player {
+    display: block;
     background: var(--color-bg-tertiary);
     border: 1px solid var(--color-border);
     border-radius: 12px;
@@ -898,44 +900,49 @@ const builtInExamples = [
     }
   }
 
-  // Initialize all RTTTL players on the page
-  document.addEventListener("DOMContentLoaded", () => {
-    const players = document.querySelectorAll(".rtttl-player");
+  // Custom element for Astro-native initialization
+  class RTTTLPlayerElement extends HTMLElement {
+    public rtttlPlayer?: RTTTLPlayer;
 
-    players.forEach((playerEl) => {
-      const playerId = playerEl.getAttribute("data-player-id")!;
-      let rtttl = playerEl.getAttribute("data-rtttl") || "";
-      const showVisualization =
-        playerEl.getAttribute("data-show-visualization") === "true";
-      const examples = JSON.parse(
-        playerEl.getAttribute("data-examples") || "[]",
-      );
+    connectedCallback() {
+      // Skip if already initialized
+      if (this.rtttlPlayer) return;
+
+      const playerId = this.getAttribute("data-player-id")!;
+      let rtttl = this.getAttribute("data-rtttl") || "";
+      const showVisualization = this.getAttribute("data-show-visualization") === "true";
+      const examples = JSON.parse(this.getAttribute("data-examples") || "[]");
 
       // If no RTTTL provided and examples exist, use the first example
       if (!rtttl && examples.length > 0) {
         rtttl = examples[0].rtttl;
 
         // Update textarea with default example
-        const textarea = playerEl.querySelector(
-          ".rtttl-textarea",
-        ) as HTMLTextAreaElement;
+        const textarea = this.querySelector(".rtttl-textarea") as HTMLTextAreaElement;
         if (textarea) {
           textarea.value = rtttl.trim();
         }
 
         // Update dropdown selection to match default example
-        const selectEl = playerEl.querySelector(
-          ".rtttl-select",
-        ) as HTMLSelectElement;
+        const selectEl = this.querySelector(".rtttl-select") as HTMLSelectElement;
         if (selectEl) {
           selectEl.value = rtttl;
         }
       }
 
-      const player = new RTTTLPlayer(playerId, rtttl, showVisualization);
+      this.rtttlPlayer = new RTTTLPlayer(playerId, rtttl, showVisualization);
+    }
 
-      // Store reference for potential external access
-      (playerEl as any).rtttlPlayer = player;
-    });
-  });
+    disconnectedCallback() {
+      // Clean up when element is removed
+      if (this.rtttlPlayer) {
+        this.rtttlPlayer.stop();
+      }
+    }
+  }
+
+  // Register the custom element
+  if (!customElements.get("rtttl-player")) {
+    customElements.define("rtttl-player", RTTTLPlayerElement);
+  }
 </script>
