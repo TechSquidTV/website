@@ -48,7 +48,7 @@ I did not do that. I built a <WikiLink url="https://en.wikipedia.org/wiki/Pager"
   className="beeper-model no-spinner"
 />
 
-The **Sentry Alert TX-1** is an <WikiLink url="https://en.wikipedia.org/wiki/ESP32" tooltip="ESP32 is a low-cost, low-power microcontroller with integrated Wi-Fi and Bluetooth capabilities, popular for IoT projects.">ESP32</WikiLink>-powered device that receives alerts over <WikiLink url="https://en.wikipedia.org/wiki/MQTT" tooltip="MQTT (Message Queuing Telemetry Transport) is a lightweight messaging protocol designed for IoT devices with limited bandwidth.">MQTT</WikiLink>, using a webhook bridge to connect with Sentry to notify you when your apps or services are experiencing issues. A _true_ on-call <WikiLink url="https://en.wikipedia.org/wiki/Pager" tooltip="A pager is a wireless telecommunications device that receives and displays alphanumeric or voice messages, widely used in the 1980s-1990s for emergency services and professionals.">pager</WikiLink>.
+The **Sentry Alert TX-1** is an <WikiLink url="https://en.wikipedia.org/wiki/ESP32" tooltip="ESP32 is a low-cost, low-power microcontroller with integrated Wi-Fi and Bluetooth capabilities, popular for IoT projects.">ESP32</WikiLink>-powered device that receives alerts over <WikiLink url="https://en.wikipedia.org/wiki/MQTT" tooltip="MQTT (Message Queuing Telemetry Transport) is a lightweight messaging protocol designed for IoT devices with limited bandwidth.">MQTT</WikiLink>, using a webhook bridge to connect with Sentry to notify you when your apps or services are experiencing issues. A _true_ on-call pager.
 
 GitHub Repo: [KyleTryon/sentry-alert-tx-1](https://github.com/KyleTryon/sentry-alert-tx-1)
 
@@ -145,7 +145,7 @@ The most common screen component is a menu, which is responsible for common navi
 
 #### Alerts
 
-When a new message comes in on <WikiLink url="https://en.wikipedia.org/wiki/MQTT" tooltip="MQTT (Message Queuing Telemetry Transport) is a lightweight messaging protocol designed for IoT devices with limited bandwidth.">MQTT</WikiLink>, it will [trigger](https://github.com/KyleTryon/sentry-alert-tx-1/blob/87c7148518e4e04ffb0604702b2ec001ac7b8800/AlertTX-1/AlertTX-1.ino#L51) an alert screen pop up, enable the LED, and play the user-selected ringtone.
+When a new message comes in on MQTT, it will [trigger](https://github.com/KyleTryon/sentry-alert-tx-1/blob/87c7148518e4e04ffb0604702b2ec001ac7b8800/AlertTX-1/AlertTX-1.ino#L51) an alert screen pop up, enable the LED, and play the user-selected ringtone.
 
 <video
   src="/assets/beeper_alert.webm"
@@ -159,7 +159,7 @@ When a new message comes in on <WikiLink url="https://en.wikipedia.org/wiki/MQTT
 
 #### Ringtones
 
-Ringtones are stored as <WikiLink url="https://en.wikipedia.org/wiki/Ring_Tone_Text_Transfer_Language" tooltip="RTTTL (Ring Tone Text Transfer Language) is a simple format for storing and sharing ringtones, developed by Nokia in 1996.">RTTTL (Ring Tone Text Transfer Language)</WikiLink> strings. <WikiLink url="https://en.wikipedia.org/wiki/Ring_Tone_Text_Transfer_Language" tooltip="RTTTL (Ring Tone Text Transfer Language) is a simple format for storing and sharing ringtones, developed by Nokia in 1996.">RTTTL</WikiLink> is a very simple format for storing and sharing simple ringtones, developed by Nokia in 1996. It is not as powerful as MIDI, but with a simple buzzer for a speaker, it is the perfect solution for our ringtone management.
+Ringtones are stored as <WikiLink url="https://en.wikipedia.org/wiki/Ring_Tone_Text_Transfer_Language" tooltip="RTTTL (Ring Tone Text Transfer Language) is a simple format for storing and sharing ringtones, developed by Nokia in 1996.">RTTTL (Ring Tone Text Transfer Language)</WikiLink> strings. RTTTL is a very simple format for storing and sharing simple ringtones, developed by Nokia in 1996. It is not as powerful as MIDI, but with a simple buzzer for a speaker, it is the perfect solution for our ringtone management.
 
 We actually store the ringtones as text files, and then through `make` with some Python, we convert them to a binary format that is more memory efficient for the ESP32. We have some other code in there at the moment that should theoretically assist with a future Guitar-Hero-style game, but I was unable to get it working in time.
 
@@ -173,7 +173,7 @@ Try listening to some of the [included ringtones](https://github.com/KyleTryon/s
 
 ### Deploying the Beeper
 
-The beeper needs two additional services to function. An <WikiLink url="https://en.wikipedia.org/wiki/MQTT" tooltip="MQTT (Message Queuing Telemetry Transport) is a lightweight messaging protocol designed for IoT devices with limited bandwidth.">MQTT</WikiLink> broker (like [Mosquitto](https://mosquitto.org/)) and a [webhook bridge](https://github.com/KyleTryon/sentry-alert-tx-1/tree/main/Beeper-Service) to connect with [Sentry](https://docs.sentry.io/organization/integrations/integration-platform/webhooks/).
+The beeper needs two additional services to function. An MQTT broker (like [Mosquitto](https://mosquitto.org/)) and a [webhook bridge](https://github.com/KyleTryon/sentry-alert-tx-1/tree/main/Beeper-Service) to connect with [Sentry](https://docs.sentry.io/organization/integrations/integration-platform/webhooks/).
 
 The bridge could potentially be expanded to support additional notification services, like [if a Netlify deployment fails](https://docs.netlify.com/deploy/deploy-notifications/#http-post-request), or if you [get a new order on Shopify](https://help.shopify.com/en/manual/fulfillment/setup/notifications/webhooks).
 
@@ -184,7 +184,7 @@ The webhook bridge is a simple Fastify (Node.js) server that listens for webhook
 We then run the bridge and Mosquitto broker via [Docker Compose](https://github.com/KyleTryon/sentry-alert-tx-1/blob/main/Beeper-Service/docker-compose.yml) in a Digital Ocean droplet.
 And we can use [Caddy](https://caddyserver.com/) to easily setup a custom domain and SSL.
 
-Once deployed, we can configure Sentry to send our customized alerts to our bridge `https://beeper.example.com/webhook`, which will then process and forward the data to our <WikiLink url="https://en.wikipedia.org/wiki/MQTT" tooltip="MQTT (Message Queuing Telemetry Transport) is a lightweight messaging protocol designed for IoT devices with limited bandwidth.">MQTT</WikiLink> broker, which the beeper is subscribed to.
+Once deployed, we can configure Sentry to send our customized alerts to our bridge `https://beeper.example.com/webhook`, which will then process and forward the data to our MQTT broker, which the beeper is subscribed to.
 
 ## What I Learned
 
