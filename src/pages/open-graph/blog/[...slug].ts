@@ -45,7 +45,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
     // Get the original frontmatter data to access the original heroImage path
     const slug = path.replace(".png", "");
     const postData = blogData.find(
-      (data) => data.slug === slug || data.filename === slug,
+      (data) => data.slug === slug || data.filename === slug || data.filename.replace(/\s+/g, '-') === slug,
     );
 
     // Transform hero image path or fallback to default background
@@ -77,6 +77,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
           size: 68, // Slightly smaller to accommodate longer titles
           color: [255, 255, 255],
           lineHeight: 1.1,
+          textShadow: "2px 2px 0px rgb(0, 0, 0)",
         },
         description: {
           families: ["Inter"],
@@ -84,6 +85,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
           size: 28, // Slightly smaller for better balance
           color: [209, 213, 219],
           lineHeight: 1.3,
+          textShadow: "1px 1px 0px rgb(0, 0, 0)",
         },
       },
       // TechSquidTV badge positioned bottom-right

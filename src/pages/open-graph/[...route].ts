@@ -31,6 +31,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
         size: 80, // Large text like previous 5rem
         color: [255, 255, 255],
         lineHeight: 1.1,
+        textShadow: "2px 2px 0px rgb(0, 0, 0)",
       },
       description: {
         families: ["Inter"],
@@ -38,6 +39,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
         size: 32, // Smaller description text
         color: [209, 213, 219],
         lineHeight: 1.3,
+        textShadow: "1px 1px 0px rgb(0, 0, 0)",
       },
     },
     // Logo badge to match previous design
