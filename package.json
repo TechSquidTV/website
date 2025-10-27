@@ -29,7 +29,7 @@
     "rehype-external-links": "^3.0.0",
     "remark-toc": "^9.0.0",
     "sharp": "^0.34.2",
-    "tailwindcss": "^4.1.12",
+    "tailwindcss": "^4.1.16",
     "three": "^0.179.1",
     "typescript": "^5.9.2",
     "unist-util-visit": "^5.0.0"
