@@ -1,14 +1,13 @@
 ---
 import { Image } from "astro:assets";
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import ReadingTimeDisplay from "../../components/ReadingTimeDisplay.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import { getPublishedPosts } from "../../utils/blog";
 
-const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
-);
+const posts = await getPublishedPosts(true);
 
 // Get reading time data for all posts
 const postsWithReadingTime = await Promise.all(

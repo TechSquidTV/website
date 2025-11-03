@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import { Icon } from "astro-icon/components";
 import { YouTube } from "astro-embed";
 import { ClientRouter } from "astro:transitions";
@@ -17,11 +17,10 @@ import {
   SOCIAL_LINKS,
   YOUTUBE_CHANNEL_ID,
 } from "../consts";
+import { getPublishedPosts } from "../utils/blog";
 
 // Get latest blog posts
-const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
-);
+const posts = await getPublishedPosts(true);
 const latestPost = posts[0];
 const recentPosts = posts.slice(1, 3); // Get 2nd and 3rd most recent posts
 

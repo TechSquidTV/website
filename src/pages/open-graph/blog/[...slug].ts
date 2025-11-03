@@ -1,14 +1,14 @@
 import { OGImageRoute } from "astro-og-canvas";
-import { getCollection } from "astro:content";
 import fs from "fs/promises";
 import matter from "gray-matter";
+import { getPublishedPosts } from "../../../utils/blog";
 
 // Import your background image and logo
 const bgImage = "./src/images/opengraph/tstv-og-bg.png";
 const badge = "./src/images/opengraph/tstv-badge.png";
 
-// Get all blog posts
-const posts = await getCollection("blog");
+// Get all blog posts (exclude drafts)
+const posts = await getPublishedPosts();
 
 // Function to get original frontmatter data (with original image paths)
 const getBlogFrontmatterCollection = async () => {
@@ -45,7 +45,10 @@ export const { getStaticPaths, GET } = OGImageRoute({
     // Get the original frontmatter data to access the original heroImage path
     const slug = path.replace(".png", "");
     const postData = blogData.find(
-      (data) => data.slug === slug || data.filename === slug || data.filename.replace(/\s+/g, '-') === slug,
+      (data) =>
+        data.slug === slug ||
+        data.filename === slug ||
+        data.filename.replace(/\s+/g, "-") === slug,
     );
 
     // Transform hero image path or fallback to default background
