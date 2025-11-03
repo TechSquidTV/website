@@ -1,0 +1,238 @@
+---
+title: "BitTorrent: Absolutely Everything Explained"
+publishDate: "11-02-2025"
+updatedDate: "11-02-2025"
+description: "BitTorrent is one of the most underrated technologies still as relevant today as it was when it was first released in 2001. Let's explore everything, about BitTorrent."
+heroImage: ../../images/blog/bittorrent-hero.png
+heroImageAlt: "A group of laptops connected to a torrent swarm"
+slug: bittorrent-absolutely-everything-explained
+tags:
+  - technology
+draft: true
+---
+
+import { Image } from "astro:assets";
+import WikiLink from "../../components/WikiLink.astro";
+import NewsletterCallout from "../../components/NewsletterCallout.astro";
+import { Icon } from "astro-icon/components";
+import TrackerDiagram from "../../images/blog/tracker-dark-mode.svg";
+import DHTDiagram from "../../images/blog/dht-diagram-dark-mode.svg";
+
+## Table of Contents
+
+## What is a Torrent?
+
+You've likely heard of torrents before, perhaps even used them in the past. Torrents provide a method of sharing files, usually larger ones, directly with other "peers" over the internet. They eliminate the need for a costly central server. 
+But how do they function? What advantages do torrents offer? How can one utilize them? Are they secure? Consider the following as your comprehensive guide to _torrents_.
+
+### The History of BitTorrent
+
+In the late 90s [Bram Cohen](https://en.wikipedia.org/wiki/Bram_Cohen) ([twitter](https://twitter.com/bramcohen)), a software developer, was working for a company called <WikiLink url="https://en.wikipedia.org/wiki/Mnet_(peer-to-peer_network)#MojoNation" tooltip="MojoNation was an early peer-to-peer file sharing system that used a micropayment system and was one of the precursors to BitTorrent technology.">MojoNation</WikiLink> that was trying to create an encrypted decentralized file storage system for commercial-use.
+Unfortunately, the company was faced with severe financial difficulties and would close in 2002.
+
+Just before then, Cohen would realize that the technology he had been working on, while not a commercial success, could be used to create a new file sharing protocol that could dramatically speed up the process of sharing large files, such as [porn collections](https://www.wired.com/2005/01/bittorrent-2/).
+Other peer-to-peer file sharing protocols at the time existed, such as ["Kazaa"](https://en.wikipedia.org/wiki/Kazaa), but they all were dependent on downloading complete files from a single user or "peer".
+Especially at the time, with the majority of people having slow and unreliable internet access, the process of downloading large files could, and usually did, take a very long time.
+
+Cohen would leave MojoNation in 2001 and begin work on the open protocol that would become known as <WikiLink url="https://en.wikipedia.org/wiki/BitTorrent" tooltip="BitTorrent is a peer-to-peer file sharing protocol that allows users to distribute data and electronic files over the Internet in a decentralized manner.">BitTorrent</WikiLink>.
+BitTorrent would immediately become popular with the Linux community, as it allowed for the free distribution of Linux distributions and other free software that would not have had the funding or labor to distribute their software otherwise.
+And by 2003, [ThePirateBay](https://en.wikipedia.org/wiki/The_Pirate_Bay) would launch, becoming one of the most infamous websites in the world to download free _pirated_ content, such as music, movies, and TV shows.
+
+### BitTorrent Basics
+
+<WikiLink url="https://en.wikipedia.org/wiki/BitTorrent" tooltip="BitTorrent is a peer-to-peer file sharing protocol that allows users to distribute data and electronic files over the Internet in a decentralized manner.">BitTorrent</WikiLink> decentralizes the file sharing process. 
+Rather than one server being required to serve a file to many users, which can become bottle necked, BitTorrent allows for many users to share files with each other by joining a <WikiLink url="https://en.wikipedia.org/wiki/Glossary_of_BitTorrent_terms#Swarm" tooltip="A swarm is the group of users (peers) that are sharing the same torrent file at any given time.">"swarm"</WikiLink>.
+Users within the swarm can advertise they have a file, or a part of it, and exchange "pieces" with other users in the swarm.
+
+<Image src={TrackerDiagram} alt="BitTorrent Swarm showing peers connected to a central tracker" />
+
+#### Torrent files
+
+In order to distribute a file using BitTorrent, a <WikiLink url="https://en.wikipedia.org/wiki/Torrent_file" tooltip="A torrent file is a computer file that contains metadata about files and folders to be distributed, and usually also a list of the network locations of trackers.">"torrent"</WikiLink> file is created, which contains metadata about the file(s) to be shared.
+You can use a tool such as [TorrentEditor](https://torrenteditor.com/) to view the contents of a torrent file online. Here for example is the contents of the Ubuntu 23.04 Server ISO.
+
+<span class="border-border mb-[2em] flex flex-row items-center gap-2 rounded-sm border-2 px-2 py-1">
+  <a href="https://torrenteditor.com/">
+    <span>TorrentEditor</span>
+  </a>
+  <span class="text-text-muted">- Online torrent file viewer and editor</span>
+</span>
+
+##### Ubuntu 23.04 Live Server Torrent Details
+
+| Property | Value |
+|----------|-------|
+| **Filename** | `ubuntu-23.04-live-server-amd64.iso.torrent` |
+| **Info Hash** | `D6B4535B A8F2B340 12BC6335 69F113E7 7017E032` |
+| **Primary Tracker** | `https://torrent.ubuntu.com/announce` (158 seeds, 4 peers) |
+| **Secondary Tracker** | `https://ipv6.torrent.ubuntu.com/announce` (158 seeds, 4 peers) |
+| **Created** | 04/20/23 12:14:49 by mktorrent 1.1 |
+| **Comment** | Ubuntu CD releases.ubuntu.com |
+| **Piece Length** | 256 KB |
+| **Private** | Off - Unset |
+| **File Name** | `ubuntu-23.04-live-server-amd64.iso` |
+| **File Size** | 2.46 GB |
+
+The torrent file itself is incredibly small, for this 2.46 GB ISO the torrent itself is only 200 KB.
+
+#### Magnet links
+
+The data inside a torrent file is so small, that it can, in fact be can be represented as a URL rather than a file. 
+A <WikiLink url="https://en.wikipedia.org/wiki/Magnet_URI_scheme" tooltip="A magnet link is a type of hyperlink that enables the downloading of files via peer-to-peer networks without requiring a separate torrent file.">"Magnet link"</WikiLink> is a URL scheme that allows you to share information about a torrent as a link, rather than a file.
+This means websites that want to share torrents, no longer had to worry about serving files, making it extremely robust to simply share a _static_ webpage with links to all the files you want to share, the most simple form of a website.
+Static webpages are extremely easy and cheap to host, robust against traffic spikes and take-down attempts, and can often even be hosted for free on a number of services online. Becoming so lightweight, it became trivial to put up "mirrors", or copies of the website under different domain names, often hosted in different countries, to ensure the website would never go down.
+This helped make torrent indexers like ThePirateBay _decentralized_. In 2012, in an effort to ensure the longevity of the content on ThePirateBay and thanks to their recent conversion to magnet links, their website was replicated by users and [reduced to a 90 MB torrent file](https://torrentfreak.com/the-pirate-bay-returns-121213/) that anyone could copy and re-host.
+
+A magnet link works similar to how if you have ever clicked on an email address in the browser before and had it open up your default email client.
+
+If you have never seen an email link before, it looks like this:
+
+```html
+<a href="mailto:x@y.com">x@y.com</a>
+```
+
+If you click on that link, it will open up your default email client and create a new email to the address.
+
+Similarly, a magnet link looks like this:
+
+```html
+<a href="magnet:?xt=urn:btih:222FGW5I6KZUAEV4MM2WT4IT45YBPYBS&dn=ubuntu-23.04-live-server-amd64.iso&xl=2641264640&tr=https%3A%2F%2Ftorrent.ubuntu.com%2Fannounce">
+  ubuntu-23.04-live-server-amd64.iso
+</a>
+```
+
+This link, when clicked, will launch your system default torrent client and begin downloading the file.
+
+If you take a closer look at the magnet link, you'll notice it contains all the same information as the torrent file, but in a URL format.
+
+##### Magnet Link Parameters
+
+###### xt (Exact Topic)
+
+The `xt` parameter is used to identify and verify the file(s) via a <WikiLink url="https://en.wikipedia.org/wiki/Uniform_Resource_Name" tooltip="A Uniform Resource Name (URN) is a persistent, location-independent identifier for a resource.">URN</WikiLink>. In all _torrent_ related magnet links, this will be a `urn:btih:` followed by the <WikiLink url="https://en.wikipedia.org/wiki/SHA-1" tooltip="SHA-1 is a cryptographic hash function that produces a 160-bit hash value, commonly used for data integrity verification.">SHA-1</WikiLink> info hash of the torrent. `btih` here stands for "BitTorrent Info Hash", and would differ from different older P2P protocols. This is all you need to download a torrent, but the other parameters are useful for providing additional information about the torrent.
+
+###### dn (Display Name)
+
+The `dn` parameter is used to provide a display name for the torrent. This is the name that will be displayed in your torrent client. If this parameter is not provided, the name of the file will be used instead.
+
+###### xl (eXact Length)
+
+The `xl` parameter is used to provide the size of the file in bytes. This is useful for your torrent client to know how much data to expect to download.
+
+###### tr (Trackers)
+
+The `tr` parameter is used to provide a list of trackers to connect to. Multiple `tr` parameters can be included in a single magnet link to provide backup trackers.
+
+###### More Info
+
+These are the main parameters you will likely see in most magnet links, though more do exist.
+For more information on the magnet link parameters, see the [Magnet URI scheme](https://en.wikipedia.org/wiki/Magnet_URI_scheme#Parameters) Wikipedia page.
+
+#### Pieces
+
+One of the most innovative aspects of BitTorrent is how it handles file distribution through "pieces". Instead of downloading a complete file from a single source, BitTorrent divides files into smaller chunks called pieces.
+
+##### How Pieces Work
+
+When a torrent is created, the file (or files) are divided into pieces of equal size, typically ranging from 32 KB to several megabytes. Each piece is assigned a unique SHA-1 hash that serves as a fingerprint to verify the integrity of that specific piece.
+
+For example, if you have a 1 GB file and use 1 MB pieces, the file would be divided into approximately 1,000 pieces. Each piece can be downloaded independently from different peers in the swarm.
+
+##### The Advantage of Pieces
+
+This piece-based system provides several key benefits:
+
+- **Parallel Downloads**: You can download different pieces simultaneously from multiple peers, dramatically increasing download speeds
+- **Error Recovery**: If a piece becomes corrupted during transfer, only that specific piece needs to be re-downloaded, not the entire file  
+- **Efficient Sharing**: As soon as you download a complete piece, you can immediately start sharing it with other peers, even before your own download is complete
+- **Resume Capability**: If your download is interrupted, you only need to re-download the incomplete pieces, not the entire file
+
+##### Piece Verification
+
+Each piece is verified using its SHA-1 hash immediately after download. If the hash doesn't match what's expected, the piece is considered corrupt and must be downloaded again from another peer. This ensures file integrity across the distributed network.
+
+##### Rarest First Algorithm
+
+Most BitTorrent clients implement a "rarest first" algorithm when selecting which pieces to download. This means they prioritize downloading pieces that are held by the fewest number of peers in the swarm. This strategy helps ensure that all pieces remain available in the swarm and prevents scenarios where common pieces are widely distributed while rare pieces become extinct.
+
+#### Torrent Clients
+
+If you were downloading a typical file from the internet, you would likely use a web browser to grab the file, save it to your computer and then end communication with the server.
+BitTorrent is different, as it is a peer-to-peer protocol, you are not just downloading a file from a server, you are also uploading the file to other users.
+To do so, you'll need a BitTorrent client, some software that can communicate with other users and share the file.
+
+There are many BitTorrent clients available, but the most popular these days are:
+
+<span class="border-border mb-[2em] flex flex-row items-center gap-2 rounded-sm border-2 px-2 py-1">
+  <Icon name="github" size={20} />
+  <a href="https://github.com/transmission/transmission">
+    <span>Transmission</span>
+  </a>
+  <span class="text-text-muted">- Fast, easy, and free BitTorrent client</span>
+</span>
+
+<span class="border-border mb-[2em] flex flex-row items-center gap-2 rounded-sm border-2 px-2 py-1">
+  <Icon name="github" size={20} />
+  <a href="https://github.com/deluge-torrent/deluge">
+    <span>Deluge</span>
+  </a>
+  <span class="text-text-muted">- Lightweight, cross-platform BitTorrent client</span>
+</span>
+
+<span class="border-border mb-[2em] flex flex-row items-center gap-2 rounded-sm border-2 px-2 py-1">
+  <Icon name="github" size={20} />
+  <a href="https://github.com/qbittorrent/qBittorrent">
+    <span>qBittorrent</span>
+  </a>
+  <span class="text-text-muted">- Free and reliable P2P BitTorrent client</span>
+</span>
+
+#### Torrent Tracker
+
+In order to begin downloading a file via torrent, you need to connect with other "peers" or users in the swarm who have "pieces" of the file you want.
+A <WikiLink url="https://en.wikipedia.org/wiki/BitTorrent_tracker" tooltip="A BitTorrent tracker is a web service that assists in the communication between peers using the BitTorrent protocol.">"tracker"</WikiLink> is a web server that keeps track of members in a swarm and aids in connecting users together based on which pieces of the file they have.
+
+When a torrent client initiates a download from a torrent file, it will first connect to the tracker and announce that it is joining the swarm and what pieces of the file it has available, if any.
+The tracker will respond with a list of peers that the client can connect to and begin downloading the file from. Once the client and a peer have connected, they no longer require the tracker to communicate with each other. However, the client will continue to communicate with the tracker to update it on the pieces it has available and to receive a list of new peers to connect with.
+
+If a tracker were to go down before you got the chance to connect to the swarm, it might be very difficult to find other peers to connect with. You'll notice most torrent files will have multiple trackers listed to ensure longevity of the torrent. If all trackers were offline, it would still be possible to join the swarm if your client was aware of at least one other peer in the swarm. Luckily, this is where the [DHT](#dht-distributed-hash-table) comes in.
+
+#### DHT (Distributed Hash Table)
+
+A <WikiLink url="https://en.wikipedia.org/wiki/Distributed_hash_table" tooltip="A Distributed Hash Table (DHT) is a decentralized distributed system that provides a lookup service similar to a hash table.">DHT</WikiLink> is a decentralized system for storing and retrieving simple key-value data, where any member of the network can retrieve data from any other member of the network. In BitTorrent, the <WikiLink url="https://en.wikipedia.org/wiki/Mainline_DHT" tooltip="Mainline DHT is a distributed hash table implementation used by the BitTorrent protocol for peer discovery without relying on central trackers.">Mainline DHT</WikiLink> protocol is used to store information about torrents and their peers locally. The DHT works as an alternative to a tracker and can aid in connecting to a swarm if the tracker is offline.
+
+To find peers for a particular swarm over DHT, a `get_peers` query is made with the SHA-1 hash of the torrent (the "infohash") as the key to the "nearest" node in the DHT. The node will then respond with a list of peers in the swarm. If the node does not have any peers, it will respond with a list of other nodes in the DHT that are closer to the infohash. The client will then query those nodes for peers and continue until it has found peers to connect with. An algorithmic virtual game of telephone. It is important to note that "nearest" in the context of the DHT is not related to physical geographical distance, but instead a mathematical distance that creates efficient and balanced routing.
+
+<Image src={DHTDiagram} alt="DHT peer discovery process showing distributed hash table lookup" />
+
+#### Leechers and Seeders
+
+BitTorrent is built around the idea of users sharing files with each other. The system only works if users are willing to share the files they have downloaded with other users.
+
+A <WikiLink url="https://en.wikipedia.org/wiki/Glossary_of_BitTorrent_terms#Leech" tooltip="A leecher is a peer that is downloading the torrent from other peers but not uploading any parts of the torrent back to other peers.">"leecher"</WikiLink> is a name typically given to users who download files and immediately stop sharing them. A "leech" is someone who takes from the BitTorrent network without giving back.
+
+If you are still actively downloading a file and simultaneously uploading to other peers, you are commonly referred to as a "peer". A peer generically refers to any user in a swarm, but is often used to refer to users who are still downloading the file.
+
+Finally, a <WikiLink url="https://en.wikipedia.org/wiki/Glossary_of_BitTorrent_terms#Seed" tooltip="A seeder is a peer that has a complete copy of the torrent and is uploading it to other peers (leechers).">"seeder"</WikiLink> is a user who has completed downloading a file and continues to share the file with other users. Because of the decentralized nature of BitTorrent and the concept of "pieces", it is extremely beneficial to have seeders in the swarm who have full copies of the file. Without enough seeders in a swarm, it is common for all active members in a swarm to exchange pieces with each other, but if no user has the complete file, it is possible that no user will ever complete the download.
+
+#### Private Trackers
+
+A private tracker refers to a Tracker, usually backed by a website or community, that requires registration to login and access. When downloading torrents from a private torrent tracker website, the tracker URL is usually unique to your account and is used to track your ratio of upload to download. While limiting the amount of users who can join may appear counter-intuitive to the decentralized nature of BitTorrent, private trackers often mitigate a small portion of privacy concerns by ensuring non-community members are not able to spy on the activity in the swarm.
+
+It may go without saying that private trackers are usually closed to registration, requiring an invite from an existing member to join, or some trackers will open registration for a short period of time to allow new members to join.
+
+In private tracker environments, it may be that your tracker requires you to maintain a certain ratio of upload to download. Typically, you are required to at least upload as much as you download. Otherwise, you will face a penalty, such as being banned from the tracker.
+
+### Torrenting Safely
+
+Torrenting is a great way to download files, but it is important to be aware of the risks involved. While torrenting itself is not illegal, it is often used to download pirated content, which is illegal in many countries. Additionally, because of the decentralized nature of <WikiLink url="https://en.wikipedia.org/wiki/BitTorrent" tooltip="BitTorrent is a peer-to-peer file sharing protocol that allows users to distribute data and electronic files over the Internet in a decentralized manner.">BitTorrent</WikiLink>, it is possible for malicious users to join a swarm and spy on the activity of other users. This is especially concerning when downloading pirated content, as it is possible for a malicious user to join the swarm and record the IP addresses of other users in the swarm. This is why it is important to use a VPN when torrenting or some other method of obscuring your IP address.
+
+We will update this guide in the future with links to a VPN specific guide.
+
+<NewsletterCallout variant="inline" title="Want to stay updated on tech deep-dives?">
+  <span class="text-sm">
+    <em>
+      If you enjoyed this comprehensive guide to BitTorrent, you might be interested in more detailed technical explanations like this. Subscribe to get notified when we publish new deep-dive articles on networking protocols, distributed systems, and other fascinating technology topics.
+    </em>
+  </span>
+</NewsletterCallout>
