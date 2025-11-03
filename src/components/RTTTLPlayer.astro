@@ -910,7 +910,8 @@ const builtInExamples = [
 
       const playerId = this.getAttribute("data-player-id")!;
       let rtttl = this.getAttribute("data-rtttl") || "";
-      const showVisualization = this.getAttribute("data-show-visualization") === "true";
+      const showVisualization =
+        this.getAttribute("data-show-visualization") === "true";
       const examples = JSON.parse(this.getAttribute("data-examples") || "[]");
 
       // If no RTTTL provided and examples exist, use the first example
@@ -918,13 +919,17 @@ const builtInExamples = [
         rtttl = examples[0].rtttl;
 
         // Update textarea with default example
-        const textarea = this.querySelector(".rtttl-textarea") as HTMLTextAreaElement;
+        const textarea = this.querySelector(
+          ".rtttl-textarea",
+        ) as HTMLTextAreaElement;
         if (textarea) {
           textarea.value = rtttl.trim();
         }
 
         // Update dropdown selection to match default example
-        const selectEl = this.querySelector(".rtttl-select") as HTMLSelectElement;
+        const selectEl = this.querySelector(
+          ".rtttl-select",
+        ) as HTMLSelectElement;
         if (selectEl) {
           selectEl.value = rtttl;
         }
