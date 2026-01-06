@@ -3,6 +3,7 @@
 import mdx from "@astrojs/mdx";
 import { defineConfig } from "astro/config";
 import icon from "astro-icon";
+import react from "@astrojs/react";
 
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
@@ -10,6 +11,7 @@ import embeds from "astro-embed/integration";
 import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
 import remarkToc from "remark-toc";
 import rehypeExternalLinks from "rehype-external-links";
+import { rehypeShadcnTables } from "./src/utils/rehype-shadcn-tables.mjs";
 
 import netlify from "@astrojs/netlify";
 
@@ -20,7 +22,7 @@ export default defineConfig({
       ? "http://localhost:4321"
       : "https://techsquidtv.com",
 
-  integrations: [sitemap(), icon(), embeds(), mdx()],
+  integrations: [sitemap(), icon(), embeds(), mdx(), react()],
 
   markdown: {
     remarkPlugins: [
@@ -35,6 +37,7 @@ export default defineConfig({
           rel: ["nofollow", "noopener"],
         },
       ],
+      rehypeShadcnTables,
     ],
   },
 

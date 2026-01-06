@@ -1,7 +1,6 @@
 ---
 alwaysApply: true
 ---
-  ```
 
 ### Astro-Specific Guidelines
 - **Components**: Use `.astro` extension for Astro components

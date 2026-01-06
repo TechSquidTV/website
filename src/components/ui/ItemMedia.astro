@@ -1,0 +1,27 @@
+---
+interface Props {
+  variant?: 'default' | 'icon' | 'image';
+  class?: string;
+}
+
+const { 
+  variant = 'default', 
+  class: className,
+  ...props 
+} = Astro.props;
+
+const baseClasses = [
+  'flex items-center justify-center flex-shrink-0',
+  {
+    'w-10 h-10 rounded-lg bg-bg-code border border-border': variant === 'icon',
+    'w-12 h-12 rounded-lg overflow-hidden': variant === 'image',
+    'w-8 h-8': variant === 'default',
+  },
+  className
+];
+---
+
+<div class:list={baseClasses} {...props}>
+  <slot />
+</div>
+

@@ -1,0 +1,18 @@
+---
+export interface Props {
+	class?: string;
+}
+
+const { class: className, ...props } = Astro.props;
+---
+
+<div
+	data-slot="alert-title"
+	class:list={[
+		'font-semibold text-base mb-1 text-text-primary',
+		className
+	]}
+	{...props}
+>
+	<slot />
+</div>
