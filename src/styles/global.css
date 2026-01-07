@@ -15,31 +15,38 @@
 @custom-variant dark (&:is(.dark *));
 
 @layer utilities {
+
   /* Ensure utility classes override the aggressive reset */
   .my-1 {
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
   }
+
   .my-2 {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
   }
+
   .my-3 {
     margin-top: 0.75rem;
     margin-bottom: 0.75rem;
   }
+
   .my-4 {
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
+
   .my-5 {
     margin-top: 1.25rem;
     margin-bottom: 1.25rem;
   }
+
   .my-6 {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
   }
+
   .my-8 {
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -50,10 +57,12 @@
       margin-top: 0.75rem;
       margin-bottom: 0.75rem;
     }
+
     .sm\:my-5 {
       margin-top: 1.25rem;
       margin-bottom: 1.25rem;
     }
+
     .sm\:my-10 {
       margin-top: 2.5rem;
       margin-bottom: 2.5rem;
@@ -70,33 +79,52 @@
 
 @theme {
   /* Modern Tech Marketing Dark Theme */
-  --color-accent: #00d9ff; /* Bright cyan for CTAs and links */
-  --color-accent-dark: #0099cc; /* Darker cyan for hover states */
-  --color-accent-purple: #6366f1; /* Purple accent for variety */
-  --color-accent-green: #10b981; /* Success/accent green */
+  --color-accent: #00d9ff;
+  /* Bright cyan for CTAs and links */
+  --color-accent-dark: #0099cc;
+  /* Darker cyan for hover states */
+  --color-accent-purple: #6366f1;
+  /* Purple accent for variety */
+  --color-accent-green: #10b981;
+  /* Success/accent green */
 
   /* Dark theme backgrounds */
-  --color-bg-primary: #0a0a0b; /* Almost black primary background */
-  --color-bg-secondary: #111113; /* Slightly lighter secondary */
-  --color-bg-tertiary: #1a1a1d; /* Cards and elevated surfaces */
-  --color-bg-code: #0d1117; /* Code blocks background */
+  --color-bg-primary: #0a0a0b;
+  /* Almost black primary background */
+  --color-bg-secondary: #111113;
+  /* Slightly lighter secondary */
+  --color-bg-tertiary: #1a1a1d;
+  /* Cards and elevated surfaces */
+  --color-bg-code: #0d1117;
+  /* Code blocks background */
 
   /* Text colors */
-  --color-text-primary: #ffffff; /* Pure white for headings */
-  --color-text-secondary: #e5e7eb; /* Light gray for body text */
-  --color-text-muted: #9ca3af; /* Muted gray for meta info */
-  --color-text-subtle: #6b7280; /* Very muted for subtle text */
+  --color-text-primary: #ffffff;
+  /* Pure white for headings */
+  --color-text-secondary: #e5e7eb;
+  /* Light gray for body text */
+  --color-text-muted: #9ca3af;
+  /* Muted gray for meta info */
+  --color-text-subtle: #6b7280;
+  /* Very muted for subtle text */
 
   /* Border and divider colors */
-  --color-border: #2a2a2e; /* Subtle borders */
-  --color-border-light: #3a3a3f; /* Lighter borders for focus */
-  --color-divider: #1f1f23; /* Divider lines */
+  --color-border: #2a2a2e;
+  /* Subtle borders */
+  --color-border-light: #3a3a3f;
+  /* Lighter borders for focus */
+  --color-divider: #1f1f23;
+  /* Divider lines */
 
   /* Legacy aliases for existing code */
-  --color-black: 255 255 255; /* White text in dark theme */
-  --color-gray: 156 163 175; /* Muted gray */
-  --color-gray-light: 55 55 62; /* Dark gray for light elements */
-  --color-gray-dark: 229 231 235; /* Light gray for dark elements */
+  --color-black: 255 255 255;
+  /* White text in dark theme */
+  --color-gray: 156 163 175;
+  /* Muted gray */
+  --color-gray-light: 55 55 62;
+  /* Dark gray for light elements */
+  --color-gray-dark: 229 231 235;
+  /* Light gray for dark elements */
 
   --font-family-atkinson: "Atkinson", sans-serif;
 
@@ -111,17 +139,13 @@
 }
 
 :root {
-  --dark-gradient: linear-gradient(
-    135deg,
-    var(--color-bg-primary) 0%,
-    var(--color-bg-secondary) 50%,
-    var(--color-bg-tertiary) 100%
-  );
-  --hero-gradient: radial-gradient(
-    ellipse at top,
-    rgb(var(--color-accent) / 0.1) 0%,
-    transparent 50%
-  );
+  --dark-gradient: linear-gradient(135deg,
+      var(--color-bg-primary) 0%,
+      var(--color-bg-secondary) 50%,
+      var(--color-bg-tertiary) 100%);
+  --hero-gradient: radial-gradient(ellipse at top,
+      rgb(var(--color-accent) / 0.1) 0%,
+      transparent 50%);
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -155,6 +179,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 }
+
 @font-face {
   font-family: "Atkinson";
   src: url("/fonts/atkinson-regular.woff") format("woff");
@@ -162,6 +187,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Atkinson";
   src: url("/fonts/atkinson-bold.woff") format("woff");
@@ -169,6 +195,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 body {
   font-family: var(--font-family-atkinson);
   margin: 0;
@@ -183,12 +210,14 @@ body {
   font-size: 20px;
   line-height: 1.7;
 }
+
 main {
   background: var(--color-bg-secondary);
   border-radius: 16px;
   box-shadow: var(--shadow-card);
   border: 1px solid var(--color-border);
 }
+
 /* Scope heading styles to content areas only, not components */
 .prose h1,
 .prose h2,
@@ -196,41 +225,48 @@ main {
 .prose h4,
 .prose h5,
 .prose h6,
-main > h1,
-main > h2,
-main > h3,
-main > h4,
-main > h5,
-main > h6 {
+main>h1,
+main>h2,
+main>h3,
+main>h4,
+main>h5,
+main>h6 {
   margin: 0 0 0.5rem 0;
   color: var(--color-text-primary);
   line-height: 1.2;
   font-weight: 600;
 }
+
 .prose h1,
-main > h1 {
+main>h1 {
   font-size: 3.052em;
 }
+
 .prose h2,
-main > h2 {
+main>h2 {
   font-size: 2.441em;
 }
+
 .prose h3,
-main > h3 {
+main>h3 {
   font-size: 1.953em;
 }
+
 .prose h4,
-main > h4 {
+main>h4 {
   font-size: 1.563em;
 }
+
 .prose h5,
-main > h5 {
+main>h5 {
   font-size: 1.25em;
 }
+
 strong,
 b {
   font-weight: 700;
 }
+
 a {
   text-decoration: none;
   transition: all 0.2s ease;
@@ -277,6 +313,7 @@ a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]):not(.wiki-li
   text-decoration-color: var(--color-accent-dark);
   text-shadow: 0 0 8px rgb(var(--color-accent) / 0.4);
 }
+
 /* Modern Prose Typography System */
 /* Reset all prose elements first, but not components */
 .prose * {
@@ -305,64 +342,64 @@ a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]):not(.wiki-li
 }
 
 /* Add intelligent spacing only where needed */
-.prose p + p {
+.prose p+p {
   margin-top: 1.5em;
 }
 
 /* Spacing between different content types */
-.prose h1 + * {
+.prose h1+* {
   margin-top: 1.5em;
 }
 
-.prose h2 + * {
+.prose h2+* {
   margin-top: 1.25em;
 }
 
-.prose h3 + * {
+.prose h3+* {
   margin-top: 1em;
 }
 
-.prose h4 + *, 
-.prose h5 + *, 
-.prose h6 + * {
+.prose h4+*,
+.prose h5+*,
+.prose h6+* {
   margin-top: 0.75em;
 }
 
 /* Spacing before headings */
-.prose * + h1 {
+.prose *+h1 {
   margin-top: 3em;
 }
 
-.prose * + h2 {
+.prose *+h2 {
   margin-top: 2.5em;
 }
 
-.prose * + h3 {
+.prose *+h3 {
   margin-top: 2em;
 }
 
-.prose * + h4,
-.prose * + h5,
-.prose * + h6 {
+.prose *+h4,
+.prose *+h5,
+.prose *+h6 {
   margin-top: 1.5em;
 }
 
 /* Other content spacing */
-.prose * + ul,
-.prose * + ol {
+.prose *+ul,
+.prose *+ol {
   margin-top: 1.5em;
 }
 
-.prose * + blockquote {
+.prose *+blockquote {
   margin-top: 2em;
 }
 
-.prose * + pre {
+.prose *+pre {
   margin-top: 2em;
   margin-bottom: 2em;
 }
 
-.prose * + img {
+.prose *+img {
   margin-top: 2em;
   margin-bottom: 2em;
 }
@@ -373,7 +410,7 @@ a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]):not(.wiki-li
   border-radius: var(--radius-lg);
 }
 
-.prose * + table {
+.prose *+table {
   margin-top: 2em;
   margin-bottom: 2em;
 }
@@ -382,9 +419,11 @@ textarea {
   width: 100%;
   font-size: 16px;
 }
+
 input {
   font-size: 16px;
 }
+
 /* Shadcn-style tables */
 table {
   width: 100%;
@@ -494,10 +533,12 @@ table a:hover {
 .shadcn-table-cell {
   /* Inherits from td styles above */
 }
+
 img {
   max-width: 100%;
   height: auto;
 }
+
 /* Shadcn-style inline code */
 code {
   position: relative;
@@ -515,12 +556,14 @@ code {
 /* Shadcn-style code blocks with Mac-like window */
 pre {
   position: relative;
-  padding: 0; /* Remove padding since we'll add it to the code element */
+  padding: 0;
+  /* Remove padding since we'll add it to the code element */
   margin: 1.5rem 0;
   background: hsl(220 13% 9%);
   border: 1px solid hsl(220 13% 15%);
   border-radius: 0.5rem;
-  overflow: hidden; /* Hide overflow to contain scrolling area */
+  overflow: hidden;
+  /* Hide overflow to contain scrolling area */
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.875rem;
   line-height: 1.7;
@@ -538,7 +581,8 @@ pre::before {
   background: hsl(220 13% 11%);
   border-bottom: 1px solid hsl(220 13% 16%);
   border-radius: 0.5rem 0.5rem 0 0;
-  z-index: 1; /* Ensure header stays on top */
+  z-index: 1;
+  /* Ensure header stays on top */
 }
 
 /* Fixed window dots that don't scroll */
@@ -551,16 +595,18 @@ pre::after {
   height: 0.75rem;
   background: hsl(220 13% 35%);
   border-radius: 50%;
-  box-shadow: 
+  box-shadow:
     1.25rem 0 0 hsl(220 13% 35%),
     2.5rem 0 0 hsl(220 13% 35%);
-  z-index: 2; /* Ensure dots stay on top of header */
+  z-index: 2;
+  /* Ensure dots stay on top of header */
 }
 
-pre > code {
+pre>code {
   all: unset;
   display: block;
-  padding: 3rem 1.25rem 1rem 1.25rem; /* Top padding accounts for fixed header */
+  padding: 3rem 1.25rem 1rem 1.25rem;
+  /* Top padding accounts for fixed header */
   margin: 0;
   background: transparent;
   border: none;
@@ -575,26 +621,28 @@ pre > code {
   word-wrap: normal;
   word-break: normal;
   word-spacing: normal;
-  overflow-x: auto; /* Make code content scrollable horizontally */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+  overflow-x: auto;
+  /* Make code content scrollable horizontally */
+  -webkit-overflow-scrolling: touch;
+  /* Smooth scrolling on mobile */
 }
 
 /* Improved scrollbar styling for code content */
-pre > code::-webkit-scrollbar {
+pre>code::-webkit-scrollbar {
   height: 0.5rem;
 }
 
-pre > code::-webkit-scrollbar-track {
+pre>code::-webkit-scrollbar-track {
   background: hsl(220 13% 15%);
   border-radius: 0.25rem;
 }
 
-pre > code::-webkit-scrollbar-thumb {
+pre>code::-webkit-scrollbar-thumb {
   background: hsl(220 13% 25%);
   border-radius: 0.25rem;
 }
 
-pre > code::-webkit-scrollbar-thumb:hover {
+pre>code::-webkit-scrollbar-thumb:hover {
   background: hsl(220 13% 35%);
 }
 
@@ -632,7 +680,7 @@ pre[class*="language-"]::before {
   line-height: 1.7;
 }
 
-.prose li + li {
+.prose li+li {
   margin-top: 0.5em;
 }
 
@@ -653,15 +701,18 @@ pre[class*="language-"]::before {
 }
 
 /* List item content spacing */
-.prose li > *:first-child {
+.prose li>*:first-child {
   margin-top: 0;
 }
 
-.prose li > *:last-child {
+.prose li>*:last-child {
   margin-bottom: 0;
 }
 
 .prose img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: var(--radius-lg);
 }
 
@@ -676,23 +727,24 @@ blockquote {
   color: var(--color-text-muted);
   box-shadow: var(--shadow-card);
 }
+
 hr {
   border: none;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--color-border) 20%,
-    var(--color-accent) 50%,
-    var(--color-border) 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      var(--color-border) 20%,
+      var(--color-accent) 50%,
+      var(--color-border) 80%,
+      transparent 100%);
   margin: 3em 0;
 }
+
 @media (max-width: 720px) {
   body {
     font-size: 18px;
   }
+
   main {
     padding: 1em;
   }
@@ -734,7 +786,7 @@ hr {
   position: relative;
 }
 
-.prose h2#table-of-contents + ul {
+.prose h2#table-of-contents+ul {
   background: hsl(220 13% 9%);
   border: 1px solid hsl(220 13% 15%);
   border-top: none;
@@ -748,17 +800,17 @@ hr {
   padding-left: 1.25rem;
 }
 
-.prose h2#table-of-contents + ul li {
+.prose h2#table-of-contents+ul li {
   margin-bottom: 0.125rem;
   line-height: 1.4;
 }
 
-.prose h2#table-of-contents + ul li:last-child {
+.prose h2#table-of-contents+ul li:last-child {
   margin-bottom: 0;
 }
 
 /* Shadcn-style TOC links */
-.prose h2#table-of-contents + ul a {
+.prose h2#table-of-contents+ul a {
   display: inline-flex;
   align-items: center;
   padding: 0.25rem 0.5rem;
@@ -775,19 +827,19 @@ hr {
 }
 
 /* Modern hover effects */
-.prose h2#table-of-contents + ul a:hover {
+.prose h2#table-of-contents+ul a:hover {
   background: hsl(220 13% 15%);
   color: hsl(210 40% 98%);
   border-left-color: hsl(221 83% 53%);
 }
 
-.prose h2#table-of-contents + ul a:focus-visible {
+.prose h2#table-of-contents+ul a:focus-visible {
   outline: 2px solid hsl(221 83% 53%);
   outline-offset: 2px;
 }
 
 /* Nested TOC items styling */
-.prose h2#table-of-contents + ul ul {
+.prose h2#table-of-contents+ul ul {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   padding-left: 2rem;
@@ -798,11 +850,11 @@ hr {
   box-shadow: none;
 }
 
-.prose h2#table-of-contents + ul ul li {
+.prose h2#table-of-contents+ul ul li {
   margin-bottom: 0.1rem;
 }
 
-.prose h2#table-of-contents + ul ul a {
+.prose h2#table-of-contents+ul ul a {
   font-size: 0.8125rem;
   color: hsl(215 20.2% 65.1%);
   padding: 0.175rem 0.375rem;
@@ -811,14 +863,14 @@ hr {
   display: inline-block;
 }
 
-.prose h2#table-of-contents + ul ul a:hover {
+.prose h2#table-of-contents+ul ul a:hover {
   background: hsl(220 13% 18%);
   color: hsl(213 31% 91%);
   border-left-color: hsl(221 83% 53%);
 }
 
 /* Third level nesting (h4 headings) - shadcn style */
-.prose h2#table-of-contents + ul ul ul {
+.prose h2#table-of-contents+ul ul ul {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
   padding-left: 1.5rem;
@@ -829,18 +881,18 @@ hr {
   box-shadow: none;
 }
 
-.prose h2#table-of-contents + ul ul ul a {
+.prose h2#table-of-contents+ul ul ul a {
   font-size: 0.75rem;
   color: hsl(215 20.2% 55%);
   padding: 0.125rem 0.375rem;
   font-weight: 400;
 }
 
-.prose h2#table-of-contents + ul ul ul li {
+.prose h2#table-of-contents+ul ul ul li {
   margin-bottom: 0.075rem;
 }
 
-.prose h2#table-of-contents + ul ul ul a:hover {
+.prose h2#table-of-contents+ul ul ul a:hover {
   background: hsl(220 13% 20%);
   color: hsl(213 31% 91%);
   border-left-color: hsl(221 83% 53%);
@@ -936,6 +988,7 @@ hr {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }

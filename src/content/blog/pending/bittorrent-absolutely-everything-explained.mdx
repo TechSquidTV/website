@@ -8,7 +8,7 @@ heroImageAlt: "A group of laptops connected to a torrent swarm"
 slug: bittorrent-absolutely-everything-explained
 tags:
   - technology
-draft: true
+draft: false
 ---
 
 import { Image } from "astro:assets";
@@ -18,29 +18,43 @@ import { Icon } from "astro-icon/components";
 import TrackerDiagram from "../../../images/blog/tracker-dark-mode.svg";
 import DHTDiagram from "../../../images/blog/dht-diagram-dark-mode.svg";
 import LinkCard from "../../../components/LinkCard.astro";
+import LimewireImage from "../../../images/blog/limewire-8-bit.png";
+import NapsterGif from "../../../images/blog/napster_tutorial_file_download.gif";
+import MagnetLinkImage from "../../../images/blog/magnet_link_halflife.png";
+import ThePirateBayHydraImage from "../../../images/blog/The_Pirate_Bay_hydra_logo.jpg";
+
 
 ## Table of Contents
 
 ## What is a Torrent?
 
-Distributing large files over the internet has always been difficult.
+<Image src={LimewireImage} alt="Limewire interface in 8-bit style" />
 
-The traditional model requires a central server to provide the storage and, most importantly, all the bandwidth for every single user.
+
+Storing and distributing large files over the internet has always been difficult.
+
+The traditional distribution model required a central server to provide the storage and, most importantly, all the bandwidth for every user.
 As the number of users grows, bandwidth costs escalate, and the server's connection becomes a bottleneck, making downloads unusably slow for everyone.
 
-This wasn't just a problem for corporate business, but it was also a barrier to entry for many individuals — artists, hobby developers, and largely other creatives that wanted to share their work, but wouldn't have the resources to do so.
-And let's be honest, piracy was a big motivator. People wanted to be able to share and download music especially, freely, and hosting it was still very expensive.
+This wasn't just a problem for corporate business, but it was also a barrier to entry for many individuals — musicians, artists, hobby developers, and largely other creatives that wanted to share their work, but wouldn't have the resources to do so.
+
+_And let's be honest, piracy was a big motivator_.
+
+People wanted to be able to share and download music especially, freely, and hosting it was still very expensive.
 
 <WikiLink url="https://en.wikipedia.org/wiki/Napster" tooltip="Napster was a peer-to-peer file-sharing service that allowed users to share and download music files over the internet.">Napster</WikiLink> was one of the very first <WikiLink url="https://en.wikipedia.org/wiki/Peer-to-peer" tooltip="Peer-to-peer (P2P) is a networking model in which each node in the network serves as both a client and a server, allowing direct communication between participants without the need for a central server.">"peer-to-peer"</WikiLink> file-sharing services to tackle this problem.
 In 1999, Napster launched, and users were finally able to share and download files with each other, without the need for a central download server. Users would advertise what files they had available, and other users would be able to find and download files directly from each other.
 
+<Image src={NapsterGif} alt="Napster tutorial showing file download" />
+
+
 However, Napster was not _completely_ decentralized, and that would end up being their downfall. In Napster's model, they didn't serve any files themselves, but, they played a key role in indexing what content was available in the network, and keeping track of what users had which files, and ultimately controlled connections between users.
+
 Without this central index, it would be impossible for users to find eachother and exchange files.
 And because of that, and some high-profile song leaks, [Napster was found responsible for copyright infringement and was shut down in 2001](https://en.wikipedia.org/wiki/Napster#Legal_challenges).
 
 This vacuum would not be empty for long, and the issue of centralization was now well understood.
-
-What would come next would be the birth of BitTorrent and the torrent format we are still using to share and distribute mostly pirated stuff, but also [legal stuff](https://help.archive.org/help/archive-bittorrents/), and sometimes [Linux](https://distrowatch.com/dwres.php?resource=bittorrent).
+What would come next would be the birth of BitTorrent and the torrent format we are still using to share and distribute _mostly pirated stuff_, but also [legal stuff](https://help.archive.org/help/archive-bittorrents/), and sometimes [Linux](https://distrowatch.com/dwres.php?resource=bittorrent).
 
 ## BitTorrent Basics
 
@@ -50,15 +64,17 @@ Users within the swarm can advertise they have a file, or a part of it, and exch
 
 <Image src={TrackerDiagram} alt="BitTorrent Swarm showing peers connected to a central tracker" />
 
-The open BitTorrent protocol implemented a number of improvements over the older P2P protocols, such as breaking up files into smaller pieces so they could be distributed in parallel, and would eventually completely solve the problem of centralization through <WikiLink url="https://en.wikipedia.org/wiki/Mainline_DHT" tooltip="Mainline DHT is a distributed hash table implementation used by the BitTorrent protocol for peer discovery without relying on central trackers.">Mainline DHT</WikiLink>.
+The open BitTorrent protocol implemented a number of improvements over the older P2P protocols, such as breaking up files into smaller pieces so they could be distributed in parallel. At first, there was still the issues that a tracker would be required, though there were many more ofthem than just the single Napster index.
+
+Eventually, the BitTorrent protocol would completely solve the problem of centralization through <WikiLink url="https://en.wikipedia.org/wiki/Mainline_DHT" tooltip="Mainline DHT is a distributed hash table implementation used by the BitTorrent protocol for peer discovery without relying on central trackers.">Mainline DHT</WikiLink>, allowing clients to find eachother and exchange files without the need for a central index.
 
 ### Torrent files
 
-In order to distribute a file using BitTorrent, a <WikiLink url="https://en.wikipedia.org/wiki/Torrent_file" tooltip="A torrent file is a computer file that contains metadata about files and folders to be distributed, and usually also a list of the network locations of trackers.">"torrent"</WikiLink> file is created, which contains metadata about the file(s) to be shared.
-You can use a tool such as [TorrentEditor](https://torrenteditor.com/) to view the contents of a torrent file online. Here for example is the contents of the Ubuntu 23.04 Server ISO torrent file.
+In order to distribute data using BitTorrent, a <WikiLink url="https://en.wikipedia.org/wiki/Torrent_file" tooltip="A torrent file is a computer file that contains metadata about files and folders to be distributed, and usually also a list of the network locations of trackers.">"torrent"</WikiLink> file is created, which contains metadata about the file(s) to be shared.
+You can use a tool like [TorrentEditor](https://torrenteditor.com/) to inspect the contents of a torrent file online. Here for example is the contents of the Ubuntu 23.04 Server ISO torrent file.
 
 <LinkCard 
-  href="https://torrenteditor.com/" 
+  href="http://torrenteditor.com/" 
   title="TorrentEditor" 
   description="Online torrent file viewer and editor"
   icon="file-3d"
@@ -79,18 +95,32 @@ You can use a tool such as [TorrentEditor](https://torrenteditor.com/) to view t
 | **File Name** | `ubuntu-23.04-live-server-amd64.iso` |
 | **File Size** | 2.46 GB |
 
-The torrent file itself is incredibly small, for this 2.46 GB ISO the torrent is only 200 KB. all it contains is some metadata that can be parsed and displayed in a torrent client.
-Most importantly, the Info Hash, which is a unique identifier for the torrent, and not required but ideally, a tracker.
+The torrent file itself is incredibly small; for this 2.46 GB ISO the torrent is only 200 KB.
+
+All it contains is some metadata that can be parsed and displayed in a torrent client.
+Most importantly, the Info Hash, which is a unique identifier for the torrent.
+And though not required for most torrents, a tracker URL is also included to help peers find eachother more easily and keep the swarm healthy.
+
+> Note: You may be familiar with "private" torrents, which _do_ require a tracker URL.
 
 ### Magnet links
 
-The data inside a torrent file is so small, that it can, in fact be can be represented as a URL rather than a file. 
+The data inside a torrent file is so small, that it can be represented as a URL rather than a file. 
 
 A <WikiLink url="https://en.wikipedia.org/wiki/Magnet_URI_scheme" tooltip="A magnet link is a type of hyperlink that enables the downloading of files via peer-to-peer networks without requiring a separate torrent file.">"Magnet link"</WikiLink> is a URL scheme that allows you to share information about a torrent as a link, rather than a file.
-This means websites that want to share torrents, no longer had to worry about serving files at all, making it extremely robust to simply share a _static_ webpage with links to all the files you want to share, the most simple form of a website.
+This means websites that want to share torrents, no longer had to worry about serving files at all, making it extremely robust to simply share a _static_ webpage with links to all the files you want to share;
+ the most simple form of a website.
 
-Static webpages are extremely easy and cheap to host, robust against traffic spikes and take-down attempts, and can often even be hosted for free on a number of services online. Becoming so lightweight, it became trivial to put up "mirrors", or copies of the website under different domain names, often hosted in different countries, to ensure the website would never go down.
-This helped make torrent indexers like ThePirateBay _decentralized_.
+<Image src={MagnetLinkImage} alt="Example of a magnet link on a webpage" />
+
+
+Static webpages are extremely easy and cheap to host, robust against traffic spikes and take-down attempts, and can often even be hosted for free on a number of services online.
+
+Becoming so lightweight, it became trivial to put up "mirrors", or copies of the website under different domain names, often hosted in different countries, to ensure the website would never go down.
+
+<a href="https://torrentfreak.com/pirate-bay-moves-to-gs-la-vg-am-mn-and-gd-domains-150519/" target="_blank">
+<Image src={ThePirateBayHydraImage} alt="ThePirateBay Hydra" />
+</a>
 
 In 2012, in an effort to ensure the longevity of the content on ThePirateBay and thanks to their recent conversion to magnet links, their website was replicated by users and [reduced to a 90 MB torrent file](https://torrentfreak.com/the-pirate-bay-returns-121213/) that anyone could copy and re-host.
 
@@ -162,13 +192,6 @@ BitTorrent is different, as it is a peer-to-peer protocol, you are not just down
 To do so, you'll need a BitTorrent client, some software that can communicate with other users and share the file.
 
 There are many BitTorrent clients available, but the most popular these days are:
-
-<LinkCard 
-  href="https://github.com/transmission/transmission" 
-  title="Transmission" 
-  description="Fast, easy, and free BitTorrent client"
-  icon="github"
-/>
 
 <LinkCard 
   href="https://github.com/deluge-torrent/deluge" 
