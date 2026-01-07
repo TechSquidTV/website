@@ -3,7 +3,7 @@ title: How I generate Open Graph images for my Astro-based blog
 publishDate: "01-23-2024"
 updatedDate: "08-29-2025"
 description: Here's how I automatically generate preview images for every post on my Astro blog. Make sure you have open graph images for social sharing.
-heroImage: ../../images/blog/open-graph-3d-render.png
+heroImage: ../../../images/blog/open-graph-3d-render.png
 heroImageAlt: "A minimalist render of icospheres floating in space, one showing the @ symbol in neon. Image created by TechSquidTV in Blender."
 slug: generating-open-graph-images-for-astro
 tags:
@@ -11,9 +11,9 @@ tags:
 ---
 
 import { Image } from "astro:assets";
-import PreviewImage from "../../images/blog/generating-open-graph-images-for-astro-og.png";
-import PreviewBreakdown from "../../images/blog/og-breakdown-3d.png";
-import OGDist from "../../images/blog/astro-og-dist.png";
+import PreviewImage from "../../../images/blog/generating-open-graph-images-for-astro-og.png";
+import PreviewBreakdown from "../../../images/blog/og-breakdown-3d.png";
+import OGDist from "../../../images/blog/astro-og-dist.png";
 
 If you were linked to this blog post on social media, you probably saw this image, and I'm going to show you how I automatically generate one of these for each blog post on this site using [Astro](https://astro.build/), [React](https://docs.astro.build/en/guides/integrations-guide/react/), and [Satori](https://github.com/vercel/satori).
 
@@ -207,7 +207,7 @@ For the path, use a relative path to the image. You may keep your images with yo
 ```md title="src/content/blog/blogPost.md"
 ---
 title: A blog post
-heroImage: ../../images/blog/image.png
+heroImage: ../../../images/blog/image.png
 heroImageAlt: "some alt text for the image"
 ---
 ```
@@ -283,7 +283,7 @@ export async function getStaticPaths() {
       },
       props: {
         title: post.data.title,
-        heroImage: postData?.heroImage.replace("../../images/blog/", ""),
+        heroImage: postData?.heroImage.replace("../../../images/blog/", ""),
       },
     };
   });
@@ -328,7 +328,7 @@ export async function getStaticPaths() {
       },
       props: {
         title: post.data.title,
-        heroImage: postData?.heroImage.replace("../../images/blog/", ""),
+        heroImage: postData?.heroImage.replace("../../../images/blog/", ""),
       },
     };
   });

@@ -19,7 +19,7 @@ alwaysApply: true
 ### File Naming Conventions
 - **Components**: PascalCase (e.g., `BaseHead.astro`)
 - **Pages**: kebab-case (e.g., `[...slug].astro`)
-- **Blog posts**: kebab-case (e.g., `how-to-create-a-good-github-issue.mdx`)
+- **Blog posts**: kebab-case in year-based folders (e.g., `src/content/blog/2024/how-to-create-a-good-github-issue.mdx`)
 - **Images**: kebab-case (e.g., `docker-compose-thumbnail.png`)
 
 ### Code Style
@@ -47,7 +47,7 @@ alwaysApply: true
 
 ### Development Workflow
 1. **Start dev server**: `pnpm dev`
-2. **Create new blog post**: Add `.mdx` file in `src/content/blog/`
+2. **Create new blog post**: Add `.mdx` file in `src/content/blog/{year}/` (or `src/content/blog/pending/` for unorganized drafts)
 3. **Add images**: Place in `src/images/blog/` and import in MDX
 4. **Test locally**: Verify content renders correctly
 5. **Type check**: Run `pnpm astro check` before committing

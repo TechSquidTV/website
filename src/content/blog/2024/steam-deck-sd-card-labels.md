@@ -1,9 +1,10 @@
 ---
 title: Making Steam Deck SD Cards Look Like Game Cartridges
 publishDate: "02-04-2024"
+slug: steam-deck-sd-card-labels
 updatedDate: "02-04-2024"
 description: Discover how to transform your Steam Deck SD cards into nostalgic game cartridges with this free and open-source design system.
-heroImage: ../../images/blog/steam-deck-sd-card.png
+heroImage: ../../../images/blog/steam-deck-sd-card.png
 heroImageAlt: "A table of SD card adapters with game box art on them."
 tags:
   - gaming
@@ -16,15 +17,15 @@ I have a large collection of ROMs, Clone Hero songs, games, and apps that I'd li
 
 ## Steam Deck SD Card Labels
 
-![A table of SD card adapters with game box art on them.](../../images/blog/steam-deck-cards-top.png)
+![A table of SD card adapters with game box art on them.](../../../images/blog/steam-deck-cards-top.png)
 
 This is a free and open-source design system, built on top of the [CC BY 3.0 Game-icons.net](https://game-icons.net/) library, that allows you to organize your MicroSD cards in an efficient and visually appealing way. The system consists of a full SDHC card adapter with a "box art" label that contains the artwork and a unique number.
 
-![A carrying case for SD cards showing 4 of the custom labeled SD cards](../../images/blog/sd-card-wallet.png)
+![A carrying case for SD cards showing 4 of the custom labeled SD cards](../../../images/blog/sd-card-wallet.png)
 
 The number is used to match your MicroSD card to the adapter when they are not together. Using a paint pen, mark the MicroSD card with the same number as is printed on the adapter. This way, you can easily match the card to the adapter without needing to plug it in.
 
-![An SD card adapter next to the MicroSD card showing the same number on both](../../images/blog/sd-card-label-9-pen.png)
+![An SD card adapter next to the MicroSD card showing the same number on both](../../../images/blog/sd-card-label-9-pen.png)
 
 ## Making your own
 
@@ -42,4 +43,4 @@ If you don't want to print your own stickers, you can buy any of these designs a
 
 [Buy Steam Deck MicroSD Card Game Boxes on Etsy](https://www.etsy.com/listing/1671796721/steam-deck-microsd-card-game-boxes)
 
-![A stack of sd cards with labels](../../images/blog/sd-cards-with-labels.png)
+![A stack of sd cards with labels](../../../images/blog/sd-cards-with-labels.png)

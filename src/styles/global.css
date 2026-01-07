@@ -266,15 +266,14 @@ main p a:not(.wiki-link),
 main li a:not(.wiki-link),
 a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]):not(.wiki-link) {
   color: var(--color-accent);
-  text-decoration: underline;
-  text-decoration-color: var(--color-accent);
-  text-underline-offset: 2px;
+  text-decoration: none;
 }
 
 main p a:not(.wiki-link):hover,
 main li a:not(.wiki-link):hover,
 a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]):not(.wiki-link):hover {
   color: var(--color-accent-dark);
+  text-decoration: underline;
   text-decoration-color: var(--color-accent-dark);
   text-shadow: 0 0 8px rgb(var(--color-accent) / 0.4);
 }

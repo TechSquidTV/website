@@ -25,10 +25,10 @@ const postsWithReadingTime = await Promise.all(
     >
       {
         postsWithReadingTime.map((post, index) => (
-          <li class={`flex flex-col ${index === 0 ? "md:col-span-2" : ""} `}>
+          <li class={`flex flex-col border-neutral-800 border rounded-2xl ${index === 0 ? "md:col-span-2" : ""} `}>
             <a
               href={`/blog/${post.data.slug || post.id}/`}
-              class={`bg-bg-tertiary border-border hover:border-accent hover:shadow-glow group flex h-full flex-col rounded-2xl border p-4 no-underline transition-all duration-300 hover:-translate-y-1 ${index === 0 ? "from-bg-tertiary to-bg-secondary border-border-light bg-gradient-to-br text-center" : ""} `}
+              class={`bg-bg-tertiary group flex h-full flex-col rounded-2xl p-4 no-underline transition-all duration-300 ${index === 0 ? "from-bg-tertiary to-bg-secondary border-border-light bg-gradient-to-br text-center" : ""} `}
             >
               {post.data.heroImage && (
                 <Image
@@ -36,7 +36,7 @@ const postsWithReadingTime = await Promise.all(
                   height={360}
                   src={post.data.heroImage}
                   alt=""
-                  class={`border-border group-hover:border-accent group-hover:shadow-card mb-2 w-full rounded-xl border object-cover transition-all duration-300 ${index === 0 ? "max-h-96" : "h-48 sm:h-40 md:h-44"} `}
+                  class={`mb-2 w-full rounded-xl object-cover transition-all duration-300 ${index === 0 ? "max-h-96" : "h-48 sm:h-40 md:h-44"} `}
                   transition:name={`hero-${post.data.slug || post.id}`}
                 />
               )}

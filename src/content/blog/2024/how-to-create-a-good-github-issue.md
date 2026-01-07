@@ -1,8 +1,9 @@
 ---
 title: How To Create A Good GitHub Issue
 publishDate: "03-07-2024"
+slug: how-to-create-a-good-github-issue
 description: Help others help you by creating a good GitHub issue. A guide to creating a high-quality issues and improving your chance of getting help using C.A.R.E.S.
-heroImage: ../../images/blog/thumbnail-open-github-issue.png
+heroImage: ../../../images/blog/thumbnail-open-github-issue.png
 heroImageAlt: "3D render by TechSquidTV of a metal pen next to the open GitHub issue symbol."
 tags:
   - coding
@@ -30,7 +31,7 @@ Most well-maintained open-source projects will have a [`CONTRIBUTING.md`](https:
 
 Most contributor guidelines will request you perform a search to make sure the issue hasn't already been created. If you've searched, and the issue has already been created, you can join the conversation and add any information you may have and help others gain insights on the issue.
 
-![Github issue search](../../images/blog/github-issue-search-filter.png)
+![Github issue search](../../../images/blog/github-issue-search-filter.png)
 
 You may also find that a similar issue was created in the past and closed already. Either closed with a solution or a possibly a reason for the behavior.
 
@@ -38,7 +39,7 @@ You may also find that a similar issue was created in the past and closed alread
 
 When creating a new issue in a repository, there may or may not be a [template](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository) available to choose from. If there is an applicable template, you should likely use it. Templates added by the contributors should help guide you to creating a high-quality issue for that particular project.
 
-![Github new issue window](../../images/blog/github-new-issue-with-templates.png)
+![Github new issue window](../../../images/blog/github-new-issue-with-templates.png)
 
 If you don't find a template that suits your needs, you can start with a new blank issue. Whether or not there is a template, we can use the following principles to improve our issue writing.
 
@@ -56,7 +57,7 @@ For example, say I was writing in an issue for an NPM package that was not insta
 
 On Mac, you can find your OS information by clicking the Apple logo in the top left of the screen, and then clicking "About This Mac."
 
-![about this mac specs, including the OS version, amount of memory, and processor](../../images/blog/mbp-about-this-mac.png)
+![about this mac specs, including the OS version, amount of memory, and processor](../../../images/blog/mbp-about-this-mac.png)
 
 You can find similar information in [System Settings](https://support.microsoft.com/en-us/windows/which-version-of-windows-operating-system-am-i-running-628bec99-476a-2c13-5296-9dd081cdd808) on Windows.
 
@@ -109,7 +110,7 @@ For instance, maybe you get an error back, but the maintainers of the project _i
 
 Screenshots, screen recordings, links, and any other assets that might be helpful should be included in the issue. GitHub will let you [drag-and-drop log files, images, and even videos into issues](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/attaching-files).
 
-![Attach files in the Github Issue](../../images/blog/attach-files-github-issue.png)
+![Attach files in the Github Issue](../../../images/blog/attach-files-github-issue.png)
 
 An important distinction to remember is screenshots are _not_ replacements for copy and pasting real code/text or links. Real code and text can be searched and copied, but screenshots and videos can provide excellent additional context.
 

@@ -2,7 +2,7 @@
 title: "Astro Component: Fetching Latest YouTube Videos with RSS"
 publishDate: "02-13-2024"
 description: Fetching the latest YouTube videos for your website doesn't require a backend server or even API keys. Fetch the latest videos statically with Astro.
-heroImage: ../../images/blog/astro-youtube-rss.png
+heroImage: ../../../images/blog/astro-youtube-rss.png
 heroImageAlt: "A low poly rendering of the RSS, YouTube, and Astro logos."
 slug: astro-fetching-youtube-videos-with-rss
 tags:
@@ -29,7 +29,7 @@ The first key difference in our static site workflow, is we are using Astro. Whi
 
 Remember RSS? Youtube may have actually forgotten about it, because if you check the RSS feed for a channel, you'll see they still refer to the video's mimetype as `x-shockwave-flash`.
 
-[![YouTube still refers to videos as x-shockwave-flash in RSS](../../images/blog/youtube-flash-rss.jpg)](https://x.com/TechSquidTV/status/1736603761655599487)
+[![YouTube still refers to videos as x-shockwave-flash in RSS](../../../images/blog/youtube-flash-rss.jpg)](https://x.com/TechSquidTV/status/1736603761655599487)
 
 Hopefully that gets updated rather than Google sunsetting another service, because that would be oh so uncharacteristic of them. Right?
 
@@ -44,7 +44,7 @@ The best way to find the channel ID:
 3. Click the "Share Channel" button
 4. Click "Copy Channel ID"
 
-![YouTube about section with the Share channel button clicked, showing the Copy Channel ID button in a sub-menu](../../images/blog/copy-channel-id.png)
+![YouTube about section with the Share channel button clicked, showing the Copy Channel ID button in a sub-menu](../../../images/blog/copy-channel-id.png)
 
 #### How to get the RSS feed
 
@@ -192,7 +192,7 @@ Now, we have a component that fetches and displays the latest YouTube video. The
 
 This site is currently hosted on Netlify, but this should work with nearly any host. Sign up for a free account on [Zapier](https://zapier.com/), and create a new Zap. Connect the YouTube new video trigger to the Netlify build hook action.
 
-![Zapier new video trigger connected to Netlify build hook action](../../images/blog/zapier-youtube-netlify.png)
+![Zapier new video trigger connected to Netlify build hook action](../../../images/blog/zapier-youtube-netlify.png)
 
 Now, every time you upload a new video, your site will automatically rebuild and deploy with the latest video.
 
