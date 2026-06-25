@@ -27,7 +27,7 @@ const {
 >
   <a
     href={`mailto:${email}`}
-    class="text-accent hover:text-accent-dark hover:shadow-glow inline-flex items-center gap-2 font-medium no-underline transition-colors duration-200"
+    class="text-foreground decoration-border hover:decoration-primary inline-flex items-center gap-2 font-medium underline transition-colors duration-200"
   >
     <Icon name="email" size={20} />
     {email}
@@ -36,7 +36,7 @@ const {
     showVerify && (
       <a
         href={verifyUrl}
-        class="text-accent-green hover:text-accent-green inline-flex items-center gap-1 text-sm font-medium no-underline transition-colors duration-200"
+        class="text-muted-foreground decoration-border hover:text-foreground hover:decoration-primary inline-flex items-center gap-1 text-sm font-medium underline transition-colors duration-200"
       >
         <Icon name="verified" size={16} />
         Verify identity

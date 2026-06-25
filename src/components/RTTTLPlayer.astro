@@ -213,7 +213,7 @@ const builtInExamples = [
     outline: none;
     border-left-color: var(--color-accent);
     background: var(--color-bg-primary);
-    box-shadow: 0 0 8px rgb(var(--color-accent) / 0.2);
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--primary) 18%, transparent);
   }
 
   .rtttl-textarea {
@@ -236,7 +236,7 @@ const builtInExamples = [
     outline: none;
     border-left-color: var(--color-accent);
     background: var(--color-bg-primary);
-    box-shadow: 0 0 8px rgb(var(--color-accent) / 0.2);
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--primary) 18%, transparent);
   }
 
   .rtttl-textarea::placeholder {
@@ -275,7 +275,6 @@ const builtInExamples = [
     color: var(--color-accent);
     background: var(--color-bg-secondary);
     border-left-color: var(--color-accent);
-    text-shadow: 0 0 8px rgb(var(--color-accent) / 0.4);
   }
 
   .rtttl-btn:disabled {
@@ -340,7 +339,6 @@ const builtInExamples = [
   .rtttl-status[data-status="playing"] {
     color: var(--color-accent);
     border-left-color: var(--color-accent);
-    text-shadow: 0 0 8px rgb(var(--color-accent) / 0.4);
   }
 
   .rtttl-status[data-status="error"] {

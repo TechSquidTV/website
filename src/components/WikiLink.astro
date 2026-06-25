@@ -17,7 +17,7 @@ const getArticleTitle = (wikipediaUrl: string): string => {
     if (match) {
       return decodeURIComponent(match[1]).replace(/_/g, " ");
     }
-  } catch (e) {
+  } catch {
     // Fallback to URL if parsing fails
   }
   return wikipediaUrl;
