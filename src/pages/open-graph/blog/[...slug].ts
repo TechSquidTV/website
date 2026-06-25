@@ -32,7 +32,7 @@ const getBlogFrontmatterCollection = async () => {
 
 const blogData = await getBlogFrontmatterCollection();
 
-export const { getStaticPaths, GET } = OGImageRoute({
+export const { getStaticPaths, GET } = await OGImageRoute({
   param: "slug",
 
   pages: Object.fromEntries(

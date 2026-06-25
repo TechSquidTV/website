@@ -1,53 +1,59 @@
 ---
 interface Props {
-  variant?: 'default' | 'outline' | 'muted';
-  size?: 'default' | 'sm';
+  variant?: "default" | "outline" | "muted";
+  size?: "default" | "sm";
   class?: string;
   href?: string;
+  rel?: string;
+  target?: string;
 }
 
-const { 
-  variant = 'default', 
-  size = 'default', 
+const {
+  variant = "default",
+  size = "default",
   class: className,
   href,
-  ...props 
+  rel,
+  target,
+  ...props
 } = Astro.props;
 
 const baseClasses = [
-  'flex items-center gap-3 rounded-lg transition-all duration-200',
+  "flex items-center gap-3 rounded-lg transition-all duration-200",
   {
     // Size variants
-    'p-4': size === 'default',
-    'p-3': size === 'sm',
-    
+    "p-4": size === "default",
+    "p-3": size === "sm",
+
     // Style variants
-    'bg-bg-tertiary border border-border hover:bg-bg-code hover:border-accent': variant === 'default',
-    'border border-border bg-transparent hover:bg-bg-tertiary': variant === 'outline',
-    'bg-bg-secondary hover:bg-bg-tertiary': variant === 'muted',
+    "bg-bg-tertiary border border-border hover:bg-bg-code hover:border-accent":
+      variant === "default",
+    "border border-border bg-transparent hover:bg-bg-tertiary":
+      variant === "outline",
+    "bg-bg-secondary hover:bg-bg-tertiary": variant === "muted",
   },
-  className
+  className,
 ];
 
-const linkClasses = href ? 'no-underline hover:scale-[1.01] hover:shadow-lg' : '';
+const linkClasses = href
+  ? "no-underline hover:scale-[1.01] hover:shadow-lg"
+  : "";
 ---
 
-{href ? (
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    class:list={[...baseClasses, linkClasses]}
-    {...props}
-  >
-    <slot />
-  </a>
-) : (
-  <div
-    class:list={baseClasses}
-    {...props}
-  >
-    <slot />
-  </div>
-)}
-
+{
+  href ? (
+    <a
+      href={href}
+      target={target}
+      rel={rel}
+      class:list={[...baseClasses, linkClasses]}
+      {...props}
+    >
+      <slot />
+    </a>
+  ) : (
+    <div class:list={baseClasses} {...props}>
+      <slot />
+    </div>
+  )
+}

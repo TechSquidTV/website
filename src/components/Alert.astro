@@ -1,43 +1,42 @@
 ---
 export interface Props {
-	variant?: 'default' | 'destructive' | 'info';
-	class?: string;
-	href?: string;
+  variant?: "default" | "destructive" | "info";
+  class?: string;
+  href?: string;
 }
 
-const { variant = 'default', class: className, href, ...props } = Astro.props;
+const { variant = "default", class: className, href, ...props } = Astro.props;
 
 const baseClasses = [
-	'relative w-full rounded-lg border px-4 py-3 text-sm grid grid-cols-1 gap-2 items-start mb-6',
-	{
-		'bg-bg-tertiary text-text-primary border-border': variant === 'default',
-		'bg-red-950/20 text-red-200 border-red-800/50': variant === 'destructive',
-		'bg-blue-950/20 text-blue-200 border-blue-800/50': variant === 'info',
-	},
-	className
+  "relative w-full rounded-lg border px-4 py-3 text-sm grid grid-cols-1 gap-2 items-start mb-6",
+  {
+    "bg-bg-tertiary text-text-primary border-border": variant === "default",
+    "bg-red-950/20 text-red-200 border-red-800/50": variant === "destructive",
+    "bg-blue-950/20 text-blue-200 border-blue-800/50": variant === "info",
+  },
+  className,
 ];
 
-const linkClasses = href ? 'no-underline hover:scale-[1.02] transition-all duration-200 hover:shadow-lg' : '';
+const linkClasses = href
+  ? "no-underline hover:scale-[1.02] transition-all duration-200 hover:shadow-lg"
+  : "";
 ---
 
-{href ? (
-	<a
-		href={href}
-		target="_blank"
-		rel="noopener noreferrer"
-		data-slot="alert"
-		class:list={[...baseClasses, linkClasses]}
-		{...props}
-	>
-		<slot />
-	</a>
-) : (
-	<div
-		data-slot="alert"
-		role="alert"
-		class:list={baseClasses}
-		{...props}
-	>
-		<slot />
-	</div>
-)}
+{
+  href ? (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-slot="alert"
+      class:list={[...baseClasses, linkClasses]}
+      {...props}
+    >
+      <slot />
+    </a>
+  ) : (
+    <div data-slot="alert" role="alert" class:list={baseClasses} {...props}>
+      <slot />
+    </div>
+  )
+}

@@ -15,7 +15,6 @@
 @custom-variant dark (&:is(.dark *));
 
 @layer utilities {
-
   /* Ensure utility classes override the aggressive reset */
   .my-1 {
     margin-top: 0.25rem;
@@ -139,13 +138,17 @@
 }
 
 :root {
-  --dark-gradient: linear-gradient(135deg,
-      var(--color-bg-primary) 0%,
-      var(--color-bg-secondary) 50%,
-      var(--color-bg-tertiary) 100%);
-  --hero-gradient: radial-gradient(ellipse at top,
-      rgb(var(--color-accent) / 0.1) 0%,
-      transparent 50%);
+  --dark-gradient: linear-gradient(
+    135deg,
+    var(--color-bg-primary) 0%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-tertiary) 100%
+  );
+  --hero-gradient: radial-gradient(
+    ellipse at top,
+    rgb(var(--color-accent) / 0.1) 0%,
+    transparent 50%
+  );
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -225,12 +228,12 @@ main {
 .prose h4,
 .prose h5,
 .prose h6,
-main>h1,
-main>h2,
-main>h3,
-main>h4,
-main>h5,
-main>h6 {
+main > h1,
+main > h2,
+main > h3,
+main > h4,
+main > h5,
+main > h6 {
   margin: 0 0 0.5rem 0;
   color: var(--color-text-primary);
   line-height: 1.2;
@@ -238,27 +241,27 @@ main>h6 {
 }
 
 .prose h1,
-main>h1 {
+main > h1 {
   font-size: 3.052em;
 }
 
 .prose h2,
-main>h2 {
+main > h2 {
   font-size: 2.441em;
 }
 
 .prose h3,
-main>h3 {
+main > h3 {
   font-size: 1.953em;
 }
 
 .prose h4,
-main>h4 {
+main > h4 {
   font-size: 1.563em;
 }
 
 .prose h5,
-main>h5 {
+main > h5 {
   font-size: 1.25em;
 }
 
@@ -300,14 +303,18 @@ a {
 /* Other content links (fallback) - exclude WikiLinks */
 main p a:not(.wiki-link),
 main li a:not(.wiki-link),
-a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]):not(.wiki-link) {
+a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]):not(
+    .wiki-link
+  ) {
   color: var(--color-accent);
   text-decoration: none;
 }
 
 main p a:not(.wiki-link):hover,
 main li a:not(.wiki-link):hover,
-a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]):not(.wiki-link):hover {
+a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]):not(
+    .wiki-link
+  ):hover {
   color: var(--color-accent-dark);
   text-decoration: underline;
   text-decoration-color: var(--color-accent-dark);
@@ -342,64 +349,64 @@ a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]):not(.wiki-li
 }
 
 /* Add intelligent spacing only where needed */
-.prose p+p {
+.prose p + p {
   margin-top: 1.5em;
 }
 
 /* Spacing between different content types */
-.prose h1+* {
+.prose h1 + * {
   margin-top: 1.5em;
 }
 
-.prose h2+* {
+.prose h2 + * {
   margin-top: 1.25em;
 }
 
-.prose h3+* {
+.prose h3 + * {
   margin-top: 1em;
 }
 
-.prose h4+*,
-.prose h5+*,
-.prose h6+* {
+.prose h4 + *,
+.prose h5 + *,
+.prose h6 + * {
   margin-top: 0.75em;
 }
 
 /* Spacing before headings */
-.prose *+h1 {
+.prose * + h1 {
   margin-top: 3em;
 }
 
-.prose *+h2 {
+.prose * + h2 {
   margin-top: 2.5em;
 }
 
-.prose *+h3 {
+.prose * + h3 {
   margin-top: 2em;
 }
 
-.prose *+h4,
-.prose *+h5,
-.prose *+h6 {
+.prose * + h4,
+.prose * + h5,
+.prose * + h6 {
   margin-top: 1.5em;
 }
 
 /* Other content spacing */
-.prose *+ul,
-.prose *+ol {
+.prose * + ul,
+.prose * + ol {
   margin-top: 1.5em;
 }
 
-.prose *+blockquote {
+.prose * + blockquote {
   margin-top: 2em;
 }
 
-.prose *+pre {
+.prose * + pre {
   margin-top: 2em;
   margin-bottom: 2em;
 }
 
-.prose *+img {
+.prose * + img {
   margin-top: 2em;
   margin-bottom: 2em;
 }
@@ -410,7 +417,7 @@ a:not([class*="text-"]):not([class*="bg-"]):not([class*="border-"]):not(.wiki-li
   border-radius: var(--radius-lg);
 }
 
-.prose *+table {
+.prose * + table {
   margin-top: 2em;
   margin-bottom: 2em;
 }
@@ -436,7 +443,9 @@ table {
   border-radius: 0.5rem;
   overflow: hidden;
   margin: 1.5rem 0;
-  box-shadow: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  box-shadow:
+    0 1px 3px 0 hsl(0 0% 0% / 0.1),
+    0 1px 2px -1px hsl(0 0% 0% / 0.1);
 }
 
 thead {
@@ -547,7 +556,9 @@ code {
   border: 1px solid hsl(220 13% 18%);
   border-radius: 0.375rem;
   color: hsl(210 40% 98%);
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: -0.025em;
@@ -564,7 +575,9 @@ pre {
   border-radius: 0.5rem;
   overflow: hidden;
   /* Hide overflow to contain scrolling area */
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
   font-size: 0.875rem;
   line-height: 1.7;
   tab-size: 2;
@@ -602,7 +615,7 @@ pre::after {
   /* Ensure dots stay on top of header */
 }
 
-pre>code {
+pre > code {
   all: unset;
   display: block;
   padding: 3rem 1.25rem 1rem 1.25rem;
@@ -628,21 +641,21 @@ pre>code {
 }
 
 /* Improved scrollbar styling for code content */
-pre>code::-webkit-scrollbar {
+pre > code::-webkit-scrollbar {
   height: 0.5rem;
 }
 
-pre>code::-webkit-scrollbar-track {
+pre > code::-webkit-scrollbar-track {
   background: hsl(220 13% 15%);
   border-radius: 0.25rem;
 }
 
-pre>code::-webkit-scrollbar-thumb {
+pre > code::-webkit-scrollbar-thumb {
   background: hsl(220 13% 25%);
   border-radius: 0.25rem;
 }
 
-pre>code::-webkit-scrollbar-thumb:hover {
+pre > code::-webkit-scrollbar-thumb:hover {
   background: hsl(220 13% 35%);
 }
 
@@ -680,7 +693,7 @@ pre[class*="language-"]::before {
   line-height: 1.7;
 }
 
-.prose li+li {
+.prose li + li {
   margin-top: 0.5em;
 }
 
@@ -701,11 +714,11 @@ pre[class*="language-"]::before {
 }
 
 /* List item content spacing */
-.prose li>*:first-child {
+.prose li > *:first-child {
   margin-top: 0;
 }
 
-.prose li>*:last-child {
+.prose li > *:last-child {
   margin-bottom: 0;
 }
 
@@ -731,12 +744,14 @@ blockquote {
 hr {
   border: none;
   height: 1px;
-  background: linear-gradient(90deg,
-      transparent 0%,
-      var(--color-border) 20%,
-      var(--color-accent) 50%,
-      var(--color-border) 80%,
-      transparent 100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-border) 20%,
+    var(--color-accent) 50%,
+    var(--color-border) 80%,
+    transparent 100%
+  );
   margin: 3em 0;
 }
 
@@ -776,7 +791,9 @@ hr {
   padding: 1rem 1.25rem 0.875rem 1.25rem;
   margin: 2rem 0 0 0;
   font-family: ui-sans-serif, system-ui, sans-serif;
-  box-shadow: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  box-shadow:
+    0 1px 3px 0 hsl(0 0% 0% / 0.1),
+    0 1px 2px -1px hsl(0 0% 0% / 0.1);
   line-height: 1.5;
   font-size: 0.875rem;
   font-weight: 600;
@@ -786,7 +803,7 @@ hr {
   position: relative;
 }
 
-.prose h2#table-of-contents+ul {
+.prose h2#table-of-contents + ul {
   background: hsl(220 13% 9%);
   border: 1px solid hsl(220 13% 15%);
   border-top: none;
@@ -794,23 +811,25 @@ hr {
   padding: 0.75rem 1.25rem 1rem 1.25rem;
   margin: 0 0 2rem 0;
   font-family: ui-sans-serif, system-ui, sans-serif;
-  box-shadow: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  box-shadow:
+    0 1px 3px 0 hsl(0 0% 0% / 0.1),
+    0 1px 2px -1px hsl(0 0% 0% / 0.1);
   line-height: 1.6;
   list-style: none;
   padding-left: 1.25rem;
 }
 
-.prose h2#table-of-contents+ul li {
+.prose h2#table-of-contents + ul li {
   margin-bottom: 0.125rem;
   line-height: 1.4;
 }
 
-.prose h2#table-of-contents+ul li:last-child {
+.prose h2#table-of-contents + ul li:last-child {
   margin-bottom: 0;
 }
 
 /* Shadcn-style TOC links */
-.prose h2#table-of-contents+ul a {
+.prose h2#table-of-contents + ul a {
   display: inline-flex;
   align-items: center;
   padding: 0.25rem 0.5rem;
@@ -827,19 +846,19 @@ hr {
 }
 
 /* Modern hover effects */
-.prose h2#table-of-contents+ul a:hover {
+.prose h2#table-of-contents + ul a:hover {
   background: hsl(220 13% 15%);
   color: hsl(210 40% 98%);
   border-left-color: hsl(221 83% 53%);
 }
 
-.prose h2#table-of-contents+ul a:focus-visible {
+.prose h2#table-of-contents + ul a:focus-visible {
   outline: 2px solid hsl(221 83% 53%);
   outline-offset: 2px;
 }
 
 /* Nested TOC items styling */
-.prose h2#table-of-contents+ul ul {
+.prose h2#table-of-contents + ul ul {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   padding-left: 2rem;
@@ -850,11 +869,11 @@ hr {
   box-shadow: none;
 }
 
-.prose h2#table-of-contents+ul ul li {
+.prose h2#table-of-contents + ul ul li {
   margin-bottom: 0.1rem;
 }
 
-.prose h2#table-of-contents+ul ul a {
+.prose h2#table-of-contents + ul ul a {
   font-size: 0.8125rem;
   color: hsl(215 20.2% 65.1%);
   padding: 0.175rem 0.375rem;
@@ -863,14 +882,14 @@ hr {
   display: inline-block;
 }
 
-.prose h2#table-of-contents+ul ul a:hover {
+.prose h2#table-of-contents + ul ul a:hover {
   background: hsl(220 13% 18%);
   color: hsl(213 31% 91%);
   border-left-color: hsl(221 83% 53%);
 }
 
 /* Third level nesting (h4 headings) - shadcn style */
-.prose h2#table-of-contents+ul ul ul {
+.prose h2#table-of-contents + ul ul ul {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
   padding-left: 1.5rem;
@@ -881,18 +900,18 @@ hr {
   box-shadow: none;
 }
 
-.prose h2#table-of-contents+ul ul ul a {
+.prose h2#table-of-contents + ul ul ul a {
   font-size: 0.75rem;
   color: hsl(215 20.2% 55%);
   padding: 0.125rem 0.375rem;
   font-weight: 400;
 }
 
-.prose h2#table-of-contents+ul ul ul li {
+.prose h2#table-of-contents + ul ul ul li {
   margin-bottom: 0.075rem;
 }
 
-.prose h2#table-of-contents+ul ul ul a:hover {
+.prose h2#table-of-contents + ul ul ul a:hover {
   background: hsl(220 13% 20%);
   color: hsl(213 31% 91%);
   border-left-color: hsl(221 83% 53%);

@@ -23,13 +23,11 @@ import NapsterGif from "../../../images/blog/napster_tutorial_file_download.gif"
 import MagnetLinkImage from "../../../images/blog/magnet_link_halflife.png";
 import ThePirateBayHydraImage from "../../../images/blog/The_Pirate_Bay_hydra_logo.jpg";
 
-
 ## Table of Contents
 
 ## What is a Torrent?
 
 <Image src={LimewireImage} alt="Limewire interface in 8-bit style" />
-
 
 Storing and distributing large files over the internet has always been difficult.
 
@@ -42,11 +40,26 @@ _And let's be honest, piracy was a big motivator_.
 
 People wanted to be able to share and download music especially, freely, and hosting it was still very expensive.
 
-<WikiLink url="https://en.wikipedia.org/wiki/Napster" tooltip="Napster was a peer-to-peer file-sharing service that allowed users to share and download music files over the internet.">Napster</WikiLink> was one of the very first <WikiLink url="https://en.wikipedia.org/wiki/Peer-to-peer" tooltip="Peer-to-peer (P2P) is a networking model in which each node in the network serves as both a client and a server, allowing direct communication between participants without the need for a central server.">"peer-to-peer"</WikiLink> file-sharing services to tackle this problem.
-In 1999, Napster launched, and users were finally able to share and download files with each other, without the need for a central download server. Users would advertise what files they had available, and other users would be able to find and download files directly from each other.
+<WikiLink
+  url="https://en.wikipedia.org/wiki/Napster"
+  tooltip="Napster was a peer-to-peer file-sharing service that allowed users to share and download music files over the internet."
+>
+  Napster
+</WikiLink>
+was one of the very first
+<WikiLink
+  url="https://en.wikipedia.org/wiki/Peer-to-peer"
+  tooltip="Peer-to-peer (P2P) is a networking model in which each node in the network serves as both a client and a server, allowing direct communication between participants without the need for a central server."
+>
+  "peer-to-peer"
+</WikiLink>
+file-sharing services to tackle this problem. In 1999, Napster launched, and
+users were finally able to share and download files with each other, without the
+need for a central download server. Users would advertise what files they had
+available, and other users would be able to find and download files directly
+from each other.
 
 <Image src={NapsterGif} alt="Napster tutorial showing file download" />
-
 
 However, Napster was not _completely_ decentralized, and that would end up being their downfall. In Napster's model, they didn't serve any files themselves, but, they played a key role in indexing what content was available in the network, and keeping track of what users had which files, and ultimately controlled connections between users.
 
@@ -58,11 +71,28 @@ What would come next would be the birth of BitTorrent and the torrent format we 
 
 ## BitTorrent Basics
 
-<WikiLink url="https://en.wikipedia.org/wiki/BitTorrent" tooltip="BitTorrent is a peer-to-peer file-sharing protocol that allows users to distribute data and electronic files over the Internet in a decentralized manner.">BitTorrent</WikiLink> decentralizes the file-sharing process. 
-Rather than one server being required to serve a file to many users, BitTorrent allows for many users to share files with each other by joining a <WikiLink url="https://en.wikipedia.org/wiki/Glossary_of_BitTorrent_terms#Swarm" tooltip="A swarm is the group of users (peers) that are sharing the same torrent file at any given time.">"swarm"</WikiLink>.
-Users within the swarm can advertise they have a file, or a part of it, and exchange "pieces" with other users in the swarm.
+<WikiLink
+  url="https://en.wikipedia.org/wiki/BitTorrent"
+  tooltip="BitTorrent is a peer-to-peer file-sharing protocol that allows users to distribute data and electronic files over the Internet in a decentralized manner."
+>
+  BitTorrent
+</WikiLink>
+decentralizes the file-sharing process. Rather than one server being required to
+serve a file to many users, BitTorrent allows for many users to share files with
+each other by joining a
+<WikiLink
+  url="https://en.wikipedia.org/wiki/Glossary_of_BitTorrent_terms#Swarm"
+  tooltip="A swarm is the group of users (peers) that are sharing the same torrent file at any given time."
+>
+  "swarm"
+</WikiLink>
+. Users within the swarm can advertise they have a file, or a part of it, and
+exchange "pieces" with other users in the swarm.
 
-<Image src={TrackerDiagram} alt="BitTorrent Swarm showing peers connected to a central tracker" />
+<Image
+  src={TrackerDiagram}
+  alt="BitTorrent Swarm showing peers connected to a central tracker"
+/>
 
 The open BitTorrent protocol implemented a number of improvements over the older P2P protocols, such as breaking up files into smaller pieces so they could be distributed in parallel. At first, there was still the issues that a tracker would be required, though there were many more ofthem than just the single Napster index.
 
@@ -73,27 +103,27 @@ Eventually, the BitTorrent protocol would completely solve the problem of centra
 In order to distribute data using BitTorrent, a <WikiLink url="https://en.wikipedia.org/wiki/Torrent_file" tooltip="A torrent file is a computer file that contains metadata about files and folders to be distributed, and usually also a list of the network locations of trackers.">"torrent"</WikiLink> file is created, which contains metadata about the file(s) to be shared.
 You can use a tool like [TorrentEditor](https://torrenteditor.com/) to inspect the contents of a torrent file online. Here for example is the contents of the Ubuntu 23.04 Server ISO torrent file.
 
-<LinkCard 
-  href="http://torrenteditor.com/" 
-  title="TorrentEditor" 
+<LinkCard
+  href="http://torrenteditor.com/"
+  title="TorrentEditor"
   description="Online torrent file viewer and editor"
   icon="file-3d"
 />
 
 ##### Ubuntu 23.04 Live Server Torrent Details
 
-| Property | Value |
-|----------|-------|
-| **Filename** | `ubuntu-23.04-live-server-amd64.iso.torrent` |
-| **Info Hash** | `D6B4535B A8F2B340 12BC6335 69F113E7 7017E032` |
-| **Primary Tracker** | `https://torrent.ubuntu.com/announce` (158 seeds, 4 peers) |
+| Property              | Value                                                           |
+| --------------------- | --------------------------------------------------------------- |
+| **Filename**          | `ubuntu-23.04-live-server-amd64.iso.torrent`                    |
+| **Info Hash**         | `D6B4535B A8F2B340 12BC6335 69F113E7 7017E032`                  |
+| **Primary Tracker**   | `https://torrent.ubuntu.com/announce` (158 seeds, 4 peers)      |
 | **Secondary Tracker** | `https://ipv6.torrent.ubuntu.com/announce` (158 seeds, 4 peers) |
-| **Created** | 04/20/23 12:14:49 by mktorrent 1.1 |
-| **Comment** | Ubuntu CD releases.ubuntu.com |
-| **Piece Length** | 256 KB |
-| **Private** | Off - Unset |
-| **File Name** | `ubuntu-23.04-live-server-amd64.iso` |
-| **File Size** | 2.46 GB |
+| **Created**           | 04/20/23 12:14:49 by mktorrent 1.1                              |
+| **Comment**           | Ubuntu CD releases.ubuntu.com                                   |
+| **Piece Length**      | 256 KB                                                          |
+| **Private**           | Off - Unset                                                     |
+| **File Name**         | `ubuntu-23.04-live-server-amd64.iso`                            |
+| **File Size**         | 2.46 GB                                                         |
 
 The torrent file itself is incredibly small; for this 2.46 GB ISO the torrent is only 200 KB.
 
@@ -105,21 +135,23 @@ And though not required for most torrents, a tracker URL is also included to hel
 
 ### Magnet links
 
-The data inside a torrent file is so small, that it can be represented as a URL rather than a file. 
+The data inside a torrent file is so small, that it can be represented as a URL rather than a file.
 
 A <WikiLink url="https://en.wikipedia.org/wiki/Magnet_URI_scheme" tooltip="A magnet link is a type of hyperlink that enables the downloading of files via peer-to-peer networks without requiring a separate torrent file.">"Magnet link"</WikiLink> is a URL scheme that allows you to share information about a torrent as a link, rather than a file.
 This means websites that want to share torrents, no longer had to worry about serving files at all, making it extremely robust to simply share a _static_ webpage with links to all the files you want to share;
- the most simple form of a website.
+the most simple form of a website.
 
 <Image src={MagnetLinkImage} alt="Example of a magnet link on a webpage" />
-
 
 Static webpages are extremely easy and cheap to host, robust against traffic spikes and take-down attempts, and can often even be hosted for free on a number of services online.
 
 Becoming so lightweight, it became trivial to put up "mirrors", or copies of the website under different domain names, often hosted in different countries, to ensure the website would never go down.
 
-<a href="https://torrentfreak.com/pirate-bay-moves-to-gs-la-vg-am-mn-and-gd-domains-150519/" target="_blank">
-<Image src={ThePirateBayHydraImage} alt="ThePirateBay Hydra" />
+<a
+  href="https://torrentfreak.com/pirate-bay-moves-to-gs-la-vg-am-mn-and-gd-domains-150519/"
+  target="_blank"
+>
+  <Image src={ThePirateBayHydraImage} alt="ThePirateBay Hydra" />
 </a>
 
 In 2012, in an effort to ensure the longevity of the content on ThePirateBay and thanks to their recent conversion to magnet links, their website was replicated by users and [reduced to a 90 MB torrent file](https://torrentfreak.com/the-pirate-bay-returns-121213/) that anyone could copy and re-host.
@@ -135,7 +167,9 @@ If you click on that link, it will open up your default email client and create 
 Similarly, a magnet link looks like this:
 
 ```html
-<a href="magnet:?xt=urn:btih:222FGW5I6KZUAEV4MM2WT4IT45YBPYBS&dn=ubuntu-23.04-live-server-amd64.iso&xl=2641264640&tr=https%3A%2F%2Ftorrent.ubuntu.com%2Fannounce">
+<a
+  href="magnet:?xt=urn:btih:222FGW5I6KZUAEV4MM2WT4IT45YBPYBS&dn=ubuntu-23.04-live-server-amd64.iso&xl=2641264640&tr=https%3A%2F%2Ftorrent.ubuntu.com%2Fannounce"
+>
   ubuntu-23.04-live-server-amd64.iso
 </a>
 ```
@@ -146,12 +180,12 @@ If you take a closer look at the magnet link, you'll notice it contains all the 
 
 #### Magnet Link Parameters
 
-| Parameter | Name | Description |
-|-----------|------|-------------|
-| `xt` | Exact Topic | Used to identify and verify the file(s) via a <WikiLink url="https://en.wikipedia.org/wiki/Uniform_Resource_Name" tooltip="A Uniform Resource Name (URN) is a persistent, location-independent identifier for a resource.">URN</WikiLink>. In all _torrent_ related magnet links, this will be a `urn:btih:` followed by the <WikiLink url="https://en.wikipedia.org/wiki/SHA-1" tooltip="SHA-1 is a cryptographic hash function that produces a 160-bit hash value, commonly used for data integrity verification.">SHA-1</WikiLink> info hash of the torrent. `btih` here stands for "BitTorrent Info Hash", and would differ from different older P2P protocols. This is all you need to download a torrent, but the other parameters are useful for providing additional information about the torrent. |
-| `dn` | Display Name | Used to provide a display name for the torrent. This is the name that will be displayed in your torrent client. If this parameter is not provided, the name of the file will be used instead. |
-| `xl` | eXact Length | Used to provide the size of the file in bytes. This is useful for your torrent client to know how much data to expect to download. |
-| `tr` | Trackers | Used to provide a list of trackers to connect to. Multiple `tr` parameters can be included in a single magnet link to provide backup trackers. |
+| Parameter | Name         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| --------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `xt`      | Exact Topic  | Used to identify and verify the file(s) via a <WikiLink url="https://en.wikipedia.org/wiki/Uniform_Resource_Name" tooltip="A Uniform Resource Name (URN) is a persistent, location-independent identifier for a resource.">URN</WikiLink>. In all _torrent_ related magnet links, this will be a `urn:btih:` followed by the <WikiLink url="https://en.wikipedia.org/wiki/SHA-1" tooltip="SHA-1 is a cryptographic hash function that produces a 160-bit hash value, commonly used for data integrity verification.">SHA-1</WikiLink> info hash of the torrent. `btih` here stands for "BitTorrent Info Hash", and would differ from different older P2P protocols. This is all you need to download a torrent, but the other parameters are useful for providing additional information about the torrent. |
+| `dn`      | Display Name | Used to provide a display name for the torrent. This is the name that will be displayed in your torrent client. If this parameter is not provided, the name of the file will be used instead.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `xl`      | eXact Length | Used to provide the size of the file in bytes. This is useful for your torrent client to know how much data to expect to download.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `tr`      | Trackers     | Used to provide a list of trackers to connect to. Multiple `tr` parameters can be included in a single magnet link to provide backup trackers.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 
 ##### More Info
 
@@ -173,7 +207,7 @@ For example, if you have a 1 GB file and use 1 MB pieces, the file would be divi
 This piece-based system provides several key benefits:
 
 - **Parallel Downloads**: You can download different pieces simultaneously from multiple peers, dramatically increasing download speeds
-- **Error Recovery**: If a piece becomes corrupted during transfer, only that specific piece needs to be re-downloaded, not the entire file  
+- **Error Recovery**: If a piece becomes corrupted during transfer, only that specific piece needs to be re-downloaded, not the entire file
 - **Efficient Sharing**: As soon as you download a complete piece, you can immediately start sharing it with other peers, even before your own download is complete
 - **Resume Capability**: If your download is interrupted, you only need to re-download the incomplete pieces, not the entire file
 
@@ -193,16 +227,16 @@ To do so, you'll need a BitTorrent client, some software that can communicate wi
 
 There are many BitTorrent clients available, but the most popular these days are:
 
-<LinkCard 
-  href="https://github.com/deluge-torrent/deluge" 
-  title="Deluge" 
+<LinkCard
+  href="https://github.com/deluge-torrent/deluge"
+  title="Deluge"
   description="Lightweight, cross-platform BitTorrent client"
   icon="github"
 />
 
-<LinkCard 
-  href="https://github.com/qbittorrent/qBittorrent" 
-  title="qBittorrent" 
+<LinkCard
+  href="https://github.com/qbittorrent/qBittorrent"
+  title="qBittorrent"
   description="Free and reliable P2P BitTorrent client"
   icon="github"
 />
@@ -223,7 +257,10 @@ A <WikiLink url="https://en.wikipedia.org/wiki/Distributed_hash_table" tooltip="
 
 To find peers for a particular swarm over DHT, a `get_peers` query is made with the SHA-1 hash of the torrent (the "infohash") as the key to the "nearest" node in the DHT. The node will then respond with a list of peers in the swarm. If the node does not have any peers, it will respond with a list of other nodes in the DHT that are closer to the infohash. The client will then query those nodes for peers and continue until it has found peers to connect with. An algorithmic virtual game of telephone. It is important to note that "nearest" in the context of the DHT is not related to physical geographical distance, but instead a mathematical distance that creates efficient and balanced routing.
 
-<Image src={DHTDiagram} alt="DHT peer discovery process showing distributed hash table lookup" />
+<Image
+  src={DHTDiagram}
+  alt="DHT peer discovery process showing distributed hash table lookup"
+/>
 
 ### Leechers and Seeders
 
@@ -259,13 +296,18 @@ Back in the early 2000s, it was pretty common for ISPs to send letters out to th
 That, is just not something that I see happening anymore.
 What you do see happening every now and then, is large pirate streaming sites being taken down. So, in my opinion, it seems like the focus these days is more on larger scale operations, especially ones charging for access to content. (You should still take precautions).
 
-<NewsletterCallout variant="inline" title="Want to stay updated on tech deep-dives?">
+<NewsletterCallout
+  variant="inline"
+  title="Want to stay updated on tech deep-dives?"
+>
   <span class="text-sm">
     <em>
-      If you enjoyed this comprehensive guide to BitTorrent, you might be interested in more detailed technical explanations like this. Subscribe to get notified when we publish new deep-dive articles on networking protocols, distributed systems, and other fascinating technology topics.
+      If you enjoyed this comprehensive guide to BitTorrent, you might be
+      interested in more detailed technical explanations like this. Subscribe to
+      get notified when we publish new deep-dive articles on networking
+      protocols, distributed systems, and other fascinating technology topics.
     </em>
   </span>
 </NewsletterCallout>
 
 ## Is BitTorrent still relevant today?
-

@@ -1,16 +1,25 @@
 import { OGImageRoute } from "astro-og-canvas";
 
+type PageModule = {
+  frontmatter?: {
+    title?: string;
+    description?: string;
+  };
+};
+
 // Import your background image
 const bgImage = "./src/images/opengraph/tstv-og-bg.png";
 const badge = "./src/images/opengraph/tstv-badge.png";
 
-export const { getStaticPaths, GET } = OGImageRoute({
+export const { getStaticPaths, GET } = await OGImageRoute({
   // The name of your dynamic route segment.
   // In this case it's `[...route]`, so param will be `route`.
   param: "route",
 
   // A collection of pages to generate images for.
-  pages: import.meta.glob("/src/pages/**/*.{astro,md,mdx}", { eager: true }),
+  pages: import.meta.glob<PageModule>("/src/pages/**/*.{astro,md,mdx}", {
+    eager: true,
+  }),
 
   // For each page, this callback will be used to
   // generate the OG image.
