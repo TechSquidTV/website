@@ -1,18 +1,18 @@
 ---
 export interface Props {
-	class?: string;
+  class?: string;
 }
 
 const { class: className, ...props } = Astro.props;
 ---
 
 <div
-	data-slot="alert-description"
-	class:list={[
-		'text-sm leading-relaxed text-text-secondary [&_a]:text-accent [&_a:hover]:text-accent-dark [&_a]:transition-colors',
-		className
-	]}
-	{...props}
+  data-slot="alert-description"
+  class:list={[
+    "text-text-secondary [&_a]:text-accent [&_a:hover]:text-accent-dark text-sm leading-relaxed [&_a]:transition-colors",
+    className,
+  ]}
+  {...props}
 >
-	<slot />
+  <slot />
 </div>

@@ -1,13 +1,13 @@
 // @ts-check
 
 import mdx from "@astrojs/mdx";
+import { unified } from "@astrojs/markdown-remark";
 import { defineConfig } from "astro/config";
 import icon from "astro-icon";
 import react from "@astrojs/react";
 
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
-import embeds from "astro-embed/integration";
 import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
 import remarkToc from "remark-toc";
 import rehypeExternalLinks from "rehype-external-links";
@@ -22,23 +22,25 @@ export default defineConfig({
       ? "http://localhost:4321"
       : "https://techsquidtv.com",
 
-  integrations: [sitemap(), icon(), embeds(), mdx(), react()],
+  integrations: [sitemap(), icon(), mdx(), react()],
 
   markdown: {
-    remarkPlugins: [
-      remarkReadingTime,
-      [remarkToc, { heading: "Table of Contents", maxDepth: 4, tight: true }],
-    ],
-    rehypePlugins: [
-      [
-        rehypeExternalLinks,
-        {
-          target: "_blank",
-          rel: ["nofollow", "noopener"],
-        },
+    processor: unified({
+      remarkPlugins: [
+        remarkReadingTime,
+        [remarkToc, { heading: "Table of Contents", maxDepth: 4, tight: true }],
       ],
-      rehypeShadcnTables,
-    ],
+      rehypePlugins: [
+        [
+          rehypeExternalLinks,
+          {
+            target: "_blank",
+            rel: ["nofollow", "noopener"],
+          },
+        ],
+        rehypeShadcnTables,
+      ],
+    }),
   },
 
   redirects: {

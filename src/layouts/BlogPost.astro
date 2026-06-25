@@ -31,6 +31,7 @@ const {
 
 // Extract the blog slug from pathname (remove /blog/ prefix and trailing slash)
 const blogSlug = Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "");
+const ogImage = new URL(`/open-graph/blog/${blogSlug}.png`, Astro.site).href;
 ---
 
 <html lang="en">
@@ -38,7 +39,7 @@ const blogSlug = Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "");
     <BaseHead
       title={title}
       description={description}
-      image={heroImage}
+      ogImage={ogImage}
       type="article"
       publishDate={publishDate}
       tags={tags}
@@ -130,7 +131,7 @@ const blogSlug = Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "");
                     <a
                       href={`/blog/tags/${tag}/`}
                       rel="tag"
-                      class="bg-bg-secondary border-border hover:border-accent hover:text-accent inline-block rounded-full! border px-3 py-1 text-sm transition-colors duration-200 m-4!"
+                      class="bg-bg-secondary border-border hover:border-accent hover:text-accent m-4! inline-block rounded-full! border px-3 py-1 text-sm transition-colors duration-200"
                     >
                       #{tag}
                     </a>

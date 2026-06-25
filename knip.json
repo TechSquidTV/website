@@ -1,0 +1,17 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "src/pages/**/*.{astro,ts}",
+    "src/layouts/**/*.astro",
+    "src/components/**/*.{astro,ts,tsx}",
+    "src/utils/**/*.{ts,mjs}",
+    "src/lib/**/*.ts"
+  ],
+  "project": ["src/**/*.{astro,ts,tsx,mjs,js,mdx}"],
+  "ignoreDependencies": [
+    "@fontsource-variable/outfit",
+    "lucide-react",
+    "tailwindcss",
+    "tw-animate-css"
+  ]
+}

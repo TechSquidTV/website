@@ -129,10 +129,8 @@ const style = [
   <slot />
 </model-viewer>
 
-<script>
-  // Import the model-viewer module
-  import "@google/model-viewer";
-</script>
+<script is:inline type="module" src="/vendor/model-viewer/model-viewer.min.js"
+></script>
 
 <style>
   model-viewer {

@@ -1,0 +1,5 @@
+dist
+.astro
+.netlify
+node_modules
+public/vendor

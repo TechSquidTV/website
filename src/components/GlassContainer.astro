@@ -1,6 +1,4 @@
 ---
-import GradientShift from "../images/assets/gradient-shift.webp";
-
 interface Props {
   variant?: "pillbox" | "nav" | "panel" | "circle";
   className?: string;
@@ -8,80 +6,16 @@ interface Props {
 
 const { variant = "panel", className = "" } = Astro.props;
 
-// Use the gradient image source for the background
-const gradientUrl = GradientShift.src;
-
 const variantClasses = {
   pillbox:
-    "glass-pillbox inline-flex items-center rounded-full border border-white/[0.08] py-2 pl-2 pr-4 backdrop-blur-[12px] backdrop-saturate-150 transition-all duration-300 ease-out hover:border-white/[0.12] hover:-translate-y-px md:py-1.5 md:pl-1.5 md:pr-3 md:border-white/[0.1]",
+    "inline-flex items-center rounded-full border border-border bg-card py-2 pl-2 pr-4 shadow-sm transition-colors hover:bg-muted md:py-1.5 md:pl-1.5 md:pr-3",
   circle:
-    "glass-circle flex items-center justify-center w-16 h-16 rounded-full transition-all duration-300 ease-out hover:-translate-y-px",
-  nav: "floating-pill-nav flex items-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-3 backdrop-blur-lg backdrop-saturate-180",
-  panel:
-    "rounded-xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-lg backdrop-saturate-150",
+    "flex h-12 w-12 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-sm transition-colors hover:bg-muted",
+  nav: "flex items-center rounded-full border border-border bg-card px-2 py-1 shadow-sm",
+  panel: "rounded-lg border border-border bg-card shadow-sm",
 };
 ---
 
-<div
-  class={`${variantClasses[variant]} ${className}`}
-  style={variant === "circle"
-    ? `background: linear-gradient(45deg, rgba(255, 107, 107, 0.25), rgba(78, 205, 196, 0.25), rgba(69, 183, 209, 0.25), rgba(150, 206, 180, 0.25), rgba(254, 202, 87, 0.25)); background-image: linear-gradient(rgba(26, 26, 29, 0.50), rgba(26, 26, 29, 0.75)), url(${gradientUrl}); background-size: 110%; background-position: center 30%; background-repeat: no-repeat; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08); backdrop-filter: blur(8px) saturate(120%); transition: all 800ms ease-out;`
-    : ""}
->
+<div class={`${variantClasses[variant]} ${className}`}>
   <slot />
 </div>
-
-<style>
-  /* Inset shadows for glass effects (Tailwind can't do inset box-shadows) */
-  .glass-pillbox {
-    box-shadow:
-      0 4px 16px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    -webkit-backdrop-filter: blur(12px) saturate(150%);
-    transition: all 300ms ease-out;
-  }
-
-  .glass-pillbox:hover {
-    box-shadow:
-      0 6px 24px rgba(0, 0, 0, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  }
-
-  .glass-circle:hover {
-    background-position: center 70% !important;
-    box-shadow:
-      0 6px 24px rgba(0, 0, 0, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
-  }
-
-  /* Ensure icons are visible above the gradient */
-  .glass-circle svg {
-    position: relative;
-    z-index: 2;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
-  }
-
-  .floating-pill-nav {
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-  }
-
-  /* Accessibility: Reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .glass-pillbox,
-    .glass-circle {
-      transition: none !important;
-    }
-
-    .glass-pillbox:hover,
-    .glass-circle:hover {
-      transform: none;
-    }
-
-    .glass-circle:hover {
-      background-position: center 30% !important;
-    }
-  }
-</style>

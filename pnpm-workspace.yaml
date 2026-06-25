@@ -1,0 +1,6 @@
+allowBuilds:
+  "@parcel/watcher": true
+  esbuild: true
+  sharp: true
+# Keep dependency updates truly latest; pnpm 11 defaults this to 1440 minutes.
+minimumReleaseAge: 0

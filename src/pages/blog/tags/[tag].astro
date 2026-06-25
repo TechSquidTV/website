@@ -41,12 +41,12 @@ const { posts, tag } = Astro.props;
     />
     <style>
       body {
-        padding-top: 2rem;
+        padding-top: 0;
       }
       main {
         max-width: 960px;
         margin: 0 auto;
-        padding: 2rem;
+        padding: 3rem 1.5rem;
       }
       .tag-header {
         text-align: center;
@@ -67,15 +67,20 @@ const { posts, tag } = Astro.props;
         gap: 2rem;
       }
       .post-card {
-        background: var(--color-bg-tertiary);
-        border-radius: 16px;
+        background: var(--card);
+        border-radius: var(--radius);
         padding: 1.5rem;
-        border: 1px solid var(--color-border);
-        transition: all 0.3s ease;
+        border: 1px solid var(--border);
+        box-shadow: var(--tw-shadow, 0 1px 2px rgb(0 0 0 / 0.06));
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
       }
       .post-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-glow);
+        border-color: var(--primary);
+        background: var(--muted);
+        box-shadow: var(--shadow-custom);
       }
       .post-card a {
         text-decoration: none;
@@ -85,7 +90,7 @@ const { posts, tag } = Astro.props;
         width: 100%;
         height: 200px;
         object-fit: cover;
-        border-radius: 12px;
+        border-radius: var(--radius);
         margin-bottom: 1rem;
       }
       .post-card h2 {

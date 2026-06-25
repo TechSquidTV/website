@@ -324,7 +324,7 @@ const nameId = `name-${formId}`;
   .newsletter-email-input:focus {
     outline: none;
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 2px rgb(var(--color-accent) / 0.1);
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--primary) 18%, transparent);
   }
 
   /* Full variant */
@@ -393,7 +393,7 @@ const nameId = `name-${formId}`;
   .newsletter-input:focus {
     outline: none;
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 2px rgb(var(--color-accent) / 0.1);
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--primary) 18%, transparent);
   }
 
   /* Make inputs in the full variant larger */
@@ -429,7 +429,6 @@ const nameId = `name-${formId}`;
 
   .newsletter-link:hover {
     text-decoration-color: var(--color-accent);
-    text-shadow: 0 0 8px rgb(var(--color-accent) / 0.3);
   }
 
   .newsletter-rss {

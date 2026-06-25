@@ -47,7 +47,9 @@ import TSTVLogo from "../images/assets/tstv-404.svg";
   }
 
   .error-logo {
-    filter: drop-shadow(0 0 20px rgb(var(--color-accent) / 0.3));
+    filter: drop-shadow(
+      0 12px 24px color-mix(in oklch, var(--primary) 22%, transparent)
+    );
     transition: transform 0.3s ease;
   }
 
@@ -58,8 +60,7 @@ import TSTVLogo from "../images/assets/tstv-404.svg";
   .error-code {
     font-size: clamp(6rem, 15vw, 12rem);
     font-weight: 800;
-    color: var(--color-accent);
-    text-shadow: 0 0 30px rgb(var(--color-accent) / 0.4);
+    color: var(--primary);
     margin: 0;
     line-height: 0.8;
   }

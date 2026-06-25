@@ -123,13 +123,13 @@ const PriceList = {
       id="services-nav-secondary"
     >
       <ul
-        class="bg-opacity-30 flex flex-col bg-black py-2 backdrop-blur-sm lg:rounded-full"
+        class="border-border bg-card flex flex-col rounded-full border py-2 shadow-sm"
       >
         {
           serviceList.map((item) => (
             <li class="flex-1 p-1 text-center">
               <a
-                class="hover:bg-opacity-10 flex h-full w-full flex-row px-2 transition-all duration-300 hover:bg-white hover:shadow-sm lg:rounded-full"
+                class="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-full flex-row px-2 transition-colors duration-200 lg:rounded-full"
                 href={`#${item.anchor}`}
               >
                 <div class="flex flex-col items-center justify-center py-2">
@@ -147,21 +147,21 @@ const PriceList = {
       <header class="flex w-full flex-col">
         <div class="lg:w-1/2">
           <h1
-            class="text-5xl font-bold text-white lg:text-6xl xl:text-7xl 2xl:text-8xl"
+            class="text-foreground text-5xl font-bold lg:text-6xl xl:text-7xl 2xl:text-8xl"
           >
             <span class="block">DevRel with</span>
             <span class="text-accent block">TechSquidTV</span>
           </h1>
           <p class="text-text-secondary my-6 text-lg">
-            <span class="font-semibold text-white">Kyle Tryon</span>
+            <span class="text-foreground font-semibold">Kyle Tryon</span>
             is a
-            <span class="text-blue-400">Staff Software Engineer</span>,
-            <span class="text-green-400">Open-Source Advocate</span>,
-            <span class="text-gray-400">Educator</span>,
-            <span class="text-purple-400">Animator</span>,
-            <span class="text-yellow-400">3D Artist</span>,
-            <span class="text-red-400">YouTuber</span>, and
-            <span class="text-indigo-400">Content Creator</span>.
+            <span class="text-secondary">Staff Software Engineer</span>,
+            <span class="text-accent-green">Open-Source Advocate</span>,
+            <span class="text-muted-foreground">Educator</span>,
+            <span class="text-accent-purple">Animator</span>,
+            <span class="text-primary">3D Artist</span>,
+            <span class="text-destructive">YouTuber</span>, and
+            <span class="text-secondary">Content Creator</span>.
           </p>
         </div>
       </header>
@@ -172,13 +172,13 @@ const PriceList = {
         id="services-nav"
         aria-label="primary services navigation"
       >
-        <ul class="bg-opacity-30 bg-black backdrop-blur-sm lg:rounded-2xl">
+        <ul class="border-border bg-card rounded-lg border shadow-sm">
           <div class="flex flex-col lg:flex-row">
             {
               serviceList.map((item) => (
                 <li class="flex-1 p-1 text-center">
                   <a
-                    class="hover:bg-opacity-10 flex h-full w-full flex-row px-2 transition-all duration-300 hover:bg-white hover:shadow-sm lg:rounded-2xl"
+                    class="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-full flex-row px-2 transition-colors duration-200 lg:rounded-lg"
                     href={`#${item.anchor}`}
                   >
                     <div class="flex flex-col items-center justify-center px-2">
@@ -216,7 +216,7 @@ const PriceList = {
       <div class="my-8 flex flex-col space-y-16">
         <!-- Screencasts -->
         <section
-          class="opacity-80 transition-opacity duration-300 ease-in-out"
+          class="transition-opacity duration-300 ease-in-out"
           id="screencasts"
         >
           <div class="mb-8 text-center">
@@ -229,7 +229,7 @@ const PriceList = {
             </p>
             <a
               href="/contact"
-              class="bg-accent text-bg-primary hover:bg-accent-dark inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold transition-colors duration-300"
+              class="bg-primary text-primary-foreground hover:bg-accent-dark inline-flex items-center justify-center rounded-md px-6 py-3 font-semibold no-underline transition-colors duration-200"
             >
               Contact
             </a>
@@ -237,7 +237,7 @@ const PriceList = {
           <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             {
               PriceList.screencasts.map((item) => (
-                <div class="bg-bg-tertiary hover:border-accent flex h-full flex-col rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-accent)/0.3)]">
+                <div class="border-border bg-card hover:shadow-card flex h-full flex-col rounded-lg border p-6 shadow-sm transition-shadow duration-200">
                   <h3 class="text-text-primary mb-4 text-xl font-semibold">
                     {item.title}
                   </h3>
@@ -263,12 +263,12 @@ const PriceList = {
 
         <!-- Animation -->
         <section
-          class="opacity-80 transition-opacity duration-300 ease-in-out"
+          class="transition-opacity duration-300 ease-in-out"
           id="animations"
         >
           <div class="mb-8 text-center">
             <h2 class="text-text-primary mb-4 text-4xl font-bold">
-              Animations<span class="text-yellow-400">✨</span>
+              Animations<span class="text-primary">✨</span>
             </h2>
             <p class="text-text-secondary mx-auto mb-6 max-w-3xl text-lg">
               Engage with and educate your audience while boosting SEO for blog
@@ -276,7 +276,7 @@ const PriceList = {
             </p>
             <a
               href="/contact"
-              class="bg-accent text-bg-primary hover:bg-accent-dark inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold transition-colors duration-300"
+              class="bg-primary text-primary-foreground hover:bg-accent-dark inline-flex items-center justify-center rounded-md px-6 py-3 font-semibold no-underline transition-colors duration-200"
             >
               Contact
             </a>
@@ -284,7 +284,7 @@ const PriceList = {
           <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             {
               PriceList.animation.map((item) => (
-                <div class="bg-bg-tertiary border-border hover:border-accent flex h-full flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-accent)/0.3)]">
+                <div class="border-border bg-card hover:shadow-card flex h-full flex-col rounded-lg border p-6 shadow-sm transition-shadow duration-200">
                   <h3 class="text-text-primary mb-4 text-xl font-semibold">
                     {item.title}
                   </h3>
@@ -310,7 +310,7 @@ const PriceList = {
 
         <!-- Writing -->
         <section
-          class="opacity-80 transition-opacity duration-300 ease-in-out"
+          class="transition-opacity duration-300 ease-in-out"
           id="writing"
         >
           <div class="mb-8 text-center">
@@ -325,7 +325,7 @@ const PriceList = {
             </p>
             <a
               href="/contact"
-              class="bg-accent text-bg-primary hover:bg-accent-dark inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold transition-colors duration-300"
+              class="bg-primary text-primary-foreground hover:bg-accent-dark inline-flex items-center justify-center rounded-md px-6 py-3 font-semibold no-underline transition-colors duration-200"
             >
               Contact
             </a>
@@ -335,7 +335,7 @@ const PriceList = {
               href="/blog"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-block transition-transform duration-300 hover:scale-105"
+              class="border-border bg-card hover:shadow-card inline-block rounded-lg border p-2 shadow-sm transition-shadow duration-200"
             >
               <Image
                 src={astroThumbnail}
@@ -350,7 +350,7 @@ const PriceList = {
           <div class="mx-auto grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
             {
               PriceList.writing.map((item) => (
-                <div class="bg-bg-tertiary border-border hover:border-accent flex h-full flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-accent)/0.3)]">
+                <div class="border-border bg-card hover:shadow-card flex h-full flex-col rounded-lg border p-6 shadow-sm transition-shadow duration-200">
                   <h3 class="text-text-primary mb-4 text-xl font-semibold">
                     {item.title}
                   </h3>
@@ -373,7 +373,7 @@ const PriceList = {
                     ) : (
                       <a
                         href="/contact"
-                        class="bg-accent text-bg-primary hover:bg-accent-dark inline-flex w-full items-center justify-center rounded-lg px-4 py-2 font-semibold transition-colors duration-300"
+                        class="bg-primary text-primary-foreground hover:bg-accent-dark inline-flex w-full items-center justify-center rounded-md px-4 py-2 font-semibold no-underline transition-colors duration-200"
                       >
                         Book a meeting
                       </a>
@@ -386,10 +386,7 @@ const PriceList = {
         </section>
 
         <!-- Code -->
-        <section
-          class="opacity-80 transition-opacity duration-300 ease-in-out"
-          id="code"
-        >
+        <section class="transition-opacity duration-300 ease-in-out" id="code">
           <div class="mb-8 text-center">
             <h2 class="text-text-primary mb-6 text-4xl font-bold">CODE</h2>
             <div
@@ -422,7 +419,7 @@ const PriceList = {
             </p>
             <a
               href="/contact"
-              class="bg-accent text-bg-primary hover:bg-accent-dark inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold transition-colors duration-300"
+              class="bg-primary text-primary-foreground hover:bg-accent-dark inline-flex items-center justify-center rounded-md px-6 py-3 font-semibold no-underline transition-colors duration-200"
             >
               Contact
             </a>
@@ -432,7 +429,7 @@ const PriceList = {
               href="https://github.com/KyleTryon"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-block transition-transform duration-300 hover:scale-105"
+              class="border-border bg-card hover:shadow-card inline-block rounded-lg border p-2 shadow-sm transition-shadow duration-200"
             >
               <Image
                 src={githubProfile}
@@ -445,7 +442,7 @@ const PriceList = {
           <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             {
               PriceList.code.map((item) => (
-                <div class="bg-bg-tertiary border-border hover:border-accent flex h-full flex-col rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgb(var(--color-accent)/0.3)]">
+                <div class="border-border bg-card hover:shadow-card flex h-full flex-col rounded-lg border p-6 shadow-sm transition-shadow duration-200">
                   <h3 class="text-text-primary mb-4 text-xl font-semibold">
                     {item.title}
                   </h3>
@@ -455,7 +452,7 @@ const PriceList = {
                   <div class="border-border mt-auto border-t pt-4">
                     <a
                       href="/contact"
-                      class="bg-accent text-bg-primary hover:bg-accent-dark inline-flex w-full items-center justify-center rounded-lg px-4 py-2 font-semibold transition-colors duration-300"
+                      class="bg-primary text-primary-foreground hover:bg-accent-dark inline-flex w-full items-center justify-center rounded-md px-4 py-2 font-semibold no-underline transition-colors duration-200"
                     >
                       Book a meeting
                     </a>

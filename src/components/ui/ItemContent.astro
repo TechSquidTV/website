@@ -6,6 +6,12 @@ interface Props {
 const { class: className, ...props } = Astro.props;
 ---
 
-<div class:list={['flex-1 min-w-0 flex flex-col justify-center min-h-8', className]} {...props}>
+<div
+  class:list={[
+    "flex min-h-8 min-w-0 flex-1 flex-col justify-center",
+    className,
+  ]}
+  {...props}
+>
   <slot />
 </div>

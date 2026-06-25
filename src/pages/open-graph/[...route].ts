@@ -1,34 +1,80 @@
 import { OGImageRoute } from "astro-og-canvas";
+import { PERSONAL_INFO, SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import { getPublishedPosts } from "../../utils/blog";
 
-// Import your background image
+type PageData = {
+  title: string;
+  description: string;
+};
+
 const bgImage = "./src/images/opengraph/tstv-og-bg.png";
 const badge = "./src/images/opengraph/tstv-badge.png";
 
-export const { getStaticPaths, GET } = OGImageRoute({
-  // The name of your dynamic route segment.
-  // In this case it's `[...route]`, so param will be `route`.
+const posts = await getPublishedPosts();
+const tags = [...new Set(posts.flatMap((post) => post.data.tags ?? []))].sort();
+
+const pages: Record<string, PageData> = {
+  index: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  about: {
+    title: `About - ${SITE_TITLE}`,
+    description: `Learn about ${PERSONAL_INFO.name}, the developer and educator behind ${SITE_TITLE}`,
+  },
+  blog: {
+    title: `Blog - ${SITE_TITLE}`,
+    description: SITE_DESCRIPTION,
+  },
+  contact: {
+    title: `Contact - ${SITE_TITLE}`,
+    description: `Get in touch with ${PERSONAL_INFO.name} from ${SITE_TITLE}`,
+  },
+  follow: {
+    title: `Follow ${PERSONAL_INFO.name} - ${SITE_TITLE}`,
+    description: `Connect with ${PERSONAL_INFO.name} (${PERSONAL_INFO.username}) across all social platforms. Follow for tech content, open source projects, developer tutorials, and more.`,
+  },
+  newsletter: {
+    title: `Newsletter - ${SITE_TITLE}`,
+    description: `Subscribe to the ${SITE_TITLE} newsletter for updates on latest blog posts, projects, and videos`,
+  },
+  "services/devrel": {
+    title: `DevRel Services by ${SITE_TITLE}`,
+    description: `Professional developer relations and content creation services by ${PERSONAL_INFO.name}`,
+  },
+  verify: {
+    title: `Verify Identity - ${SITE_TITLE}`,
+    description: `Verify the identity of ${PERSONAL_INFO.name} using cryptographic verification`,
+  },
+  "404": {
+    title: `404 - Page Not Found | ${SITE_TITLE}`,
+    description: "The page you're looking for doesn't exist.",
+  },
+};
+
+for (const tag of tags) {
+  pages[`blog/tags/${tag}`] = {
+    title: `${tag} Posts - ${SITE_TITLE}`,
+    description: `All posts tagged with ${tag}`,
+  };
+}
+
+export const { getStaticPaths, GET } = await OGImageRoute({
   param: "route",
-
-  // A collection of pages to generate images for.
-  pages: import.meta.glob("/src/pages/**/*.{astro,md,mdx}", { eager: true }),
-
-  // For each page, this callback will be used to
-  // generate the OG image.
+  pages,
   getImageOptions: (_path, page) => ({
-    title: page.frontmatter?.title ?? "TechSquidTV",
-    description:
-      page.frontmatter?.description ??
-      "Open-source developer and tech educator",
+    title: page.title,
+    description: page.description,
     bgImage: {
       path: bgImage,
+      fit: "cover",
     },
-    // Minimal padding to match previous clean design
     padding: 64,
     font: {
       title: {
         families: ["Inter"],
         weight: "ExtraBold",
-        size: 80, // Large text like previous 5rem
+        size: 80,
         color: [255, 255, 255],
         lineHeight: 1.1,
         textShadow: "2px 2px 0px rgb(0, 0, 0)",
@@ -36,16 +82,15 @@ export const { getStaticPaths, GET } = OGImageRoute({
       description: {
         families: ["Inter"],
         weight: "Normal",
-        size: 32, // Smaller description text
+        size: 32,
         color: [209, 213, 219],
         lineHeight: 1.3,
         textShadow: "1px 1px 0px rgb(0, 0, 0)",
       },
     },
-    // Logo badge to match previous design
     logo: {
       path: badge,
-      size: [146, 107], // Natural aspect ratio - matches badge dimensions
+      size: [146, 107],
     },
     fonts: [
       "./src/images/opengraph/fonts/Inter-ExtraBold.ttf",
