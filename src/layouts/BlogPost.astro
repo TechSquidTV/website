@@ -66,9 +66,9 @@ const ogImage = new URL(`/open-graph/blog/${blogSlug}.png`, Astro.site).href;
   <body>
     <ClientRouter />
     <Header />
-    <main class="mx-auto my-4 w-full max-w-4xl px-6 pt-14">
+    <main class="container-page py-10 sm:py-14">
       <article itemscope itemtype="https://schema.org/BlogPosting">
-        <div class="prose prose-lg text-text-secondary mx-auto max-w-3xl px-4">
+        <div class="prose prose-lg text-text-secondary">
           {
             heroImage && (
               <Image
@@ -76,70 +76,74 @@ const ogImage = new URL(`/open-graph/blog/${blogSlug}.png`, Astro.site).href;
                 height={720}
                 src={heroImage}
                 alt={`Hero image for ${title}`}
-                class="mb-8 h-auto w-full rounded-lg"
+                class="mb-10 h-auto w-full rounded-md"
                 transition:name={`hero-${blogSlug}`}
               />
             )
           }
-          <div class="border-border mb-8 border-b pb-8 text-center">
-            <div class="mb-4">
-              <div class="text-text-muted mb-2 text-base">
-                <time
-                  itemprop="datePublished"
-                  datetime={publishDate.toISOString()}
-                >
-                  <FormattedDate date={publishDate} />
-                </time>
-              </div>
-              <ReadingTimeDisplay
-                minutesRead={readingTime?.minutesRead}
-                wordCount={readingTime?.wordCount}
-                className="mb-2 justify-center"
-              />
-              {
-                updatedDate && (
-                  <div class="text-text-subtle text-sm italic">
-                    Last updated on{" "}
-                    <time
-                      itemprop="dateModified"
-                      datetime={updatedDate.toISOString()}
-                    >
-                      <FormattedDate date={updatedDate} />
-                    </time>
-                  </div>
-                )
-              }
-            </div>
+          <header class="mb-10">
             <h1
               class="text-text-primary mb-0 text-4xl leading-tight font-bold md:text-5xl"
               itemprop="headline"
             >
               {title}
             </h1>
+            <div
+              class="text-text-muted mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm"
+            >
+              <time
+                itemprop="datePublished"
+                datetime={publishDate.toISOString()}
+              >
+                <FormattedDate date={publishDate} />
+              </time>
+              {readingTime?.minutesRead && <span aria-hidden="true">·</span>}
+              <ReadingTimeDisplay
+                minutesRead={readingTime?.minutesRead}
+                wordCount={readingTime?.wordCount}
+                className="text-sm"
+              />
+              {
+                updatedDate && (
+                  <>
+                    <span aria-hidden="true">·</span>
+                    <span>
+                      Updated{" "}
+                      <time
+                        itemprop="dateModified"
+                        datetime={updatedDate.toISOString()}
+                      >
+                        <FormattedDate date={updatedDate} />
+                      </time>
+                    </span>
+                  </>
+                )
+              }
+            </div>
 
-            <!-- Author information for SEO -->
-            <meta itemprop="author" content={PERSONAL_INFO.name} />
-            <link itemprop="url" href={Astro.url.href} />
-          </div>
-
-          <!-- Tags Section -->
-          {
-            tags && tags.length > 0 && (
-              <section class="mb-8">
-                <div class="flex flex-wrap justify-center gap-2">
+            {
+              tags && tags.length > 0 && (
+                <nav
+                  class="mt-4 flex flex-wrap gap-x-3 gap-y-1"
+                  aria-label="Tags"
+                >
                   {tags.map((tag) => (
                     <a
                       href={`/blog/tags/${tag}/`}
                       rel="tag"
-                      class="bg-bg-secondary border-border hover:border-accent hover:text-accent m-4! inline-block rounded-full! border px-3 py-1 text-sm transition-colors duration-200"
+                      class="text-muted-foreground hover:text-foreground text-sm no-underline transition-colors"
                     >
                       #{tag}
                     </a>
                   ))}
-                </div>
-              </section>
-            )
-          }
+                </nav>
+              )
+            }
+
+            <!-- Author information for SEO -->
+            <meta itemprop="author" content={PERSONAL_INFO.name} />
+            <link itemprop="url" href={Astro.url.href} />
+          </header>
 
           <!-- Main Content -->
           <section class="blog-content">

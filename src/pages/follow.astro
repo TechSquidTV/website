@@ -1,66 +1,43 @@
 ---
-import Avatar from "../components/Avatar.astro";
-import ContactInfo from "../components/ContactInfo.astro";
-import PageHeader from "../components/PageHeader.astro";
-import GlassContainer from "../components/GlassContainer.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import AvatarImage from "../images/brand/tstvprofile.png";
-import { PERSONAL_INFO, SITE_TITLE, SOCIAL_LINKS } from "../consts";
 import { Icon } from "astro-icon/components";
+import ContactInfo from "../components/ContactInfo.astro";
+import NewsletterCallout from "../components/NewsletterCallout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { PERSONAL_INFO, SITE_TITLE, SOCIAL_LINKS } from "../consts";
 
-const email = PERSONAL_INFO.email;
 const pageTitle = `Follow ${PERSONAL_INFO.name} - ${SITE_TITLE}`;
-const pageDescription = `Connect with ${PERSONAL_INFO.name} (${PERSONAL_INFO.username}) across all social platforms. Follow for tech content, open source projects, developer tutorials, and more.`;
+const pageDescription = `Connect with ${PERSONAL_INFO.name} (${PERSONAL_INFO.username}) across all social platforms.`;
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription} maxWidth="md">
-  <PageHeader title="TechSquidTV" subtitle="Kyle Tryon">
-    <div class="mb-6 flex justify-center">
-      <Avatar src={AvatarImage} alt="Kyle Tryon - TechSquidTV" size="xl" />
-    </div>
-    <ContactInfo email={email} className="mb-8" />
-    <div class="mb-8 text-center">
-      <p class="text-text-muted text-lg leading-relaxed">
-        {PERSONAL_INFO.jobTitle} specializing in <strong
-          >developer experience</strong
-        >,
-        <strong>open source</strong>, and <strong>tech education</strong>.
-        Follow for tutorials, projects, and tech insights.
-      </p>
-    </div>
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <PageHeader title="Follow TechSquidTV">
+    <p class="text-text-secondary text-lg leading-relaxed">
+      Tutorials, projects, and occasional experiments in developer experience,
+      open source, and tech education.
+    </p>
+    <ContactInfo email={PERSONAL_INFO.email} className="mt-5" />
   </PageHeader>
 
-  <div class="space-y-6">
-    <!-- Social Media Section -->
-    <section>
-      <div class="mx-auto flex max-w-md flex-col gap-3">
-        {
-          SOCIAL_LINKS.map((social) => (
-            <a
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="border-border bg-card text-foreground hover:bg-muted hover:border-primary group flex items-center gap-4 rounded-lg border p-4 no-underline shadow-sm transition-colors duration-200"
-              style={`--brand-color: ${social.brandColor}`}
-            >
-              <GlassContainer variant="circle">
-                <Icon
-                  name={social.icon}
-                  size={24}
-                  class="text-text-primary group-hover:text-accent transition-colors duration-300"
-                />
-              </GlassContainer>
-              <span class="text-text-primary group-hover:text-accent flex-1 text-center text-xl font-semibold transition-colors duration-300">
-                {social.name}
-              </span>
-            </a>
-          ))
-        }
-      </div>
-    </section>
-  </div>
+  <nav class="border-border border-t" aria-label="Social profiles">
+    {
+      SOCIAL_LINKS.map((social) => (
+        <a
+          href={social.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="border-border text-foreground hover:text-primary flex items-center gap-3 border-b py-4 no-underline transition-colors"
+        >
+          <Icon name={social.icon} size={18} class="text-muted-foreground" />
+          <span class="font-medium">{social.name}</span>
+          <span class="text-muted-foreground ml-auto text-sm">Visit →</span>
+        </a>
+      ))
+    }
+  </nav>
 
-  <!-- Structured Data for Link Tree -->
+  <NewsletterCallout variant="inline" title="Get updates by email" />
+
   <script
     type="application/ld+json"
     is:inline

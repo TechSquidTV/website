@@ -6,18 +6,18 @@ interface Props {
   className?: string;
 }
 
-const { title, subtitle, centered = true, className = "" } = Astro.props;
+const { title, subtitle, centered = false, className = "" } = Astro.props;
 ---
 
 <div
   class={`
 	${centered ? "text-center" : ""} 
-	mb-8
+	mb-10
 	${className}
 `}
 >
   <h1
-    class="text-text-primary mb-4 text-4xl leading-tight font-bold md:text-5xl"
+    class="text-text-primary mb-3 text-4xl leading-tight font-bold md:text-5xl"
   >
     {title}
   </h1>

@@ -11,51 +11,47 @@ const { fingerprint, publicKeyUrl } = GPG_INFO;
 <BaseLayout
   title="Verify Identity - TechSquidTV"
   description="Verify the identity of Kyle Tryon using cryptographic verification"
-  maxWidth="lg"
 >
-  <PageHeader title="Identity Verification">
-    <Icon name="verified" size={32} class="text-accent mx-auto mb-6" />
-    <div
-      class="text-text-secondary mx-auto max-w-2xl space-y-4 text-lg leading-relaxed"
-    >
+  <PageHeader title="Verify my identity">
+    <div class="text-text-secondary space-y-4 text-lg leading-relaxed">
       <p>
-        Some websites attempt to charge for basic security measures like account
-        verification. In the decentralized web, we can use a personal website,
-        and a GPG key to verify our online presence.
+        This public GPG key lets you verify signed messages and confirm that
+        you’re communicating with me.
       </p>
-
       <p>
-        Find my official social accounts on <a href="/follow">/follow</a>, or
-        utilize my GPG key to verify my identity via <a href="/contact"
-          >encrypted message</a
-        >.
+        Official accounts are listed on <a href="/follow">/follow</a>. For an
+        encrypted message, use the contact page after importing the key below.
       </p>
     </div>
   </PageHeader>
 
-  <div class="mt-12 grid gap-8">
-    <section
-      class="border-border bg-card hover:border-primary rounded-lg border p-8 shadow-sm transition-colors duration-200"
-    >
-      <h2
-        class="text-text-primary mb-6 flex items-center gap-3 text-xl font-semibold"
+  <div class="mt-10">
+    <section class="border-border border-t pt-6 sm:pt-8">
+      <p
+        class="text-muted-foreground mb-2 text-sm font-medium tracking-[var(--tracking-caps-sm)] uppercase"
       >
-        <Icon name="fingerprint" size={24} class="text-accent" />
-        GPG Public Key Fingerprint
-      </h2>
-      <div
-        class="bg-bg-code border-border mb-6 rounded-lg border p-4 text-center"
-      >
+        GPG public key
+      </p>
+      <h2 class="text-text-primary mb-5 text-2xl font-semibold">Fingerprint</h2>
+      <div class="bg-bg-code border-border mb-6 rounded-md border px-4 py-3">
         <code
-          class="text-accent font-mono text-sm tracking-wider break-all select-all md:text-base md:break-normal"
+          class="text-foreground font-mono text-sm tracking-wide break-all select-all md:text-base md:break-normal"
         >
           {fingerprint}
         </code>
       </div>
-      <Button href={publicKeyUrl} variant="primary" fullWidth>
-        <Icon name="key" size={20} />
-        Download Public Key
-      </Button>
+      <div class="flex flex-wrap items-center gap-4">
+        <Button href={publicKeyUrl} variant="primary">
+          <Icon name="key" size={20} />
+          Download Public Key
+        </Button>
+        <a
+          href="/contact"
+          class="text-muted-foreground hover:text-foreground text-sm font-medium no-underline transition-colors"
+        >
+          Send encrypted message →
+        </a>
+      </div>
     </section>
   </div>
 </BaseLayout>

@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
+import Button from "../../../components/Button.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 
 // Import images
@@ -108,362 +109,324 @@ const PriceList = {
     },
   ],
 };
+
+const pricingCardClass = "surface-card flex h-full flex-col p-4 sm:p-6";
+const previewCardClass = "surface-card inline-block p-2";
 ---
 
 <BaseLayout
   title="DevRel Services by TechSquidTV"
   description="Professional developer relations and content creation services by Kyle Tryon"
-  maxWidth="xl"
 >
-  <div class="relative mx-auto overflow-hidden px-2 py-4 md:px-4 md:py-8">
-    <!-- Fixed Navigation -->
-    <nav
-      class="group fixed top-1/2 right-4 z-20 hidden -translate-y-1/2 transform opacity-0 transition-opacity duration-500 lg:flex"
-      aria-label="primary services navigation"
-      id="services-nav-secondary"
-    >
-      <ul
-        class="border-border bg-card flex flex-col rounded-full border py-2 shadow-sm"
+  <!-- Fixed Navigation -->
+  <nav
+    class="group fixed top-1/2 right-4 z-20 hidden -translate-y-1/2 transform opacity-0 transition-opacity duration-500 lg:flex"
+    aria-label="primary services navigation"
+    id="services-nav-secondary"
+  >
+    <ul class="border-border bg-card flex flex-col rounded-full border py-2">
+      {
+        serviceList.map((item) => (
+          <li class="flex-1 p-1 text-center">
+            <a
+              class="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-full flex-row px-2 transition-colors duration-200 lg:rounded-full"
+              href={`#${item.anchor}`}
+            >
+              <div class="flex flex-col items-center justify-center py-2">
+                <Icon name={item.icon} size={32} />
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <!-- Header -->
+  <header class="flex w-full flex-col">
+    <div class="lg:w-1/2">
+      <h1
+        class="text-foreground text-4xl font-bold sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
       >
+        <span class="block">DevRel with</span>
+        <span class="text-accent block">TechSquidTV</span>
+      </h1>
+      <p class="text-text-secondary my-6 text-lg">
+        <span class="text-foreground font-semibold">Kyle Tryon</span>
+        is a
+        <span class="text-secondary">Staff Software Engineer</span>,
+        <span class="text-accent-green">Open-Source Advocate</span>,
+        <span class="text-muted-foreground">Educator</span>,
+        <span class="text-accent-purple">Animator</span>,
+        <span class="text-primary">3D Artist</span>,
+        <span class="text-destructive">YouTuber</span>, and
+        <span class="text-secondary">Content Creator</span>.
+      </p>
+    </div>
+  </header>
+
+  <!-- Main Navigation -->
+  <nav
+    class="group relative my-6"
+    id="services-nav"
+    aria-label="primary services navigation"
+  >
+    <ul class="surface-card">
+      <div class="flex flex-col lg:flex-row">
         {
           serviceList.map((item) => (
             <li class="flex-1 p-1 text-center">
               <a
-                class="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-full flex-row px-2 transition-colors duration-200 lg:rounded-full"
+                class="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-full flex-row px-2 transition-colors duration-200 lg:rounded-lg"
                 href={`#${item.anchor}`}
               >
-                <div class="flex flex-col items-center justify-center py-2">
-                  <Icon name={item.icon} size={32} />
+                <div class="flex flex-col items-center justify-center px-2">
+                  <Icon
+                    name={item.icon}
+                    size={64}
+                    class="h-10 w-10 sm:h-12 sm:w-12"
+                  />
+                </div>
+                <div class="flex flex-1 flex-col px-2">
+                  <span class="text-xl font-semibold">{item.title}</span>
+                  <span class="flex flex-1 flex-col items-center justify-center">
+                    <p class="my-1 text-sm">{item.description}</p>
+                  </span>
                 </div>
               </a>
             </li>
           ))
         }
-      </ul>
-    </nav>
+      </div>
+    </ul>
+  </nav>
 
-    <div class="relative z-10">
-      <!-- Header -->
-      <header class="flex w-full flex-col">
-        <div class="lg:w-1/2">
-          <h1
-            class="text-foreground text-5xl font-bold lg:text-6xl xl:text-7xl 2xl:text-8xl"
-          >
-            <span class="block">DevRel with</span>
-            <span class="text-accent block">TechSquidTV</span>
-          </h1>
-          <p class="text-text-secondary my-6 text-lg">
-            <span class="text-foreground font-semibold">Kyle Tryon</span>
-            is a
-            <span class="text-secondary">Staff Software Engineer</span>,
-            <span class="text-accent-green">Open-Source Advocate</span>,
-            <span class="text-muted-foreground">Educator</span>,
-            <span class="text-accent-purple">Animator</span>,
-            <span class="text-primary">3D Artist</span>,
-            <span class="text-destructive">YouTuber</span>, and
-            <span class="text-secondary">Content Creator</span>.
+  <!-- Service Overview -->
+  <section class="px-1 py-5 text-center sm:p-8">
+    <p class="text-lg">
+      <span class="text-accent font-semibold italic">DevRel As A Service</span> with
+      TechSquidTV is a full-service solution for your developer outreach and content
+      creation. Build your evergreen multi-platform content library while educating
+      your audience and boosting SEO.<br />
+      <span class="text-accent-green font-semibold"
+        >Contact for bundle packages.</span
+      >
+    </p>
+  </section>
+
+  <!-- Services Sections -->
+  <div class="my-6 flex flex-col space-y-12 sm:my-8 sm:space-y-16">
+    <!-- Screencasts -->
+    <section
+      class="transition-opacity duration-300 ease-in-out"
+      id="screencasts"
+    >
+      <div class="mb-8 text-center">
+        <h2 class="text-text-primary mb-4 text-4xl font-bold">Screencasts</h2>
+        <p class="text-text-secondary mb-6 text-lg">
+          Engage with and educate your audience while boosting SEO for blog
+          posts and growing your evergreen video content library.
+        </p>
+        <Button href="/contact"> Contact </Button>
+      </div>
+      <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
+        {
+          PriceList.screencasts.map((item) => (
+            <div class={pricingCardClass}>
+              <h3 class="text-text-primary mb-4 text-xl font-semibold">
+                {item.title}
+              </h3>
+              <p class="text-text-secondary mb-6 flex-grow leading-relaxed">
+                {item.description}
+              </p>
+              <div class="border-border mt-auto border-t pt-4">
+                <div class="flex items-baseline gap-1">
+                  <span class="text-text-muted text-sm">from</span>
+                  <span class="text-accent text-2xl font-bold">
+                    ${item.price.toLocaleString()}
+                  </span>
+                </div>
+                <p class="text-text-muted mt-1 text-xs">tax not included*</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Animation -->
+    <section
+      class="transition-opacity duration-300 ease-in-out"
+      id="animations"
+    >
+      <div class="mb-8 text-center">
+        <h2 class="text-text-primary mb-4 text-4xl font-bold">
+          Animations<span class="text-primary">✨</span>
+        </h2>
+        <p class="text-text-secondary mb-6 text-lg">
+          Engage with and educate your audience while boosting SEO for blog
+          posts and growing your evergreen video content library.
+        </p>
+        <Button href="/contact"> Contact </Button>
+      </div>
+      <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
+        {
+          PriceList.animation.map((item) => (
+            <div class={pricingCardClass}>
+              <h3 class="text-text-primary mb-4 text-xl font-semibold">
+                {item.title}
+              </h3>
+              <p class="text-text-secondary mb-6 flex-grow leading-relaxed">
+                {item.description}
+              </p>
+              <div class="border-border mt-auto border-t pt-4">
+                <div class="flex items-baseline gap-1">
+                  <span class="text-text-muted text-sm">from</span>
+                  <span class="text-accent text-2xl font-bold">
+                    ${item.price.toLocaleString()}
+                  </span>
+                </div>
+                <p class="text-text-muted mt-1 text-xs">tax not included*</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Writing -->
+    <section class="transition-opacity duration-300 ease-in-out" id="writing">
+      <div class="mb-8 text-center">
+        <h2 class="text-text-primary mb-4 text-4xl font-bold">Writing</h2>
+        <p class="text-text-secondary mb-4 text-lg">
+          Detailed documentation, guides, and blog articles, written by an
+          experienced staff software engineer and educator.
+        </p>
+        <p class="text-text-secondary mb-6 text-lg">
+          Need a new docs solution? Let's find the right fit to adding and
+          maintaining documentation for your product.
+        </p>
+        <Button href="/contact"> Contact </Button>
+      </div>
+      <div class="mb-8 text-center">
+        <a
+          href="/blog"
+          target="_blank"
+          rel="noopener noreferrer"
+          class={previewCardClass}
+        >
+          <Image
+            src={astroThumbnail}
+            alt="Preview of blog post thumbnails"
+            class="max-h-48 w-auto"
+          />
+          <p class="text-text-muted mt-2 text-sm">
+            Preview of blog post thumbnails.
+          </p>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
+        {
+          PriceList.writing.map((item) => (
+            <div class={pricingCardClass}>
+              <h3 class="text-text-primary mb-4 text-xl font-semibold">
+                {item.title}
+              </h3>
+              <p class="text-text-secondary mb-6 flex-grow leading-relaxed">
+                {item.description}
+              </p>
+              <div class="border-border mt-auto border-t pt-4">
+                {item.price ? (
+                  <div>
+                    <div class="flex items-baseline gap-1">
+                      <span class="text-text-muted text-sm">from</span>
+                      <span class="text-accent text-2xl font-bold">
+                        ${item.price.toLocaleString()}
+                      </span>
+                    </div>
+                    <p class="text-text-muted mt-1 text-xs">
+                      tax not included*
+                    </p>
+                  </div>
+                ) : (
+                  <Button href="/contact" size="sm" fullWidth>
+                    Book a meeting
+                  </Button>
+                )}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Code -->
+    <section class="transition-opacity duration-300 ease-in-out" id="code">
+      <div class="mb-8 text-center">
+        <h2 class="text-text-primary mb-6 text-4xl font-bold">CODE</h2>
+        <div class="text-text-secondary mb-6 space-y-3 text-lg">
+          <p>
+            5+ years of experience <a
+              href="https://github.com/search?q=org%3ACircleCI-Public+author%3AKyleTryon&type=pullrequests"
+              target="_blank"
+              class="text-accent hover:underline">building integrations</a
+            > for CI/CD pipelines.
+          </p>
+          <p>
+            Author of TypeScript SDK with over <a
+              href="https://www.npmjs.com/package/@circleci/circleci-config-sdk"
+              target="_blank"
+              class="text-accent hover:underline">33K downloads per week</a
+            >.
+          </p>
+          <p>
+            Designer and developer of sites like this one, or <a
+              href="https://config.tips/"
+              target="_blank"
+              class="text-accent hover:underline">this one</a
+            >.
           </p>
         </div>
-      </header>
-
-      <!-- Main Navigation -->
-      <nav
-        class="group relative my-6"
-        id="services-nav"
-        aria-label="primary services navigation"
-      >
-        <ul class="border-border bg-card rounded-lg border shadow-sm">
-          <div class="flex flex-col lg:flex-row">
-            {
-              serviceList.map((item) => (
-                <li class="flex-1 p-1 text-center">
-                  <a
-                    class="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-full flex-row px-2 transition-colors duration-200 lg:rounded-lg"
-                    href={`#${item.anchor}`}
-                  >
-                    <div class="flex flex-col items-center justify-center px-2">
-                      <Icon name={item.icon} size={64} />
-                    </div>
-                    <div class="flex flex-1 flex-col px-2">
-                      <span class="text-xl font-semibold">{item.title}</span>
-                      <span class="flex flex-1 flex-col items-center justify-center">
-                        <p class="my-1 text-sm">{item.description}</p>
-                      </span>
-                    </div>
-                  </a>
-                </li>
-              ))
-            }
-          </div>
-        </ul>
-      </nav>
-
-      <!-- Service Overview -->
-      <section class="p-8 text-center">
-        <p class="text-lg">
-          <span class="text-accent font-semibold italic"
-            >DevRel As A Service</span
-          > with TechSquidTV is a full-service solution for your developer outreach
-          and content creation. Build your evergreen multi-platform content library
-          while educating your audience and boosting SEO.<br />
-          <span class="text-accent-green font-semibold"
-            >Contact for bundle packages.</span
-          >
+        <p class="text-text-primary mb-6 text-lg font-semibold">
+          Main languages: Node / TypeScript, React, Go, BASH
         </p>
-      </section>
-
-      <!-- Services Sections -->
-      <div class="my-8 flex flex-col space-y-16">
-        <!-- Screencasts -->
-        <section
-          class="transition-opacity duration-300 ease-in-out"
-          id="screencasts"
-        >
-          <div class="mb-8 text-center">
-            <h2 class="text-text-primary mb-4 text-4xl font-bold">
-              Screencasts
-            </h2>
-            <p class="text-text-secondary mx-auto mb-6 max-w-3xl text-lg">
-              Engage with and educate your audience while boosting SEO for blog
-              posts and growing your evergreen video content library.
-            </p>
-            <a
-              href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-accent-dark inline-flex items-center justify-center rounded-md px-6 py-3 font-semibold no-underline transition-colors duration-200"
-            >
-              Contact
-            </a>
-          </div>
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {
-              PriceList.screencasts.map((item) => (
-                <div class="border-border bg-card hover:shadow-card flex h-full flex-col rounded-lg border p-6 shadow-sm transition-shadow duration-200">
-                  <h3 class="text-text-primary mb-4 text-xl font-semibold">
-                    {item.title}
-                  </h3>
-                  <p class="text-text-secondary mb-6 flex-grow leading-relaxed">
-                    {item.description}
-                  </p>
-                  <div class="border-border mt-auto border-t pt-4">
-                    <div class="flex items-baseline gap-1">
-                      <span class="text-text-muted text-sm">from</span>
-                      <span class="text-accent text-2xl font-bold">
-                        ${item.price.toLocaleString()}
-                      </span>
-                    </div>
-                    <p class="text-text-muted mt-1 text-xs">
-                      tax not included*
-                    </p>
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </section>
-
-        <!-- Animation -->
-        <section
-          class="transition-opacity duration-300 ease-in-out"
-          id="animations"
-        >
-          <div class="mb-8 text-center">
-            <h2 class="text-text-primary mb-4 text-4xl font-bold">
-              Animations<span class="text-primary">✨</span>
-            </h2>
-            <p class="text-text-secondary mx-auto mb-6 max-w-3xl text-lg">
-              Engage with and educate your audience while boosting SEO for blog
-              posts and growing your evergreen video content library.
-            </p>
-            <a
-              href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-accent-dark inline-flex items-center justify-center rounded-md px-6 py-3 font-semibold no-underline transition-colors duration-200"
-            >
-              Contact
-            </a>
-          </div>
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {
-              PriceList.animation.map((item) => (
-                <div class="border-border bg-card hover:shadow-card flex h-full flex-col rounded-lg border p-6 shadow-sm transition-shadow duration-200">
-                  <h3 class="text-text-primary mb-4 text-xl font-semibold">
-                    {item.title}
-                  </h3>
-                  <p class="text-text-secondary mb-6 flex-grow leading-relaxed">
-                    {item.description}
-                  </p>
-                  <div class="border-border mt-auto border-t pt-4">
-                    <div class="flex items-baseline gap-1">
-                      <span class="text-text-muted text-sm">from</span>
-                      <span class="text-accent text-2xl font-bold">
-                        ${item.price.toLocaleString()}
-                      </span>
-                    </div>
-                    <p class="text-text-muted mt-1 text-xs">
-                      tax not included*
-                    </p>
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </section>
-
-        <!-- Writing -->
-        <section
-          class="transition-opacity duration-300 ease-in-out"
-          id="writing"
-        >
-          <div class="mb-8 text-center">
-            <h2 class="text-text-primary mb-4 text-4xl font-bold">Writing</h2>
-            <p class="text-text-secondary mx-auto mb-4 max-w-3xl text-lg">
-              Detailed documentation, guides, and blog articles, written by an
-              experienced staff software engineer and educator.
-            </p>
-            <p class="text-text-secondary mx-auto mb-6 max-w-3xl text-lg">
-              Need a new docs solution? Let's find the right fit to adding and
-              maintaining documentation for your product.
-            </p>
-            <a
-              href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-accent-dark inline-flex items-center justify-center rounded-md px-6 py-3 font-semibold no-underline transition-colors duration-200"
-            >
-              Contact
-            </a>
-          </div>
-          <div class="mb-8 text-center">
-            <a
-              href="/blog"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="border-border bg-card hover:shadow-card inline-block rounded-lg border p-2 shadow-sm transition-shadow duration-200"
-            >
-              <Image
-                src={astroThumbnail}
-                alt="Preview of blog post thumbnails"
-                class="max-h-48 w-auto"
-              />
-              <p class="text-text-muted mt-2 text-sm">
-                Preview of blog post thumbnails.
-              </p>
-            </a>
-          </div>
-          <div class="mx-auto grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
-            {
-              PriceList.writing.map((item) => (
-                <div class="border-border bg-card hover:shadow-card flex h-full flex-col rounded-lg border p-6 shadow-sm transition-shadow duration-200">
-                  <h3 class="text-text-primary mb-4 text-xl font-semibold">
-                    {item.title}
-                  </h3>
-                  <p class="text-text-secondary mb-6 flex-grow leading-relaxed">
-                    {item.description}
-                  </p>
-                  <div class="border-border mt-auto border-t pt-4">
-                    {item.price ? (
-                      <div>
-                        <div class="flex items-baseline gap-1">
-                          <span class="text-text-muted text-sm">from</span>
-                          <span class="text-accent text-2xl font-bold">
-                            ${item.price.toLocaleString()}
-                          </span>
-                        </div>
-                        <p class="text-text-muted mt-1 text-xs">
-                          tax not included*
-                        </p>
-                      </div>
-                    ) : (
-                      <a
-                        href="/contact"
-                        class="bg-primary text-primary-foreground hover:bg-accent-dark inline-flex w-full items-center justify-center rounded-md px-4 py-2 font-semibold no-underline transition-colors duration-200"
-                      >
-                        Book a meeting
-                      </a>
-                    )}
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </section>
-
-        <!-- Code -->
-        <section class="transition-opacity duration-300 ease-in-out" id="code">
-          <div class="mb-8 text-center">
-            <h2 class="text-text-primary mb-6 text-4xl font-bold">CODE</h2>
-            <div
-              class="text-text-secondary mx-auto mb-6 max-w-4xl space-y-3 text-lg"
-            >
-              <p>
-                5+ years of experience <a
-                  href="https://github.com/search?q=org%3ACircleCI-Public+author%3AKyleTryon&type=pullrequests"
-                  target="_blank"
-                  class="text-accent hover:underline">building integrations</a
-                > for CI/CD pipelines.
-              </p>
-              <p>
-                Author of TypeScript SDK with over <a
-                  href="https://www.npmjs.com/package/@circleci/circleci-config-sdk"
-                  target="_blank"
-                  class="text-accent hover:underline">33K downloads per week</a
-                >.
-              </p>
-              <p>
-                Designer and developer of sites like this one, or <a
-                  href="https://config.tips/"
-                  target="_blank"
-                  class="text-accent hover:underline">this one</a
-                >.
-              </p>
-            </div>
-            <p class="text-text-primary mb-6 text-lg font-semibold">
-              Main languages: Node / TypeScript, React, Go, BASH
-            </p>
-            <a
-              href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-accent-dark inline-flex items-center justify-center rounded-md px-6 py-3 font-semibold no-underline transition-colors duration-200"
-            >
-              Contact
-            </a>
-          </div>
-          <div class="mb-8 text-center">
-            <a
-              href="https://github.com/KyleTryon"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="border-border bg-card hover:shadow-card inline-block rounded-lg border p-2 shadow-sm transition-shadow duration-200"
-            >
-              <Image
-                src={githubProfile}
-                alt="GitHub Profile"
-                class="max-h-48 w-auto"
-              />
-              <p class="text-text-muted mt-2 text-sm">GitHub Profile</p>
-            </a>
-          </div>
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {
-              PriceList.code.map((item) => (
-                <div class="border-border bg-card hover:shadow-card flex h-full flex-col rounded-lg border p-6 shadow-sm transition-shadow duration-200">
-                  <h3 class="text-text-primary mb-4 text-xl font-semibold">
-                    {item.title}
-                  </h3>
-                  <p class="text-text-secondary mb-6 flex-grow leading-relaxed">
-                    {item.description}
-                  </p>
-                  <div class="border-border mt-auto border-t pt-4">
-                    <a
-                      href="/contact"
-                      class="bg-primary text-primary-foreground hover:bg-accent-dark inline-flex w-full items-center justify-center rounded-md px-4 py-2 font-semibold no-underline transition-colors duration-200"
-                    >
-                      Book a meeting
-                    </a>
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-        </section>
+        <Button href="/contact"> Contact </Button>
       </div>
-    </div>
+      <div class="mb-8 text-center">
+        <a
+          href="https://github.com/KyleTryon"
+          target="_blank"
+          rel="noopener noreferrer"
+          class={previewCardClass}
+        >
+          <Image
+            src={githubProfile}
+            alt="GitHub Profile"
+            class="max-h-48 w-auto"
+          />
+          <p class="text-text-muted mt-2 text-sm">GitHub Profile</p>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
+        {
+          PriceList.code.map((item) => (
+            <div class={pricingCardClass}>
+              <h3 class="text-text-primary mb-4 text-xl font-semibold">
+                {item.title}
+              </h3>
+              <p class="text-text-secondary mb-6 flex-grow leading-relaxed">
+                {item.description}
+              </p>
+              <div class="border-border mt-auto border-t pt-4">
+                <Button href="/contact" size="sm" fullWidth>
+                  Book a meeting
+                </Button>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
   </div>
 </BaseLayout>
 

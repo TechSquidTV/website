@@ -1,28 +1,22 @@
 ---
-import Avatar from "../../components/Avatar.astro";
 import Button from "../../components/Button.astro";
 import FormInput from "../../components/FormInput.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import AvatarImage from "../../images/brand/tstvprofile.png";
 ---
 
 <BaseLayout
   title="Newsletter - TechSquidTV"
   description="Subscribe to the TechSquidTV newsletter for updates on latest blog posts, projects, and videos"
-  maxWidth="md"
 >
   <PageHeader title="Stay in the Loop">
-    <div class="mb-6 flex justify-center">
-      <Avatar src={AvatarImage} alt="Kyle Tryon - TechSquidTV" size="xl" />
-    </div>
-    <p class="text-text-secondary mx-auto max-w-2xl text-lg leading-relaxed">
+    <p class="text-text-secondary text-lg leading-relaxed">
       Get notified about new blog posts, project releases, and video updates.
       I'll send out occasional emails with the good stuff—no spam, ever.
     </p>
   </PageHeader>
 
-  <div class="border-border mt-8 border-t pt-8">
+  <div class="border-border mt-10 border-t pt-8">
     <form
       name="newsletter"
       method="POST"
@@ -60,19 +54,17 @@ import AvatarImage from "../../images/brand/tstvprofile.png";
     </form>
   </div>
 
-  <div class="border-border mt-12 border-t pt-8 text-center">
+  <div class="border-border mt-8 border-t pt-6 sm:mt-12 sm:pt-8">
     <h3 class="text-text-primary mb-4 text-xl font-semibold">
-      What You'll Get:
+      What you'll get
     </h3>
-    <ul class="mb-8 list-none space-y-3 p-0 md:text-left">
+    <ul class="mb-8 list-disc space-y-2 pl-5">
+      <li class="text-text-secondary text-base">New blog post notifications</li>
       <li class="text-text-secondary text-base">
-        📝 New blog post notifications
+        Project launch announcements
       </li>
-      <li class="text-text-secondary text-base">
-        🚀 Project launch announcements
-      </li>
-      <li class="text-text-secondary text-base">🎥 Latest video updates</li>
-      <li class="text-text-secondary text-base">💡 Exclusive tech insights</li>
+      <li class="text-text-secondary text-base">Latest video updates</li>
+      <li class="text-text-secondary text-base">Exclusive tech insights</li>
     </ul>
     <p class="text-text-muted text-sm italic">
       Usually one email every few weeks. You can unsubscribe anytime.

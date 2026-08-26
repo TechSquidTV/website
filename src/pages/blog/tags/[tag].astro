@@ -1,10 +1,9 @@
 ---
-import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import { ClientRouter } from "astro:transitions";
 import BaseHead from "../../../components/BaseHead.astro";
+import BlogPostList from "../../../components/BlogPostList.astro";
 import Footer from "../../../components/Footer.astro";
-import FormattedDate from "../../../components/FormattedDate.astro";
 import Header from "../../../components/Header.astro";
 import { SITE_TITLE } from "../../../consts";
 import { publishedPostFilter } from "../../../utils/blog";
@@ -39,108 +38,20 @@ const { posts, tag } = Astro.props;
       title={`${tag} Posts - ${SITE_TITLE}`}
       description={`All posts tagged with ${tag}`}
     />
-    <style>
-      body {
-        padding-top: 0;
-      }
-      main {
-        max-width: 960px;
-        margin: 0 auto;
-        padding: 3rem 1.5rem;
-      }
-      .tag-header {
-        text-align: center;
-        margin-bottom: 3rem;
-      }
-      .tag-header h1 {
-        color: var(--color-text-primary);
-        font-size: 3rem;
-        margin-bottom: 1rem;
-      }
-      .tag-header p {
-        color: var(--color-text-secondary);
-        font-size: 1.2rem;
-      }
-      .posts-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-      }
-      .post-card {
-        background: var(--card);
-        border-radius: var(--radius);
-        padding: 1.5rem;
-        border: 1px solid var(--border);
-        box-shadow: var(--tw-shadow, 0 1px 2px rgb(0 0 0 / 0.06));
-        transition:
-          background-color 0.2s ease,
-          border-color 0.2s ease,
-          box-shadow 0.2s ease;
-      }
-      .post-card:hover {
-        border-color: var(--primary);
-        background: var(--muted);
-        box-shadow: var(--shadow-custom);
-      }
-      .post-card a {
-        text-decoration: none;
-        color: inherit;
-      }
-      .post-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-radius: var(--radius);
-        margin-bottom: 1rem;
-      }
-      .post-card h2 {
-        color: var(--color-text-primary);
-        margin: 0 0 0.5rem 0;
-        font-size: 1.3rem;
-      }
-      .post-card p {
-        color: var(--color-text-secondary);
-        margin: 0 0 1rem 0;
-        line-height: 1.5;
-      }
-      .post-date {
-        color: var(--color-text-muted);
-        font-size: 0.9rem;
-      }
-    </style>
   </head>
   <body>
     <ClientRouter />
     <Header />
-    <main>
-      <div class="tag-header">
-        <h1>#{tag}</h1>
-        <p>
-          {posts.length} post{posts.length !== 1 ? "s" : ""} tagged with "{tag}"
+    <main class="container-page py-10 sm:py-14">
+      <header class="mb-8">
+        <h1 class="text-foreground mb-2 text-4xl leading-tight font-bold">
+          #{tag}
+        </h1>
+        <p class="text-muted-foreground m-0">
+          {posts.length} post{posts.length !== 1 ? "s" : ""}
         </p>
-      </div>
-      <div class="posts-grid">
-        {
-          posts.map((post) => (
-            <article class="post-card">
-              <a href={`/blog/${post.data.slug || post.id}/`}>
-                {post.data.heroImage && (
-                  <Image
-                    src={post.data.heroImage}
-                    alt={post.data.heroImageAlt || post.data.title}
-                    transition:name={`hero-${post.data.slug || post.id}`}
-                  />
-                )}
-                <h2>{post.data.title}</h2>
-                <p>{post.data.description}</p>
-                <time class="post-date">
-                  <FormattedDate date={post.data.publishDate} />
-                </time>
-              </a>
-            </article>
-          ))
-        }
-      </div>
+      </header>
+      <BlogPostList posts={posts} />
     </main>
     <Footer />
   </body>

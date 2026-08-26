@@ -1,0 +1,73 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import FormattedDate from "./FormattedDate.astro";
+import ReadingTimeDisplay from "./ReadingTimeDisplay.astro";
+
+type PostWithReadingTime = CollectionEntry<"blog"> & {
+  readingTime?: {
+    minutesRead?: string;
+    readingTimeMinutes?: number;
+    wordCount?: number;
+  };
+};
+
+interface Props {
+  posts: PostWithReadingTime[];
+  featured?: boolean;
+  showFeaturedImage?: boolean;
+}
+
+const { posts, featured = false, showFeaturedImage = false } = Astro.props;
+---
+
+<ul class="m-0 list-none p-0">
+  {
+    posts.map((post, index) => {
+      const isFeatured = featured && index === 0;
+      const slug = post.data.slug || post.id;
+
+      return (
+        <li
+          class={
+            isFeatured
+              ? "pb-10 sm:pb-12"
+              : "border-border border-t py-6 sm:py-8"
+          }
+        >
+          <article>
+            <a href={`/blog/${slug}/`} class="group block no-underline">
+              <div class="min-w-0 flex-1">
+                <div class="text-muted-foreground flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+                  <FormattedDate date={post.data.publishDate} />
+                  {post.readingTime?.minutesRead && (
+                    <span aria-hidden="true">·</span>
+                  )}
+                  <ReadingTimeDisplay
+                    minutesRead={post.readingTime?.minutesRead}
+                    className="text-sm"
+                  />
+                </div>
+                <h2
+                  class={`text-foreground group-hover:text-primary mt-2 mb-0 leading-tight font-semibold transition-colors ${isFeatured ? "text-3xl sm:text-4xl" : "text-xl sm:text-2xl"}`}
+                >
+                  {post.data.title}
+                </h2>
+              </div>
+              {isFeatured && showFeaturedImage && post.data.heroImage && (
+                <Image
+                  width={1440}
+                  height={720}
+                  src={post.data.heroImage}
+                  alt={post.data.heroImageAlt || ""}
+                  class="mt-5 w-full rounded-md object-cover"
+                  transition:name={`hero-${slug}`}
+                />
+              )}
+            </a>
+          </article>
+        </li>
+      );
+    })
+  }
+</ul>

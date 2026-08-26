@@ -14,10 +14,13 @@ const email = PERSONAL_INFO.email;
 <BaseLayout
   title="Contact - TechSquidTV"
   description="Get in touch with Kyle Tryon from TechSquidTV"
-  maxWidth="md"
 >
   <PageHeader title="Get In Touch">
-    <ContactInfo email={email} className="mb-8" />
+    <p class="text-text-secondary text-lg leading-relaxed">
+      Have a question, project, or collaboration in mind? Send a note and I’ll
+      get back to you.
+    </p>
+    <ContactInfo email={email} centered={false} className="mt-5" />
   </PageHeader>
 
   <form
@@ -25,8 +28,9 @@ const email = PERSONAL_INFO.email;
     method="POST"
     data-netlify="true"
     netlify-honeypot="dontCheckMe"
-    class="w-full"
+    class="border-border w-full border-t pt-8"
   >
+    <h2 class="text-text-primary mb-6 text-xl font-semibold">Send a message</h2>
     <div class="absolute left-[-9999px] opacity-0">
       <label>
         Don't fill this out if you're human: <input name="dontCheckMe" />

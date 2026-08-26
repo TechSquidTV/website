@@ -7,28 +7,18 @@ import AvatarImage from "../images/brand/tstvprofile.png";
 import { SOCIAL_LINKS, PERSONAL_INFO, SITE_TITLE } from "../consts";
 
 const YouTube = SOCIAL_LINKS.find((link) => link.name === "YouTube")!.url;
-const GitHub = SOCIAL_LINKS.find((link) => link.name === "GitHub")!.url;
 ---
 
 <BaseLayout
   title={`About - ${SITE_TITLE}`}
   description={`Learn about ${PERSONAL_INFO.name}, the developer and educator behind ${SITE_TITLE}`}
-  maxWidth="lg"
 >
   <StructuredData />
 
-  <PageHeader title={`About ${SITE_TITLE}`}>
-    <div class="mb-8 flex justify-center">
-      <Avatar
-        src={AvatarImage}
-        alt={`${PERSONAL_INFO.name} - ${SITE_TITLE}`}
-        size="xl"
-      />
-    </div>
-  </PageHeader>
+  <PageHeader title={`About ${SITE_TITLE}`} />
 
   <div
-    class="text-text-secondary space-y-8 leading-relaxed"
+    class="text-text-secondary space-y-10 leading-relaxed"
     itemscope
     itemtype="https://schema.org/Person"
   >
@@ -38,81 +28,59 @@ const GitHub = SOCIAL_LINKS.find((link) => link.name === "GitHub")!.url;
     <meta itemprop="url" content={PERSONAL_INFO.website} />
 
     <section class="space-y-4">
+      <Avatar
+        src={AvatarImage}
+        alt={`${PERSONAL_INFO.name} - ${SITE_TITLE}`}
+        size="xl"
+        className="float-right mb-4 ml-6 max-sm:float-none max-sm:mx-auto max-sm:mb-5 max-sm:block"
+      />
       <p class="text-lg">
         I am <span itemprop="name">{PERSONAL_INFO.name}</span>, better known
         online as <span itemprop="alternateName">@{PERSONAL_INFO.username}</span
-        >. I am a self-taught developer, developer advocate, and lifelong
-        tinkerer who likes turning complicated technical ideas into practical,
-        visual, and occasionally weird projects.
+        >.
       </p>
 
       <p class="text-lg">
-        By day, I work remotely as a <span itemprop="jobTitle"
+        I'm a self-taught developer who grew up at the dawn of the internet with
+        a computer and a curiosity for how things worked.
+      </p>
+
+      <p class="text-lg">
+        Today, I work as a <span itemprop="jobTitle"
           >{PERSONAL_INFO.corporateRole}</span
-        > at {PERSONAL_INFO.corporateCompany}. By night, I make videos, write
-        tutorials, build open-source tools, and chase whatever question has
-        lodged itself too deeply in my brain to ignore.
+        > at {PERSONAL_INFO.corporateCompany}, writing blog posts and making
+        videos for developers.
       </p>
     </section>
 
     <section class="space-y-4">
       <h2 class="text-text-primary text-2xl font-semibold">How I Got Here</h2>
       <p class="text-lg">
-        I started <a href={YouTube} target="_blank">{SITE_TITLE}</a> in 2016 while
-        working retail and teaching myself software development. The channel began
-        as a way to document what I was learning in public, but it quickly became
-        something more useful: a place to make the explanations I wished I had when
-        I was starting out.
-      </p>
-
-      <p class="text-lg">
-        I grew up in a non-technical household in the mid-90s, when good
-        beginner-friendly programming resources were much harder to find. That
-        pushed me toward a simple rule that still guides my work: if I have to
-        fight my way through a topic, I should leave a clearer path behind for
-        the next person.
+        In 2016, I rebranded and started a new YouTube channel <a
+          href={YouTube}
+          target="_blank">{SITE_TITLE}</a
+        > while working in retail, and taking another, more serious attempt at studying
+        development. The channel acted as a way for me to manage my own learning,
+        setting a goal of learning a topic completely enough to be able to teach it
+        to others. I also took the opportunity with each video to implement a new
+        editing technique, improving my editing skills as I learned to code.
       </p>
     </section>
 
     <section class="space-y-4">
       <h2 class="text-text-primary text-2xl font-semibold">What I Make</h2>
       <p class="text-lg">
-        My work lives at the intersection of software, DevOps, developer
-        education, and visual storytelling. I have spent years building CI/CD
-        integrations, writing TypeScript, working with Docker and Kubernetes,
-        creating tutorials, and helping developers understand the tools they use
-        every day.
+        I'm a TypeScript developer mostly, but explore a wide range of
+        technologies and disciplines. I make web applications, because they are
+        useful. I also make videos, dabble in 3D modeling, and experiment with
+        hardware, because they are fun.
       </p>
 
       <p class="text-lg">
-        I also care a lot about presentation. Alongside code, I use video
-        editing, motion graphics, 3D modeling, and animation to make technical
-        concepts easier to see, not just read about. Sometimes that means a
-        polished explainer. Sometimes it means a tiny hardware experiment, a
-        strange side project, or a deep dive into why some piece of technology
-        works the way it does.
-      </p>
-    </section>
-
-    <section class="space-y-4">
-      <h2 class="text-text-primary text-2xl font-semibold">
-        What You Will Find Here
-      </h2>
-      <p class="text-lg">
-        This site is my home base for longer-form writing, project notes, video
-        companion posts, and experiments that need more room than a social
-        thread. Expect practical tutorials, honest writeups, open-source work,
-        and the occasional detour into hardware, games, media servers, 3D
-        rendering, or whatever else I am currently pulling apart to understand.
-      </p>
-
-      <p class="text-lg">
-        You can find the code for many of my projects on <a
-          href={GitHub}
-          target="_blank">GitHub</a
-        >, follow the videos on <a href={YouTube} target="_blank">YouTube</a>,
-        or start with the blog if you want the slower, more detailed version of
-        what I am learning.
+        I've been known to go down a rabbit hole of research on interesting and
+        obscure topics, and I think hope I can provide a good balance of
+        practical and entertaining content for developers and makers of all
+        skill levels.
       </p>
     </section>
   </div>

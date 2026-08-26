@@ -8,7 +8,7 @@ export interface Props {
 const { variant = "default", class: className, href, ...props } = Astro.props;
 
 const baseClasses = [
-  "relative w-full rounded-lg border px-4 py-3 text-sm grid grid-cols-1 gap-2 items-start mb-6",
+  "relative mb-6 grid w-full grid-cols-1 items-start gap-2 rounded-md border px-4 py-3 text-sm",
   {
     "bg-bg-tertiary text-text-primary border-border": variant === "default",
     "bg-red-950/20 text-red-200 border-red-800/50": variant === "destructive",
@@ -18,7 +18,7 @@ const baseClasses = [
 ];
 
 const linkClasses = href
-  ? "no-underline hover:scale-[1.02] transition-all duration-200 hover:shadow-lg"
+  ? "no-underline transition-colors duration-200 hover:bg-muted"
   : "";
 ---
 

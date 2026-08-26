@@ -1,9 +1,7 @@
 ---
-import { Image } from "astro:assets";
 import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import FormattedDate from "../../components/FormattedDate.astro";
-import ReadingTimeDisplay from "../../components/ReadingTimeDisplay.astro";
+import BlogPostList from "../../components/BlogPostList.astro";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
 import { getPublishedPosts } from "../../utils/blog";
 
@@ -18,48 +16,13 @@ const postsWithReadingTime = await Promise.all(
 );
 ---
 
-<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} maxWidth="xl">
-  <section class="p-8 sm:p-4 md:p-6">
-    <ul
-      class="m-0 grid list-none grid-cols-1 gap-8 p-0 sm:gap-4 md:grid-cols-2 md:gap-6"
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <section>
+    <p
+      class="text-muted-foreground mb-6 text-sm font-medium tracking-[var(--tracking-caps-sm)] uppercase"
     >
-      {
-        postsWithReadingTime.map((post, index) => (
-          <li
-            class={`border-border bg-card flex flex-col rounded-lg border shadow-sm ${index === 0 ? "md:col-span-2" : ""} `}
-          >
-            <a
-              href={`/blog/${post.data.slug || post.id}/`}
-              class={`group hover:bg-muted flex h-full flex-col rounded-lg p-4 no-underline transition-colors duration-200 ${index === 0 ? "text-center" : ""} `}
-            >
-              {post.data.heroImage && (
-                <Image
-                  width={720}
-                  height={360}
-                  src={post.data.heroImage}
-                  alt=""
-                  class={`mb-2 w-full rounded-lg object-cover ${index === 0 ? "max-h-96" : "h-48 sm:h-40 md:h-44"} `}
-                  transition:name={`hero-${post.data.slug || post.id}`}
-                />
-              )}
-              <h4
-                class={`text-foreground group-hover:text-primary !mb-2 flex-grow leading-tight font-semibold transition-colors duration-200 ${index === 0 ? "text-lg md:!my-10 md:!text-4xl lg:!my-12 lg:!text-5xl" : "text-lg"} `}
-              >
-                {post.data.title}
-              </h4>
-              <div class="mt-auto flex flex-row items-center justify-between gap-2">
-                <span class="text-muted-foreground group-hover:text-foreground text-sm transition-colors duration-200">
-                  <FormattedDate date={post.data.publishDate} />
-                </span>
-                <ReadingTimeDisplay
-                  minutesRead={post.readingTime?.minutesRead}
-                  className="text-xs"
-                />
-              </div>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+      Latest writing
+    </p>
+    <BlogPostList posts={postsWithReadingTime} featured showFeaturedImage />
   </section>
 </BaseLayout>
