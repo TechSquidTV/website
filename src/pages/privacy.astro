@@ -1,0 +1,109 @@
+---
+import PageHeader from "@/components/PageHeader.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Privacy Policy - TechSquidTV"
+  description="Learn how TechSquidTV handles newsletter information and anonymous site analytics."
+>
+  <PageHeader title="Privacy Policy">
+    <p class="text-text-muted text-sm">Last Updated: August 27, 2026</p>
+  </PageHeader>
+
+  <div class="text-text-secondary space-y-8 leading-relaxed">
+    <p>
+      Welcome to techsquidtv.com. This policy explains how information is
+      handled when you visit this site. The goal is to collect as little data as
+      possible while keeping the site running smoothly and sending updates to
+      people who ask for them.
+    </p>
+
+    <section aria-labelledby="newsletter">
+      <h2 id="newsletter" class="text-text-primary mb-3 text-2xl font-semibold">
+        1. The Newsletter (Email Collection)
+      </h2>
+      <p>
+        The only personal information collected on this site is your email
+        address, and only if you choose to subscribe to the newsletter. You may
+        also provide your name; this optional field is used only to personalize
+        newsletter communications.
+      </p>
+      <ul class="mt-4 list-disc space-y-2 pl-5">
+        <li>
+          <strong class="text-text-primary">Purpose:</strong> Your email address is
+          used exclusively to notify you when new posts or content are published.
+        </li>
+        <li>
+          <strong class="text-text-primary">Protection:</strong> Your email address
+          will never be sold, traded, rented, or shared with external marketing agencies.
+        </li>
+        <li>
+          <strong class="text-text-primary">Your control:</strong> You can opt out
+          at any time by using the unsubscribe link at the bottom of a newsletter
+          email. Doing so removes your address from the active mailing list.
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="analytics">
+      <h2 id="analytics" class="text-text-primary mb-3 text-2xl font-semibold">
+        2. Anonymous Site Analytics
+      </h2>
+      <p>
+        To understand which content is helpful and to keep the site working
+        correctly, techsquidtv.com uses Sentry for site analytics and error
+        monitoring.
+      </p>
+      <ul class="mt-4 list-disc space-y-2 pl-5">
+        <li>
+          <strong class="text-text-primary">What is tracked:</strong> Sentry tracks
+          anonymous behavioral metrics, such as page views, scroll depth, button clicks,
+          and technical errors such as broken links or page crashes.
+        </li>
+        <li>
+          <strong class="text-text-primary">Anonymity:</strong> This data is anonymous
+          and aggregated. No IP addresses, device fingerprints, or cross-site tracking
+          cookies are stored, and behavioral data is not linked to your identity or
+          email address.
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="processors">
+      <h2 id="processors" class="text-text-primary mb-3 text-2xl font-semibold">
+        3. Third-Party Processors
+      </h2>
+      <p>
+        To provide the newsletter and analytics, this site relies on trusted
+        third-party services:
+      </p>
+      <ul class="mt-4 list-disc space-y-2 pl-5">
+        <li>
+          <strong class="text-text-primary">Resend</strong> securely manages the email
+          subscriber list and sends newsletter emails.
+        </li>
+        <li>
+          <strong class="text-text-primary">Sentry</strong> processes anonymous analytics
+          and performance data.
+        </li>
+      </ul>
+      <p class="mt-4">
+        These services act as data processors on behalf of TechSquidTV and
+        handle this limited information under their own privacy and security
+        policies.
+      </p>
+    </section>
+
+    <section aria-labelledby="contact">
+      <h2 id="contact" class="text-text-primary mb-3 text-2xl font-semibold">
+        4. Contact
+      </h2>
+      <p>
+        If you have questions, concerns, or requests about this privacy policy
+        or your data, contact Kyle Tryon at
+        <a href="mailto:kyle@techsquidtv.com">kyle@techsquidtv.com</a>.
+      </p>
+    </section>
+  </div>
+</BaseLayout>

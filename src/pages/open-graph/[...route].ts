@@ -36,6 +36,10 @@ const pages: Record<string, PageData> = {
     title: `Newsletter - ${SITE_TITLE}`,
     description: `Subscribe to the ${SITE_TITLE} newsletter for updates on latest blog posts, projects, and videos`,
   },
+  privacy: {
+    title: `Privacy Policy - ${SITE_TITLE}`,
+    description: `Learn how ${SITE_TITLE} handles newsletter information and anonymous site analytics.`,
+  },
   "services/devrel": {
     title: `DevRel Services by ${SITE_TITLE}`,
     description: `Professional developer relations and content creation services by ${PERSONAL_INFO.name}`,

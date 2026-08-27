@@ -74,6 +74,10 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss(), sitemap()],
+    optimizeDeps: {
+      // Vite's source scanner cannot parse Astro component frontmatter.
+      noDiscovery: true,
+    },
   },
 
   adapter: cloudflare({
