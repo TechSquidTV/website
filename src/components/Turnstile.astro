@@ -1,0 +1,22 @@
+---
+interface Props {
+  action: "contact" | "newsletter";
+}
+
+const { action } = Astro.props;
+const siteKey =
+  import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "0x4AAAAAAEd_LCHW3k_8fBFt";
+---
+
+<div
+  class="cf-turnstile mb-6"
+  data-action={action}
+  data-sitekey={siteKey}
+  data-theme="auto"
+>
+</div>
+<script
+  is:inline
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+  async
+  defer></script>

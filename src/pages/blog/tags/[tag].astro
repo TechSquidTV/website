@@ -1,12 +1,12 @@
 ---
 import { getCollection } from "astro:content";
 import { ClientRouter } from "astro:transitions";
-import BaseHead from "../../../components/BaseHead.astro";
-import BlogPostList from "../../../components/BlogPostList.astro";
-import Footer from "../../../components/Footer.astro";
-import Header from "../../../components/Header.astro";
-import { SITE_TITLE } from "../../../consts";
-import { publishedPostFilter } from "../../../utils/blog";
+import BaseHead from "@/components/BaseHead.astro";
+import BlogPostList from "@/components/BlogPostList.astro";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import { SITE_TITLE } from "@/consts";
+import { publishedPostFilter } from "@/utils/blog";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog", publishedPostFilter);

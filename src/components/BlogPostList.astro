@@ -1,8 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
-import FormattedDate from "./FormattedDate.astro";
-import ReadingTimeDisplay from "./ReadingTimeDisplay.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+import ReadingTimeDisplay from "@/components/ReadingTimeDisplay.astro";
 
 type PostWithReadingTime = CollectionEntry<"blog"> & {
   readingTime?: {

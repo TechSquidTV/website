@@ -11,16 +11,16 @@ tags:
   - diy
 ---
 
-import ModelViewer from "../../../components/ModelViewer.astro";
+import ModelViewer from "@/components/ModelViewer.astro";
 import { Image } from "astro:assets";
-import ESP32S3 from "../../../images/blog/esp32-s3-tft-feather.webp";
-import BeeperDrawing from "../../../images/blog/beeper_drawing.webp";
-import BeeperTapping from "../../../images/blog/beeper-tapping.webp";
-import BrokerService from "../../../images/blog/beeper_broker_service.png";
-import RTTTLPlayer from "../../../components/RTTTLPlayer.astro";
-import NewsletterCallout from "../../../components/NewsletterCallout.astro";
-import WikiLink from "../../../components/WikiLink.astro";
-import { Icon } from "astro-icon/components";
+import ESP32S3 from "@/images/blog/esp32-s3-tft-feather.webp";
+import BeeperDrawing from "@/images/blog/beeper_drawing.webp";
+import BeeperTapping from "@/images/blog/beeper-tapping.webp";
+import BrokerService from "@/images/blog/beeper_broker_service.png";
+import RTTTLPlayer from "@/components/RTTTLPlayer.astro";
+import NewsletterCallout from "@/components/NewsletterCallout.astro";
+import WikiLink from "@/components/WikiLink.astro";
+import LinkCard from "@/components/LinkCard.astro";
 
 I recently joined [Sentry](https://sentry.io), and landed just in time to join their [annual Hack Week](https://x.com/getsentry/status/1960393044399718730).
 
@@ -37,7 +37,7 @@ I did not do that. I built a <WikiLink url="https://en.wikipedia.org/wiki/Pager"
   cameraControls={true}
   autoplay={true}
   ar={true}
-  backgroundColor="#111113"
+  backgroundColor="var(--background)"
   cameraOrbit="-150deg 70deg 160m"
   minCameraOrbit="auto auto 100m"
   maxCameraOrbit="auto auto 160m"
@@ -51,13 +51,12 @@ I did not do that. I built a <WikiLink url="https://en.wikipedia.org/wiki/Pager"
 
 The **Sentry Alert TX-1** is an <WikiLink url="https://en.wikipedia.org/wiki/ESP32" tooltip="ESP32 is a low-cost, low-power microcontroller with integrated Wi-Fi and Bluetooth capabilities, popular for IoT projects.">ESP32</WikiLink>-powered device that receives alerts over <WikiLink url="https://en.wikipedia.org/wiki/MQTT" tooltip="MQTT (Message Queuing Telemetry Transport) is a lightweight messaging protocol designed for IoT devices with limited bandwidth.">MQTT</WikiLink>, using a webhook bridge to connect with Sentry to notify you when your apps or services are experiencing issues. A _true_ on-call pager.
 
-<span class="border-border mb-[2em] flex flex-row items-center gap-2 rounded-sm border-2 px-2 py-1">
-  <Icon name="github" size={20} />
-  <a href="https://github.com/KyleTryon/sentry-alert-tx-1">
-    <span>GitHub repository</span>
-  </a>
-  <span class="text-text-muted">with all files and source code.</span>
-</span>
+<LinkCard
+  href="https://github.com/KyleTryon/sentry-alert-tx-1"
+  title="GitHub repository"
+  description="All files and source code."
+  icon="github"
+/>
 
 https://www.youtube.com/watch?v=lnWRui3_0X0
 
@@ -118,13 +117,12 @@ The final design is the result of many iterations on very rough designs in Fusio
 
 Maybe one day I will go in and create a clean V2 based on this design.
 
-<span class="border-border mb-[2em] flex flex-row items-center gap-2 rounded-sm border-2 px-2 py-1">
-  <Icon name="file-3d" size={20} />
-  <a href="https://github.com/KyleTryon/sentry-alert-tx-1/tree/main/STLs">
-    <span>STL files</span>
-  </a>
-  <span class="text-text-muted">are available on GitHub.</span>
-</span>
+<LinkCard
+  href="https://github.com/KyleTryon/sentry-alert-tx-1/tree/main/STLs"
+  title="STL files"
+  description="Available on GitHub."
+  icon="file-3d"
+/>
 
 ## The Software Bits
 

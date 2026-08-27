@@ -12,8 +12,8 @@ draft: true
 ---
 
 import { Image } from "astro:assets";
-import DRMSystems from "../../../images/blog/drm-systems.png";
-import NetflixSystemRequirements from "../../../images/blog/netflix-system-requirements.png";
+import DRMSystems from "@/images/blog/drm-systems.png";
+import NetflixSystemRequirements from "@/images/blog/netflix-system-requirements.png";
 
 ## Table of Contents
 
@@ -55,7 +55,7 @@ On some devices where the users have more ownership and control, keeping users o
 <Image
   src={NetflixSystemRequirements}
   alt="Netflix system requirements warning that HD playback requires a compatible HDCP display connection."
-  class="float-right mt-6 mb-6 ml-6 w-full rounded-md border sm:w-1/2 max-sm:float-none max-sm:mx-auto max-sm:block"
+  class="float-right mt-6 mb-6 ml-6 w-full rounded-md border max-sm:float-none max-sm:mx-auto max-sm:block sm:w-1/2"
 />
 
 If you look at the system requirements for Netflix, you can start to get a hint for how they manage access between different classes of devices.

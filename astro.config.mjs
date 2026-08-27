@@ -8,12 +8,13 @@ import react from "@astrojs/react";
 
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
-import { remarkReadingTime } from "./src/utils/remark-reading-time.mjs";
+import { remarkReadingTime } from "#utils/remark-reading-time.mjs";
 import remarkToc from "remark-toc";
 import rehypeExternalLinks from "rehype-external-links";
-import { rehypeShadcnTables } from "./src/utils/rehype-shadcn-tables.mjs";
+import { rehypeShadcnTables } from "#utils/rehype-shadcn-tables.mjs";
+import { rehypeYouTubeEmbeds } from "#utils/rehype-youtube-embeds.mjs";
 
-import netlify from "@astrojs/netlify";
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
@@ -31,6 +32,7 @@ export default defineConfig({
         [remarkToc, { heading: "Table of Contents", maxDepth: 4, tight: true }],
       ],
       rehypePlugins: [
+        rehypeYouTubeEmbeds,
         [
           rehypeExternalLinks,
           {
@@ -74,5 +76,8 @@ export default defineConfig({
     plugins: [tailwindcss(), sitemap()],
   },
 
-  adapter: netlify(),
+  adapter: cloudflare({
+    imageService: "compile",
+    prerenderEnvironment: "node",
+  }),
 });

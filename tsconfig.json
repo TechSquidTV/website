@@ -4,6 +4,10 @@
   "exclude": ["dist"],
   "compilerOptions": {
     "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
     "jsx": "preserve",
     "jsxImportSource": "astro",
     "allowSyntheticDefaultImports": true,

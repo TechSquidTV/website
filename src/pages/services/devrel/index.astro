@@ -1,140 +1,147 @@
 ---
-import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
-import Button from "../../../components/Button.astro";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Button from "@/components/Button.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 
-// Import images
-import astroThumbnail from "../../../images/services/devrel/blog-post-thumbnails-3d.png";
-import githubProfile from "../../../images/services/devrel/github-profile.png";
-
-// Service navigation data
-const serviceList = [
+const services = [
   {
     title: "Screencasts",
     anchor: "screencasts",
     icon: "playCircle",
-    description: "High quality demos and tutorial videos.",
+    summary:
+      "Product demos and tutorials that make technical ideas easy to follow.",
+    description:
+      "Give developers a practical path from first look to confident use with focused, polished video content.",
+    offerings: [
+      {
+        title: "Feature demos",
+        description:
+          "Show the value of a feature with a clear, developer-first walkthrough.",
+      },
+      {
+        title: "Tutorials",
+        description:
+          "Turn a real workflow into an approachable learning experience for your audience.",
+      },
+      {
+        title: "Short-form video",
+        description:
+          "Create concise clips for product launches, social channels, and documentation.",
+      },
+    ],
   },
   {
     title: "Animation",
     anchor: "animations",
     icon: "techsquidtv",
-    description: "Engaging animations.",
+    summary: "Motion design that makes complex systems feel intuitive.",
+    description:
+      "Use animation to explain architecture, tell a product story, or give your launch a memorable visual edge.",
+    offerings: [
+      {
+        title: "Explainers",
+        description:
+          "Translate an abstract concept into a visual story your audience can understand quickly.",
+      },
+      {
+        title: "Product visuals",
+        description:
+          "Create purposeful motion assets for launches, talks, landing pages, and social content.",
+      },
+      {
+        title: "3D animation",
+        description:
+          "Bring technical products and physical projects to life with dimensional, polished visuals.",
+      },
+    ],
   },
   {
     title: "Writing",
     anchor: "writing",
     icon: "git",
-    description: "Blog articles and documentation.",
+    summary: "Technical writing that helps developers learn, build, and share.",
+    description:
+      "Create useful documentation and editorial content with the perspective of an experienced software engineer and educator.",
+    offerings: [
+      {
+        title: "Developer articles",
+        description:
+          "Publish useful, search-friendly stories that connect your product to real developer work.",
+      },
+      {
+        title: "Documentation",
+        description:
+          "Improve the path from first setup to productive use with clear, maintainable docs.",
+      },
+      {
+        title: "Content strategy",
+        description:
+          "Plan an evergreen library of tutorials, guides, and launch content around your goals.",
+      },
+    ],
   },
   {
     title: "Code",
     anchor: "code",
     icon: "github",
-    description: "From web apps to CI/CD pipelines.",
+    summary: "Developer-focused software and tooling built for real-world use.",
+    description:
+      "Extend your product with thoughtful integrations, reliable automation, and tools that meet developers where they work.",
+    offerings: [
+      {
+        title: "Custom applications",
+        description:
+          "Build the right web application, API, or internal tool for your product and team.",
+      },
+      {
+        title: "CI/CD automation",
+        description:
+          "Make releases more dependable with workflows and integrations designed around your delivery process.",
+      },
+      {
+        title: "Client SDKs",
+        description:
+          "Help developers adopt your platform with ergonomic, well-supported SDKs across the right languages.",
+      },
+    ],
   },
 ];
-
-// Pricing data
-const PriceList = {
-  screencasts: [
-    {
-      title: "1 Minute Short",
-      description:
-        "A vertically produced screencast to quickly demonstrate a feature or concept. Perfect for YouTube Shorts and TikTok.",
-      price: 500,
-    },
-    {
-      title: "5 Minute Screencast",
-      description:
-        "A curated screencast to expertly demonstrate a feature or concept succinctly and effectively. An excellent boost to blogs and documentation.",
-      price: 2500,
-    },
-    {
-      title: "10 Minute Screencast",
-      description:
-        "Engage and educate your audience with long form deep dives into your product or features. Evergreen content for your training library.",
-      price: 3000,
-    },
-  ],
-  animation: [
-    {
-      title: "1 Minute Short",
-      description:
-        "Big concepts in short, digestable animations. Perfect for YouTube Shorts and TikTok.",
-      price: 2000,
-    },
-    {
-      title: "5 Minute Animation",
-      description:
-        "A curated animation to expertly demonstrate a feature or concept succinctly and effectively. An excellent boost to blogs and documentation.",
-      price: 4000,
-    },
-    {
-      title: "10 Minute Animation",
-      description:
-        "Engage and educate your audience with long form deep dives into your product or features. Evergreen content for your training library.",
-      price: 7500,
-    },
-  ],
-  writing: [
-    {
-      title: "Blog Post",
-      description:
-        "SEO optimized articles for developers that approach education through captivating story telling.",
-      price: 400,
-    },
-    {
-      title: "Documentation",
-      description:
-        "Whether you need documentation or a whole new docs solution, I can help you find the right fit.",
-    },
-  ],
-  code: [
-    {
-      title: "Custom Applications",
-      description:
-        "From React Web Apps to scalable APIs, I can help you build the right solution for your product.",
-    },
-    {
-      title: "CI/CD Pipelines",
-      description:
-        "Automate your development workflow with CI/CD pipelines that deploy your code to production with confidence. Available for consulting, custom GitHub Actions, and all of your CI/CD needs.",
-    },
-    {
-      title: "Client SDKs",
-      description:
-        "Connect with developers and expand your product through user-generated content facilitated by robust client SDKs. Support for multiple languages and platforms.",
-    },
-  ],
-};
-
-const pricingCardClass = "surface-card flex h-full flex-col p-4 sm:p-6";
-const previewCardClass = "surface-card inline-block p-2";
 ---
 
 <BaseLayout
   title="DevRel Services by TechSquidTV"
-  description="Professional developer relations and content creation services by Kyle Tryon"
+  description="Developer relations, content, and software services by Kyle Tryon."
 >
-  <!-- Fixed Navigation -->
-  <nav
-    class="group fixed top-1/2 right-4 z-20 hidden -translate-y-1/2 transform opacity-0 transition-opacity duration-500 lg:flex"
-    aria-label="primary services navigation"
-    id="services-nav-secondary"
-  >
-    <ul class="border-border bg-card flex flex-col rounded-full border py-2">
+  <section class="surface-card mb-12 overflow-hidden p-6 sm:p-10">
+    <div class="max-w-2xl">
+      <span class="section-eyebrow">Developer relations services</span>
+      <h1
+        class="text-foreground mt-5 text-4xl font-bold tracking-tight sm:text-5xl"
+      >
+        Help developers understand what you build.
+      </h1>
+      <p class="text-muted-foreground mt-5 text-lg leading-8">
+        I partner with technical teams to create useful content, compelling
+        visuals, and dependable developer experiences.
+      </p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <Button href="/contact">Start a conversation</Button>
+        <Button href="#services" variant="secondary">Explore services</Button>
+      </div>
+    </div>
+  </section>
+
+  <nav aria-label="Services" class="mb-12" id="services">
+    <ul class="grid grid-cols-2 gap-2 sm:grid-cols-4">
       {
-        serviceList.map((item) => (
-          <li class="flex-1 p-1 text-center">
+        services.map((service) => (
+          <li>
             <a
-              class="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-full flex-row px-2 transition-colors duration-200 lg:rounded-full"
-              href={`#${item.anchor}`}
+              class="surface-muted focus-ring hover:bg-card flex h-full items-center gap-3 px-4 py-3 text-sm font-semibold no-underline transition-colors"
+              href={`#${service.anchor}`}
             >
-              <div class="flex flex-col items-center justify-center py-2">
-                <Icon name={item.icon} size={32} />
-              </div>
+              <Icon name={service.icon} size={20} aria-hidden="true" />
+              {service.title}
             </a>
           </li>
         ))
@@ -142,374 +149,67 @@ const previewCardClass = "surface-card inline-block p-2";
     </ul>
   </nav>
 
-  <!-- Header -->
-  <header class="flex w-full flex-col">
-    <div class="lg:w-1/2">
-      <h1
-        class="text-foreground text-4xl font-bold sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
-      >
-        <span class="block">DevRel with</span>
-        <span class="text-accent block">TechSquidTV</span>
-      </h1>
-      <p class="text-text-secondary my-6 text-lg">
-        <span class="text-foreground font-semibold">Kyle Tryon</span>
-        is a
-        <span class="text-secondary">Staff Software Engineer</span>,
-        <span class="text-accent-green">Open-Source Advocate</span>,
-        <span class="text-muted-foreground">Educator</span>,
-        <span class="text-accent-purple">Animator</span>,
-        <span class="text-primary">3D Artist</span>,
-        <span class="text-destructive">YouTuber</span>, and
-        <span class="text-secondary">Content Creator</span>.
-      </p>
-    </div>
-  </header>
-
-  <!-- Main Navigation -->
-  <nav
-    class="group relative my-6"
-    id="services-nav"
-    aria-label="primary services navigation"
-  >
-    <ul class="surface-card">
-      <div class="flex flex-col lg:flex-row">
-        {
-          serviceList.map((item) => (
-            <li class="flex-1 p-1 text-center">
-              <a
-                class="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-full flex-row px-2 transition-colors duration-200 lg:rounded-lg"
-                href={`#${item.anchor}`}
+  <div class="divide-border divide-y">
+    {
+      services.map((service) => (
+        <section class="scroll-mt-24 py-12 sm:py-16" id={service.anchor}>
+          <div class="grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12">
+            <div>
+              <div class="flex items-center gap-3">
+                <Icon
+                  name={service.icon}
+                  size={28}
+                  class="text-primary"
+                  aria-hidden="true"
+                />
+                <h2 class="text-foreground text-3xl font-bold tracking-tight">
+                  {service.title}
+                </h2>
+              </div>
+              <p class="text-foreground mt-5 text-lg font-medium">
+                {service.summary}
+              </p>
+              <p class="text-muted-foreground mt-3 leading-7">
+                {service.description}
+              </p>
+              <Button
+                href="/contact"
+                variant="secondary"
+                size="sm"
+                className="mt-6"
               >
-                <div class="flex flex-col items-center justify-center px-2">
-                  <Icon
-                    name={item.icon}
-                    size={64}
-                    class="h-10 w-10 sm:h-12 sm:w-12"
-                  />
-                </div>
-                <div class="flex flex-1 flex-col px-2">
-                  <span class="text-xl font-semibold">{item.title}</span>
-                  <span class="flex flex-1 flex-col items-center justify-center">
-                    <p class="my-1 text-sm">{item.description}</p>
-                  </span>
-                </div>
-              </a>
-            </li>
-          ))
-        }
-      </div>
-    </ul>
-  </nav>
-
-  <!-- Service Overview -->
-  <section class="px-1 py-5 text-center sm:p-8">
-    <p class="text-lg">
-      <span class="text-accent font-semibold italic">DevRel As A Service</span> with
-      TechSquidTV is a full-service solution for your developer outreach and content
-      creation. Build your evergreen multi-platform content library while educating
-      your audience and boosting SEO.<br />
-      <span class="text-accent-green font-semibold"
-        >Contact for bundle packages.</span
-      >
-    </p>
-  </section>
-
-  <!-- Services Sections -->
-  <div class="my-6 flex flex-col space-y-12 sm:my-8 sm:space-y-16">
-    <!-- Screencasts -->
-    <section
-      class="transition-opacity duration-300 ease-in-out"
-      id="screencasts"
-    >
-      <div class="mb-8 text-center">
-        <h2 class="text-text-primary mb-4 text-4xl font-bold">Screencasts</h2>
-        <p class="text-text-secondary mb-6 text-lg">
-          Engage with and educate your audience while boosting SEO for blog
-          posts and growing your evergreen video content library.
-        </p>
-        <Button href="/contact"> Contact </Button>
-      </div>
-      <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
-        {
-          PriceList.screencasts.map((item) => (
-            <div class={pricingCardClass}>
-              <h3 class="text-text-primary mb-4 text-xl font-semibold">
-                {item.title}
-              </h3>
-              <p class="text-text-secondary mb-6 flex-grow leading-relaxed">
-                {item.description}
-              </p>
-              <div class="border-border mt-auto border-t pt-4">
-                <div class="flex items-baseline gap-1">
-                  <span class="text-text-muted text-sm">from</span>
-                  <span class="text-accent text-2xl font-bold">
-                    ${item.price.toLocaleString()}
-                  </span>
-                </div>
-                <p class="text-text-muted mt-1 text-xs">tax not included*</p>
-              </div>
+                Discuss {service.title.toLowerCase()}
+              </Button>
             </div>
-          ))
-        }
-      </div>
-    </section>
 
-    <!-- Animation -->
-    <section
-      class="transition-opacity duration-300 ease-in-out"
-      id="animations"
-    >
-      <div class="mb-8 text-center">
-        <h2 class="text-text-primary mb-4 text-4xl font-bold">
-          Animations<span class="text-primary">✨</span>
-        </h2>
-        <p class="text-text-secondary mb-6 text-lg">
-          Engage with and educate your audience while boosting SEO for blog
-          posts and growing your evergreen video content library.
-        </p>
-        <Button href="/contact"> Contact </Button>
-      </div>
-      <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
-        {
-          PriceList.animation.map((item) => (
-            <div class={pricingCardClass}>
-              <h3 class="text-text-primary mb-4 text-xl font-semibold">
-                {item.title}
-              </h3>
-              <p class="text-text-secondary mb-6 flex-grow leading-relaxed">
-                {item.description}
-              </p>
-              <div class="border-border mt-auto border-t pt-4">
-                <div class="flex items-baseline gap-1">
-                  <span class="text-text-muted text-sm">from</span>
-                  <span class="text-accent text-2xl font-bold">
-                    ${item.price.toLocaleString()}
-                  </span>
-                </div>
-                <p class="text-text-muted mt-1 text-xs">tax not included*</p>
-              </div>
+            <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+              {service.offerings.map((offering) => (
+                <article class="surface-card p-5">
+                  <h3 class="text-foreground font-semibold">
+                    {offering.title}
+                  </h3>
+                  <p class="text-muted-foreground mt-2 text-sm leading-6">
+                    {offering.description}
+                  </p>
+                </article>
+              ))}
             </div>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- Writing -->
-    <section class="transition-opacity duration-300 ease-in-out" id="writing">
-      <div class="mb-8 text-center">
-        <h2 class="text-text-primary mb-4 text-4xl font-bold">Writing</h2>
-        <p class="text-text-secondary mb-4 text-lg">
-          Detailed documentation, guides, and blog articles, written by an
-          experienced staff software engineer and educator.
-        </p>
-        <p class="text-text-secondary mb-6 text-lg">
-          Need a new docs solution? Let's find the right fit to adding and
-          maintaining documentation for your product.
-        </p>
-        <Button href="/contact"> Contact </Button>
-      </div>
-      <div class="mb-8 text-center">
-        <a
-          href="/blog"
-          target="_blank"
-          rel="noopener noreferrer"
-          class={previewCardClass}
-        >
-          <Image
-            src={astroThumbnail}
-            alt="Preview of blog post thumbnails"
-            class="max-h-48 w-auto"
-          />
-          <p class="text-text-muted mt-2 text-sm">
-            Preview of blog post thumbnails.
-          </p>
-        </a>
-      </div>
-      <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
-        {
-          PriceList.writing.map((item) => (
-            <div class={pricingCardClass}>
-              <h3 class="text-text-primary mb-4 text-xl font-semibold">
-                {item.title}
-              </h3>
-              <p class="text-text-secondary mb-6 flex-grow leading-relaxed">
-                {item.description}
-              </p>
-              <div class="border-border mt-auto border-t pt-4">
-                {item.price ? (
-                  <div>
-                    <div class="flex items-baseline gap-1">
-                      <span class="text-text-muted text-sm">from</span>
-                      <span class="text-accent text-2xl font-bold">
-                        ${item.price.toLocaleString()}
-                      </span>
-                    </div>
-                    <p class="text-text-muted mt-1 text-xs">
-                      tax not included*
-                    </p>
-                  </div>
-                ) : (
-                  <Button href="/contact" size="sm" fullWidth>
-                    Book a meeting
-                  </Button>
-                )}
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- Code -->
-    <section class="transition-opacity duration-300 ease-in-out" id="code">
-      <div class="mb-8 text-center">
-        <h2 class="text-text-primary mb-6 text-4xl font-bold">CODE</h2>
-        <div class="text-text-secondary mb-6 space-y-3 text-lg">
-          <p>
-            5+ years of experience <a
-              href="https://github.com/search?q=org%3ACircleCI-Public+author%3AKyleTryon&type=pullrequests"
-              target="_blank"
-              class="text-accent hover:underline">building integrations</a
-            > for CI/CD pipelines.
-          </p>
-          <p>
-            Author of TypeScript SDK with over <a
-              href="https://www.npmjs.com/package/@circleci/circleci-config-sdk"
-              target="_blank"
-              class="text-accent hover:underline">33K downloads per week</a
-            >.
-          </p>
-          <p>
-            Designer and developer of sites like this one, or <a
-              href="https://config.tips/"
-              target="_blank"
-              class="text-accent hover:underline">this one</a
-            >.
-          </p>
-        </div>
-        <p class="text-text-primary mb-6 text-lg font-semibold">
-          Main languages: Node / TypeScript, React, Go, BASH
-        </p>
-        <Button href="/contact"> Contact </Button>
-      </div>
-      <div class="mb-8 text-center">
-        <a
-          href="https://github.com/KyleTryon"
-          target="_blank"
-          rel="noopener noreferrer"
-          class={previewCardClass}
-        >
-          <Image
-            src={githubProfile}
-            alt="GitHub Profile"
-            class="max-h-48 w-auto"
-          />
-          <p class="text-text-muted mt-2 text-sm">GitHub Profile</p>
-        </a>
-      </div>
-      <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
-        {
-          PriceList.code.map((item) => (
-            <div class={pricingCardClass}>
-              <h3 class="text-text-primary mb-4 text-xl font-semibold">
-                {item.title}
-              </h3>
-              <p class="text-text-secondary mb-6 flex-grow leading-relaxed">
-                {item.description}
-              </p>
-              <div class="border-border mt-auto border-t pt-4">
-                <Button href="/contact" size="sm" fullWidth>
-                  Book a meeting
-                </Button>
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </section>
+          </div>
+        </section>
+      ))
+    }
   </div>
+
+  <section
+    class="surface-muted mt-4 rounded-lg p-6 text-center sm:mt-8 sm:p-10"
+  >
+    <h2 class="text-foreground text-2xl font-bold tracking-tight">
+      Need a tailored mix of services?
+    </h2>
+    <p class="text-muted-foreground mx-auto mt-3 max-w-xl">
+      Every engagement is scoped around your product, audience, and goals. Get
+      in touch to talk through the right approach.
+    </p>
+    <Button href="/contact" className="mt-6">Get in touch</Button>
+  </section>
 </BaseLayout>
-
-<style>
-  /* Services navigation secondary */
-  #services-nav-secondary {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-
-  #services-nav-secondary.visible {
-    opacity: 1;
-  }
-
-  /* Fade on scroll animation */
-  .visible {
-    opacity: 1 !important;
-  }
-</style>
-
-<script>
-  // Fade on scroll functionality
-  function setupFadeOnScroll() {
-    const elements = document.querySelectorAll(
-      'section[id="screencasts"], section[id="animations"], section[id="writing"], section[id="code"]',
-    );
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      },
-    );
-
-    elements.forEach((el) => observer.observe(el));
-  }
-
-  // Services navigation toggle
-  function setupServicesNavToggle() {
-    const secondaryNav = document.getElementById("services-nav-secondary");
-    if (!secondaryNav) return;
-
-    let scrollTimeout: number;
-
-    function showNav() {
-      if (secondaryNav) secondaryNav.classList.add("visible");
-    }
-
-    function hideNav() {
-      if (secondaryNav) secondaryNav.classList.remove("visible");
-    }
-
-    window.addEventListener("scroll", () => {
-      const scrollY = window.scrollY;
-
-      if (scrollY > 200) {
-        showNav();
-        clearTimeout(scrollTimeout);
-        scrollTimeout = window.setTimeout(hideNav, 3000);
-      } else {
-        hideNav();
-      }
-    });
-
-    // Show on hover
-    secondaryNav.addEventListener("mouseenter", showNav);
-    secondaryNav.addEventListener("mouseleave", () => {
-      if (window.scrollY > 200) {
-        scrollTimeout = window.setTimeout(hideNav, 1000);
-      }
-    });
-  }
-
-  // Initialize everything when DOM is loaded
-  document.addEventListener("DOMContentLoaded", () => {
-    setupFadeOnScroll();
-    setupServicesNavToggle();
-  });
-</script>

@@ -5,17 +5,18 @@ import {
   SITE_DESCRIPTION,
   SITE_TITLE,
   EXPERTISE_AREAS,
-} from "../consts";
+} from "@/consts";
+import { OPEN_GRAPH_IMAGE_EXTENSION } from "@/lib/open-graph-theme";
 
 interface Props {
   type?: "Person" | "BlogPosting";
-  pageUrl?: string;
-  title?: string;
-  description?: string;
-  publishDate?: Date;
-  updatedDate?: Date;
-  readingTime?: number;
-  wordCount?: number;
+  pageUrl?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  publishDate?: Date | undefined;
+  updatedDate?: Date | undefined;
+  readingTime?: number | undefined;
+  wordCount?: number | undefined;
 }
 
 const {
@@ -88,7 +89,7 @@ if (type === "BlogPosting" && title) {
     },
     image: {
       "@type": "ImageObject",
-      url: `${pageUrl.replace(/\/$/, "")}.png`.replace(
+      url: `${pageUrl.replace(/\/$/, "")}.${OPEN_GRAPH_IMAGE_EXTENSION}`.replace(
         "/blog/",
         "/open-graph/blog/",
       ),

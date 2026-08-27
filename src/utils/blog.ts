@@ -26,6 +26,6 @@ export async function getPublishedPosts(
  * Filter function for excluding draft posts
  * Use this with getCollection when you need custom logic beyond basic filtering
  */
-export const publishedPostFilter = ({ data }: { data: any }) => {
+export const publishedPostFilter = ({ data }: CollectionEntry<"blog">) => {
   return !data.draft;
 };

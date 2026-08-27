@@ -32,57 +32,68 @@ export const EXPERTISE_AREAS = [
   "Open Source",
 ] as const;
 
+const SOCIAL_BRAND_COLORS = {
+  bluesky: "#1185FE",
+  discord: "#5865F2",
+  github: "#4078c0",
+  linkedin: "#0a66c2",
+  mastodon: "#6364FF",
+  twitch: "#9146ff",
+  twitter: "#FFFFFF",
+  youtube: "#ff0000",
+} as const;
+
 // Social Media Links
 export const SOCIAL_LINKS = [
   {
     name: "Twitter",
     url: "https://twitter.com/techsquidtv",
     icon: "x",
-    brandColor: "#FFFFFF",
+    brandColor: SOCIAL_BRAND_COLORS.twitter,
   },
   {
     name: "BlueSky",
     url: "https://bsky.app/profile/techsquidtv.com",
     icon: "bluesky",
-    brandColor: "#1185FE",
+    brandColor: SOCIAL_BRAND_COLORS.bluesky,
   },
   {
     name: "YouTube",
     url: "https://youtube.com/@techsquidtv",
     icon: "youtube",
-    brandColor: "#ff0000",
+    brandColor: SOCIAL_BRAND_COLORS.youtube,
   },
   {
     name: "Mastodon",
     url: "https://fosstodon.org/@techsquidtv",
     icon: "mastodon",
-    brandColor: "#6364FF",
+    brandColor: SOCIAL_BRAND_COLORS.mastodon,
   },
   {
     name: "GitHub",
     url: "https://github.com/KyleTryon",
     icon: "github",
-    brandColor: "#4078c0",
+    brandColor: SOCIAL_BRAND_COLORS.github,
   },
 
   {
     name: "Discord",
     url: "https://discord.gg/x9WYxubx2j",
     icon: "discord",
-    brandColor: "#5865F2",
+    brandColor: SOCIAL_BRAND_COLORS.discord,
   },
 
   {
     name: "LinkedIn",
     url: "https://linkedin.com/in/kyletryon",
     icon: "linkedin",
-    brandColor: "#0a66c2",
+    brandColor: SOCIAL_BRAND_COLORS.linkedin,
   },
   // {
   //   name: "Twitch",
   //   url: "https://www.twitch.tv/techsquidtv",
   //   icon: "twitch",
-  //   brandColor: "#9146ff",
+  //   brandColor: SOCIAL_BRAND_COLORS.twitch,
   // },
 ] as const;
 

@@ -1,6 +1,7 @@
 ---
-import Button from "./Button.astro";
 import { Icon } from "astro-icon/components";
+import NewsletterForm from "@/components/NewsletterForm.astro";
+import NewsletterFormFields from "@/components/NewsletterFormFields.astro";
 
 interface Props {
   variant?: "simple" | "inline" | "full";
@@ -69,49 +70,16 @@ const nameId = `name-${formId}`;
             </div>
           </div>
 
-          <form
-            name="newsletter"
-            method="POST"
-            data-netlify="true"
-            netlify-honeypot="dontCheckMe"
-            class="newsletter-form"
-          >
-            <div class="absolute left-[-9999px] opacity-0">
-              <label>
-                Don't fill this out if you're human:{" "}
-                <input name="dontCheckMe" />
-              </label>
-            </div>
-
-            <div class="newsletter-form-group">
-              <div class="newsletter-inputs">
-                <input
-                  type="text"
-                  id={nameId}
-                  name="name"
-                  placeholder="Your name (optional)"
-                  class="newsletter-input"
-                />
-                <input
-                  type="email"
-                  id={emailId}
-                  name="email"
-                  placeholder="homer.simpson@example.com"
-                  required
-                  class="newsletter-input"
-                />
-              </div>
-              <Button
-                type="submit"
-                variant="primary"
-                size="md"
-                className="newsletter-submit"
-              >
-                <Icon name="email" size={16} />
-                Subscribe
-              </Button>
-            </div>
-          </form>
+          <NewsletterForm className="newsletter-form">
+            <NewsletterFormFields
+              emailId={emailId}
+              emailPlaceholder="homer.simpson@example.com"
+              nameId={nameId}
+              namePlaceholder="Your name (optional)"
+              submitLabel="Subscribe"
+              variant="inline"
+            />
+          </NewsletterForm>
 
           {showRss && (
             <div class="newsletter-rss">
@@ -157,48 +125,16 @@ const nameId = `name-${formId}`;
           </div>
         </div>
 
-        <form
-          name="newsletter"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="dontCheckMe"
-          class="newsletter-form"
-        >
-          <div class="absolute left-[-9999px] opacity-0">
-            <label>
-              Don't fill this out if you're human: <input name="dontCheckMe" />
-            </label>
-          </div>
-
-          <div class="newsletter-form-fields">
-            <input
-              type="text"
-              id={nameId}
-              name="name"
-              placeholder="Your name"
-              class="newsletter-input"
-            />
-            <input
-              type="email"
-              id={emailId}
-              name="email"
-              placeholder="your.email@domain.com"
-              required
-              class="newsletter-input"
-            />
-          </div>
-
-          <Button
-            type="submit"
-            variant="primary"
-            size="lg"
-            fullWidth
-            className="newsletter-submit"
-          >
-            <Icon name="email" size={16} />
-            Subscribe to Newsletter
-          </Button>
-        </form>
+        <NewsletterForm className="newsletter-form">
+          <NewsletterFormFields
+            emailId={emailId}
+            emailPlaceholder="your.email@domain.com"
+            nameId={nameId}
+            namePlaceholder="Your name"
+            submitLabel="Subscribe to Newsletter"
+            variant="full"
+          />
+        </NewsletterForm>
 
         <div class="newsletter-footer">
           <p class="newsletter-promise">
@@ -224,7 +160,7 @@ const nameId = `name-${formId}`;
 <style>
   .newsletter-callout {
     margin: 3rem 0;
-    padding: 1.5rem 0;
+    padding: 1.5rem 0 1.25rem;
     border-block: 1px solid var(--color-border);
   }
 
@@ -237,7 +173,7 @@ const nameId = `name-${formId}`;
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
 
   .newsletter-simple .newsletter-title {
@@ -258,7 +194,7 @@ const nameId = `name-${formId}`;
     display: flex;
     align-items: flex-start;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
 
   .newsletter-inline .newsletter-title {
@@ -273,35 +209,6 @@ const nameId = `name-${formId}`;
     font-size: 0.9rem;
     color: var(--color-text-secondary);
     line-height: 1.5;
-  }
-
-  .newsletter-form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .newsletter-inputs {
-    display: flex;
-    gap: 0.75rem;
-  }
-
-  .newsletter-email-input {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    background: var(--color-bg-code);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    color: var(--color-text-primary);
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-  }
-
-  .newsletter-email-input:focus {
-    outline: none;
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 2px color-mix(in oklch, var(--primary) 18%, transparent);
   }
 
   /* Full variant */
@@ -328,12 +235,10 @@ const nameId = `name-${formId}`;
 
   .newsletter-benefits {
     display: grid;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background: var(--color-bg-tertiary);
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
+    border-block: 1px solid var(--color-border);
   }
 
   .benefit-item {
@@ -350,38 +255,8 @@ const nameId = `name-${formId}`;
     text-align: center;
   }
 
-  .newsletter-form-fields {
-    display: grid;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .newsletter-input {
-    flex: 1;
-    padding: 0.75rem 1rem;
-    background: var(--color-bg-code);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    color: var(--color-text-primary);
-    font-size: 0.9rem;
-    transition: border-color 0.2s ease;
-  }
-
-  .newsletter-input:focus {
-    outline: none;
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 2px color-mix(in oklch, var(--primary) 18%, transparent);
-  }
-
-  /* Make inputs in the full variant larger */
-  .newsletter-full .newsletter-input {
-    padding: 0.875rem 1rem;
-    font-size: 1rem;
-  }
-
   .newsletter-footer {
-    margin-top: 1.5rem;
-    text-align: center;
+    margin-top: 1.25rem;
   }
 
   .newsletter-promise {
@@ -393,25 +268,26 @@ const nameId = `name-${formId}`;
 
   /* Shared styles */
   .newsletter-icon {
-    color: var(--color-accent);
+    color: var(--color-text-muted);
     flex-shrink: 0;
   }
 
   .newsletter-link {
-    color: var(--color-accent);
+    color: var(--color-text-primary);
     text-decoration: underline;
-    text-decoration-color: transparent;
-    transition: all 0.2s ease;
+    text-decoration-color: var(--color-border);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.2s ease;
   }
 
   .newsletter-link:hover {
-    text-decoration-color: var(--color-accent);
+    text-decoration-color: currentColor;
   }
 
   .newsletter-rss {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0.5rem;
     font-size: 0.85rem;
     color: var(--color-text-muted);
@@ -425,42 +301,11 @@ const nameId = `name-${formId}`;
     position: relative;
   }
 
-  .newsletter-submit {
-    white-space: nowrap;
-  }
-
-  /* Desktop layout for inline form */
-  @media (min-width: 721px) {
-    .newsletter-inline .newsletter-form-group {
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    .newsletter-inline .newsletter-inputs {
-      flex: 1;
-    }
-
-    .newsletter-inline .newsletter-submit {
-      flex-shrink: 0;
-      align-self: stretch;
-    }
-  }
-
   /* Mobile responsive */
   @media (max-width: 720px) {
     .newsletter-callout {
       margin-top: 2rem;
       padding: 1.25rem 0;
-    }
-
-    .newsletter-inputs {
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .newsletter-form-fields {
-      gap: 0.75rem;
     }
 
     .newsletter-inline .newsletter-header,

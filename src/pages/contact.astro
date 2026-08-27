@@ -1,12 +1,14 @@
 ---
 import { Icon } from "astro-icon/components";
-import Button from "../components/Button.astro";
-import ContactInfo from "../components/ContactInfo.astro";
-import FormInput from "../components/FormInput.astro";
-import FormTextarea from "../components/FormTextarea.astro";
-import PageHeader from "../components/PageHeader.astro";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { PERSONAL_INFO } from "../consts";
+import Button from "@/components/Button.astro";
+import ContactInfo from "@/components/ContactInfo.astro";
+import FormInput from "@/components/FormInput.astro";
+import FormSubmissionScript from "@/components/FormSubmissionScript.astro";
+import FormTextarea from "@/components/FormTextarea.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import Turnstile from "@/components/Turnstile.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { PERSONAL_INFO } from "@/consts";
 
 const email = PERSONAL_INFO.email;
 ---
@@ -24,16 +26,17 @@ const email = PERSONAL_INFO.email;
   </PageHeader>
 
   <form
-    name="contact"
-    method="POST"
-    data-netlify="true"
-    netlify-honeypot="dontCheckMe"
+    data-form-endpoint="/api/forms/contact"
+    data-form-kind="contact"
     class="border-border w-full border-t pt-8"
   >
     <h2 class="text-text-primary mb-6 text-xl font-semibold">Send a message</h2>
-    <div class="absolute left-[-9999px] opacity-0">
+    <div class="absolute left-[-9999px] opacity-0" aria-hidden="true">
       <label>
-        Don't fill this out if you're human: <input name="dontCheckMe" />
+        Don't fill this out if you're human: <input
+          name="dontCheckMe"
+          tabindex="-1"
+        />
       </label>
     </div>
 
@@ -63,9 +66,13 @@ const email = PERSONAL_INFO.email;
       required
     />
 
+    <Turnstile action="contact" />
+
     <Button type="submit" variant="primary" fullWidth>
       <Icon name="email" size={18} />
       Send Message
     </Button>
+    <p data-form-status class="mt-4 text-sm" aria-live="polite"></p>
   </form>
+  <FormSubmissionScript />
 </BaseLayout>

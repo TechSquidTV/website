@@ -2,14 +2,15 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { ClientRouter } from "astro:transitions";
-import BaseHead from "../components/BaseHead.astro";
-import StructuredData from "../components/StructuredData.astro";
-import BreadcrumbSchema from "../components/BreadcrumbSchema.astro";
-import Footer from "../components/Footer.astro";
-import FormattedDate from "../components/FormattedDate.astro";
-import Header from "../components/Header.astro";
-import ReadingTimeDisplay from "../components/ReadingTimeDisplay.astro";
-import { PERSONAL_INFO, SITE_TITLE } from "../consts";
+import BaseHead from "@/components/BaseHead.astro";
+import StructuredData from "@/components/StructuredData.astro";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema.astro";
+import Footer from "@/components/Footer.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+import Header from "@/components/Header.astro";
+import ReadingTimeDisplay from "@/components/ReadingTimeDisplay.astro";
+import { PERSONAL_INFO, SITE_TITLE } from "@/consts";
+import { OPEN_GRAPH_IMAGE_EXTENSION } from "@/lib/open-graph-theme";
 
 type Props = CollectionEntry<"blog">["data"] & {
   readingTime?: {
@@ -31,7 +32,10 @@ const {
 
 // Extract the blog slug from pathname (remove /blog/ prefix and trailing slash)
 const blogSlug = Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "");
-const ogImage = new URL(`/open-graph/blog/${blogSlug}.png`, Astro.site).href;
+const ogImage = new URL(
+  `/open-graph/blog/${blogSlug}.${OPEN_GRAPH_IMAGE_EXTENSION}`,
+  Astro.site,
+).href;
 ---
 
 <html lang="en">

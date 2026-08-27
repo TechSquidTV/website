@@ -13,7 +13,6 @@ export default [
   {
     ignores: [
       ".astro/**",
-      ".netlify/**",
       "dist/**",
       "node_modules/**",
       "public/**",
@@ -37,8 +36,19 @@ export default [
   },
   {
     rules: {
-      "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/triple-slash-reference": "off",
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              regex: "^\\.\\.?/",
+              message:
+                "Use the @/ alias for src modules or #utils/ in Astro config.",
+            },
+          ],
+        },
+      ],
     },
   },
   eslintConfigPrettier,

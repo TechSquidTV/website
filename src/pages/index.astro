@@ -2,12 +2,12 @@
 import { render } from "astro:content";
 import { YouTube } from "@astro-community/astro-embed-youtube";
 import { ClientRouter } from "astro:transitions";
-import BaseHead from "../components/BaseHead.astro";
-import BlogPostList from "../components/BlogPostList.astro";
-import Footer from "../components/Footer.astro";
-import Header from "../components/Header.astro";
-import { SITE_DESCRIPTION, SITE_TITLE, YOUTUBE_CHANNEL_ID } from "../consts";
-import { getPublishedPosts } from "../utils/blog";
+import BaseHead from "@/components/BaseHead.astro";
+import BlogPostList from "@/components/BlogPostList.astro";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import { SITE_DESCRIPTION, SITE_TITLE, YOUTUBE_CHANNEL_ID } from "@/consts";
+import { getPublishedPosts } from "@/utils/blog";
 
 const posts = await getPublishedPosts(true);
 const recentPostsWithReadingTime = await Promise.all(
@@ -78,7 +78,7 @@ try {
       <section class="border-border border-b">
         <div class="container-page py-10 sm:py-14">
           <p
-            class="text-primary mb-5 text-sm font-medium tracking-[var(--tracking-caps-sm)] uppercase"
+            class="text-primary mb-5 text-sm font-medium tracking-(--tracking-caps-sm) uppercase"
           >
             TechSquidTV
           </p>
@@ -88,8 +88,8 @@ try {
             Curious developer and content creator.
           </h1>
           <p class="text-muted-foreground mt-5 text-lg">
-            Tutorials, experiments, and notes on making software that works in
-            the real world.
+            Sharing too much information on obscure technology, and occasionally
+            making videos about it on YouTube.
           </p>
           <a
             href="/blog"
@@ -103,7 +103,7 @@ try {
       <section class="container-page py-10 sm:py-14">
         <div class="mb-7 flex items-baseline justify-between gap-4">
           <h2
-            class="text-foreground m-0 text-sm font-medium tracking-[var(--tracking-caps-sm)] uppercase"
+            class="text-foreground m-0 text-sm font-medium tracking-(--tracking-caps-sm) uppercase"
           >
             Latest writing
           </h2>
@@ -125,7 +125,7 @@ try {
         videoId && latestVideo && (
           <section class="border-border border-t">
             <div class="container-page py-10 sm:py-14">
-              <p class="text-muted-foreground mb-3 text-sm font-medium tracking-[var(--tracking-caps-sm)] uppercase">
+              <p class="text-muted-foreground mb-3 text-sm font-medium tracking-(--tracking-caps-sm) uppercase">
                 Latest video
               </p>
               <h2 class="text-foreground mb-2 text-2xl leading-tight font-semibold">

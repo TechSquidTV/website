@@ -1,0 +1,31 @@
+---
+import FormSubmissionScript from "@/components/FormSubmissionScript.astro";
+import Turnstile from "@/components/Turnstile.astro";
+
+interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props;
+---
+
+<form
+  data-form-endpoint="/api/forms/newsletter"
+  data-form-kind="newsletter"
+  class={className}
+>
+  <div class="absolute left-[-9999px] opacity-0" aria-hidden="true">
+    <label>
+      Don't fill this out if you're human: <input
+        name="dontCheckMe"
+        tabindex="-1"
+      />
+    </label>
+  </div>
+
+  <slot />
+  <Turnstile action="newsletter" />
+  <p data-form-status class="mt-4 text-sm" aria-live="polite"></p>
+</form>
+
+<FormSubmissionScript />

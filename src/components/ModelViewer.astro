@@ -81,39 +81,43 @@ const {
 } = Astro.props;
 
 // Build attributes object for the model-viewer element
-const modelViewerAttrs: Record<string, any> = {
+type ModelViewerAttribute = boolean | number | string;
+
+const modelViewerAttrs: Record<string, ModelViewerAttribute> = {
   src,
   alt,
   loading,
   reveal: reveal,
-  ...(poster && { poster }),
+  ...(poster !== undefined && { poster }),
   ...(withCredentials && { "with-credentials": true }),
 
   ...(ar && { ar: true }),
   ...(ar && { "ar-modes": arModes }),
   ...(ar && arScale !== "auto" && { "ar-scale": arScale }),
   ...(cameraControls && { "camera-controls": true }),
-  ...(cameraOrbit && { "camera-orbit": cameraOrbit }),
-  ...(cameraTarget && { "camera-target": cameraTarget }),
-  ...(fieldOfView && { "field-of-view": fieldOfView }),
-  ...(maxCameraOrbit && { "max-camera-orbit": maxCameraOrbit }),
-  ...(minCameraOrbit && { "min-camera-orbit": minCameraOrbit }),
-  ...(maxFieldOfView && { "max-field-of-view": maxFieldOfView }),
-  ...(minFieldOfView && { "min-field-of-view": minFieldOfView }),
+  ...(cameraOrbit !== undefined && { "camera-orbit": cameraOrbit }),
+  ...(cameraTarget !== undefined && { "camera-target": cameraTarget }),
+  ...(fieldOfView !== undefined && { "field-of-view": fieldOfView }),
+  ...(maxCameraOrbit !== undefined && { "max-camera-orbit": maxCameraOrbit }),
+  ...(minCameraOrbit !== undefined && { "min-camera-orbit": minCameraOrbit }),
+  ...(maxFieldOfView !== undefined && { "max-field-of-view": maxFieldOfView }),
+  ...(minFieldOfView !== undefined && { "min-field-of-view": minFieldOfView }),
 
-  ...(environmentImage && { "environment-image": environmentImage }),
-  ...(skyboxImage && { "skybox-image": skyboxImage }),
-  ...(exposure && { exposure }),
-  ...(shadowIntensity && { "shadow-intensity": shadowIntensity }),
-  ...(shadowSoftness && { "shadow-softness": shadowSoftness }),
+  ...(environmentImage !== undefined && {
+    "environment-image": environmentImage,
+  }),
+  ...(skyboxImage !== undefined && { "skybox-image": skyboxImage }),
+  ...(exposure !== undefined && { exposure }),
+  ...(shadowIntensity !== undefined && { "shadow-intensity": shadowIntensity }),
+  ...(shadowSoftness !== undefined && { "shadow-softness": shadowSoftness }),
 
-  ...(animationName && { "animation-name": animationName }),
-  ...(animationCrossfadeDuration && {
+  ...(animationName !== undefined && { "animation-name": animationName }),
+  ...(animationCrossfadeDuration !== undefined && {
     "animation-crossfade-duration": animationCrossfadeDuration,
   }),
   ...(autoplay && { autoplay: true }),
 
-  ...(iosSrc && { "ios-src": iosSrc }),
+  ...(iosSrc !== undefined && { "ios-src": iosSrc }),
 };
 
 const style = [
@@ -141,7 +145,7 @@ const style = [
   }
 
   model-viewer:not([poster]) {
-    background-color: #f3f4f6;
+    background-color: var(--site-bg-code);
   }
 
   /* Loading spinner */
@@ -153,8 +157,8 @@ const style = [
     transform: translate(-50%, -50%);
     width: 32px;
     height: 32px;
-    border: 3px solid #e5e7eb;
-    border-top: 3px solid #3b82f6;
+    border: 3px solid var(--border);
+    border-top-color: var(--foreground);
     border-radius: 50%;
     animation: spin 1s linear infinite;
     z-index: 1;

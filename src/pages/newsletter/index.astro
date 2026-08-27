@@ -1,8 +1,9 @@
 ---
-import Button from "../../components/Button.astro";
-import FormInput from "../../components/FormInput.astro";
-import PageHeader from "../../components/PageHeader.astro";
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import Button from "@/components/Button.astro";
+import FormInput from "@/components/FormInput.astro";
+import NewsletterForm from "@/components/NewsletterForm.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
 <BaseLayout
@@ -17,19 +18,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
   </PageHeader>
 
   <div class="border-border mt-10 border-t pt-8">
-    <form
-      name="newsletter"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="dontCheckMe"
-      class="w-full"
-    >
-      <div class="absolute left-[-9999px] opacity-0">
-        <label>
-          Don't fill this out if you're human: <input name="dontCheckMe" />
-        </label>
-      </div>
-
+    <NewsletterForm className="w-full">
       <FormInput
         id="name"
         name="name"
@@ -51,7 +40,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       <Button type="submit" variant="primary" fullWidth>
         Subscribe to Newsletter
       </Button>
-    </form>
+    </NewsletterForm>
   </div>
 
   <div class="border-border mt-8 border-t pt-6 sm:mt-12 sm:pt-8">

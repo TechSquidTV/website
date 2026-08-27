@@ -71,6 +71,17 @@
     var(--foreground)
   );
   --site-divider: color-mix(in oklch, var(--border) 72%, transparent);
+  --embed-surface: var(--card);
+  --embed-skeleton: var(--muted);
+  --embed-icon: var(--foreground);
+  --embed-link: var(--primary);
+  --embed-caption: var(--muted-foreground);
+  --embed-shadow-strong: color-mix(
+    in oklch,
+    var(--foreground) 50%,
+    transparent
+  );
+  --embed-shadow-soft: color-mix(in oklch, var(--foreground) 15%, transparent);
   --color-gray: 95 95 95;
   --color-gray-light: 234 234 234;
   --color-gray-dark: 35 35 35;
@@ -286,17 +297,17 @@
 
   .prose h2,
   .prose-docs h2 {
-    @apply mt-12 text-2xl font-semibold md:text-3xl;
+    @apply mt-12 mb-4 text-2xl font-semibold md:text-3xl;
   }
 
   .prose h3,
   .prose-docs h3 {
-    @apply mt-9 text-xl font-semibold md:text-2xl;
+    @apply mt-9 mb-4 text-xl font-semibold md:text-2xl;
   }
 
   .prose h4,
   .prose-docs h4 {
-    @apply mt-7 text-lg font-semibold;
+    @apply mt-7 mb-3 text-lg font-semibold;
   }
 
   .prose p,
@@ -350,11 +361,25 @@
     @apply mt-0;
   }
 
-  .prose img,
-  .prose video,
-  .prose-docs img,
-  .prose-docs video {
-    @apply mt-6;
+  .prose :where(model-viewer, img, video, lite-youtube, .youtube-embed),
+  .prose-docs :where(model-viewer, img, video, lite-youtube, .youtube-embed) {
+    margin-block: 1.5rem;
+  }
+
+  .prose :where(img, video),
+  .prose-docs :where(img, video) {
+    @apply border-border rounded-md border;
+  }
+
+  .youtube-embed {
+    @apply border-border aspect-video w-full overflow-hidden rounded-md border;
+  }
+
+  .youtube-embed iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
   }
 
   .prose hr,
@@ -426,21 +451,35 @@
   }
 
   .prose h2#table-of-contents {
-    @apply border-border bg-muted mt-10 rounded-t-md border px-4 py-3 text-sm font-semibold tracking-[var(--tracking-caps-sm)] uppercase;
-    margin-bottom: 0;
+    @apply mt-10 mb-3 text-xl font-semibold;
   }
 
   .prose h2#table-of-contents + ul {
-    @apply border-border bg-card m-0 mb-10 rounded-b-md border border-t-0 px-4 py-1;
+    @apply border-border m-0 mb-10 border-t p-0;
     list-style: none;
   }
 
   .prose h2#table-of-contents + ul li {
-    @apply border-border m-0 border-t p-0 first:border-t-0;
+    @apply border-border m-0 border-b p-0;
+    list-style: none;
+  }
+
+  .prose h2#table-of-contents + ul li:has(> ul) {
+    border-bottom: 0;
+  }
+
+  .prose h2#table-of-contents + ul ul {
+    @apply border-border m-0 ml-4 border-t py-0 pr-0 pl-0;
+    list-style: none;
   }
 
   .prose h2#table-of-contents + ul a {
-    @apply text-muted-foreground hover:text-foreground inline-flex w-full py-2.5 text-sm no-underline transition-colors;
+    @apply text-muted-foreground hover:text-foreground inline-flex w-full py-3 text-sm no-underline transition-colors;
+  }
+
+  .prose h2#table-of-contents + ul a::after {
+    content: "→";
+    margin-left: auto;
   }
 
   .sr-only {

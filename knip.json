@@ -4,12 +4,14 @@
     "src/pages/**/*.{astro,ts}",
     "src/layouts/**/*.astro",
     "src/components/**/*.{astro,ts,tsx}",
+    "src/emails/new-blog-post.template.tsx",
     "src/utils/**/*.{ts,mjs}",
     "src/lib/**/*.ts"
   ],
   "project": ["src/**/*.{astro,ts,tsx,mjs,js,mdx}"],
   "ignoreDependencies": [
     "@fontsource-variable/outfit",
+    "cloudflare",
     "lucide-react",
     "tailwindcss",
     "tw-animate-css"

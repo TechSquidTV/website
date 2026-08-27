@@ -1,14 +1,12 @@
 import { OGImageRoute } from "astro-og-canvas";
-import { PERSONAL_INFO, SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
-import { getPublishedPosts } from "../../utils/blog";
+import { PERSONAL_INFO, SITE_DESCRIPTION, SITE_TITLE } from "@/consts";
+import { getOpenGraphImageOptions } from "@/lib/open-graph-theme";
+import { getPublishedPosts } from "@/utils/blog";
 
 type PageData = {
   title: string;
   description: string;
 };
-
-const bgImage = "./src/images/opengraph/tstv-og-bg.png";
-const badge = "./src/images/opengraph/tstv-badge.png";
 
 const posts = await getPublishedPosts();
 const tags = [...new Set(posts.flatMap((post) => post.data.tags ?? []))].sort();
@@ -60,41 +58,6 @@ for (const tag of tags) {
 }
 
 export const { getStaticPaths, GET } = await OGImageRoute({
-  param: "route",
   pages,
-  getImageOptions: (_path, page) => ({
-    title: page.title,
-    description: page.description,
-    bgImage: {
-      path: bgImage,
-      fit: "cover",
-    },
-    padding: 64,
-    font: {
-      title: {
-        families: ["Inter"],
-        weight: "ExtraBold",
-        size: 80,
-        color: [255, 255, 255],
-        lineHeight: 1.1,
-        textShadow: "2px 2px 0px rgb(0, 0, 0)",
-      },
-      description: {
-        families: ["Inter"],
-        weight: "Normal",
-        size: 32,
-        color: [209, 213, 219],
-        lineHeight: 1.3,
-        textShadow: "1px 1px 0px rgb(0, 0, 0)",
-      },
-    },
-    logo: {
-      path: badge,
-      size: [146, 107],
-    },
-    fonts: [
-      "./src/images/opengraph/fonts/Inter-ExtraBold.ttf",
-      "./src/images/opengraph/fonts/Inter-Regular.ttf",
-    ],
-  }),
+  getImageOptions: (_path, page) => getOpenGraphImageOptions(page, "page"),
 });

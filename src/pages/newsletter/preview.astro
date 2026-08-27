@@ -1,0 +1,45 @@
+---
+import { NewBlogPostEmail } from "@/emails/NewBlogPostEmail";
+
+const previewEmail = {
+  articleUrl: "https://www.techsquidtv.com/blog/i-made-an-esp32-on-call-beeper",
+  category: "Hardware · DIY",
+  description:
+    "I built a retro-style beeper for Sentry’s Hack Week—an ESP32-powered, MQTT-connected pager that makes on-call alerts impossible to miss.",
+  featureImageAlt:
+    "A custom-built beeper device with a retro LCD display and compact form factor",
+  featureImageUrl:
+    "http://127.0.0.1:4321/_astro/tx-1_beeper_hero.DR6EgzOw_Z9PVmv.webp",
+  introduction:
+    "I spent Hack Week building the kind of on-call device I wish still existed: a small, unapologetically noisy pager.",
+  preheader: "I made a tiny ESP32 pager for Sentry Hack Week.",
+  publishedOn: "September 1, 2025",
+  readTime: "12 min read",
+  relatedPost: {
+    description: "A quick, practical guide to getting started with containers.",
+    title: "What Is Docker?",
+    url: "https://www.techsquidtv.com/blog/what-is-docker",
+  },
+  siteUrl: "https://www.techsquidtv.com",
+  takeaways: [
+    "How the ESP32, MQTT, and a webhook bridge work together.",
+    "What it took to design and resin-print a tiny enclosure.",
+    "What I learned building an ambitious prototype in one week.",
+  ],
+  title: "I Made an ESP32 On-Call Beeper",
+  unsubscribeUrl: "https://www.techsquidtv.com/newsletter/unsubscribe",
+} as const;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex" />
+    <title>New blog post email preview · TechSquidTV</title>
+  </head>
+  <body style="margin: 0; background: var(--background)">
+    <NewBlogPostEmail {...previewEmail} />
+  </body>
+</html>

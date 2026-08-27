@@ -1,0 +1,132 @@
+---
+import Button from "@/components/Button.astro";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  emailId: string;
+  emailPlaceholder: string;
+  nameId: string;
+  namePlaceholder: string;
+  submitLabel: string;
+  variant: "full" | "inline";
+}
+
+const {
+  emailId,
+  emailPlaceholder,
+  nameId,
+  namePlaceholder,
+  submitLabel,
+  variant,
+} = Astro.props;
+
+const isInline = variant === "inline";
+---
+
+<div class:list={["newsletter-fields", { "is-inline": isInline }]}>
+  <div class="newsletter-inputs">
+    <input
+      type="text"
+      id={nameId}
+      name="name"
+      placeholder={namePlaceholder}
+      class="newsletter-input"
+    />
+    <input
+      type="email"
+      id={emailId}
+      name="email"
+      placeholder={emailPlaceholder}
+      required
+      class="newsletter-input"
+    />
+  </div>
+  <Button
+    type="submit"
+    variant="primary"
+    size={isInline ? "md" : "lg"}
+    fullWidth={!isInline}
+    className="newsletter-submit"
+  >
+    <Icon name="email" size={16} />
+    {submitLabel}
+  </Button>
+</div>
+
+<style>
+  .newsletter-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .newsletter-fields.is-inline {
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-inputs {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .is-inline .newsletter-inputs {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    padding: 0.875rem 1rem;
+    background: var(--color-bg-code);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .is-inline .newsletter-input {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .newsletter-input:focus {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    background: var(--color-bg-tertiary);
+  }
+
+  .newsletter-submit {
+    white-space: nowrap;
+  }
+
+  @media (min-width: 721px) {
+    .newsletter-fields.is-inline {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .is-inline .newsletter-inputs {
+      flex: 1;
+    }
+
+    .is-inline .newsletter-submit {
+      flex-shrink: 0;
+      align-self: stretch;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .is-inline .newsletter-inputs {
+      flex-direction: column;
+    }
+
+    .newsletter-fields {
+      gap: 0.75rem;
+    }
+  }
+</style>
