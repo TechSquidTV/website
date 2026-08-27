@@ -1,0 +1,88 @@
+---
+title: "4K on the High Seas: How Pirates Keep Beating Netflix and Disney"
+publishDate: "08-26-2026"
+slug: 4k-on-the-high-seas-how-pirates-keep-beating-netflix-and-disney
+description: "Piracy is not winning because it is free. It is winning because the legal streaming experience has become fragmented, conditional, and less convenient than the alternative."
+heroImage: "../../../images/blog/4k-on-the-high-seas.png"
+heroImageAlt: "A pirate ship sailing beneath a huge 4K moon above a sea of streaming-service icons."
+tags:
+  - piracy
+  - hacking
+draft: true
+---
+
+import { Image } from "astro:assets";
+import DRMSystems from "../../../images/blog/drm-systems.png";
+import NetflixSystemRequirements from "../../../images/blog/netflix-system-requirements.png";
+
+## Table of Contents
+
+## Punished for watching legally
+
+Not _too_ long ago, I made the switch to Mac from Windows after my custom-built PC died and I couldn't be bothered to build another one.
+
+At the time, I had a MacBook Pro from a previous job and a thunderbolt dock so I could connect my keyboard, mouse, and two monitors.
+But I always noticed some weirdness in the screens, a glitch here or there, annoyances but mostly ignorable. _Until_ I tried to watch a show on Netflix or Amazon Prime Video.
+
+In my completely average docked laptop setup, that I imagine many people are using every day, if I attempted to watch _any_ streaming service, I could hear it, but the video would be completely black. _Why_?
+
+The Thunderbolt dock that I was using, allowed me to connect two monitors (in my case HDMI) to my MacBook Pro, via the single USB-C cable. You might assume you need to do this, even today on a modern Mac Studio (which only has a single HDMI port), but if you do this, on any machine, you will not be able to watch _any_ streaming services.
+
+The problem is, these docks use a technology called DisplayLink to emulate multiple monitors over thunderbolt, and while they do so, they activate Apple's Screen Capture API.
+You might have noticed the icon in your apple menu that shows your screen is being captured.
+
+Meanwhile, virtually all streaming platforms implement some form of DRM (Digital Rights Management), which is tightly integrated with the browser, to disable video when it detects that the screen is being captured.
+And that's why, you, a normal, paying customer, who just happens to want to watch a show and do some work at the same time on two different screens, cant; and why piracy might be your only option.
+
+This journey which started with attempting to legally consume media I pay for, lead me to start wondering: How are pirates able to defeat DRM and upload both RIPs and WEB-DLs of shows and movies from streaming platforms?
+
+## The Gatekeepers: DRM Systems
+
+<Image
+  src={DRMSystems}
+  alt="Diagram illustrating the DRM systems used by major streaming platforms."
+/>
+
+Each streaming platform only enables viewing of their content on a limited number of licensed devices that have been certified for secure playback using one of these systems, depending on the device and application.
+
+The most common players in the space are **Google's Widevine**, **Apple's FairPlay**, and **Microsoft's PlayReady**.
+Widevine is a particularly interesting target for hackers and pirates, because it is used in a variety of environments, some more secure than others.
+Google Chrome for example uses Widevine, and we'll get into the details later, but it does _not_ require the same secure hardware that a smart TV or streaming stick does, making it slightly more accessible to hackers.
+
+These platforms would strongly prefer users watch their content on one of these locked down devices that has a securely stored decryption key, inaccessible to the owner of the device.
+On some devices where the users have more ownership and control, keeping users out is more difficult.
+
+<Image
+  src={NetflixSystemRequirements}
+  alt="Netflix system requirements warning that HD playback requires a compatible HDCP display connection."
+  class="float-right mt-6 mb-6 ml-6 w-full rounded-md border sm:w-1/2 max-sm:float-none max-sm:mx-auto max-sm:block"
+/>
+
+If you look at the system requirements for Netflix, you can start to get a hint for how they manage access between different classes of devices.
+
+Notice, if you are on a Mac, the only way to watch Netflix in 4K is through the Safari browser. Google Chrome will only let you watch up to 1080p.
+
+On a Linux machine, you can only watch up to 720p no matter what (except on Opera apparently, which is an interesting edge case that deserves more research).
+
+Notice too, Netflix only supports back to a certain version of each browser, ensuring any vulnerabilities that might allow a user to bypass DRM, are somewhat short-lived.
+On Android, HD playback is restricted to _the latest version of Android OS_, fairly restrictive.
+
+## How Streaming Platforms Encrypt Their Content
+
+When you watch Netflix, your browser isn't downloading an ordinary, playable video file. Netflix sends your device **encrypted media**, which is decrypted locally as you watch it.
+
+The original unencrypted master is handled during the content preparation and encoding process, but the copies ultimately distributed through streaming CDNs are encrypted. In other words, simply downloading the video segments from Netflix's servers doesn't give you a normal video file you can play.
+
+DRM systems like Google's Widevine handle an important part of this process: controlling how encryption keys are issued to authorized playback devices.
+
+Before a movie can be streamed, the original high-quality master is encoded into multiple versions at different resolutions and bitrates. A movie available in 4K might also have 1080p, 720p, 480p, and even lower-quality versions so the player can switch between them as network conditions change.
+
+These versions are then prepared for an adaptive streaming format such as [HLS](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) or [DASH](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP).
+
+With DASH, for example, each version of the video is divided into small **media segments**. Those segments can be encrypted using a secret **content key**, and a manifest file called an **MPD** describes the available video, audio, subtitle tracks, and the locations of their segments.
+
+The content key itself is not placed in the manifest.
+
+Instead, the stream contains a **Key ID**, or KID, that identifies which encryption key protects the content, along with DRM initialization data such as a **PSSH** block. The player passes this information to the DRM system, such as Widevine, which creates a request that is sent to the streaming service's license server.
+
+If the viewer is authorized, the license server returns a DRM license that allows the device's DRM module to use the appropriate content key and decrypt the media as it plays.
