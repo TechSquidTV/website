@@ -8,6 +8,8 @@ interface Props {
   disabled?: boolean;
   fullWidth?: boolean;
   className?: string;
+  "data-sentry-cta"?: string;
+  "data-sentry-cta-placement"?: string;
 }
 
 const {
@@ -19,6 +21,8 @@ const {
   disabled = false,
   fullWidth = false,
   className = "",
+  "data-sentry-cta": sentryCta,
+  "data-sentry-cta-placement": sentryCtaPlacement,
 } = Astro.props;
 
 const baseClasses =
@@ -51,11 +55,24 @@ const allClasses = `
 
 {
   href ? (
-    <a href={href} target={target} class={allClasses} aria-disabled={disabled}>
+    <a
+      href={href}
+      target={target}
+      class={allClasses}
+      aria-disabled={disabled}
+      data-sentry-cta={sentryCta}
+      data-sentry-cta-placement={sentryCtaPlacement}
+    >
       <slot />
     </a>
   ) : (
-    <button type={type} disabled={disabled} class={allClasses}>
+    <button
+      type={type}
+      disabled={disabled}
+      class={allClasses}
+      data-sentry-cta={sentryCta}
+      data-sentry-cta-placement={sentryCtaPlacement}
+    >
       <slot />
     </button>
   )

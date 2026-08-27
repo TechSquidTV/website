@@ -5,6 +5,7 @@ import { sendContactMessage } from "@/lib/resend-forms";
 export const prerender = false;
 
 export const POST = createFormHandler({
+  kind: "contact",
   parseSubmission: parseContactSubmission,
   submit: sendContactMessage,
   successMessage: "Thanks! Your message has been sent.",

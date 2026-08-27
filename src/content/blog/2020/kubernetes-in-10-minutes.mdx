@@ -62,7 +62,7 @@ The other nodes in the cluster, “worker” nodes are responsible for reacting 
 
 Typically, you do not self-manage the hardware for a Kubernetes cluster, instead you work with a cloud provider. Working with a cloud provider who can supply a large number of machines means we can request and pay for only as many of these worker nodes as we need, and remove them from the cluster when demand goes down.
 
-On each node in a cluster, you will find an agent installed called “kublet”. The “kublet” agent will self-register with the API server and become a part of the cluster as soon as it is online. This two-way communication between the Node and the API service allows the API to maintain state, so if a node were to go offline it can be detected and replaced.
+On each node in a cluster, you will find an agent installed called “kubelet”. The “kubelet” agent will self-register with the API server and become a part of the cluster as soon as it is online. This two-way communication between the Node and the API service allows the API to maintain state, so if a node were to go offline it can be detected and replaced.
 
 While the API service manages and maintains the worker nodes, the worker nodes are maintaining their own components called pods and if any pod were to fail, the worker node would “self-heal” by replacing the pod.
 

@@ -1,17 +1,20 @@
 ---
 import FormSubmissionScript from "@/components/FormSubmissionScript.astro";
 import Turnstile from "@/components/Turnstile.astro";
+import type { NewsletterMetricPlacement } from "@/lib/sentry-form-metrics";
 
 interface Props {
   className?: string;
+  placement?: NewsletterMetricPlacement;
 }
 
-const { className = "" } = Astro.props;
+const { className = "", placement = "other" } = Astro.props;
 ---
 
 <form
   data-form-endpoint="/api/forms/newsletter"
   data-form-kind="newsletter"
+  data-sentry-placement={placement}
   class={className}
 >
   <div class="absolute left-[-9999px] opacity-0" aria-hidden="true">

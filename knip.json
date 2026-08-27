@@ -5,6 +5,7 @@
     "src/layouts/**/*.astro",
     "src/components/**/*.{astro,ts,tsx}",
     "src/emails/new-blog-post.template.tsx",
+    "src/emails/**/*.test.ts",
     "src/utils/**/*.{ts,mjs}",
     "src/lib/**/*.ts"
   ],

@@ -1,7 +1,15 @@
+import type { FormFailureKind } from "@/lib/sentry-form-metrics";
+
+type FormSubmissionFailureKind = Exclude<
+  FormFailureKind,
+  "network" | "provider" | "unexpected"
+>;
+
 export class FormSubmissionError extends Error {
   constructor(
     message: string,
     readonly status: 400 | 403 | 429 | 502,
+    readonly failureKind: FormSubmissionFailureKind,
   ) {
     super(message);
     this.name = "FormSubmissionError";
@@ -65,7 +73,11 @@ function readRequiredString(
   const value = readString(payload, key);
 
   if (value.length === 0 || value.length > maxLength) {
-    throw new FormSubmissionError(`Please provide a valid ${label}.`, 400);
+    throw new FormSubmissionError(
+      `Please provide a valid ${label}.`,
+      400,
+      "validation",
+    );
   }
 
   return value;
@@ -80,7 +92,11 @@ function readEmail(payload: FormPayload): string {
   ).toLowerCase();
 
   if (!EMAIL_PATTERN.test(email)) {
-    throw new FormSubmissionError("Please provide a valid email address.", 400);
+    throw new FormSubmissionError(
+      "Please provide a valid email address.",
+      400,
+      "validation",
+    );
   }
 
   return email;
@@ -88,7 +104,11 @@ function readEmail(payload: FormPayload): string {
 
 export async function parsePayload(request: Request): Promise<FormPayload> {
   if (!request.headers.get("content-type")?.includes("application/json")) {
-    throw new FormSubmissionError("Invalid form submission.", 400);
+    throw new FormSubmissionError(
+      "Invalid form submission.",
+      400,
+      "validation",
+    );
   }
 
   let payload: unknown;
@@ -96,15 +116,27 @@ export async function parsePayload(request: Request): Promise<FormPayload> {
   try {
     payload = await request.json();
   } catch {
-    throw new FormSubmissionError("Invalid form submission.", 400);
+    throw new FormSubmissionError(
+      "Invalid form submission.",
+      400,
+      "validation",
+    );
   }
 
   if (!isFormPayload(payload)) {
-    throw new FormSubmissionError("Invalid form submission.", 400);
+    throw new FormSubmissionError(
+      "Invalid form submission.",
+      400,
+      "validation",
+    );
   }
 
   if (readString(payload, "dontCheckMe").length > 0) {
-    throw new FormSubmissionError("Invalid form submission.", 400);
+    throw new FormSubmissionError(
+      "Invalid form submission.",
+      400,
+      "validation",
+    );
   }
 
   return payload;
@@ -137,7 +169,7 @@ export function assertSameOrigin(request: Request): void {
   const origin = request.headers.get("origin");
 
   if (origin !== new URL(request.url).origin) {
-    throw new FormSubmissionError("Invalid form submission.", 403);
+    throw new FormSubmissionError("Invalid form submission.", 403, "origin");
   }
 }
 
@@ -164,6 +196,7 @@ export async function verifyTurnstile(
     throw new FormSubmissionError(
       "Please complete the verification challenge.",
       403,
+      "turnstile_rejected",
     );
   }
 
@@ -188,6 +221,7 @@ export async function verifyTurnstile(
     throw new FormSubmissionError(
       "Unable to verify your submission. Please try again.",
       502,
+      "turnstile_unavailable",
     );
   }
 
@@ -195,10 +229,20 @@ export async function verifyTurnstile(
     throw new FormSubmissionError(
       "Unable to verify your submission. Please try again.",
       502,
+      "turnstile_unavailable",
     );
   }
 
-  const result: unknown = await response.json();
+  let result: unknown;
+  try {
+    result = await response.json();
+  } catch {
+    throw new FormSubmissionError(
+      "Unable to verify your submission. Please try again.",
+      502,
+      "turnstile_unavailable",
+    );
+  }
   if (
     !isTurnstileVerification(result) ||
     !result.success ||
@@ -208,6 +252,7 @@ export async function verifyTurnstile(
     throw new FormSubmissionError(
       "Please complete the verification challenge.",
       403,
+      "turnstile_rejected",
     );
   }
 }
@@ -223,6 +268,7 @@ export async function enforceRateLimit(
     throw new FormSubmissionError(
       "Too many submissions. Please try again later.",
       429,
+      "rate_limit",
     );
   }
 }

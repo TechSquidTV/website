@@ -125,7 +125,13 @@ const services = [
         visuals, and dependable developer experiences.
       </p>
       <div class="mt-7 flex flex-wrap gap-3">
-        <Button href="/contact">Start a conversation</Button>
+        <Button
+          href="/contact"
+          data-sentry-cta="contact"
+          data-sentry-cta-placement="services_hero"
+        >
+          Start a conversation
+        </Button>
         <Button href="#services" variant="secondary">Explore services</Button>
       </div>
     </div>
@@ -174,6 +180,8 @@ const services = [
               </p>
               <Button
                 href="/contact"
+                data-sentry-cta="contact"
+                data-sentry-cta-placement="services_section"
                 variant="secondary"
                 size="sm"
                 className="mt-6"
@@ -210,6 +218,13 @@ const services = [
       Every engagement is scoped around your product, audience, and goals. Get
       in touch to talk through the right approach.
     </p>
-    <Button href="/contact" className="mt-6">Get in touch</Button>
+    <Button
+      href="/contact"
+      className="mt-6"
+      data-sentry-cta="contact"
+      data-sentry-cta-placement="services_footer"
+    >
+      Get in touch
+    </Button>
   </section>
 </BaseLayout>

@@ -18,7 +18,7 @@ The repository now deploys the site as the `techsquidtv-website` Cloudflare Work
 
    Set `RESEND_NEWSLETTER_SEGMENT_ID` to `4dcd094d-c0bb-4601-9d5b-5aabc22dc99d` and `CONTACT_RECIPIENT` to `contact@techsquidtv.com`.
 
-6. Create a scoped `CLOUDFLARE_API_TOKEN` that can deploy this Worker and store it, with the Cloudflare account ID, as GitHub Actions secrets.
+6. Create a scoped `CLOUDFLARE_API_TOKEN` that can deploy this Worker and store it, with the Cloudflare account ID, as GitHub Actions secrets. To upload Sentry source maps during the production build, also add `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, and `SENTRY_PROJECT` as build secrets. Source-map upload is intentionally disabled when `SENTRY_AUTH_TOKEN` is absent.
 
 The configured Worker rate-limit binding permits five form submissions per IP per minute. Cloudflare's Worker binding supports only 10- or 60-second windows; add a Cloudflare WAF rule if a ten-minute enforcement window is required.
 

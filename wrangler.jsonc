@@ -3,6 +3,7 @@
   "name": "techsquidtv-website",
   "main": "@astrojs/cloudflare/entrypoints/server",
   "compatibility_date": "2026-08-22",
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
@@ -10,6 +11,16 @@
   "vars": {
     "TURNSTILE_HOSTNAMES": "techsquidtv.com,www.techsquidtv.com",
   },
+  "routes": [
+    {
+      "pattern": "techsquidtv.com/*",
+      "zone_id": "659be8fb14a6d2a7d4a528620e6b519f",
+    },
+    {
+      "pattern": "www.techsquidtv.com/*",
+      "zone_id": "659be8fb14a6d2a7d4a528620e6b519f",
+    },
+  ],
   "ratelimits": [
     {
       "name": "FORM_RATE_LIMITER",

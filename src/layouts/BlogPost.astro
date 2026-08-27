@@ -11,6 +11,7 @@ import Header from "@/components/Header.astro";
 import ReadingTimeDisplay from "@/components/ReadingTimeDisplay.astro";
 import { PERSONAL_INFO, SITE_TITLE } from "@/consts";
 import { OPEN_GRAPH_IMAGE_EXTENSION } from "@/lib/open-graph-theme";
+import { contentTopic } from "@/lib/analytics-taxonomy";
 
 type Props = CollectionEntry<"blog">["data"] & {
   readingTime?: {
@@ -28,6 +29,7 @@ const {
   heroImage,
   readingTime,
   tags,
+  analyticsTopic,
 } = Astro.props;
 
 // Extract the blog slug from pathname (remove /blog/ prefix and trailing slash)
@@ -71,7 +73,13 @@ const ogImage = new URL(
     <ClientRouter />
     <Header />
     <main class="container-page py-10 sm:py-14">
-      <article itemscope itemtype="https://schema.org/BlogPosting">
+      <article
+        data-sentry-blog-post
+        data-sentry-post-slug={blogSlug}
+        data-sentry-content-topic={contentTopic(analyticsTopic)}
+        itemscope
+        itemtype="https://schema.org/BlogPosting"
+      >
         <div class="prose prose-lg text-text-secondary">
           {
             heroImage && (

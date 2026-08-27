@@ -1,8 +1,11 @@
 import type { CSSProperties, ReactElement } from "react";
 import { EMAIL_THEME } from "@/emails/theme";
+import {
+  newsletterCampaignUrl,
+  type AbsoluteUrl,
+  type TemplateVariable,
+} from "@/emails/newsletter-url";
 
-type AbsoluteUrl = `https://${string}` | `http://${string}`;
-type TemplateVariable = `{{{${string}}}}`;
 type UrlValue = AbsoluteUrl | TemplateVariable;
 
 export function resendTemplateVariable<const Key extends string>(
@@ -125,6 +128,12 @@ export function NewBlogPostEmail({
   title,
   unsubscribeUrl,
 }: NewBlogPostEmailProps): ReactElement {
+  const newsletterArticleUrl = newsletterCampaignUrl(articleUrl);
+  const newsletterSiteUrl = newsletterCampaignUrl(siteUrl);
+  const newsletterRelatedPostUrl = relatedPost
+    ? newsletterCampaignUrl(relatedPost.url)
+    : undefined;
+
   return (
     <table
       cellpadding="0"
@@ -162,11 +171,14 @@ export function NewBlogPostEmail({
                       <tbody>
                         <tr>
                           <td style={{ paddingRight: "8px" }}>
-                            <a href={siteUrl} style={{ display: "block" }}>
+                            <a
+                              href={newsletterSiteUrl}
+                              style={{ display: "block" }}
+                            >
                               <img
                                 alt=""
                                 height="24"
-                                src="https://www.techsquidtv.com/apple-touch-icon.png"
+                                src="https://techsquidtv.com/apple-touch-icon.png"
                                 style={{ display: "block" }}
                                 width="24"
                               />
@@ -174,7 +186,7 @@ export function NewBlogPostEmail({
                           </td>
                           <td>
                             <a
-                              href={siteUrl}
+                              href={newsletterSiteUrl}
                               style={{
                                 color: EMAIL_THEME.foreground,
                                 fontFamily,
@@ -229,7 +241,7 @@ export function NewBlogPostEmail({
                     </p>
                     <h1 style={styles.heading}>{title}</h1>
                     <p style={styles.paragraph}>{description}</p>
-                    <a href={articleUrl} style={styles.button}>
+                    <a href={newsletterArticleUrl} style={styles.button}>
                       Read the post →
                     </a>
                   </td>
@@ -297,7 +309,7 @@ export function NewBlogPostEmail({
                     >
                       <p style={styles.eyebrow}>Also worth your time</p>
                       <a
-                        href={relatedPost.url}
+                        href={newsletterRelatedPostUrl}
                         style={{
                           color: EMAIL_THEME.foreground,
                           fontFamily,

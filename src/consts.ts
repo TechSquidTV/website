@@ -9,7 +9,7 @@ export const SITE_DESCRIPTION =
 export const PERSONAL_INFO = {
   name: "Kyle Tryon",
   username: "TechSquidTV",
-  website: "https://www.techsquidtv.com",
+  website: "https://techsquidtv.com",
   email: "kyle@techsquidtv.com",
   jobTitle: "Developer Advocate & Content Creator",
   company: "TechSquidTV",

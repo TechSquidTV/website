@@ -25,6 +25,10 @@ vi.mock("cloudflare:workers", () => ({
   },
 }));
 
+vi.mock("astro:content", () => ({
+  getCollection: vi.fn().mockResolvedValue([]),
+}));
+
 vi.mock("@/lib/form-submissions", async (importOriginal) => {
   const actual =
     await importOriginal<typeof import("@/lib/form-submissions")>();
@@ -141,7 +145,7 @@ describe("form API routes", () => {
 
   it("returns form-validation errors to the client", async () => {
     dependencies.assertSameOrigin.mockImplementation(() => {
-      throw new FormSubmissionError("Invalid form submission.", 403);
+      throw new FormSubmissionError("Invalid form submission.", 403, "origin");
     });
 
     const response = await newsletterPost(

@@ -5,6 +5,7 @@ import { subscribeToNewsletter } from "@/lib/resend-forms";
 export const prerender = false;
 
 export const POST = createFormHandler({
+  kind: "newsletter",
   parseSubmission: parseNewsletterSubmission,
   submit: subscribeToNewsletter,
   successMessage: "You’re subscribed. Thanks for staying in the loop!",

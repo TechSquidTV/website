@@ -15,6 +15,9 @@ import { rehypeShadcnTables } from "#utils/rehype-shadcn-tables.mjs";
 import { rehypeYouTubeEmbeds } from "#utils/rehype-youtube-embeds.mjs";
 
 import cloudflare from "@astrojs/cloudflare";
+import sentry from "@sentry/astro";
+
+const uploadSentrySourceMaps = Boolean(process.env.SENTRY_AUTH_TOKEN);
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,7 +27,16 @@ export default defineConfig({
       : "https://techsquidtv.com",
   session: false,
 
-  integrations: [sitemap(), icon(), mdx(), react()],
+  integrations: [
+    sitemap(),
+    icon(),
+    mdx(),
+    react(),
+    sentry({
+      sourcemaps: { disable: !uploadSentrySourceMaps },
+      telemetry: false,
+    }),
+  ],
 
   markdown: {
     processor: unified({

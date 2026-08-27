@@ -2,12 +2,15 @@
 import { Icon } from "astro-icon/components";
 import NewsletterForm from "@/components/NewsletterForm.astro";
 import NewsletterFormFields from "@/components/NewsletterFormFields.astro";
+import NewsletterLink from "@/components/NewsletterLink.astro";
+import type { NewsletterMetricPlacement } from "@/lib/sentry-form-metrics";
 
 interface Props {
   variant?: "simple" | "inline" | "full";
   title?: string;
   className?: string;
   showRss?: boolean;
+  placement?: NewsletterMetricPlacement;
 }
 
 const {
@@ -15,6 +18,7 @@ const {
   title,
   className = "",
   showRss = true,
+  placement = Astro.url.pathname.startsWith("/blog/") ? "blog_inline" : "other",
 } = Astro.props;
 
 // Generate unique IDs for form elements
@@ -36,9 +40,9 @@ const nameId = `name-${formId}`;
             <em>
               P.S. I have a newsletter, but I'm so against spam, I very rarely
               send emails. Like this kind of stuff, very infrequently?
-              <a href="/newsletter" class="newsletter-link">
+              <NewsletterLink className="newsletter-link" placement={placement}>
                 Subscribe here
-              </a>
+              </NewsletterLink>
               {showRss && (
                 <Fragment>
                   . I also have{" "}
@@ -70,7 +74,7 @@ const nameId = `name-${formId}`;
             </div>
           </div>
 
-          <NewsletterForm className="newsletter-form">
+          <NewsletterForm className="newsletter-form" placement={placement}>
             <NewsletterFormFields
               emailId={emailId}
               emailPlaceholder="homer.simpson@example.com"
@@ -125,7 +129,7 @@ const nameId = `name-${formId}`;
           </div>
         </div>
 
-        <NewsletterForm className="newsletter-form">
+        <NewsletterForm className="newsletter-form" placement={placement}>
           <NewsletterFormFields
             emailId={emailId}
             emailPlaceholder="your.email@domain.com"

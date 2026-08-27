@@ -1,6 +1,7 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { CONTENT_TOPICS } from "@/lib/analytics-taxonomy";
 
 const blog = defineCollection({
   // Load Markdown and MDX files in the `src/content/blog/` directory.
@@ -17,6 +18,7 @@ const blog = defineCollection({
       heroImageAlt: z.string().optional(),
       slug: z.string().optional(),
       tags: z.array(z.string()).optional(),
+      analyticsTopic: z.enum(CONTENT_TOPICS).optional(),
       draft: z.boolean().optional(),
     }),
 });

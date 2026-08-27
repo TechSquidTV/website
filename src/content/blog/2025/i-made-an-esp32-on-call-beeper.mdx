@@ -19,6 +19,7 @@ import BeeperTapping from "@/images/blog/beeper-tapping.webp";
 import BrokerService from "@/images/blog/beeper_broker_service.png";
 import RTTTLPlayer from "@/components/RTTTLPlayer.astro";
 import NewsletterCallout from "@/components/NewsletterCallout.astro";
+import NewsletterLink from "@/components/NewsletterLink.astro";
 import WikiLink from "@/components/WikiLink.astro";
 import LinkCard from "@/components/LinkCard.astro";
 
@@ -266,7 +267,7 @@ I learned a lot building multiple versions of this enclosure. Trying to make sur
 
 #### Design Improvements
 
-In the end, I discovered more of a "sliding-track" design, where the parts register with eachother by sliding larger tabs into tracks.
+In the end, I discovered more of a "sliding-track" design, where the parts register with each other by sliding larger tabs into tracks.
 If we are relying on screws to hold the parts together firmly, we can worry about fewer and larger registration points, rather than multiple small fragile pins.
 
 <video
@@ -304,9 +305,9 @@ Til' next Hack Week 🫡
       never sent out an email blast. This article will be the first time
       subscribers will get an email from me! Like this kind of stuff, very
       infrequently? Subscribe below or{" "}
-      <a href="/newsletter" class="newsletter-link">
+      <NewsletterLink className="newsletter-link">
         visit the full signup page
-      </a>
+      </NewsletterLink>
       .
     </em>
   </span>

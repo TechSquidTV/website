@@ -116,6 +116,7 @@ describe("submission protection", () => {
         "techsquidtv.com,www.techsquidtv.com",
       ),
     ).rejects.toMatchObject({
+      failureKind: "turnstile_rejected",
       status: 403,
     });
 
@@ -144,7 +145,10 @@ describe("submission protection", () => {
         "newsletter",
         "techsquidtv.com,www.techsquidtv.com",
       ),
-    ).rejects.toMatchObject({ status: 403 });
+    ).rejects.toMatchObject({
+      failureKind: "turnstile_rejected",
+      status: 403,
+    });
 
     vi.unstubAllGlobals();
   });
@@ -155,6 +159,25 @@ describe("submission protection", () => {
         { limit: vi.fn().mockResolvedValue({ success: false }) },
         new Request("https://techsquidtv.com/api/forms/newsletter"),
       ),
-    ).rejects.toMatchObject({ status: 429 });
+    ).rejects.toMatchObject({ failureKind: "rate_limit", status: 429 });
+  });
+
+  it("identifies an unavailable Turnstile service", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
+
+    await expect(
+      verifyTurnstile(
+        "token",
+        "secret",
+        "127.0.0.1",
+        "newsletter",
+        "techsquidtv.com,www.techsquidtv.com",
+      ),
+    ).rejects.toMatchObject({
+      failureKind: "turnstile_unavailable",
+      status: 502,
+    });
+
+    vi.unstubAllGlobals();
   });
 });

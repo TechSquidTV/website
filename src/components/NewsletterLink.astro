@@ -1,0 +1,22 @@
+---
+import type { NewsletterMetricPlacement } from "@/lib/sentry-form-metrics";
+
+interface Props {
+  className?: string;
+  placement?: NewsletterMetricPlacement;
+}
+
+const {
+  className,
+  placement = Astro.url.pathname.startsWith("/blog/") ? "blog_inline" : "other",
+} = Astro.props;
+---
+
+<a
+  href="/newsletter"
+  class={className}
+  data-sentry-newsletter-cta
+  data-sentry-newsletter-cta-placement={placement}
+>
+  <slot />
+</a>

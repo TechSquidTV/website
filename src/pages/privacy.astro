@@ -58,14 +58,17 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       <ul class="mt-4 list-disc space-y-2 pl-5">
         <li>
           <strong class="text-text-primary">What is tracked:</strong> Sentry tracks
-          anonymous behavioral metrics, such as page views, scroll depth, button clicks,
-          and technical errors such as broken links or page crashes.
+          anonymous behavioral metrics, such as page type and blog post views, an
+          initial traffic-source category (direct, search, social, newsletter, referral,
+          or internal), completed reads, CTA and outbound-link categories, and form
+          success, failure, and latency. It also captures technical errors and performance
+          traces needed to diagnose site problems.
         </li>
         <li>
-          <strong class="text-text-primary">Anonymity:</strong> This data is anonymous
-          and aggregated. No IP addresses, device fingerprints, or cross-site tracking
-          cookies are stored, and behavioral data is not linked to your identity or
-          email address.
+          <strong class="text-text-primary">Data minimization:</strong> The site does
+          not send form contents, email addresses, names, cookies, HTTP headers, request
+          bodies, query parameters, or user information to Sentry. Metrics use controlled
+          categories instead of raw URLs or link destinations.
         </li>
       </ul>
     </section>
