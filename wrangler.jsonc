@@ -16,10 +16,6 @@
       "pattern": "techsquidtv.com/*",
       "zone_id": "659be8fb14a6d2a7d4a528620e6b519f",
     },
-    {
-      "pattern": "www.techsquidtv.com/*",
-      "zone_id": "659be8fb14a6d2a7d4a528620e6b519f",
-    },
   ],
   "ratelimits": [
     {
