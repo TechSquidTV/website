@@ -11,7 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",
-    "deploy": "pnpm build && wrangler deploy",
+    "deploy": "pnpm build && wrangler deploy --config dist/server/wrangler.json",
     "cf-typegen": "wrangler types",
     "check": "pnpm format:check && pnpm lint && pnpm knip && pnpm build",
     "format": "prettier --write .",

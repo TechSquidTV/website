@@ -22,6 +22,7 @@ export default defineConfig({
     process.env.NODE_ENV === "development"
       ? "http://localhost:4321"
       : "https://techsquidtv.com",
+  session: false,
 
   integrations: [sitemap(), icon(), mdx(), react()],
 
