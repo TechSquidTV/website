@@ -1,0 +1,38 @@
+name: Sync Sentry observability
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/sentry-observability.yml
+      - scripts/sync-sentry-observability.sh
+      - package.json
+      - pnpm-lock.yaml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sentry-observability-production
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync dashboard and alerts
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      SENTRY_ALERT_ACTIONS: ${{ vars.SENTRY_ALERT_ACTIONS }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+      SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: corepack enable
+      - run: corepack install
+      - run: pnpm sentry:sync
