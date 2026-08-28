@@ -13,12 +13,13 @@
     "test": "vitest run",
     "deploy": "pnpm build && wrangler deploy --config dist/server/wrangler.json",
     "cf-typegen": "wrangler types",
-    "check": "pnpm format:check && pnpm lint && pnpm knip && pnpm build",
+    "check": "pnpm format:check && pnpm lint && pnpm knip && pnpm spellcheck && pnpm build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "node scripts/lint-import-aliases.mjs && eslint .",
     "lint:fix": "eslint . --fix",
     "knip": "knip",
+    "spellcheck": "cspell lint --no-progress .",
     "newsletter:publish": "tsx --tsconfig tsconfig.email.json scripts/publish-newsletter-template.tsx",
     "sentry:sync": "bash scripts/sync-sentry-observability.sh"
   },
@@ -59,6 +60,7 @@
   "packageManager": "pnpm@11.9.0+sha512.bd682d5d03fe525ef7c9fd6780c6884d1e756ac4c9c9fe00c538782824310dcf90e3ddc4f53835f06dfaebd5085e41855e0bcbb3b60de2ac5bbab89e5036f03b",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "cspell": "10.1.1",
     "eslint": "^10.9.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^3.1.0",

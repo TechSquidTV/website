@@ -1,0 +1,49 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "language": "en,en-GB",
+  "useGitignore": true,
+  "dictionaryDefinitions": [
+    {
+      "name": "techsquidtv",
+      "path": "./cspell-words.txt",
+      "addWords": true
+    }
+  ],
+  "dictionaries": ["techsquidtv"],
+  "ignorePaths": [
+    ".astro/**",
+    ".wrangler/**",
+    "cspell.json",
+    "dist/**",
+    "node_modules/**",
+    "public/**",
+    "src/images/**",
+    "pnpm-lock.yaml"
+  ],
+  "words": ["argjson", "dont"],
+  "ignoreRegExpList": [
+    "Urls",
+    "href",
+    "/\\basciicast-[A-Za-z0-9]+\\b/g",
+    "/\\bChrisJBakke\\b/g",
+    "/\\bScienceClic\\b/g",
+    "/\\bSk8erboy\\b/g",
+    "/\\bDall·E\\b/giu",
+    "/\\bVariDesk\\b/g",
+    "/\\btstvprofile\\.png\\b/g",
+    "/\\bdata-instgrm-[A-Za-z-]+\\b/g",
+    "/\\b(?:itu\\.physics\\.)?uiowa\\.edu\\b/g",
+    "/\\bsimplywall\\.st\\b/g",
+    "/\\bWallStreet(?:Doctor)?\\b/g",
+    "/\\bwallstreet-doctor\\b/g",
+    "/\\bi[Tt]erm2\\b/g",
+    "/\\banimationCrossfadeDuration\\b/g",
+    "/\\banimation-crossfade-duration\\b/g",
+    "/\\bphillygpt-daily\\.png\\b/g",
+    "/\\b0x[0-9A-Za-z_-]+\\b/g",
+    "/\\bmagnet:\\?[^\\s\"')]+/g",
+    "/\\byoutu\\.be\\b/g",
+    "/\\byoutu\\\\\\.be\\b/g"
+  ]
+}
