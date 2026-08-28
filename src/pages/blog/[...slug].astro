@@ -19,8 +19,17 @@ interface Props {
 
 const { post } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await render(post);
+const sourceFilePath = post.filePath;
+
+if (!sourceFilePath) {
+  throw new Error(`Blog post ${post.id} is missing its source file path.`);
+}
 ---
 
-<BlogPost {...post.data} readingTime={remarkPluginFrontmatter}>
+<BlogPost
+  {...post.data}
+  readingTime={remarkPluginFrontmatter}
+  sourceFilePath={sourceFilePath}
+>
   <Content />
 </BlogPost>

@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { ClientRouter } from "astro:transitions";
+import { Icon } from "astro-icon/components";
 import BaseHead from "@/components/BaseHead.astro";
 import BlogImageLightbox from "@/components/BlogImageLightbox.astro";
 import StructuredData from "@/components/StructuredData.astro";
@@ -15,6 +16,7 @@ import { OPEN_GRAPH_IMAGE_EXTENSION } from "@/lib/open-graph-theme";
 import { contentTopic } from "@/lib/analytics-taxonomy";
 
 type Props = CollectionEntry<"blog">["data"] & {
+  sourceFilePath: string;
   readingTime?: {
     minutesRead?: string;
     readingTimeMinutes?: number;
@@ -32,6 +34,7 @@ const {
   readingTime,
   tags,
   analyticsTopic,
+  sourceFilePath,
 } = Astro.props;
 
 // Extract the blog slug from pathname (remove /blog/ prefix and trailing slash)
@@ -40,6 +43,7 @@ const ogImage = new URL(
   `/open-graph/blog/${blogSlug}.${OPEN_GRAPH_IMAGE_EXTENSION}`,
   Astro.site,
 ).href;
+const githubEditUrl = `https://github.com/TechSquidTV/website/edit/main/${sourceFilePath}`;
 ---
 
 <html lang="en">
@@ -176,6 +180,19 @@ const ogImage = new URL(
           <section class="blog-content">
             <slot />
           </section>
+          <footer
+            class="not-prose border-border mt-12 flex justify-center border-t pt-8"
+          >
+            <a
+              href={githubEditUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-text-muted hover:text-text-primary inline-flex items-center gap-2 text-sm font-medium no-underline transition-colors"
+            >
+              <Icon name="pencil" size={16} aria-hidden="true" />
+              Suggest an edit to this page
+            </a>
+          </footer>
         </div>
       </article>
     </main>
