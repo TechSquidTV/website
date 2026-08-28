@@ -20,6 +20,7 @@
     "lint:fix": "eslint . --fix",
     "knip": "knip",
     "spellcheck": "cspell lint --no-progress .",
+    "indexnow:submit": "tsx scripts/submit-indexnow.ts",
     "newsletter:publish": "tsx --tsconfig tsconfig.email.json scripts/publish-newsletter-template.tsx",
     "sentry:sync": "bash scripts/sync-sentry-observability.sh"
   },

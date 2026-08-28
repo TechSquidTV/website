@@ -45,6 +45,8 @@ jobs:
       SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 2
       - uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -58,3 +60,5 @@ jobs:
           restore-keys: |
             astro-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
       - run: pnpm deploy
+      - name: Notify IndexNow
+        run: pnpm indexnow:submit --base "$GITHUB_EVENT_BEFORE" --head "$GITHUB_SHA"
