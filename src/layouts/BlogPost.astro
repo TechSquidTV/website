@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import { ClientRouter } from "astro:transitions";
 import BaseHead from "@/components/BaseHead.astro";
+import BlogImageLightbox from "@/components/BlogImageLightbox.astro";
 import StructuredData from "@/components/StructuredData.astro";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema.astro";
 import Footer from "@/components/Footer.astro";
@@ -27,6 +28,7 @@ const {
   publishDate,
   updatedDate,
   heroImage,
+  heroImageAlt,
   readingTime,
   tags,
   analyticsTopic,
@@ -74,6 +76,7 @@ const ogImage = new URL(
     <Header />
     <main class="container-page py-10 sm:py-14">
       <article
+        class="blog-image-lightbox-root"
         data-sentry-blog-post
         data-sentry-post-slug={blogSlug}
         data-sentry-content-topic={contentTopic(analyticsTopic)}
@@ -87,7 +90,7 @@ const ogImage = new URL(
                 width={1440}
                 height={720}
                 src={heroImage}
-                alt={`Hero image for ${title}`}
+                alt={heroImageAlt || title}
                 class="mb-10 h-auto w-full rounded-md"
                 transition:name={`hero-${blogSlug}`}
               />
@@ -165,5 +168,6 @@ const ogImage = new URL(
       </article>
     </main>
     <Footer />
+    <BlogImageLightbox />
   </body>
 </html>

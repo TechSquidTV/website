@@ -1,0 +1,310 @@
+<dialog
+  id="blog-image-lightbox"
+  class="blog-image-lightbox"
+  aria-labelledby="blog-image-lightbox-caption"
+>
+  <div class="blog-image-lightbox__stage">
+    <figure class="blog-image-lightbox__figure">
+      <img class="blog-image-lightbox__image" alt="" />
+      <figcaption
+        id="blog-image-lightbox-caption"
+        class="blog-image-lightbox__caption"
+      >
+        Image preview
+      </figcaption>
+    </figure>
+    <button
+      type="button"
+      class="blog-image-lightbox__close focus-ring"
+      aria-label="Close image preview"
+      data-lightbox-close
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 6l12 12M18 6 6 18"></path>
+      </svg>
+    </button>
+  </div>
+</dialog>
+
+<span
+  id="blog-image-lightbox-tooltip"
+  class="blog-image-lightbox-tooltip"
+  role="tooltip"
+  aria-hidden="true"
+>
+  View full-size image
+</span>
+
+<script>
+  type LightboxWindow = Window & {
+    blogImageLightboxCleanup?: () => void;
+    blogImageLightboxPageLoadBound?: boolean;
+  };
+
+  const lightboxWindow = window as LightboxWindow;
+
+  const getLargestSource = (image: HTMLImageElement) => {
+    const sourceSet = image.getAttribute("srcset");
+
+    if (!sourceSet) {
+      return image.currentSrc || image.src;
+    }
+
+    const largestSource = sourceSet
+      .split(",")
+      .map((candidate) => {
+        const [source, descriptor] = candidate.trim().split(/\s+/);
+        const width = Number.parseInt(descriptor ?? "", 10);
+
+        return { source: source ?? "", width: Number.isNaN(width) ? 0 : width };
+      })
+      .reduce(
+        (largest, candidate) =>
+          candidate.width > largest.width ? candidate : largest,
+        { source: "", width: 0 },
+      );
+
+    return largestSource.source || image.currentSrc || image.src;
+  };
+
+  const initialiseLightbox = () => {
+    lightboxWindow.blogImageLightboxCleanup?.();
+
+    const dialog = document.querySelector<HTMLDialogElement>(
+      "#blog-image-lightbox",
+    );
+    const preview = dialog?.querySelector<HTMLImageElement>(
+      ".blog-image-lightbox__image",
+    );
+    const stage = dialog?.querySelector<HTMLElement>(
+      ".blog-image-lightbox__stage",
+    );
+    const caption = dialog?.querySelector<HTMLElement>(
+      "#blog-image-lightbox-caption",
+    );
+    const tooltip = document.querySelector<HTMLElement>(
+      "#blog-image-lightbox-tooltip",
+    );
+
+    if (!dialog || !preview || !stage || !caption || !tooltip) {
+      return;
+    }
+
+    const controller = new AbortController();
+    let selectedImage: HTMLImageElement | null = null;
+
+    const close = () => {
+      if (dialog.open) {
+        dialog.close();
+      }
+    };
+
+    const hideTooltip = (image?: HTMLImageElement | null) => {
+      tooltip.dataset.visible = "false";
+      tooltip.setAttribute("aria-hidden", "true");
+      image?.removeAttribute("aria-describedby");
+    };
+
+    const showTooltip = (image: HTMLImageElement) => {
+      if (dialog.open) {
+        return;
+      }
+
+      const imageBounds = image.getBoundingClientRect();
+      const tooltipWidth = tooltip.offsetWidth;
+      const tooltipHeight = tooltip.offsetHeight;
+      const gap = 10;
+      const viewportPadding = 12;
+      const left = Math.min(
+        Math.max(
+          imageBounds.left + imageBounds.width / 2,
+          viewportPadding + tooltipWidth / 2,
+        ),
+        window.innerWidth - viewportPadding - tooltipWidth / 2,
+      );
+      const top =
+        imageBounds.bottom + gap + tooltipHeight <=
+        window.innerHeight - viewportPadding
+          ? imageBounds.bottom + gap
+          : imageBounds.top - gap - tooltipHeight;
+
+      tooltip.style.left = `${left}px`;
+      tooltip.style.top = `${top}px`;
+      tooltip.dataset.visible = "true";
+      tooltip.setAttribute("aria-hidden", "false");
+      image.setAttribute("aria-describedby", tooltip.id);
+    };
+
+    const open = (image: HTMLImageElement) => {
+      selectedImage = image;
+      hideTooltip(image);
+      preview.src = getLargestSource(image);
+      preview.alt = "";
+      caption.textContent = image.alt || "Image preview";
+      dialog.showModal();
+    };
+
+    const getLightboxImage = (target: EventTarget | null) => {
+      if (!(target instanceof Element)) {
+        return null;
+      }
+
+      const image = target.closest<HTMLImageElement>(
+        ".blog-image-lightbox-root img",
+      );
+
+      if (
+        !image ||
+        image.closest("a") ||
+        image.dataset.lightboxDisabled !== undefined
+      ) {
+        return null;
+      }
+
+      return image;
+    };
+
+    for (const image of document.querySelectorAll<HTMLImageElement>(
+      ".blog-image-lightbox-root img",
+    )) {
+      if (image.closest("a") || image.dataset.lightboxDisabled !== undefined) {
+        continue;
+      }
+
+      image.tabIndex = 0;
+      image.setAttribute("role", "button");
+      image.setAttribute(
+        "aria-label",
+        image.alt
+          ? `Open full-size image: ${image.alt}`
+          : "Open full-size image",
+      );
+    }
+
+    document.addEventListener(
+      "click",
+      (event) => {
+        const image = getLightboxImage(event.target);
+
+        if (image) {
+          event.preventDefault();
+          open(image);
+        }
+      },
+      { signal: controller.signal },
+    );
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.key === "Escape") {
+          close();
+          return;
+        }
+
+        if (event.key !== "Enter" && event.key !== " ") {
+          return;
+        }
+
+        const image = getLightboxImage(event.target);
+
+        if (image) {
+          event.preventDefault();
+          open(image);
+        }
+      },
+      { signal: controller.signal },
+    );
+
+    document.addEventListener(
+      "pointerover",
+      (event) => {
+        const image = getLightboxImage(event.target);
+
+        if (image) {
+          showTooltip(image);
+        }
+      },
+      { signal: controller.signal },
+    );
+
+    document.addEventListener(
+      "pointerout",
+      (event) => {
+        const image = getLightboxImage(event.target);
+
+        if (image) {
+          hideTooltip(image);
+        }
+      },
+      { signal: controller.signal },
+    );
+
+    document.addEventListener(
+      "focusin",
+      (event) => {
+        const image = getLightboxImage(event.target);
+
+        if (image) {
+          showTooltip(image);
+        }
+      },
+      { signal: controller.signal },
+    );
+
+    document.addEventListener(
+      "focusout",
+      (event) => {
+        const image = getLightboxImage(event.target);
+
+        if (image) {
+          hideTooltip(image);
+        }
+      },
+      { signal: controller.signal },
+    );
+
+    document.addEventListener("scroll", () => hideTooltip(), {
+      capture: true,
+      passive: true,
+      signal: controller.signal,
+    });
+
+    dialog.addEventListener(
+      "click",
+      (event) => {
+        if (
+          event.target === dialog ||
+          event.target === stage ||
+          (event.target instanceof Element &&
+            event.target.closest("[data-lightbox-close]"))
+        ) {
+          close();
+        }
+      },
+      { signal: controller.signal },
+    );
+
+    dialog.addEventListener(
+      "close",
+      () => {
+        preview.removeAttribute("src");
+        preview.alt = "";
+        caption.textContent = "Image preview";
+        hideTooltip(selectedImage);
+        selectedImage?.focus();
+        selectedImage = null;
+      },
+      { signal: controller.signal },
+    );
+
+    lightboxWindow.blogImageLightboxCleanup = () => controller.abort();
+  };
+
+  if (!lightboxWindow.blogImageLightboxPageLoadBound) {
+    document.addEventListener("astro:page-load", initialiseLightbox);
+    lightboxWindow.blogImageLightboxPageLoadBound = true;
+  }
+
+  initialiseLightbox();
+</script>
