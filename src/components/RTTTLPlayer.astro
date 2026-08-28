@@ -25,6 +25,8 @@ const {
 
 // Generate unique ID for this player instance
 const playerId = `rtttl-player-${Math.random().toString(36).substring(2, 11)}`;
+const exampleSelectId = `${playerId}-example`;
+const rtttlInputId = `${playerId}-input`;
 
 // Built-in RTTTL examples
 const builtInExamples = [
@@ -79,8 +81,10 @@ const builtInExamples = [
         <h3 class="rtttl-title">{title}</h3>
 
         <div class="rtttl-input-group">
-          <label class="rtttl-label">Choose Example:</label>
-          <select class="rtttl-select">
+          <label class="rtttl-label" for={exampleSelectId}>
+            Choose Example:
+          </label>
+          <select id={exampleSelectId} class="rtttl-select">
             <option value="">-- Select an example --</option>
             {builtInExamples.map((example) => (
               <option
@@ -94,8 +98,11 @@ const builtInExamples = [
         </div>
 
         <div class="rtttl-input-group">
-          <label class="rtttl-label">Or enter RTTTL string:</label>
+          <label class="rtttl-label" for={rtttlInputId}>
+            Or enter RTTTL string:
+          </label>
           <textarea
+            id={rtttlInputId}
             class="rtttl-textarea"
             placeholder="Enter RTTTL string (e.g., Nokia:d=4,o=5,b=125:8e6,8d6,8f#,8g#...)"
             rows="3"
@@ -149,7 +156,14 @@ const builtInExamples = [
     )
   }
 
-  <div class="rtttl-status" data-status="ready">Ready</div>
+  <div
+    class="rtttl-status"
+    role="status"
+    aria-live="polite"
+    data-status="ready"
+  >
+    Ready
+  </div>
 </rtttl-player>
 
 <style>
@@ -158,6 +172,7 @@ const builtInExamples = [
     --rtttl-surface: color-mix(in oklch, var(--card) 90%, var(--secondary));
     --rtttl-field: color-mix(in oklch, var(--background) 90%, var(--secondary));
     --rtttl-accent: var(--secondary);
+    --rtttl-accent-foreground: var(--secondary-contrast-foreground);
     --rtttl-visualization: color-mix(
       in oklch,
       var(--background) 84%,
@@ -181,7 +196,7 @@ const builtInExamples = [
 
   .rtttl-title {
     margin: 0 0 1rem;
-    font-size: 1.125rem;
+    font-size: var(--text-lg);
     font-weight: 600;
     color: var(--color-text-primary);
   }
@@ -204,7 +219,7 @@ const builtInExamples = [
   .rtttl-label {
     display: inline-block;
     margin-bottom: 0.375rem;
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     color: var(--color-text-muted);
     letter-spacing: var(--tracking-caps-sm);
@@ -219,7 +234,7 @@ const builtInExamples = [
       color-mix(in oklch, var(--border) 80%, var(--rtttl-accent));
     border-radius: var(--radius-sm);
     color: var(--color-text-primary);
-    font-size: 1rem;
+    font-size: var(--text-base);
     cursor: pointer;
     transition:
       border-color 0.2s ease,
@@ -240,7 +255,7 @@ const builtInExamples = [
       color-mix(in oklch, var(--border) 80%, var(--rtttl-accent));
     border-radius: var(--radius-sm);
     color: var(--color-text-primary);
-    font-size: 1rem;
+    font-size: var(--text-base);
     font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
     resize: vertical;
     margin-bottom: 0.375rem;
@@ -259,7 +274,7 @@ const builtInExamples = [
 
   .rtttl-textarea::placeholder {
     color: var(--color-text-muted);
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
   }
 
   .rtttl-controls {
@@ -282,7 +297,7 @@ const builtInExamples = [
     color: var(--color-text-primary);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    font-size: 0.875rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     cursor: pointer;
     transition:
@@ -302,7 +317,7 @@ const builtInExamples = [
   .rtttl-play {
     background: var(--rtttl-accent);
     border-color: var(--rtttl-accent);
-    color: var(--secondary-foreground);
+    color: var(--rtttl-accent-foreground);
   }
 
   .rtttl-play:hover:not(:disabled) {
@@ -334,7 +349,7 @@ const builtInExamples = [
   .rtttl-time {
     display: flex;
     justify-content: space-between;
-    font-size: 0.7rem;
+    font-size: var(--text-ui-micro);
     color: var(--color-text-muted);
     margin-bottom: 0.375rem;
   }
@@ -355,7 +370,7 @@ const builtInExamples = [
   }
 
   .rtttl-status {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--color-text-muted);
     font-style: normal;
     font-weight: 600;
@@ -387,7 +402,7 @@ const builtInExamples = [
 
     .rtttl-btn {
       padding: 0.25rem 0.375rem;
-      font-size: 0.75rem;
+      font-size: var(--text-xs);
     }
 
     .rtttl-canvas {
