@@ -1,5 +1,8 @@
+/** @jsxImportSource react */
+
 import type { CSSProperties, ReactElement } from "react";
 import { EMAIL_THEME } from "@/emails/theme";
+import type { NewsletterTemplateVariableKey } from "@/emails/new-blog-post.template-variables";
 import {
   newsletterCampaignUrl,
   type AbsoluteUrl,
@@ -8,9 +11,9 @@ import {
 
 type UrlValue = AbsoluteUrl | TemplateVariable;
 
-export function resendTemplateVariable<const Key extends string>(
-  key: Key,
-): `{{{${Key}}}}` {
+export function resendTemplateVariable<
+  const Key extends NewsletterTemplateVariableKey,
+>(key: Key): `{{{${Key}}}}` {
   return `{{{${key}}}}`;
 }
 
@@ -136,8 +139,8 @@ export function NewBlogPostEmail({
 
   return (
     <table
-      cellpadding="0"
-      cellspacing="0"
+      cellPadding="0"
+      cellSpacing="0"
       role="presentation"
       style={{ backgroundColor: EMAIL_THEME.background, width: "100%" }}
     >
@@ -159,15 +162,15 @@ export function NewBlogPostEmail({
               {preheader}
             </div>
             <table
-              cellpadding="0"
-              cellspacing="0"
+              cellPadding="0"
+              cellSpacing="0"
               role="presentation"
               style={styles.container}
             >
               <tbody>
                 <tr>
                   <td style={{ padding: "0 4px 24px" }}>
-                    <table cellpadding="0" cellspacing="0" role="presentation">
+                    <table cellPadding="0" cellSpacing="0" role="presentation">
                       <tbody>
                         <tr>
                           <td style={{ paddingRight: "8px" }}>
@@ -255,8 +258,8 @@ export function NewBlogPostEmail({
                   >
                     <h2 style={styles.sectionHeading}>In this post</h2>
                     <table
-                      cellpadding="0"
-                      cellspacing="0"
+                      cellPadding="0"
+                      cellSpacing="0"
                       role="presentation"
                       style={{ width: "100%" }}
                     >

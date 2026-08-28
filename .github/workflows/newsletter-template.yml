@@ -1,0 +1,37 @@
+name: Publish newsletter template
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/newsletter-template.yml
+      - scripts/publish-newsletter-template.tsx
+      - src/emails/**
+      - package.json
+      - pnpm-lock.yaml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: newsletter-template-production
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: corepack enable
+      - run: corepack install
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm newsletter:publish

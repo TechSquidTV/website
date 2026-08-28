@@ -4,16 +4,15 @@ The newsletter is a hosted Resend template. Its visual source lives in
 `src/emails/NewBlogPostEmail.tsx`; the upload-ready entry point is
 `src/emails/new-blog-post.template.tsx`.
 
-Create or update the hosted template from the repository, then publish it in
-Resend before sending:
+The hosted template is published automatically after changes to `src/emails/**`
+land on `main`. The workflow renders this source, creates the template under
+the stable alias `techsquidtv-new-blog-post` on its first run, then updates and
+publishes that same template on subsequent runs.
 
-```sh
-npx react-email@latest resend setup
-npx resend@latest templates create \
-  --name "New blog post" \
-  --subject "New: {{{POST_TITLE}}}" \
-  --react-email ./src/emails/new-blog-post.template.tsx
-```
+Set `RESEND_API_KEY` as a `production` GitHub environment secret with template
+write access. You can also run the same release locally with
+`RESEND_API_KEY=... pnpm newsletter:publish`; the key is never written to the
+repository.
 
 Use these case-sensitive string variables when configuring the template. Do
 not use the reserved Resend names `EMAIL`, `FIRST_NAME`, `LAST_NAME`, or
@@ -46,5 +45,5 @@ URLs on `https://techsquidtv.com`. The template automatically appends
 
 The upload-ready entry always includes one related post. That is intentional:
 it avoids a blank visual section and keeps every send focused on one secondary
-link. The hosted template must be published before its ID or alias can be used
-in `resend.emails.send({ template: { id, variables } })`.
+link. The published template can be sent with
+`resend.emails.send({ template: { id: "techsquidtv-new-blog-post", variables } })`.

@@ -1,0 +1,31 @@
+export const NEWSLETTER_TEMPLATE_VARIABLE_KEYS = [
+  "PREHEADER",
+  "EDITOR_NOTE",
+  "POST_CATEGORY",
+  "POST_PUBLISHED_ON",
+  "POST_READ_TIME",
+  "POST_TITLE",
+  "POST_DESCRIPTION",
+  "POST_URL",
+  "POST_IMAGE_URL",
+  "POST_IMAGE_ALT",
+  "TAKEAWAY_ONE",
+  "TAKEAWAY_TWO",
+  "TAKEAWAY_THREE",
+  "RELATED_POST_TITLE",
+  "RELATED_POST_DESCRIPTION",
+  "RELATED_POST_URL",
+  "SITE_URL",
+  "UNSUBSCRIBE_LINK",
+] as const;
+
+export type NewsletterTemplateVariableKey =
+  (typeof NEWSLETTER_TEMPLATE_VARIABLE_KEYS)[number];
+
+export const NEWSLETTER_TEMPLATE_VARIABLES =
+  NEWSLETTER_TEMPLATE_VARIABLE_KEYS.map((key) => ({
+    key,
+    type: "string" as const,
+  }));
+
+export const NEWSLETTER_TEMPLATE_ALIAS = "techsquidtv-new-blog-post";

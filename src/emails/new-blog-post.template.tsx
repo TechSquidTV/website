@@ -1,3 +1,5 @@
+/** @jsxImportSource react */
+
 import {
   NewBlogPostEmail,
   resendTemplateVariable,
