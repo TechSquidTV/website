@@ -3,7 +3,13 @@
 // all pages through the use of the <BaseHead /> component.
 import "@/styles/global.css";
 import type { ImageMetadata } from "astro";
-import { SITE_TITLE, PERSONAL_INFO, SOCIAL_LINKS } from "@/consts";
+import {
+  FEDIVERSE_CREATOR,
+  PERSONAL_INFO,
+  SITE_TITLE,
+  SOCIAL_LINKS,
+  THEME_COLORS,
+} from "@/consts";
 import { OPEN_GRAPH_IMAGE_EXTENSION } from "@/lib/open-graph-theme";
 
 interface Props {
@@ -13,6 +19,7 @@ interface Props {
   ogImage?: string | undefined;
   type?: "website" | "article";
   publishDate?: Date | undefined;
+  updatedDate?: Date | undefined;
   tags?: string[] | undefined;
 }
 
@@ -25,6 +32,7 @@ const {
   ogImage,
   type = "website",
   publishDate,
+  updatedDate,
   tags,
 } = Astro.props;
 
@@ -48,20 +56,32 @@ if (image) {
   ).href;
 }
 
-// Get social profile URLs for verification
-const twitterProfile = SOCIAL_LINKS.find(
-  (link) => link.name === "Twitter",
-)?.url;
-const linkedinProfile = SOCIAL_LINKS.find(
-  (link) => link.name === "LinkedIn",
-)?.url;
-const githubProfile = SOCIAL_LINKS.find((link) => link.name === "GitHub")?.url;
+const authorUrl = new URL("about/", Astro.site).href;
+const verificationProfiles = SOCIAL_LINKS.filter(
+  ({ name }) =>
+    name === "X" ||
+    name === "LinkedIn" ||
+    name === "GitHub" ||
+    name === "Mastodon",
+);
 ---
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="max-image-preview:large" />
+<meta
+  name="theme-color"
+  content={THEME_COLORS.light}
+  media="(prefers-color-scheme: light)"
+/>
+<meta
+  name="theme-color"
+  content={THEME_COLORS.dark}
+  media="(prefers-color-scheme: dark)"
+/>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="manifest" href="/site.webmanifest" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
   rel="alternate"
@@ -98,10 +118,8 @@ const githubProfile = SOCIAL_LINKS.find((link) => link.name === "GitHub")?.url;
 <!-- Author and Social Verification -->
 <meta name="author" content={PERSONAL_INFO.name} />
 <meta name="creator" content={PERSONAL_INFO.name} />
-<link rel="author" href={`${Astro.site}about`} />
-{twitterProfile && <link rel="me" href={twitterProfile} />}
-{linkedinProfile && <link rel="me" href={linkedinProfile} />}
-{githubProfile && <link rel="me" href={githubProfile} />}
+<link rel="author" href={authorUrl} />
+{verificationProfiles.map((profile) => <link rel="me" href={profile.url} />)}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
@@ -122,8 +140,19 @@ const githubProfile = SOCIAL_LINKS.find((link) => link.name === "GitHub")?.url;
   )
 }
 {
+  type === "article" && updatedDate && (
+    <meta
+      property="article:modified_time"
+      content={updatedDate.toISOString()}
+    />
+  )
+}
+{
   type === "article" && (
-    <meta property="article:author" content={PERSONAL_INFO.name} />
+    <>
+      <meta property="article:author" content={authorUrl} />
+      <meta name="fediverse:creator" content={FEDIVERSE_CREATOR} />
+    </>
   )
 }
 {

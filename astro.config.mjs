@@ -26,6 +26,9 @@ export default defineConfig({
       ? "http://localhost:4321"
       : "https://techsquidtv.com",
   session: false,
+  experimental: {
+    incrementalBuild: true,
+  },
 
   integrations: [
     sitemap(),

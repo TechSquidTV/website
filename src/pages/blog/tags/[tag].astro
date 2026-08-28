@@ -24,6 +24,7 @@ export async function getStaticPaths() {
     return {
       params: { tag },
       props: { posts: filteredPosts, tag },
+      cacheKey: [tag, ...filteredPosts.map((post) => post.digest)].join(":"),
     };
   });
 }

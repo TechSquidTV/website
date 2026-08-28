@@ -63,6 +63,7 @@ echoserver
 esbuild
 evenodd
 fontsource
+fediverse
 fosstodon
 giftees
 gmod

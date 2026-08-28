@@ -1,10 +1,14 @@
 ---
 import Avatar from "@/components/Avatar.astro";
 import PageHeader from "@/components/PageHeader.astro";
-import StructuredData from "@/components/StructuredData.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AvatarImage from "@/images/brand/tstvprofile.png";
-import { SOCIAL_LINKS, PERSONAL_INFO, SITE_TITLE } from "@/consts";
+import {
+  IDENTITY_PROFILES,
+  PERSONAL_INFO,
+  SITE_TITLE,
+  SOCIAL_LINKS,
+} from "@/consts";
 
 const YouTube = SOCIAL_LINKS.find((link) => link.name === "YouTube")!.url;
 ---
@@ -12,9 +16,8 @@ const YouTube = SOCIAL_LINKS.find((link) => link.name === "YouTube")!.url;
 <BaseLayout
   title={`About - ${SITE_TITLE}`}
   description={`Learn about ${PERSONAL_INFO.name}, the developer and educator behind ${SITE_TITLE}`}
+  structuredDataType="ProfilePage"
 >
-  <StructuredData />
-
   <PageHeader title={`About ${SITE_TITLE}`} />
 
   <div
@@ -43,6 +46,12 @@ const YouTube = SOCIAL_LINKS.find((link) => link.name === "YouTube")!.url;
       <p class="text-lg">
         I'm a self-taught developer who grew up at the dawn of the internet with
         a computer and a curiosity for how things worked.
+      </p>
+
+      <p class="text-lg">
+        On {SITE_TITLE}, I turn that curiosity into practical technical
+        explainers about the systems behind modern software: media delivery,
+        security, developer tools, and the internet itself.
       </p>
 
       <p class="text-lg">
@@ -82,6 +91,25 @@ const YouTube = SOCIAL_LINKS.find((link) => link.name === "YouTube")!.url;
         practical and entertaining content for developers and makers of all
         skill levels.
       </p>
+    </section>
+
+    <section class="space-y-4">
+      <h2 class="text-text-primary text-2xl font-semibold">Find Me Online</h2>
+      <ul class="flex flex-wrap gap-x-5 gap-y-2 text-lg">
+        {
+          IDENTITY_PROFILES.map((profile) => (
+            <li>
+              <a
+                href={profile.url}
+                target="_blank"
+                rel="me noopener noreferrer"
+              >
+                {profile.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </section>
   </div>
 </BaseLayout>

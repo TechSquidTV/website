@@ -50,6 +50,7 @@ const ogImage = new URL(
       ogImage={ogImage}
       type="article"
       publishDate={publishDate}
+      updatedDate={updatedDate}
       tags={tags}
     />
     <StructuredData
@@ -106,6 +107,20 @@ const ogImage = new URL(
             <div
               class="text-text-muted mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm"
             >
+              <span
+                itemprop="author"
+                itemscope
+                itemtype="https://schema.org/Person"
+              >
+                By <a
+                  itemprop="url"
+                  href="/about/"
+                  rel="author"
+                  class="hover:text-text-primary transition-colors"
+                  ><span itemprop="name">{PERSONAL_INFO.name}</span></a
+                >
+              </span>
+              <span aria-hidden="true">·</span>
               <time
                 itemprop="datePublished"
                 datetime={publishDate.toISOString()}
@@ -154,9 +169,6 @@ const ogImage = new URL(
                 </nav>
               )
             }
-
-            <!-- Author information for SEO -->
-            <meta itemprop="author" content={PERSONAL_INFO.name} />
             <link itemprop="url" href={Astro.url.href} />
           </header>
 

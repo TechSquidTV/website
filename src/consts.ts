@@ -4,6 +4,11 @@
 export const SITE_TITLE = "TechSquidTV";
 export const SITE_DESCRIPTION =
   "Open-source developer and tech educator, Kyle A.K.A TechSquidTV. Software development tutorials, videos, and fun code experiments.";
+export const FEDIVERSE_CREATOR = "@techsquidtv@fosstodon.org" as const;
+export const THEME_COLORS = {
+  light: "#fafafa",
+  dark: "#0e0c0c",
+} as const;
 
 // Personal Information
 export const PERSONAL_INFO = {
@@ -46,34 +51,39 @@ const SOCIAL_BRAND_COLORS = {
 // Social Media Links
 export const SOCIAL_LINKS = [
   {
-    name: "Twitter",
-    url: "https://twitter.com/techsquidtv",
+    name: "X",
+    url: "https://x.com/techsquidtv",
     icon: "x",
     brandColor: SOCIAL_BRAND_COLORS.twitter,
+    isIdentityProfile: true,
   },
   {
     name: "BlueSky",
     url: "https://bsky.app/profile/techsquidtv.com",
     icon: "bluesky",
     brandColor: SOCIAL_BRAND_COLORS.bluesky,
+    isIdentityProfile: true,
   },
   {
     name: "YouTube",
     url: "https://youtube.com/@techsquidtv",
     icon: "youtube",
     brandColor: SOCIAL_BRAND_COLORS.youtube,
+    isIdentityProfile: true,
   },
   {
     name: "Mastodon",
     url: "https://fosstodon.org/@techsquidtv",
     icon: "mastodon",
     brandColor: SOCIAL_BRAND_COLORS.mastodon,
+    isIdentityProfile: true,
   },
   {
     name: "GitHub",
     url: "https://github.com/KyleTryon",
     icon: "github",
     brandColor: SOCIAL_BRAND_COLORS.github,
+    isIdentityProfile: true,
   },
 
   {
@@ -81,6 +91,7 @@ export const SOCIAL_LINKS = [
     url: "https://discord.gg/x9WYxubx2j",
     icon: "discord",
     brandColor: SOCIAL_BRAND_COLORS.discord,
+    isIdentityProfile: false,
   },
 
   {
@@ -88,6 +99,7 @@ export const SOCIAL_LINKS = [
     url: "https://linkedin.com/in/kyletryon",
     icon: "linkedin",
     brandColor: SOCIAL_BRAND_COLORS.linkedin,
+    isIdentityProfile: true,
   },
   // {
   //   name: "Twitch",
@@ -96,6 +108,10 @@ export const SOCIAL_LINKS = [
   //   brandColor: SOCIAL_BRAND_COLORS.twitch,
   // },
 ] as const;
+
+export const IDENTITY_PROFILES = SOCIAL_LINKS.filter(
+  (link) => link.isIdentityProfile,
+);
 
 export const YOUTUBE_CHANNEL_ID = "UC7vYUkA-s5XVjS7UoyGSFbg" as const;
 

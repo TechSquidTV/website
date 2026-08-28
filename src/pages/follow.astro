@@ -4,7 +4,12 @@ import ContactInfo from "@/components/ContactInfo.astro";
 import NewsletterCallout from "@/components/NewsletterCallout.astro";
 import PageHeader from "@/components/PageHeader.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { PERSONAL_INFO, SITE_TITLE, SOCIAL_LINKS } from "@/consts";
+import {
+  IDENTITY_PROFILES,
+  PERSONAL_INFO,
+  SITE_TITLE,
+  SOCIAL_LINKS,
+} from "@/consts";
 
 const pageTitle = `Follow ${PERSONAL_INFO.name} - ${SITE_TITLE}`;
 const pageDescription = `Connect with ${PERSONAL_INFO.name} (${PERSONAL_INFO.username}) across all social platforms.`;
@@ -60,7 +65,7 @@ const pageDescription = `Connect with ${PERSONAL_INFO.name} (${PERSONAL_INFO.use
           "@type": "Organization",
           name: PERSONAL_INFO.corporateCompany,
         },
-        sameAs: SOCIAL_LINKS.map((link) => link.url),
+        sameAs: IDENTITY_PROFILES.map((link) => link.url),
       },
     })}
   />

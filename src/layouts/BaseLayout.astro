@@ -8,16 +8,17 @@ import { ClientRouter } from "astro:transitions";
 interface Props {
   title: string;
   description: string;
+  structuredDataType?: "Person" | "ProfilePage";
 }
 
-const { title, description } = Astro.props;
+const { title, description, structuredDataType = "Person" } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} />
-    <StructuredData />
+    <StructuredData type={structuredDataType} />
   </head>
   <body>
     <ClientRouter />
