@@ -3,14 +3,15 @@ import { Icon } from "astro-icon/components";
 import Button from "@/components/Button.astro";
 import ContactInfo from "@/components/ContactInfo.astro";
 import FormInput from "@/components/FormInput.astro";
+import FormSubmissionDialog from "@/components/FormSubmissionDialog.astro";
 import FormSubmissionScript from "@/components/FormSubmissionScript.astro";
 import FormTextarea from "@/components/FormTextarea.astro";
 import PageHeader from "@/components/PageHeader.astro";
-import Turnstile from "@/components/Turnstile.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { PERSONAL_INFO } from "@/consts";
 
 const email = PERSONAL_INFO.email;
+const formDialogId = "contact-submission-dialog";
 ---
 
 <BaseLayout
@@ -27,6 +28,7 @@ const email = PERSONAL_INFO.email;
 
   <form
     data-form-endpoint="/api/forms/contact"
+    data-form-dialog={formDialogId}
     data-form-kind="contact"
     data-sentry-placement="contact_page"
     class="border-border w-full border-t pt-8"
@@ -67,13 +69,12 @@ const email = PERSONAL_INFO.email;
       required
     />
 
-    <Turnstile action="contact" />
-
     <Button type="submit" variant="primary" fullWidth>
       <Icon name="email" size={18} />
       Send Message
     </Button>
     <p data-form-status class="mt-4 text-sm" aria-live="polite"></p>
   </form>
+  <FormSubmissionDialog formKind="contact" id={formDialogId} />
   <FormSubmissionScript />
 </BaseLayout>

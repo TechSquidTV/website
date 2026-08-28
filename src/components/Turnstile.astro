@@ -6,17 +6,64 @@ interface Props {
 const { action } = Astro.props;
 const siteKey =
   import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "0x4AAAAAAEd_LCHW3k_8fBFt";
+const widgetId = `turnstile-${Math.random().toString(36).substring(2, 11)}`;
+const successCallback = `techsquidTurnstileSuccess_${widgetId.replace(/-/gu, "_")}`;
+const failureCallback = `techsquidTurnstileFailure_${widgetId.replace(/-/gu, "_")}`;
 ---
 
 <div
+  id={widgetId}
   class="cf-turnstile mb-6"
   data-action={action}
+  data-appearance="interaction-only"
+  data-callback={successCallback}
+  data-error-callback={failureCallback}
+  data-execution="execute"
+  data-failure-callback={failureCallback}
   data-sitekey={siteKey}
+  data-success-callback={successCallback}
   data-theme="auto"
+  data-timeout-callback={failureCallback}
 >
 </div>
-<script
-  is:inline
-  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-  async
-  defer></script>
+<script is:inline>
+  (() => {
+    const script = document.currentScript;
+    const widget = script?.previousElementSibling;
+
+    if (!(widget instanceof HTMLElement)) {
+      return;
+    }
+
+    const successCallback = widget.dataset.successCallback;
+    const failureCallback = widget.dataset.failureCallback;
+
+    if (!successCallback || !failureCallback) {
+      return;
+    }
+
+    window[successCallback] = (token) => {
+      widget?.dispatchEvent(
+        new CustomEvent("techsquid:turnstile-success", { detail: { token } }),
+      );
+    };
+
+    window[failureCallback] = () => {
+      widget?.dispatchEvent(new Event("techsquid:turnstile-failure"));
+    };
+
+    if (!window.__techsquidTurnstileReady) {
+      window.__techsquidTurnstileReady = new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.async = true;
+        script.defer = true;
+        script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+        script.addEventListener("error", () =>
+          reject(new Error("Turnstile failed to load.")),
+        );
+        script.addEventListener("load", () => resolve(window.turnstile));
+        document.head.append(script);
+      });
+    }
+  })();
+</script>

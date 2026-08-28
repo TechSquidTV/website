@@ -1,0 +1,127 @@
+---
+import Turnstile from "@/components/Turnstile.astro";
+import type { FormKind } from "@/lib/sentry-form-metrics";
+
+interface Props {
+  formKind: FormKind;
+  id: string;
+}
+
+const { formKind, id } = Astro.props;
+const titleId = `${id}-title`;
+---
+
+<dialog
+  id={id}
+  class="form-submission-dialog"
+  aria-describedby={`${id}-message`}
+  aria-labelledby={titleId}
+  data-form-dialog
+>
+  <div class="form-submission-dialog__content">
+    <p class="form-submission-dialog__eyebrow">TechSquidTV</p>
+    <h2 id={titleId} data-form-dialog-title>Checking your submission</h2>
+    <p id={`${id}-message`} data-form-dialog-message aria-live="polite">
+      Please wait while we verify your submission.
+    </p>
+    <div class="form-submission-dialog__challenge" data-form-dialog-challenge>
+      <Turnstile action={formKind} />
+    </div>
+    <button
+      type="button"
+      class="form-submission-dialog__cancel"
+      data-form-dialog-cancel
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="form-submission-dialog__close"
+      data-form-dialog-close
+      hidden
+    >
+      Close
+    </button>
+  </div>
+</dialog>
+
+<style>
+  .form-submission-dialog {
+    width: min(100% - 2rem, 31rem);
+    margin: auto;
+    padding: 0;
+    color: var(--color-text-primary);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 35%);
+  }
+
+  .form-submission-dialog::backdrop {
+    background: rgb(0 0 0 / 55%);
+  }
+
+  .form-submission-dialog__content {
+    display: grid;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .form-submission-dialog__eyebrow {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-ui-label);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .form-submission-dialog h2 {
+    margin: 0;
+    font-size: var(--text-xl);
+    line-height: 1.2;
+  }
+
+  .form-submission-dialog__content > p:not(.form-submission-dialog__eyebrow) {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+
+  .form-submission-dialog__challenge {
+    min-height: 4.25rem;
+  }
+
+  .form-submission-dialog__challenge :global(.cf-turnstile) {
+    margin-bottom: 0;
+  }
+
+  .form-submission-dialog__cancel,
+  .form-submission-dialog__close {
+    justify-self: end;
+    padding: 0.65rem 1rem;
+    font: inherit;
+    font-weight: 700;
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  .form-submission-dialog__cancel {
+    color: var(--color-text-primary);
+    background: transparent;
+    border: 1px solid var(--color-border);
+  }
+
+  .form-submission-dialog__cancel:hover {
+    background: var(--color-bg-code);
+  }
+
+  .form-submission-dialog__close {
+    color: var(--color-bg-primary);
+    background: var(--color-accent);
+    border: 0;
+  }
+
+  .form-submission-dialog__close:hover {
+    filter: brightness(1.08);
+  }
+</style>

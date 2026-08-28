@@ -12,11 +12,23 @@
   } from "@/lib/sentry-form-metrics";
 
   interface TurnstileApi {
+    execute(widget: HTMLElement): void;
     reset(widget?: HTMLElement): void;
   }
 
   interface TurnstileWindow extends Window {
+    __techsquidTurnstileReady?: Promise<TurnstileApi | undefined>;
     turnstile?: TurnstileApi;
+  }
+
+  interface SubmissionDialog {
+    cancelButton: HTMLButtonElement;
+    challenge: HTMLElement;
+    closeButton: HTMLButtonElement;
+    dialog: HTMLDialogElement;
+    message: HTMLElement;
+    title: HTMLElement;
+    widget: HTMLElement;
   }
 
   function valueFromForm(form: HTMLFormElement, name: string): string {
@@ -37,14 +49,179 @@
     return "Unable to process your submission. Please try again.";
   }
 
+  type FormStatusTone = "error" | "neutral" | "success";
+
   function setStatus(
     status: HTMLElement,
     message: string,
-    isError: boolean,
+    tone: FormStatusTone,
   ): void {
     status.textContent = message;
-    status.classList.toggle("text-red-500", isError);
-    status.classList.toggle("text-green-600", !isError);
+    status.classList.toggle("text-red-500", tone === "error");
+    status.classList.toggle("text-green-600", tone === "success");
+  }
+
+  function submissionDialog(form: HTMLFormElement): SubmissionDialog | null {
+    const id = form.dataset.formDialog;
+    const dialog = id ? document.getElementById(id) : null;
+
+    if (!(dialog instanceof HTMLDialogElement)) {
+      return null;
+    }
+
+    const title = dialog.querySelector<HTMLElement>("[data-form-dialog-title]");
+    const message = dialog.querySelector<HTMLElement>(
+      "[data-form-dialog-message]",
+    );
+    const closeButton = dialog.querySelector<HTMLButtonElement>(
+      "[data-form-dialog-close]",
+    );
+    const cancelButton = dialog.querySelector<HTMLButtonElement>(
+      "[data-form-dialog-cancel]",
+    );
+    const challenge = dialog.querySelector<HTMLElement>(
+      "[data-form-dialog-challenge]",
+    );
+    const widget = dialog.querySelector<HTMLElement>(".cf-turnstile");
+
+    if (
+      !title ||
+      !message ||
+      !closeButton ||
+      !cancelButton ||
+      !challenge ||
+      !widget
+    ) {
+      return null;
+    }
+
+    return {
+      cancelButton,
+      challenge,
+      closeButton,
+      dialog,
+      message,
+      title,
+      widget,
+    };
+  }
+
+  type SubmissionState = "error" | "submitting" | "success" | "verifying";
+
+  function updateDialog(
+    dialog: SubmissionDialog,
+    state: SubmissionState,
+    title: string,
+    message: string,
+  ): void {
+    const isComplete = state === "error" || state === "success";
+    dialog.title.textContent = title;
+    dialog.message.textContent = message;
+    dialog.challenge.hidden = isComplete;
+    dialog.cancelButton.hidden = isComplete;
+    dialog.closeButton.hidden = !isComplete;
+
+    if (!dialog.dialog.open) {
+      dialog.dialog.showModal();
+    }
+
+    (isComplete ? dialog.closeButton : dialog.cancelButton).focus();
+  }
+
+  function isTurnstileSuccessEvent(
+    event: Event,
+  ): event is CustomEvent<{ token: string }> {
+    return (
+      event instanceof CustomEvent &&
+      typeof event.detail === "object" &&
+      event.detail !== null &&
+      "token" in event.detail &&
+      typeof event.detail.token === "string"
+    );
+  }
+
+  async function turnstileApi(): Promise<TurnstileApi | undefined> {
+    const turnstileWindow = window as TurnstileWindow;
+    return (
+      turnstileWindow.turnstile ??
+      (await turnstileWindow.__techsquidTurnstileReady)
+    );
+  }
+
+  function abortError(): DOMException {
+    return new DOMException("Submission cancelled.", "AbortError");
+  }
+
+  function throwIfAborted(signal: AbortSignal): void {
+    if (signal.aborted) {
+      throw abortError();
+    }
+  }
+
+  function isAbortError(error: unknown): boolean {
+    return error instanceof DOMException && error.name === "AbortError";
+  }
+
+  async function verifyTurnstile(
+    dialog: SubmissionDialog,
+    signal: AbortSignal,
+  ): Promise<string> {
+    throwIfAborted(signal);
+    const api = await turnstileApi();
+    throwIfAborted(signal);
+
+    if (!api) {
+      throw new Error("Turnstile is unavailable.");
+    }
+
+    return new Promise((resolve, reject) => {
+      const onSuccess = (event: Event): void => {
+        if (!isTurnstileSuccessEvent(event)) {
+          reject(new Error("Turnstile returned an invalid token."));
+          return;
+        }
+
+        cleanUp();
+        resolve(event.detail.token);
+      };
+      const onFailure = (): void => {
+        cleanUp();
+        reject(new Error("Turnstile verification failed."));
+      };
+      const onAbort = (): void => {
+        cleanUp();
+        reject(abortError());
+      };
+      const cleanUp = (): void => {
+        dialog.widget.removeEventListener(
+          "techsquid:turnstile-success",
+          onSuccess,
+        );
+        dialog.widget.removeEventListener(
+          "techsquid:turnstile-failure",
+          onFailure,
+        );
+        signal.removeEventListener("abort", onAbort);
+      };
+
+      signal.addEventListener("abort", onAbort, { once: true });
+      dialog.widget.addEventListener("techsquid:turnstile-success", onSuccess);
+      dialog.widget.addEventListener("techsquid:turnstile-failure", onFailure, {
+        once: true,
+      });
+
+      try {
+        throwIfAborted(signal);
+        api.execute(dialog.widget);
+      } catch {
+        cleanUp();
+        reject(new Error("Turnstile could not start."));
+      }
+    });
+  }
+
+  function resetTurnstile(dialog: SubmissionDialog): void {
+    (window as TurnstileWindow).turnstile?.reset(dialog.widget);
   }
 
   function initialiseForm(form: HTMLFormElement): void {
@@ -55,54 +232,86 @@
     const endpoint = form.dataset.formEndpoint;
     const kind = form.dataset.formKind as FormKind | undefined;
     const status = form.querySelector<HTMLElement>("[data-form-status]");
+    const dialog = submissionDialog(form);
     const submitButton = form.querySelector<HTMLButtonElement>(
       'button[type="submit"]',
     );
 
-    if (!endpoint || !kind || !status || !submitButton) {
+    if (!endpoint || !kind || !status || !dialog || !submitButton) {
       return;
     }
 
     form.dataset.submissionInitialised = "true";
+    let activeSubmission: AbortController | undefined;
+
+    dialog.closeButton.addEventListener("click", () => dialog.dialog.close());
+    dialog.cancelButton.addEventListener("click", () => {
+      activeSubmission?.abort();
+      dialog.dialog.close();
+    });
+    dialog.dialog.addEventListener("close", () => {
+      activeSubmission?.abort();
+      activeSubmission = undefined;
+      submitButton.focus();
+    });
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       submitButton.disabled = true;
-      setStatus(status, "Submitting…", false);
+      const controller = new AbortController();
+      activeSubmission = controller;
+      setStatus(status, "Verifying…", "neutral");
+      updateDialog(
+        dialog,
+        "verifying",
+        "Checking your submission",
+        "Please wait while we verify your submission.",
+      );
 
       const rawMetricPlacement = form.dataset.sentryPlacement ?? "";
       const metricPlacement = formMetricPlacement(kind, rawMetricPlacement);
       let newsletterAttribution: NewsletterMetricAttribution | undefined;
-      const payload: Record<string, string> = {
-        dontCheckMe: valueFromForm(form, "dontCheckMe"),
-        email: valueFromForm(form, "email"),
-        name: valueFromForm(form, "name"),
-        metricPlacement,
-        turnstileToken: valueFromForm(form, "cf-turnstile-response"),
-      };
-
-      if (kind === "contact") {
-        payload.message = valueFromForm(form, "message");
-      } else {
-        newsletterAttribution = newsletterAttributionForForm(
-          formMetricPlacement("newsletter", rawMetricPlacement),
-        );
-        payload.contentTopic = newsletterAttribution.contentTopic;
-        payload.metricPlacement = newsletterAttribution.placement;
-        payload.sourcePostSlug = newsletterAttribution.sourcePostSlug ?? "";
-        trackNewsletterSubscribeStarted(newsletterAttribution);
-      }
 
       try {
+        const turnstileToken = await verifyTurnstile(dialog, controller.signal);
+        const payload: Record<string, string> = {
+          dontCheckMe: valueFromForm(form, "dontCheckMe"),
+          email: valueFromForm(form, "email"),
+          name: valueFromForm(form, "name"),
+          metricPlacement,
+          turnstileToken,
+        };
+
+        if (kind === "contact") {
+          payload.message = valueFromForm(form, "message");
+        } else {
+          newsletterAttribution = newsletterAttributionForForm(
+            formMetricPlacement("newsletter", rawMetricPlacement),
+          );
+          payload.contentTopic = newsletterAttribution.contentTopic;
+          payload.metricPlacement = newsletterAttribution.placement;
+          payload.sourcePostSlug = newsletterAttribution.sourcePostSlug ?? "";
+          trackNewsletterSubscribeStarted(newsletterAttribution);
+        }
+
+        setStatus(status, "Submitting…", "neutral");
+        updateDialog(
+          dialog,
+          "submitting",
+          "Sending your submission",
+          "Almost there…",
+        );
         const response = await fetch(endpoint, {
           body: JSON.stringify(payload),
           headers: { "Content-Type": "application/json" },
           method: "POST",
+          signal: controller.signal,
         });
         const body: unknown = await response.json();
         const message = messageFromResponse(body);
 
         if (!response.ok) {
-          setStatus(status, message, true);
+          setStatus(status, message, "error");
+          updateDialog(dialog, "error", "Something went wrong", message);
           return;
         }
 
@@ -110,19 +319,29 @@
         if (kind === "newsletter") {
           clearNewsletterAttribution();
         }
-        (window as TurnstileWindow).turnstile?.reset(
-          form.querySelector<HTMLElement>(".cf-turnstile") ?? undefined,
+        setStatus(status, message, "success");
+        updateDialog(
+          dialog,
+          "success",
+          kind === "newsletter" ? "You’re subscribed!" : "Message sent!",
+          message,
         );
-        setStatus(status, message, false);
-      } catch {
+      } catch (error) {
+        if (isAbortError(error)) {
+          setStatus(status, "Submission cancelled.", "neutral");
+          return;
+        }
+
         trackClientFormFailure(kind, newsletterAttribution);
-        setStatus(
-          status,
-          "Unable to process your submission. Please try again.",
-          true,
-        );
+        const message = "Unable to process your submission. Please try again.";
+        setStatus(status, message, "error");
+        updateDialog(dialog, "error", "Something went wrong", message);
       } finally {
+        resetTurnstile(dialog);
         submitButton.disabled = false;
+        if (activeSubmission === controller) {
+          activeSubmission = undefined;
+        }
       }
     });
   }

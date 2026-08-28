@@ -1,6 +1,6 @@
 ---
+import FormSubmissionDialog from "@/components/FormSubmissionDialog.astro";
 import FormSubmissionScript from "@/components/FormSubmissionScript.astro";
-import Turnstile from "@/components/Turnstile.astro";
 import type { NewsletterMetricPlacement } from "@/lib/sentry-form-metrics";
 
 interface Props {
@@ -9,10 +9,14 @@ interface Props {
 }
 
 const { className = "", placement = "other" } = Astro.props;
+const formId = `newsletter-form-${Math.random().toString(36).substring(2, 11)}`;
+const dialogId = `${formId}-dialog`;
 ---
 
 <form
+  id={formId}
   data-form-endpoint="/api/forms/newsletter"
+  data-form-dialog={dialogId}
   data-form-kind="newsletter"
   data-sentry-placement={placement}
   class={className}
@@ -27,11 +31,12 @@ const { className = "", placement = "other" } = Astro.props;
   </div>
 
   <slot />
-  <Turnstile action="newsletter" />
   <p data-form-status class="mt-4 text-sm" aria-live="polite"></p>
   <p class="text-text-muted mt-3 text-sm">
     We respect your inbox. Read our <a href="/privacy">Privacy Policy</a>.
   </p>
 </form>
+
+<FormSubmissionDialog formKind="newsletter" id={dialogId} />
 
 <FormSubmissionScript />
