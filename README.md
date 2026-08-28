@@ -1,62 +1,94 @@
-# Astro Starter Kit: Blog
+# TechSquidTV
+
+Source for [techsquidtv.com](https://techsquidtv.com), Kyle Tryon's personal
+site for developer education, technical writing, and DevRel services.
+
+The site is built with Astro, TypeScript, React, and Tailwind CSS. It deploys
+as a Cloudflare Worker and uses Resend for its contact and newsletter forms.
+
+## Requirements
+
+- Node.js 24 or later
+- [pnpm](https://pnpm.io/) 11.9.0 (the version is pinned in `package.json`)
+
+## Getting started
 
 ```sh
-pnpm create astro@latest -- --template blog
+pnpm install
+pnpm dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The local site is available at `http://localhost:4321`.
 
-Features:
+## Commands
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+| Command                   | Description                                                             |
+| ------------------------- | ----------------------------------------------------------------------- |
+| `pnpm dev`                | Start the local development server.                                     |
+| `pnpm build`              | Type-check and create a production build in `dist/`.                    |
+| `pnpm preview`            | Serve the production build locally.                                     |
+| `pnpm test`               | Run unit tests.                                                         |
+| `pnpm check`              | Run formatting, lint, dead-code, spelling, and production-build checks. |
+| `pnpm format`             | Format the repository with Prettier.                                    |
+| `pnpm lint:fix`           | Apply ESLint fixes where available.                                     |
+| `pnpm deploy`             | Build and deploy the Worker with Wrangler.                              |
+| `pnpm indexnow:submit`    | Submit the site's URLs to IndexNow.                                     |
+| `pnpm newsletter:publish` | Publish the hosted Resend newsletter template.                          |
+| `pnpm sentry:sync`        | Synchronize the managed Sentry dashboard and alerts.                    |
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Project layout
 
 ```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+src/
+├── components/   Reusable Astro components
+├── content/blog/ Markdown and MDX blog posts
+├── emails/       Resend newsletter template source
+├── layouts/      Shared page and post layouts
+├── lib/          Form handling, analytics, Sentry, and site utilities
+├── pages/        Site pages, API routes, RSS, and Open Graph endpoints
+└── styles/       Global styles
+public/           Static assets served as-is
+scripts/          Operational and publishing scripts
+docs/             Deployment and service runbooks
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Content
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Blog posts live in `src/content/blog/<year>/` as Markdown or MDX. The content
+collection schema in `src/content.config.ts` validates frontmatter during the
+build. Keep article images in `src/images/blog/` and reference them from the
+post.
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+## Configuration and deployment
 
-Any static assets, like images, can be placed in the `public/` directory.
+`wrangler.jsonc` defines the production Worker, route, asset binding, and
+rate-limit binding. Secrets and account-specific values are intentionally not
+committed. Configure the following Worker bindings for production forms:
 
-## 🧞 Commands
+- `RESEND_API_KEY`
+- `RESEND_NEWSLETTER_SEGMENT_ID`
+- `CONTACT_RECIPIENT`
+- `TURNSTILE_SECRET_KEY`
+- `TURNSTILE_HOSTNAMES`
+- `FORM_RATE_LIMITER`
 
-All commands are run from the root of the project, from a terminal:
+Set `PUBLIC_TURNSTILE_SITE_KEY` when a different Turnstile site key is needed
+for a local or preview environment. Set `SENTRY_AUTH_TOKEN` during a
+production build to upload source maps.
 
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `pnpm install`         | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+For the complete account-side setup and cutover checklist, see
+[Cloudflare and Resend cutover](docs/cloudflare-resend-cutover.md). The
+[Sentry observability runbook](docs/sentry-observability.md) and
+[newsletter template guide](docs/newsletter-template.md) document their
+respective workflows.
 
-## 👀 Want to learn more?
+## Contributing
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Before opening a change, run:
 
-## Credit
+```sh
+pnpm check
+```
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+Do not commit secrets, generated `dist/` output, or account-specific
+configuration.
