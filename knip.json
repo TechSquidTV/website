@@ -14,6 +14,7 @@
     "@fontsource-variable/outfit",
     "cloudflare",
     "lucide-react",
+    "sentry",
     "tailwindcss",
     "tw-animate-css"
   ]
