@@ -91,6 +91,8 @@
     var(--foreground)
   );
   --site-divider: color-mix(in oklch, var(--border) 72%, transparent);
+  --site-shadow-dialog: color-mix(in srgb, black 35%, transparent);
+  --site-backdrop-modal: color-mix(in srgb, black 55%, transparent);
   --embed-surface: var(--card);
   --embed-skeleton: var(--muted);
   --embed-icon: var(--foreground);
