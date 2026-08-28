@@ -14,6 +14,7 @@ export const THEME_COLORS = {
 export const PERSONAL_INFO = {
   name: "Kyle Tryon",
   username: "TechSquidTV",
+  githubUsername: "KyleTryon",
   website: "https://techsquidtv.com",
   email: "kyle@techsquidtv.com",
   jobTitle: "Developer Advocate & Content Creator",
@@ -80,7 +81,7 @@ export const SOCIAL_LINKS = [
   },
   {
     name: "GitHub",
-    url: "https://github.com/KyleTryon",
+    url: `https://github.com/${PERSONAL_INFO.githubUsername}`,
     icon: "github",
     brandColor: SOCIAL_BRAND_COLORS.github,
     isIdentityProfile: true,

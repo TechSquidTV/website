@@ -1,0 +1,66 @@
+---
+import FormattedDate from "@/components/FormattedDate.astro";
+import { PERSONAL_INFO } from "@/consts";
+import type { GitHubCommentAuthor } from "@/lib/github-discussions";
+
+interface Props {
+  author: GitHubCommentAuthor | undefined;
+  createdAt: string;
+  verb: "commented" | "replied";
+}
+
+const { author, createdAt, verb } = Astro.props;
+const label = author?.login ?? "Ghost";
+const isAuthor = author?.login === PERSONAL_INFO.githubUsername;
+---
+
+<div class="flex items-center gap-3 text-sm">
+  {
+    author ? (
+      <img
+        src={author.avatarUrl}
+        alt={`${label}'s GitHub avatar`}
+        width="40"
+        height="40"
+        loading="lazy"
+        decoding="async"
+        referrerpolicy="no-referrer"
+        class="border-border h-10 w-10 rounded-full border"
+      />
+    ) : (
+      <span
+        class="bg-muted text-text-muted flex h-10 w-10 items-center justify-center rounded-full font-medium"
+        aria-label="Deleted GitHub user"
+      >
+        ?
+      </span>
+    )
+  }
+  <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+    {
+      author ? (
+        <a
+          href={author.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-text-primary font-semibold no-underline hover:underline"
+        >
+          {label}
+        </a>
+      ) : (
+        <span class="text-text-primary font-semibold">{label}</span>
+      )
+    }
+    {
+      isAuthor && (
+        <span class="rounded-full bg-white px-2 py-0.5 text-[0.65rem] font-bold tracking-[var(--tracking-caps-sm)] text-black uppercase">
+          Author
+        </span>
+      )
+    }
+    <span class="text-text-muted">{verb}</span>
+    <span class="text-text-muted">
+      <FormattedDate date={new Date(createdAt)} />
+    </span>
+  </div>
+</div>

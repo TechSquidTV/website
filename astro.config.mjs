@@ -18,6 +18,33 @@ import cloudflare from "@astrojs/cloudflare";
 import sentry from "@sentry/astro";
 
 const uploadSentrySourceMaps = Boolean(process.env.SENTRY_AUTH_TOKEN);
+const isDevServer = process.argv.includes("dev");
+const viteOptimizerExclusions = [
+  "astro",
+  "@sentry/astro",
+  "astro:middleware",
+  "@sentry/astro/middleware",
+];
+
+function viteDependencyOptimizerOptions() {
+  return {
+    exclude: [...viteOptimizerExclusions],
+    noDiscovery: true,
+  };
+}
+
+function preventAstroComponentDependencyScan() {
+  return {
+    name: "techsquidtv:prevent-astro-component-dependency-scan",
+    apply: "serve",
+    enforce: "post",
+    configEnvironment() {
+      return {
+        optimizeDeps: viteDependencyOptimizerOptions(),
+      };
+    },
+  };
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -36,6 +63,10 @@ export default defineConfig({
     mdx(),
     react(),
     sentry({
+      // @sentry/astro injects Node middleware during development, but the
+      // Cloudflare adapter runs requests in Workerd where CommonJS require is
+      // unavailable. Production uses Sentry's Cloudflare Worker integration.
+      enabled: { client: true, server: !isDevServer },
       sourcemaps: { disable: !uploadSentrySourceMaps },
       telemetry: false,
     }),
@@ -89,10 +120,24 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [tailwindcss(), sitemap()],
-    optimizeDeps: {
-      // Vite's source scanner cannot parse Astro component frontmatter.
-      noDiscovery: true,
+    plugins: [tailwindcss(), sitemap(), preventAstroComponentDependencyScan()],
+    // Astro 7 configures separate Vite environments. Apply this to both the
+    // legacy settings and the runnable environments, otherwise Vite scans
+    // every .astro component as an optimizer entry during dev startup.
+    optimizeDeps: viteDependencyOptimizerOptions(),
+    environments: {
+      astro: {
+        optimizeDeps: viteDependencyOptimizerOptions(),
+      },
+      ssr: {
+        optimizeDeps: viteDependencyOptimizerOptions(),
+      },
+    },
+    // Sentry injects its middleware into Astro's server graph. Keep both
+    // modules outside the SSR optimizer so a late Sentry optimization cannot
+    // invalidate Astro's virtual middleware module.
+    ssr: {
+      optimizeDeps: viteDependencyOptimizerOptions(),
     },
   },
 

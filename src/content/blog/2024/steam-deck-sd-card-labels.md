@@ -9,6 +9,8 @@ heroImageAlt: "A table of SD card adapters with game box art on them."
 tags:
   - gaming
   - diy
+commentThreadId: "c8068642-2e21-4c4c-bb41-8b3d1ab1788f"
+discussionId: "D_kwDOKvG2_s4Ao10O"
 ---
 
 I finally picked up a Steam Deck and was impressed when a friend told me it was not only possible to store your games on MicroSD cards, but that it was also [encouraged by Valve](https://twitter.com/lawrenceyang/status/1416485869091913728), and they offer [similar performance to the internal SSD](https://www.pcgamer.com/first-tests-show-steam-deck-sd-card-speed-rivals-the-ssd/). This opens up a world of possibilities, considering many modern games are getting near 100Gb in size.

@@ -1,0 +1,135 @@
+---
+import type {
+  GitHubDiscussionComment,
+  GitHubDiscussionSnapshot,
+} from "@/lib/github-discussions";
+import GitHubCommentMeta from "@/components/GitHubCommentMeta.astro";
+
+interface Props {
+  discussion: GitHubDiscussionSnapshot;
+}
+
+const { discussion } = Astro.props;
+
+function commentLabel(comment: GitHubDiscussionComment): string {
+  return comment.author?.login ?? "Ghost";
+}
+---
+
+<section class="not-prose mt-12" aria-labelledby="comments-heading">
+  <header class="flex items-center gap-4">
+    <div class="bg-text-primary h-10 w-px" aria-hidden="true"></div>
+    <div>
+      <p
+        class="text-text-muted text-xs font-medium tracking-[var(--tracking-caps-sm)] uppercase"
+      >
+        Reader discussion
+      </p>
+      <h2
+        id="comments-heading"
+        class="text-text-primary mt-1 text-3xl font-bold tracking-tight"
+      >
+        Comments
+      </h2>
+    </div>
+  </header>
+
+  {
+    discussion.comments.length > 0 ? (
+      <>
+        <ul
+          class="mt-8 list-none space-y-5 p-0"
+          aria-label="GitHub comment threads"
+        >
+          {discussion.comments.map((comment) => (
+            <li class="border-border border p-5 sm:p-6">
+              <GitHubCommentMeta
+                author={comment.author}
+                createdAt={comment.createdAt}
+                verb="commented"
+              />
+              <div
+                class="comment-body prose prose-sm text-text-secondary mt-2 max-w-none"
+                set:html={comment.bodyHtml}
+              />
+              {comment.replies.length > 0 && (
+                <ul
+                  class="before:border-border relative mt-6 list-none space-y-4 pl-8 before:absolute before:top-0 before:bottom-0 before:left-3 before:border-l"
+                  aria-label={`Replies to ${commentLabel(comment)}`}
+                >
+                  {comment.replies.map((reply) => (
+                    <li class="before:border-border after:bg-background relative before:absolute before:top-1/2 before:-left-5 before:w-5 before:border-t last:after:absolute last:after:top-1/2 last:after:bottom-0 last:after:-left-5 last:after:w-px">
+                      <div class="border-border border p-4">
+                        <GitHubCommentMeta
+                          author={reply.author}
+                          createdAt={reply.createdAt}
+                          verb="replied"
+                        />
+                        <div
+                          class="comment-body prose prose-sm text-text-secondary mt-2 max-w-none"
+                          set:html={reply.bodyHtml}
+                        />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {comment.repliesTruncated && (
+                <p class="text-text-muted mt-4 text-sm">
+                  Additional replies are available on{" "}
+                  <a href={discussion.url}>GitHub</a>.
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+        <a
+          href={discussion.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-text-primary mt-6 inline-block text-sm font-semibold no-underline hover:underline"
+        >
+          Continue the conversation on GitHub →
+        </a>
+      </>
+    ) : (
+      <div class="border-border mt-8 border-t pt-6">
+        <p class="text-text-muted text-sm">No comments yet</p>
+        <div class="relative mt-4 h-14 overflow-hidden" aria-hidden="true">
+          <div class="space-y-3 opacity-30">
+            <div class="bg-text-muted h-3 w-11/12 rounded-full" />
+            <div class="bg-text-muted h-3 w-3/4 rounded-full" />
+            <div class="bg-text-muted h-3 w-2/5 rounded-full" />
+          </div>
+          <div class="from-background/0 via-background/75 to-background absolute inset-x-0 inset-y-0 bg-gradient-to-b" />
+        </div>
+        <a
+          href={discussion.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-text-primary mt-4 inline-block text-sm font-semibold no-underline hover:underline"
+        >
+          Start the conversation on GitHub →
+        </a>
+      </div>
+    )
+  }
+  {
+    discussion.commentsTruncated && (
+      <p class="text-text-muted mt-6 text-sm">
+        Showing the latest 20 comment threads. Read the full discussion on
+        <a href={discussion.url}> GitHub</a>.
+      </p>
+    )
+  }
+</section>
+
+<style>
+  :global(.comment-body > :first-child) {
+    margin-top: 0;
+  }
+
+  :global(.comment-body > :last-child) {
+    margin-bottom: 0;
+  }
+</style>

@@ -2,6 +2,7 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { CONTENT_TOPICS } from "@/lib/analytics-taxonomy";
+import { isCommentThreadId } from "@/lib/blog-discussion-sync";
 
 const blog = defineCollection({
   // Load Markdown and MDX files in the `src/content/blog/` directory.
@@ -20,6 +21,11 @@ const blog = defineCollection({
       tags: z.array(z.string()).optional(),
       analyticsTopic: z.enum(CONTENT_TOPICS).optional(),
       draft: z.boolean().optional(),
+      commentThreadId: z
+        .string()
+        .refine(isCommentThreadId, "Must be a UUID.")
+        .optional(),
+      discussionId: z.string().min(1).optional(),
     }),
 });
 

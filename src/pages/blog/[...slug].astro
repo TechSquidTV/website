@@ -2,22 +2,38 @@
 import type { CollectionEntry } from "astro:content";
 import { render } from "astro:content";
 import BlogPost from "@/layouts/BlogPost.astro";
+import { blogDiscussionCacheKey } from "@/lib/blog-discussion-cache";
+import {
+  fetchDiscussionSnapshots,
+  type GitHubDiscussionSnapshot,
+} from "@/lib/github-discussions";
 import { getPublishedPosts } from "@/utils/blog";
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
-  return posts.map((post) => ({
-    params: { slug: post.data.slug || post.id },
-    props: { post },
-    cacheKey: post.digest,
-  }));
+  const discussionIds = posts.flatMap((post) =>
+    post.data.discussionId ? [post.data.discussionId] : [],
+  );
+  const discussions = await fetchDiscussionSnapshots(discussionIds);
+
+  return posts.map((post) => {
+    const discussion = post.data.discussionId
+      ? discussions.get(post.data.discussionId)
+      : undefined;
+    return {
+      params: { slug: post.data.slug || post.id },
+      props: { discussion, post },
+      cacheKey: blogDiscussionCacheKey(post.digest ?? post.id, discussion),
+    };
+  });
 }
 
 interface Props {
+  discussion?: GitHubDiscussionSnapshot | undefined;
   post: CollectionEntry<"blog">;
 }
 
-const { post } = Astro.props;
+const { discussion, post } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await render(post);
 const sourceFilePath = post.filePath;
 
@@ -30,6 +46,7 @@ if (!sourceFilePath) {
   {...post.data}
   readingTime={remarkPluginFrontmatter}
   sourceFilePath={sourceFilePath}
+  discussion={discussion}
 >
   <Content />
 </BlogPost>

@@ -11,9 +11,11 @@ import Footer from "@/components/Footer.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
 import Header from "@/components/Header.astro";
 import ReadingTimeDisplay from "@/components/ReadingTimeDisplay.astro";
+import BlogComments from "@/components/BlogComments.astro";
 import { PERSONAL_INFO, SITE_TITLE } from "@/consts";
 import { OPEN_GRAPH_IMAGE_EXTENSION } from "@/lib/open-graph-theme";
 import { contentTopic } from "@/lib/analytics-taxonomy";
+import type { GitHubDiscussionSnapshot } from "@/lib/github-discussions";
 
 type Props = CollectionEntry<"blog">["data"] & {
   sourceFilePath: string;
@@ -22,6 +24,7 @@ type Props = CollectionEntry<"blog">["data"] & {
     readingTimeMinutes?: number;
     wordCount?: number;
   };
+  discussion?: GitHubDiscussionSnapshot | undefined;
 };
 
 const {
@@ -35,6 +38,7 @@ const {
   tags,
   analyticsTopic,
   sourceFilePath,
+  discussion,
 } = Astro.props;
 
 // Extract the blog slug from pathname (remove /blog/ prefix and trailing slash)
@@ -180,9 +184,8 @@ const githubEditUrl = `https://github.com/TechSquidTV/website/edit/main/${source
           <section class="blog-content">
             <slot />
           </section>
-          <footer
-            class="not-prose border-border mt-12 flex justify-center border-t pt-8"
-          >
+          {discussion && <BlogComments discussion={discussion} />}
+          <footer class="not-prose mt-12 flex justify-center pt-8">
             <a
               href={githubEditUrl}
               target="_blank"

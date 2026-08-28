@@ -7,6 +7,8 @@ heroImage: ../../../images/blog/thumbnail-open-github-issue.png
 heroImageAlt: "3D render by TechSquidTV of a metal pen next to the open GitHub issue symbol."
 tags:
   - coding
+commentThreadId: "eade310b-6c6d-4b69-bfd2-5cec38b54cd4"
+discussionId: "D_kwDOKvG2_s4Ao10M"
 ---
 
 One of the main benefits of working in modern open source code is community interaction. It's how we learn, grow, and contribute to better and free software. Over the last four years, I led a team of three developers in building and maintaining over 70 open source projects. Fortunately, we weren't alone; we had the support of the open source community, filled with experts in various specialty areas and people willing to offer a helping hand. Of course, maintaining that many repositories also meant managing numerous open issues.
