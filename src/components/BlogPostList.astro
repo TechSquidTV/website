@@ -25,6 +25,7 @@ const { posts, featured = false, showFeaturedImage = false } = Astro.props;
   {
     posts.map((post, index) => {
       const isFeatured = featured && index === 0;
+      const showsHeroImage = showFeaturedImage && index < 2;
       const slug = post.data.slug || post.id;
 
       return (
@@ -54,13 +55,17 @@ const { posts, featured = false, showFeaturedImage = false } = Astro.props;
                   {post.data.title}
                 </h2>
               </div>
-              {isFeatured && showFeaturedImage && post.data.heroImage && (
+              {showsHeroImage && post.data.heroImage && (
                 <Image
-                  width={1440}
-                  height={720}
+                  width={844}
+                  height={422}
                   src={post.data.heroImage}
                   alt={post.data.heroImageAlt || ""}
                   class="mt-5 w-full rounded-md object-cover"
+                  layout="constrained"
+                  sizes="(min-width: 893px) 844px, (min-width: 640px) calc(100vw - 3rem), calc(100vw - 2rem)"
+                  loading={isFeatured ? "eager" : "lazy"}
+                  fetchpriority={isFeatured ? "high" : "auto"}
                   transition:name={`hero-${slug}`}
                 />
               )}
