@@ -12,6 +12,7 @@ frontmatter
 # Services, products, people, and media titles
 Adafruit
 Alyx
+Axinom
 Bitmovin
 Blinky
 Choopa
@@ -55,6 +56,7 @@ bootable
 bootup
 bsky
 btih
+cenc
 chsh
 convolutional
 cutover
@@ -78,6 +80,7 @@ initialise
 Initialised
 indexnow
 inkjet
+ISOBMFF
 Kawaii
 kubelet
 linecap
@@ -100,6 +103,7 @@ oklch
 PGID
 pgvector
 powerlevel
+preline
 PREHEADER
 PSSH
 PUID
@@ -119,6 +123,7 @@ tesseract
 timelapse
 Torrenting
 throughs
+treeview
 unstub
 vectorspace
 waitlist

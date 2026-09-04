@@ -7,6 +7,7 @@ import {
   EXPERTISE_AREAS,
 } from "@/consts";
 import { OPEN_GRAPH_IMAGE_EXTENSION } from "@/lib/open-graph-theme";
+import type { Source } from "@/lib/sources";
 
 interface Props {
   type?: "Person" | "BlogPosting" | "ProfilePage";
@@ -17,6 +18,7 @@ interface Props {
   updatedDate?: Date | undefined;
   readingTime?: number | undefined;
   wordCount?: number | undefined;
+  sources?: readonly Source[] | undefined;
 }
 
 const {
@@ -28,6 +30,7 @@ const {
   updatedDate,
   readingTime,
   wordCount,
+  sources,
 } = Astro.props;
 
 // Build comprehensive author object
@@ -136,6 +139,13 @@ if (type === "BlogPosting" && title) {
     // 📖 READING METRICS (part of BlogPosting, not Author!)
     ...(wordCount && { wordCount: wordCount }),
     ...(readingTime && { timeRequired: `PT${Math.ceil(readingTime)}M` }),
+    ...(sources?.length && {
+      citation: sources.map((source) => ({
+        "@type": "CreativeWork",
+        name: source.title,
+        url: source.url,
+      })),
+    }),
   };
 } else if (type === "ProfilePage") {
   schema = {

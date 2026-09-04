@@ -36,6 +36,7 @@ const {
   heroImageAlt,
   readingTime,
   tags,
+  sources,
   analyticsTopic,
   sourceFilePath,
   discussion,
@@ -70,6 +71,7 @@ const githubEditUrl = `https://github.com/TechSquidTV/website/edit/main/${source
       updatedDate={updatedDate}
       readingTime={readingTime?.readingTimeMinutes}
       wordCount={readingTime?.wordCount}
+      sources={sources}
     />
     <BreadcrumbSchema
       items={[
@@ -112,51 +114,63 @@ const githubEditUrl = `https://github.com/TechSquidTV/website/edit/main/${source
             >
               {title}
             </h1>
-            <div
-              class="text-text-muted mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm"
-            >
-              <span
-                itemprop="author"
-                itemscope
-                itemtype="https://schema.org/Person"
+            <div class="mt-4 flex items-start gap-4">
+              <div
+                class="text-text-muted flex flex-wrap items-center gap-x-2 gap-y-1 text-sm"
               >
-                By <a
-                  itemprop="url"
-                  href="/about/"
-                  rel="author"
-                  class="hover:text-text-primary transition-colors"
-                  ><span itemprop="name">{PERSONAL_INFO.name}</span></a
+                <span
+                  itemprop="author"
+                  itemscope
+                  itemtype="https://schema.org/Person"
                 >
-              </span>
-              <span aria-hidden="true">·</span>
-              <time
-                itemprop="datePublished"
-                datetime={publishDate.toISOString()}
+                  By <a
+                    itemprop="url"
+                    href="/about/"
+                    rel="author"
+                    class="hover:text-text-primary transition-colors"
+                    ><span itemprop="name">{PERSONAL_INFO.name}</span></a
+                  >
+                </span>
+                <span aria-hidden="true">·</span>
+                <time
+                  itemprop="datePublished"
+                  datetime={publishDate.toISOString()}
+                >
+                  <FormattedDate date={publishDate} />
+                </time>
+                {readingTime?.minutesRead && <span aria-hidden="true">·</span>}
+                <ReadingTimeDisplay
+                  minutesRead={readingTime?.minutesRead}
+                  wordCount={readingTime?.wordCount}
+                  className="text-sm"
+                />
+                {
+                  updatedDate && (
+                    <>
+                      <span aria-hidden="true">·</span>
+                      <span>
+                        Updated{" "}
+                        <time
+                          itemprop="dateModified"
+                          datetime={updatedDate.toISOString()}
+                        >
+                          <FormattedDate date={updatedDate} />
+                        </time>
+                      </span>
+                    </>
+                  )
+                }
+              </div>
+              <a
+                href="/rss.xml"
+                rel="alternate"
+                type="application/rss+xml"
+                class="text-muted-foreground hover:text-foreground ml-auto inline-flex shrink-0 items-center gap-1.5 text-sm no-underline transition-colors"
+                aria-label="Subscribe to the RSS feed"
               >
-                <FormattedDate date={publishDate} />
-              </time>
-              {readingTime?.minutesRead && <span aria-hidden="true">·</span>}
-              <ReadingTimeDisplay
-                minutesRead={readingTime?.minutesRead}
-                wordCount={readingTime?.wordCount}
-                className="text-sm"
-              />
-              {
-                updatedDate && (
-                  <>
-                    <span aria-hidden="true">·</span>
-                    <span>
-                      Updated{" "}
-                      <time
-                        itemprop="dateModified"
-                        datetime={updatedDate.toISOString()}
-                      >
-                        <FormattedDate date={updatedDate} />
-                      </time>
-                    </span>
-                  </>
-                )
-              }
+                <Icon name="rss" size={16} aria-hidden="true" />
+                RSS
+              </a>
             </div>
 
             {

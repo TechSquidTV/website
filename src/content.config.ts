@@ -3,6 +3,7 @@ import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { CONTENT_TOPICS } from "@/lib/analytics-taxonomy";
 import { isCommentThreadId } from "@/lib/blog-discussion-sync";
+import { sourceSchema } from "@/lib/sources";
 
 const blog = defineCollection({
   // Load Markdown and MDX files in the `src/content/blog/` directory.
@@ -19,6 +20,7 @@ const blog = defineCollection({
       heroImageAlt: z.string().optional(),
       slug: z.string().optional(),
       tags: z.array(z.string()).optional(),
+      sources: z.array(sourceSchema).optional(),
       analyticsTopic: z.enum(CONTENT_TOPICS).optional(),
       draft: z.boolean().optional(),
       commentThreadId: z

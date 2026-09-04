@@ -2,12 +2,15 @@
 // You can import this data from anywhere in your site by using the `import` keyword.
 
 export const SITE_TITLE = "TechSquidTV";
-export const SITE_DESCRIPTION =
-  "Open-source developer and tech educator, Kyle A.K.A TechSquidTV. Software development tutorials, videos, and fun code experiments.";
+export const SITE_TAGLINE_LINES = [
+  "Curious developer and content creator",
+  "sharing deep dives into code and obscure technology.",
+] as const;
+export const SITE_DESCRIPTION = SITE_TAGLINE_LINES.join(" ");
 export const FEDIVERSE_CREATOR = "@techsquidtv@fosstodon.org" as const;
 export const THEME_COLORS = {
   light: "#fafafa",
-  dark: "#0e0c0c",
+  dark: "#0a0a0a",
 } as const;
 
 // Personal Information

@@ -27,7 +27,9 @@ const emailId = `email-${formId}`;
 const nameId = `name-${formId}`;
 ---
 
-<div class={`newsletter-callout newsletter-${variant} ${className}`}>
+<div
+  class={`newsletter-callout content-divider newsletter-${variant} ${className}`}
+>
   {
     variant === "simple" && (
       <div class="newsletter-simple">

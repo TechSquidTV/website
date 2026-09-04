@@ -37,6 +37,12 @@ importers:
       "@fontsource-variable/outfit":
         specifier: ^5.3.0
         version: 5.3.0
+      "@preline/accordion":
+        specifier: ^5.0.0
+        version: 5.0.0
+      "@preline/tree-view":
+        specifier: ^5.0.0
+        version: 5.0.0
       "@sentry/astro":
         specifier: ^10.71.0
         version: 10.71.0(@opentelemetry/core@2.10.0(@opentelemetry/api@1.9.1))(astro@7.2.9(@astrojs/markdown-remark@7.2.4)(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.3)(@netlify/blobs@10.7.9)(@types/node@26.0.1)(jiti@2.7.0)(tsx@4.23.12)(yaml@2.9.0))
@@ -2993,6 +2999,18 @@ packages:
     resolution:
       {
         integrity: sha512-dCED+QRChTVatE9ibtoaxc+WkdzOSjYTKi/+uacHWIsfodVfpsueo3+DKpgU5Px8qXjgmXkSvhXvSCz3fnP9lw==,
+      }
+
+  "@preline/accordion@5.0.0":
+    resolution:
+      {
+        integrity: sha512-PnSYFKpOntT53erqkwUbnR5+3QeeVhxRTxvnohKnual0G2HVqjG+SosfZnaXZqIOuJ1xY3mM02p1aW52M8hRrg==,
+      }
+
+  "@preline/tree-view@5.0.0":
+    resolution:
+      {
+        integrity: sha512-w/nOK0CYI74JaDW6LNPIg7umV/hhgNeZ43NZ8V+bkMViUDmcqXlLqww0AkE6msV6eMbzXfV0YqvLKx0lDH2g+g==,
       }
 
   "@rolldown/binding-android-arm-eabi@1.2.6":
@@ -9629,6 +9647,10 @@ snapshots:
       supports-color: 10.2.2
 
   "@poppinss/exception@1.2.3": {}
+
+  "@preline/accordion@5.0.0": {}
+
+  "@preline/tree-view@5.0.0": {}
 
   "@rolldown/binding-android-arm-eabi@1.2.6":
     optional: true

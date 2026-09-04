@@ -1,0 +1,255 @@
+---
+export interface DirectoryTreeEntryBase {
+  name: string;
+  description?: string;
+}
+
+export interface DirectoryTreeDirectory extends DirectoryTreeEntryBase {
+  kind: "directory";
+  children: readonly DirectoryTreeEntry[];
+}
+
+export interface DirectoryTreeFile extends DirectoryTreeEntryBase {
+  kind: "file";
+}
+
+export type DirectoryTreeEntry = DirectoryTreeDirectory | DirectoryTreeFile;
+
+type Props =
+  | {
+      root: DirectoryTreeDirectory;
+      entry?: never;
+      label?: string;
+      nodeId?: string;
+    }
+  | {
+      root?: never;
+      entry: DirectoryTreeEntry;
+      label?: string;
+      nodeId: string;
+    };
+
+const {
+  root,
+  entry,
+  label = "Directory structure",
+  nodeId = "directory-tree-root",
+} = Astro.props;
+const currentEntry = entry ?? root;
+const isDirectory = currentEntry.kind === "directory";
+const headingId = `${nodeId}-heading`;
+const contentId = `${nodeId}-content`;
+---
+
+{
+  root && !entry ? (
+    <div class="directory-tree not-prose border-border-light bg-bg-code my-8 overflow-x-auto rounded-none border p-6 font-mono text-sm sm:p-8">
+      <div
+        class="hs-accordion-treeview-root directory-tree-root"
+        role="tree"
+        aria-label={label}
+        aria-orientation="vertical"
+      >
+        <div
+          class="hs-accordion-group"
+          role="group"
+          data-hs-accordion-always-open
+        >
+          <Astro.self entry={root} nodeId={nodeId} />
+        </div>
+      </div>
+    </div>
+  ) : isDirectory ? (
+    <div
+      class="hs-accordion directory-tree-branch active"
+      role="treeitem"
+      id={nodeId}
+    >
+      <div class="hs-accordion-heading directory-tree-row" id={headingId}>
+        <button
+          class="hs-accordion-toggle directory-tree-toggle"
+          aria-expanded="true"
+          aria-controls={contentId}
+        >
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M3 8h10" />
+            <path class="directory-tree-toggle-add" d="M8 3v10" />
+          </svg>
+          <span class="sr-only">Toggle {currentEntry.name}</span>
+        </button>
+        <div class="directory-tree-label">
+          <svg
+            class="directory-tree-icon"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M1.75 4.75h4l1.25-1.5h3.5l1.5 1.5v7.5H1.75z" />
+            <path d="M1.75 6.25H14.25" />
+          </svg>
+          <span class="directory-tree-name">{currentEntry.name}/</span>
+          {currentEntry.description && (
+            <span class="directory-tree-description">
+              {currentEntry.description}
+            </span>
+          )}
+        </div>
+      </div>
+      <div
+        id={contentId}
+        class="hs-accordion-content directory-tree-content w-full overflow-hidden transition-[height] duration-300"
+        role="group"
+        aria-labelledby={headingId}
+      >
+        {currentEntry.children.length > 0 && (
+          <div
+            class="hs-accordion-group directory-tree-children"
+            role="group"
+            data-hs-accordion-always-open
+          >
+            {currentEntry.children.map((child, index) => (
+              <Astro.self entry={child} nodeId={`${nodeId}-${index}`} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  ) : (
+    <div class="directory-tree-file" role="treeitem">
+      <div class="directory-tree-row">
+        <span class="directory-tree-toggle" aria-hidden="true" />
+        <div class="directory-tree-label">
+          <svg
+            class="directory-tree-icon"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.25"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M3.25 1.75h5l3 3v9.5h-8z" />
+            <path d="M8.25 1.75v3h3" />
+          </svg>
+          <span class="directory-tree-name">{currentEntry.name}</span>
+          {currentEntry.description && (
+            <span class="directory-tree-description">
+              {currentEntry.description}
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<script>
+  import HSAccordion from "@preline/accordion/non-auto.mjs";
+  import HSTreeView from "@preline/tree-view/non-auto.mjs";
+
+  const initializeDirectoryTrees = () => {
+    HSAccordion.autoInit();
+    HSTreeView.autoInit();
+  };
+
+  initializeDirectoryTrees();
+  document.addEventListener("astro:page-load", initializeDirectoryTrees);
+</script>
+
+<style>
+  .directory-tree {
+    color: var(--site-text-secondary);
+  }
+
+  .directory-tree-root,
+  .directory-tree-children {
+    min-width: max-content;
+  }
+
+  .directory-tree-children {
+    position: relative;
+    margin-left: 0.75rem;
+    padding-left: 1rem;
+    border-left: 1px solid var(--site-border-light);
+  }
+
+  .directory-tree-content {
+    transition: height 300ms ease;
+  }
+
+  .directory-tree-row {
+    display: flex;
+    align-items: center;
+    min-height: 2rem;
+    gap: 0.55rem;
+  }
+
+  .directory-tree-toggle {
+    display: grid;
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: none;
+    place-items: center;
+    color: var(--site-text-muted);
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .directory-tree-toggle:hover {
+    color: var(--site-text-primary);
+  }
+
+  .directory-tree-toggle:focus-visible {
+    outline: 1px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .directory-tree-toggle svg {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  .hs-accordion.active > .hs-accordion-heading .directory-tree-toggle-add {
+    display: none;
+  }
+
+  .directory-tree-label {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+  }
+
+  .directory-tree-icon {
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+    color: var(--site-text-muted);
+  }
+
+  .directory-tree-name {
+    color: var(--site-text-primary);
+    white-space: nowrap;
+  }
+
+  .directory-tree-description {
+    color: var(--site-text-muted);
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .directory-tree-description::before {
+    content: "— ";
+  }
+</style>

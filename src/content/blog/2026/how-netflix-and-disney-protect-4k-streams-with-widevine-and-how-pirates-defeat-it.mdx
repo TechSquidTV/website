@@ -1,0 +1,224 @@
+---
+title: "How Netflix and Disney protect 4K streams with Widevine, and how pirates defeat it"
+publishDate: "09-01-2026"
+slug: how-netflix-and-disney-protect-4k-streams-with-widevine-and-how-pirates-defeat-it
+description: "Piracy is not winning because it is free. It is winning because the legal streaming experience has become fragmented, conditional, and less convenient than the alternative."
+heroImage: "../../../images/blog/4k-widevine-piracy.png"
+heroImageAlt: "The Widevine logo above a pirate ship sailing across stylized waves."
+tags:
+  - piracy
+  - hacking
+draft: true
+sources:
+  - title: "Diving into the depths of Widevine L3 — Neodyme"
+    url: "https://neodyme.io/en/blog/widevine_l3/"
+  - title: "Widevine L3 video walkthrough — YouTube"
+    url: "https://www.youtube.com/watch?v=T3Xo4C6vIto"
+  - title: "Shaka Packager DRM Tutorial — Shaka Project"
+    url: "https://shaka-project.github.io/shaka-packager/html/tutorials/drm.html"
+  - title: "How to survive an InfoSec job interview (cryptography) — Coen Goedegebure"
+    url: "https://www.coengoedegebure.com/surviving-an-infosec-job-interview-cryptography/"
+  - title: "Trusted Execution Environment (TEE) 101: A Primer — Secure Technology Alliance"
+    url: "https://www.securetechalliance.org/wp-content/uploads/TEE-101-White-Paper-V1.1-FINAL-June-2018.pdf"
+  - title: "Widevine Security Levels in Depth — Bitmovin"
+    url: "https://developer.bitmovin.com/playback/docs/widevine-security-levels-in-web-video-playback"
+  - title: "Google Widevine DRM: Guide to Security & Integration — VdoCipher"
+    url: "https://www.vdocipher.com/blog/widevine-drm/#4"
+  - title: "PSSH Boxes Explained — Axinom"
+    url: "https://docs.axinom.com/services/drm/technical-articles/pssh/"
+---
+
+import { Image } from "astro:assets";
+import DRMSystems from "@/images/blog/drm-systems.png";
+import DirectoryTree from "@/components/DirectoryTree.astro";
+import NetflixSystemRequirements from "@/images/blog/netflix-system-requirements.png";
+import StreamingServiceDRMArchitecture from "@/images/blog/streaming-service-drm-architecture.webp";
+import NetflixBlackScreen from "@/images/blog/netflix-black-screen.webp";
+import WidevinePartners from "@/images/blog/widevine-partners.webp";
+import NewsletterCallout from "@/components/NewsletterCallout.astro";
+import Sources from "@/components/Sources.astro";
+import WikiLink from "@/components/WikiLink.astro";
+
+## Table of Contents
+
+## Punished for watching legally
+
+Not _too_ long ago, I switched to Mac from Windows after my custom-built PC died and I couldn't be bothered to build another one. I had a MacBook Pro from a previous job and a Thunderbolt dock for my keyboard, mouse, and two monitors.
+
+The setup worked fine, until I tried to watch anything on Netflix or Amazon Prime Video.
+I could hear the audio and see the subtitles, but the video was just a black screen.
+
+<Image
+  src={NetflixBlackScreen}
+  alt="Netflix showing a black screen with audio playing, due to DRM restrictions when using a DisplayLink dock."
+/>
+
+The Thunderbolt dock I was using connected to the MBP with a single USB-C cable, and from there I connected two monitors via HDMI. I would say, an extremely average setup for a docked laptop.
+
+The problem was that this dock uses [DisplayLink](https://www.displaylink.com/) to emulate multiple monitors.
+To do that, it has to make use of Apple's Screen Capture API. If you use a dock like this, you might notice the little icon in the menu bar showing your screen is currently being captured.
+
+Well, streaming platforms use <WikiLink url="https://en.wikipedia.org/wiki/Digital_rights_management" tooltip="Digital rights management uses technology to control access to copyrighted works.">Digital Rights Management</WikiLink> (DRM)
+to control where and how their content is played back. In this case, the video is decrypted in a protected area that is inaccessible to the Screen Capture API.
+
+So ironically, it's very easy to be punished for attempting to watch content legally, where for example, if you were to pirate the same content, DRM-free, you would have no problem watching it on your docked MacBook Pro.
+
+This started getting me really interested in _how_ a website like Netflix was able to prevent me from taking a screenshot on my own computer.
+How is it that pirates are able to defeat DRM and create WEB-DL and WEBRip releases, while I can't even watch it on my own computer?
+
+## The Gatekeepers: DRM Systems
+
+<Image
+  src={DRMSystems}
+  alt="Diagram illustrating the DRM systems used by major streaming platforms."
+/>
+
+Each streaming platform only enables viewing of their content on a limited number of licensed devices that have been certified for secure playback using one of these systems, depending on the device and application.
+
+The most common players in the space are [**Google's Widevine**](https://www.widevine.com/), [**Apple's FairPlay**](https://developer.apple.com/streaming/fps/), and [**Microsoft's PlayReady**](https://www.microsoft.com/playready/).
+Widevine is a particularly interesting target for hackers and pirates, because it is used in a variety of environments, some more secure than others.
+Google Chrome for example uses Widevine, and we'll get into the details later, but it does _not_ require the same secure hardware that a smart TV or streaming stick does, making it slightly more accessible to hackers.
+
+<Image
+  src={WidevinePartners}
+  alt="Diagram showing the various partners and devices that support Google's Widevine DRM system. For example, Widevine is used by Netflix, HBO Max, Disney+, Paramount+, Amazon Prime Video, and more. It's also used on Android devices, Google Chrome, PlayStation, Roku, Tesla, and more."
+/>
+
+These platforms would strongly prefer users watch their content on one of these locked down devices that has a securely stored decryption key, inaccessible to the owner of the device.
+On some devices where the users have more ownership and control, keeping users out is more difficult.
+
+<Image
+  src={NetflixSystemRequirements}
+  alt="Netflix system requirements warning that HD playback requires a compatible HDCP display connection."
+  class="float-right mt-6 mb-6 ml-6 w-full rounded-md border max-sm:float-none max-sm:mx-auto max-sm:block sm:w-1/2"
+/>
+
+If you look at the system requirements for Netflix, you can start to get a hint for how they manage access between different classes of devices.
+
+Notice, if you are on a Mac, the only way to watch Netflix in 4K is through the Safari browser. Google Chrome will only let you watch up to 1080p.
+
+On a Linux machine, you can only watch up to 720p no matter what (except on Opera apparently, which is an interesting edge case that deserves more research).
+
+Notice too, Netflix only supports back to a certain version of each browser, ensuring any vulnerabilities that might allow a user to bypass DRM, are somewhat short-lived.
+On Android, HD playback is restricted to _the latest version of Android OS_, fairly restrictive.
+
+## How Streaming Platforms Encrypt Their Content
+
+To watch your favorite TV show or movie on a streaming platform, it first starts with a studio master, the highest possible quality version of the media.
+The studio master, or mezzanine, is a _massive_ lossless (or near-lossless) file, often hundreds of gigabytes in size.
+This is what studios use to create Blu-ray copies, and more commonly now, what is sent to streaming platforms to be encoded, encrypted, and streamed to paying customers.
+
+<Image
+  src={StreamingServiceDRMArchitecture}
+  alt="Diagram showing a streaming service encoding a studio master into multiple resolutions, encrypting DASH media segments, obtaining Widevine license keys, and serving encrypted media through a CDN."
+/>
+
+The streaming provider will first encode the studio master into a variety of resolutions and bitrates to accommodate a range of devices, network conditions, and user plans.
+
+These encoded versions are ultimately what you will watch, but you aren't going to watch them directly.
+They aren't optimized for streaming, and more importantly to the studios, they are currently unprotected.
+
+The pirate's goal is to gain access to these encodes, aiming for 1080p or 4K, but the next few steps are what makes that challenging.
+
+### Shaka Packager
+
+To stream reliably, video must be packaged into a streaming format such as [HLS](https://developer.apple.com/streaming/) or [DASH](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP).
+
+[Shaka Packager](https://github.com/google/shaka-packager) is one popular open-source tool that does this, by splitting encoded media into segments, preparing them for adaptive playback, and optionally encrypting the video for DRM such as Widevine.
+
+For DASH, it produces a "Media Presentation", a collection of media files and a manifest (MPD) that describes the available tracks, their bitrates, and how to access them.
+
+<DirectoryTree
+  root={{
+    kind: "directory",
+    name: "video-stream",
+    children: [
+      { kind: "file", name: "manifest.mpd" },
+      {
+        kind: "directory",
+        name: "video_1080p_3000k",
+        children: [
+          { kind: "file", name: "init.mp4" },
+          { kind: "file", name: "chunk_1.m4s" },
+          { kind: "file", name: "chunk_2.m4s" },
+        ],
+      },
+      {
+        kind: "directory",
+        name: "video_720p_1500k",
+        description: "Additional video quality",
+        children: [
+          { kind: "file", name: "init.mp4" },
+          { kind: "file", name: "chunk_1.m4s" },
+          { kind: "file", name: "chunk_2.m4s" },
+        ],
+      },
+      {
+        kind: "directory",
+        name: "audio_en_128k",
+        children: [
+          { kind: "file", name: "init.mp4" },
+          { kind: "file", name: "chunk_1.m4s" },
+          { kind: "file", name: "chunk_2.m4s" },
+        ],
+      },
+      {
+        kind: "directory",
+        name: "subs_en",
+        description: "WebVTT subtitle tracks",
+        children: [
+          {
+            kind: "file",
+            name: "init.mp4",
+            description: "Maps WebVTT text into the MP4/ISOBMFF structure",
+          },
+          {
+            kind: "file",
+            name: "chunk_1.m4s",
+            description: "Subtitle cues for seconds 0-2",
+          },
+          {
+            kind: "file",
+            name: "chunk_2.m4s",
+            description: "Subtitle cues for seconds 2-4",
+          },
+        ],
+      },
+    ],
+  }}
+/>
+
+If the content is protected, such as with Widevine, Shaka Packager will request a content encryption key (**CEK**), and its corresponding key ID (**KID**) from the Widevine License Server (which in-turn will get it from the KMS), and use that key to encrypt the media segments using [Common Encryption (CENC)](https://en.wikipedia.org/wiki/Common_Encryption) with AES-128 in CTR mode.
+This is a symmetric encryption algorithm, meaning the same key is used to encrypt and decrypt the content.
+
+When the subscriber wants to watch the content, the video player will request a license from the Widevine License Server, which will return the CEK for that KID if the user is authorized to view it.
+
+#### The Manifest (MPD)
+
+The Manifest (MPD) file is like a table of contents for the stream.
+Your video player will first download the MPD, and then decide which segments to start downloading and playing based on the device, network conditions, and license.
+This is also how your phone is able to switch between 1080p and 720p mid-stream, without interrupting playback.
+
+For protected streams, the MPD also contains some additional metadata that tells the player which tracks are protected, and how to obtain a license for them.
+
+Shaka Packager identifies the protected track and its KID in a `ContentProtection` element, and generates a **Protection System Specific Header (PSSH)** for Widevine.
+The PSSH is DRM-specific initialization data, not the CEK itself.
+
+When playback begins, the browser's Widevine CDM uses that signaling to create a license challenge. The video application sends the challenge to the Widevine License Server, which authorizes the viewer and returns a license for the matching content key.
+
+The license service can use the KID to resolve the corresponding CEK through its key-management system. The CDM uses that key internally to decrypt the `cenc` segments; the JavaScript player does not receive the raw CEK.
+
+## Diving Deep In The High Seas
+
+This post is planned to be just the first installment in a series of deep-dives into internet [piracy](/blog/tags/piracy/).
+If you liked what you saw here, and you want to read what I have planned next for this series, I am going to humbly ask that you consider subscribing to my "newsletter".
+
+I use the term "newsletter" loosely because, to date in-fact, I have not once sent out a single email to anyone who has subscribed.
+But I am planning to change that, _slightly_.
+I will not be sending out an email for each and every post that comes out, but, when something good is coming that I think you might enjoy, like these piracy deep-dives, I will hand-craft a personalized email to let you know about it.
+
+If that sounds like something you would be interested in, join below!
+
+<NewsletterCallout variant="inline" title="Want more technical deep-dives?" />
+
+<Sources sources={frontmatter.sources ?? []} />

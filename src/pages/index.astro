@@ -2,11 +2,18 @@
 import { render } from "astro:content";
 import { YouTube } from "@astro-community/astro-embed-youtube";
 import { ClientRouter } from "astro:transitions";
+import { Icon } from "astro-icon/components";
 import BaseHead from "@/components/BaseHead.astro";
 import BlogPostList from "@/components/BlogPostList.astro";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import { SITE_DESCRIPTION, SITE_TITLE, YOUTUBE_CHANNEL_ID } from "@/consts";
+import NewsletterLink from "@/components/NewsletterLink.astro";
+import {
+  SITE_DESCRIPTION,
+  SITE_TAGLINE_LINES,
+  SITE_TITLE,
+  YOUTUBE_CHANNEL_ID,
+} from "@/consts";
 import { getPublishedPosts } from "@/utils/blog";
 
 const posts = await getPublishedPosts(true);
@@ -77,28 +84,32 @@ try {
     <main>
       <section class="border-border border-b">
         <div class="container-page py-10 sm:py-14">
-          <p
-            class="text-foreground mb-5 text-sm font-medium tracking-(--tracking-caps-sm) uppercase"
+          <div
+            class="flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between"
           >
-            TechSquidTV
-          </p>
-          <h1
-            class="text-foreground text-4xl leading-tight font-bold sm:text-5xl"
-          >
-            Curious developer and content creator.
-          </h1>
-          <p class="text-muted-foreground mt-5 text-lg">
-            Sharing too much information on obscure technology, and occasionally
-            making videos about it on YouTube.
-          </p>
-          <a
-            href="/blog"
-            data-sentry-cta="read_blog"
-            data-sentry-cta-placement="home_hero"
-            class="text-foreground decoration-border hover:decoration-primary mt-8 inline-flex font-medium underline transition-colors"
-          >
-            Read the blog →
-          </a>
+            <div>
+              <p
+                class="text-foreground mb-5 text-sm font-medium tracking-(--tracking-caps-sm) uppercase"
+              >
+                TechSquidTV
+              </p>
+              <h1
+                class="text-foreground max-w-4xl text-3xl leading-[1.12] font-semibold tracking-tight text-balance sm:text-4xl"
+              >
+                {
+                  SITE_TAGLINE_LINES.map((line) => (
+                    <span class="block">{line}</span>
+                  ))
+                }
+              </h1>
+            </div>
+            <NewsletterLink
+              className="text-muted-foreground hover:text-foreground inline-flex shrink-0 items-center gap-2 text-sm font-medium no-underline transition-colors"
+            >
+              <Icon name="email" size={17} aria-hidden="true" />
+              Get the newsletter <span aria-hidden="true">→</span>
+            </NewsletterLink>
+          </div>
         </div>
       </section>
 
