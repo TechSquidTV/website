@@ -13,6 +13,7 @@ export default [
   {
     ignores: [
       ".astro/**",
+      ".wrangler/**",
       "dist/**",
       "node_modules/**",
       "public/**",

@@ -99,6 +99,8 @@ nightfox
 noopener
 nuxtjs
 nvim
+noarchive
+nosniff
 oklch
 PGID
 pgvector

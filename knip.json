@@ -7,7 +7,9 @@
     "src/emails/new-blog-post.template.tsx",
     "src/emails/**/*.test.ts",
     "src/utils/**/*.{ts,mjs}",
-    "src/lib/**/*.ts"
+    "src/lib/**/*.ts",
+    "src/ops-worker.ts",
+    "src/ops-worker.test.ts"
   ],
   "project": ["src/**/*.{astro,ts,tsx,mjs,js,mdx}"],
   "ignoreDependencies": [

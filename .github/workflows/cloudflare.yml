@@ -119,6 +119,7 @@ jobs:
             astro-deploy-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
       - run: pnpm check
       - run: pnpm deploy
+      - run: pnpm deploy:ops
       - name: Notify IndexNow
         env:
           GITHUB_EVENT_BEFORE: ${{ github.event.before }}

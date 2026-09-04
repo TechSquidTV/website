@@ -28,3 +28,5 @@ pnpm-debug.log*
 
 # Local Cloudflare development state
 .wrangler/state/
+.wrangler/deploy/config.json
+.wrangler/tmp/

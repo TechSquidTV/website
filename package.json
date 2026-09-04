@@ -12,6 +12,7 @@
     "astro": "astro",
     "test": "vitest run",
     "deploy": "pnpm build && wrangler deploy --config dist/server/wrangler.json",
+    "deploy:ops": "wrangler deploy --config wrangler.ops.jsonc",
     "cf-typegen": "wrangler types",
     "check": "pnpm format:check && pnpm lint && pnpm knip && pnpm spellcheck && pnpm build",
     "format": "prettier --write .",
