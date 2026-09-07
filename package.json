@@ -32,7 +32,7 @@
     "@astrojs/mdx": "^7.0.8",
     "@astrojs/react": "^6.0.4",
     "@astrojs/rss": "^4.0.19",
-    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/outfit": "^5.3.0",
     "@sentry/astro": "^10.71.0",
     "@sentry/cloudflare": "^10.71.0",
