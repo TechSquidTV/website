@@ -38,7 +38,7 @@
     "@sentry/cloudflare": "^10.71.0",
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.5",
+    "@types/react-dom": "^19.2.7",
     "astro": "7.2.9",
     "astro-icon": "^1.2.0",
     "astro-og-canvas": "^0.13.0",
