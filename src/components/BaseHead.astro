@@ -91,22 +91,6 @@ const verificationProfiles = SOCIAL_LINKS.filter(
 />
 <meta name="generator" content={Astro.generator} />
 
-<!-- Font preloads -->
-<link
-  rel="preload"
-  href="/fonts/atkinson-regular.woff"
-  as="font"
-  type="font/woff"
-  crossorigin
-/>
-<link
-  rel="preload"
-  href="/fonts/atkinson-bold.woff"
-  as="font"
-  type="font/woff"
-  crossorigin
-/>
-
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
@@ -123,7 +107,7 @@ const verificationProfiles = SOCIAL_LINKS.filter(
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImageUrl} />
@@ -163,7 +147,7 @@ const verificationProfiles = SOCIAL_LINKS.filter(
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:url" content={Astro.url} />
+<meta name="twitter:url" content={canonicalURL} />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImageUrl} />

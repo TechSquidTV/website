@@ -4,6 +4,7 @@ import { YouTube } from "@astro-community/astro-embed-youtube";
 import { ClientRouter } from "astro:transitions";
 import { Icon } from "astro-icon/components";
 import BaseHead from "@/components/BaseHead.astro";
+import StructuredData from "@/components/StructuredData.astro";
 import BlogPostList from "@/components/BlogPostList.astro";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
@@ -76,12 +77,13 @@ try {
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <StructuredData />
   </head>
   <body>
     <ClientRouter />
     <Header />
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <section class="border-border border-b">
         <div class="container-page py-10 sm:py-14">
           <div
@@ -121,7 +123,7 @@ try {
             Latest writing
           </h2>
           <a
-            href="/blog"
+            href="/blog/"
             class="text-muted-foreground hover:text-foreground text-sm no-underline transition-colors"
           >
             All posts

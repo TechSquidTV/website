@@ -8,7 +8,7 @@ type FormSubmissionFailureKind = Exclude<
 export class FormSubmissionError extends Error {
   constructor(
     message: string,
-    readonly status: 400 | 403 | 429 | 502,
+    readonly status: 400 | 403 | 413 | 429 | 502,
     readonly failureKind: FormSubmissionFailureKind,
   ) {
     super(message);
@@ -39,6 +39,38 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/u;
 const MAX_NAME_LENGTH = 120;
 const MAX_MESSAGE_LENGTH = 10_000;
 const MAX_TURNSTILE_TOKEN_LENGTH = 2_048;
+const MAX_PAYLOAD_BYTES = 64 * 1024;
+
+async function readPayloadBody(request: Request): Promise<string> {
+  const tooLarge = () =>
+    new FormSubmissionError("Form submission is too large.", 413, "validation");
+
+  if (Number(request.headers.get("content-length")) > MAX_PAYLOAD_BYTES) {
+    throw tooLarge();
+  }
+
+  const reader = request.body?.getReader();
+  if (!reader) return "";
+
+  const decoder = new TextDecoder();
+  let bytes = 0;
+  let body = "";
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      bytes += value.byteLength;
+      if (bytes > MAX_PAYLOAD_BYTES) {
+        void reader.cancel().catch(() => {});
+        throw tooLarge();
+      }
+      body += decoder.decode(value, { stream: true });
+    }
+    return body + decoder.decode();
+  } finally {
+    reader.releaseLock();
+  }
+}
 
 function isFormPayload(value: unknown): value is FormPayload {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -114,8 +146,9 @@ export async function parsePayload(request: Request): Promise<FormPayload> {
   let payload: unknown;
 
   try {
-    payload = await request.json();
-  } catch {
+    payload = JSON.parse(await readPayloadBody(request));
+  } catch (error) {
+    if (error instanceof FormSubmissionError) throw error;
     throw new FormSubmissionError(
       "Invalid form submission.",
       400,

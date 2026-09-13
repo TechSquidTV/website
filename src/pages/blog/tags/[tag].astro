@@ -43,7 +43,7 @@ const { posts, tag } = Astro.props;
   <body>
     <ClientRouter />
     <Header />
-    <main class="container-page py-10 sm:py-14">
+    <main id="main-content" tabindex="-1" class="container-page py-10 sm:py-14">
       <header class="mb-8">
         <h1 class="text-foreground mb-2 text-4xl leading-tight font-bold">
           #{tag}

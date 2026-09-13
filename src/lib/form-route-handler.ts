@@ -65,6 +65,7 @@ export function createFormHandler<Submission>(
 
     try {
       assertSameOrigin(request);
+      await enforceRateLimit(env.FORM_RATE_LIMITER, request);
       const payload = await parsePayload(request);
       metricPlacement = formMetricPlacement(
         options.kind,
@@ -72,6 +73,7 @@ export function createFormHandler<Submission>(
           ? payload.metricPlacement
           : "",
       );
+      const submission = options.parseSubmission(payload);
       if (options.kind === "newsletter") {
         try {
           newsletterAttribution = await newsletterMetricAttribution(payload);
@@ -95,11 +97,7 @@ export function createFormHandler<Submission>(
         options.turnstileAction,
         env.TURNSTILE_HOSTNAMES,
       );
-      await enforceRateLimit(env.FORM_RATE_LIMITER, request);
-      await options.submit(
-        options.parseSubmission(payload),
-        resendConfiguration(),
-      );
+      await options.submit(submission, resendConfiguration());
 
       trackFormSubmission(
         options.kind,

@@ -3,6 +3,7 @@ import {
   FormSubmissionError,
   enforceRateLimit,
   parseNewsletterSubmission,
+  parsePayload,
   verifyTurnstile,
 } from "@/lib/form-submissions";
 import {
@@ -93,6 +94,72 @@ describe("newsletter submissions", () => {
 });
 
 describe("submission protection", () => {
+  it("accepts a valid Unicode message within the body limit", async () => {
+    const payload = {
+      message: "🦑".repeat(5_000),
+      email: "reader@example.com",
+    };
+    await expect(
+      parsePayload(
+        new Request("https://techsquidtv.com/api/forms/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }),
+      ),
+    ).resolves.toEqual(payload);
+  });
+
+  it.each([undefined, "1", "70000"])(
+    "rejects an oversized body with content-length %s",
+    async (length) => {
+      const headers = new Headers({ "Content-Type": "application/json" });
+      if (length) headers.set("Content-Length", length);
+      const request = new Request("https://techsquidtv.com/api/forms/contact", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ message: "🦑".repeat(20_000) }),
+      });
+      await expect(parsePayload(request)).rejects.toMatchObject({
+        status: 413,
+        failureKind: "validation",
+      });
+    },
+  );
+
+  it("stops consuming a chunked body once the byte limit is exceeded", async () => {
+    const cancel = vi.fn();
+    const stream = new ReadableStream<Uint8Array>(
+      {
+        pull(controller) {
+          controller.enqueue(new Uint8Array(32 * 1024));
+        },
+        cancel,
+      },
+      { highWaterMark: 0 },
+    );
+    const request = new Request("https://techsquidtv.com/api/forms/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: stream,
+      duplex: "half",
+    } as RequestInit);
+    await expect(parsePayload(request)).rejects.toMatchObject({ status: 413 });
+    expect(cancel).toHaveBeenCalledOnce();
+  });
+
+  it("returns a validation error for malformed JSON", async () => {
+    await expect(
+      parsePayload(
+        new Request("https://techsquidtv.com/api/forms/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: "{",
+        }),
+      ),
+    ).rejects.toMatchObject({ status: 400 });
+  });
+
   it("rejects a failed Turnstile verification", async () => {
     vi.stubGlobal(
       "fetch",

@@ -27,6 +27,8 @@ const formDialogId = "contact-submission-dialog";
   </PageHeader>
 
   <form
+    method="post"
+    action="/api/forms/contact"
     data-form-endpoint="/api/forms/contact"
     data-form-dialog={formDialogId}
     data-form-kind="contact"

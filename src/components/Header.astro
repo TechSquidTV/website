@@ -2,30 +2,30 @@
 import { Icon } from "astro-icon/components";
 import { SITE_TITLE } from "@/consts";
 
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 
 // Navigation data
 const navItems = [
   {
-    href: "/blog",
+    href: "/blog/",
     label: "Blog",
     icon: "rss",
     isActive: currentPath.startsWith("/blog"),
   },
   {
-    href: "/about",
+    href: "/about/",
     label: "About",
     icon: "verified",
     isActive: currentPath === "/about",
   },
   {
-    href: "/follow",
+    href: "/follow/",
     label: "Follow",
     icon: "youtube",
     isActive: currentPath === "/follow",
   },
   {
-    href: "/contact",
+    href: "/contact/",
     label: "Contact",
     icon: "email",
     isActive: currentPath === "/contact",
@@ -43,6 +43,8 @@ const navLinkClasses = (isActive: boolean, mobile = false): string =>
     .filter(Boolean)
     .join(" ");
 ---
+
+<a href="#main-content" class="skip-link focus-ring">Skip to content</a>
 
 <header
   class="border-border bg-background/90 sticky top-0 z-50 border-b backdrop-blur"
