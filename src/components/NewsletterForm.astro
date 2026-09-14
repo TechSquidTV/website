@@ -14,6 +14,8 @@ const dialogId = `${formId}-dialog`;
 ---
 
 <form
+  method="post"
+  action="/api/forms/newsletter"
   id={formId}
   data-form-endpoint="/api/forms/newsletter"
   data-form-dialog={dialogId}
@@ -33,7 +35,7 @@ const dialogId = `${formId}-dialog`;
   <slot />
   <p data-form-status class="mt-4 text-sm" aria-live="polite"></p>
   <p class="text-text-muted mt-3 text-center text-sm">
-    We respect your inbox. Read our <a href="/privacy">Privacy Policy</a>.
+    We respect your inbox. Read our <a href="/privacy/">Privacy Policy</a>.
   </p>
 </form>
 

@@ -23,7 +23,7 @@ const { title, description, structuredDataType = "Person" } = Astro.props;
   <body>
     <ClientRouter />
     <Header />
-    <main class="container-page py-10 sm:py-14">
+    <main id="main-content" tabindex="-1" class="container-page py-10 sm:py-14">
       <slot />
     </main>
     <Footer />

@@ -70,7 +70,7 @@ function routeContext(request: Request): Parameters<typeof contactPost>[0] {
 
 describe("form API routes", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
     dependencies.assertSameOrigin.mockImplementation(() => undefined);
   });
 
@@ -157,6 +157,39 @@ describe("form API routes", () => {
       message: "Invalid form submission.",
     });
   });
+
+  it("rate limits before reading the body or calling Turnstile", async () => {
+    dependencies.enforceRateLimit.mockRejectedValue(
+      new FormSubmissionError("Too many submissions.", 429, "rate_limit"),
+    );
+    const response = await contactPost(
+      routeContext(requestFor("/api/forms/contact")),
+    );
+    expect(response.status).toBe(429);
+    expect(dependencies.parsePayload).not.toHaveBeenCalled();
+    expect(dependencies.verifyTurnstile).not.toHaveBeenCalled();
+    expect(dependencies.sendContactMessage).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ["contact", contactPost, dependencies.parseContactSubmission],
+    ["newsletter", newsletterPost, dependencies.parseNewsletterSubmission],
+  ] as const)(
+    "validates %s fields before external verification",
+    async (kind, handler, parser) => {
+      dependencies.parsePayload.mockResolvedValue({ email: "invalid" });
+      parser.mockImplementation(() => {
+        throw new FormSubmissionError("Invalid email.", 400, "validation");
+      });
+      const response = await handler(
+        routeContext(requestFor(`/api/forms/${kind}`)),
+      );
+      expect(response.status).toBe(400);
+      expect(dependencies.verifyTurnstile).not.toHaveBeenCalled();
+      expect(dependencies.sendContactMessage).not.toHaveBeenCalled();
+      expect(dependencies.subscribeToNewsletter).not.toHaveBeenCalled();
+    },
+  );
 
   it("maps Resend failures to a generic gateway response", async () => {
     dependencies.parsePayload.mockResolvedValue({ message: "Hello" });

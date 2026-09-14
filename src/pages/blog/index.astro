@@ -2,10 +2,11 @@
 import { render } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import BlogPostList from "@/components/BlogPostList.astro";
-import { SITE_DESCRIPTION, SITE_TITLE } from "@/consts";
+import { SITE_TITLE } from "@/consts";
 import { getPublishedPosts } from "@/utils/blog";
 
 const posts = await getPublishedPosts(true);
+const tags = [...new Set(posts.flatMap((post) => post.data.tags ?? []))].sort();
 
 // Get reading time data for all posts
 const postsWithReadingTime = await Promise.all(
@@ -16,13 +17,36 @@ const postsWithReadingTime = await Promise.all(
 );
 ---
 
-<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+<BaseLayout
+  title={`Blog - ${SITE_TITLE}`}
+  description="Tutorials, experiments, and practical guides on software, hardware, and developer tools from Kyle Tryon."
+>
   <section>
-    <p
-      class="text-muted-foreground mb-6 text-sm font-medium tracking-[var(--tracking-caps-sm)] uppercase"
-    >
-      Latest writing
-    </p>
+    <header class="mb-8">
+      <h1 class="text-foreground mb-3 text-4xl leading-tight font-semibold">
+        Blog
+      </h1>
+      <p class="text-muted-foreground">
+        Tutorials, experiments, and practical guides.
+      </p>
+      {
+        tags.length > 0 && (
+          <nav
+            aria-label="Browse posts by topic"
+            class="mt-5 flex flex-wrap gap-2"
+          >
+            {tags.map((tag) => (
+              <a
+                href={`/blog/tags/${encodeURIComponent(tag)}/`}
+                class="focus-ring border-border text-muted-foreground hover:text-foreground rounded-md border px-3 py-2 text-sm no-underline transition-colors"
+              >
+                #{tag}
+              </a>
+            ))}
+          </nav>
+        )
+      }
+    </header>
     <BlogPostList posts={postsWithReadingTime} featured showFeaturedImage />
   </section>
 </BaseLayout>

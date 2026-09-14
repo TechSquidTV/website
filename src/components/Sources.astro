@@ -27,12 +27,7 @@ const { sources } = Astro.props;
             <span class="source-number" aria-hidden="true">
               [{index + 1}]
             </span>
-            <a
-              itemprop="url"
-              href={source.url}
-              target="_blank"
-              rel="nofollow noopener"
-            >
+            <a itemprop="url" href={source.url} target="_blank" rel="noopener">
               <span itemprop="name">{source.title}</span>
             </a>
           </li>

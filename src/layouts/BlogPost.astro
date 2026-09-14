@@ -85,7 +85,7 @@ const githubEditUrl = `https://github.com/TechSquidTV/website/edit/main/${source
   <body>
     <ClientRouter />
     <Header />
-    <main class="container-page py-10 sm:py-14">
+    <main id="main-content" tabindex="-1" class="container-page py-10 sm:py-14">
       <article
         class="blog-image-lightbox-root"
         data-sentry-blog-post
@@ -102,6 +102,10 @@ const githubEditUrl = `https://github.com/TechSquidTV/website/edit/main/${source
                 height={720}
                 src={heroImage}
                 alt={heroImageAlt || title}
+                layout="constrained"
+                sizes="(min-width: 768px) 720px, (min-width: 640px) calc(100vw - 3rem), calc(100vw - 2rem)"
+                loading="eager"
+                fetchpriority="high"
                 class="mb-10 h-auto w-full rounded-md"
                 transition:name={`hero-${blogSlug}`}
               />

@@ -8,6 +8,7 @@ import {
 } from "@/consts";
 import { OPEN_GRAPH_IMAGE_EXTENSION } from "@/lib/open-graph-theme";
 import type { Source } from "@/lib/sources";
+import profileImage from "@/images/brand/tstvprofile.png";
 
 interface Props {
   type?: "Person" | "BlogPosting" | "ProfilePage";
@@ -43,9 +44,9 @@ const authorSchema = {
   email: PERSONAL_INFO.email,
   image: {
     "@type": "ImageObject",
-    url: `${Astro.site}brand/tstvprofile.png`,
-    width: 400,
-    height: 400,
+    url: new URL(profileImage.src, Astro.site).href,
+    width: profileImage.width,
+    height: profileImage.height,
   },
   description: SITE_DESCRIPTION,
   jobTitle: PERSONAL_INFO.jobTitle,
@@ -61,7 +62,7 @@ const authorSchema = {
   ],
   knowsAbout: EXPERTISE_AREAS, // ← Now uses the constants!
   sameAs: IDENTITY_PROFILES.map((link) => link.url),
-  mainEntityOfPage: `${Astro.site}about`,
+  mainEntityOfPage: new URL("about/", Astro.site).href,
 };
 
 const siteGraph = [

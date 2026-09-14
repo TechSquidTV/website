@@ -118,7 +118,8 @@ jobs:
           restore-keys: |
             astro-deploy-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
       - run: pnpm check
-      - run: pnpm deploy
+      - name: Deploy validated site build
+        run: pnpm exec wrangler deploy --config dist/server/wrangler.json
       - run: pnpm deploy:ops
       - name: Notify IndexNow
         env:
