@@ -47,6 +47,7 @@
     IBM Plex Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     monospace;
   --spacing: 0.275rem;
+  --content-block-spacing: 2rem;
   --container-3xl: 52.8rem;
   --text-xs: 0.825rem;
   --text-sm: 0.9625rem;
@@ -259,16 +260,29 @@
     @apply focus-visible:outline-ring focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
   }
 
+  .content-block {
+    margin-block: var(--content-block-spacing);
+  }
+
+  .form-control {
+    @apply border-border bg-background text-foreground placeholder:text-muted-foreground hover:border-border-light w-full min-w-0 rounded-none border px-4 py-3 text-base transition-colors;
+  }
+
+  .form-control:focus {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
   .surface-card {
-    @apply border-border bg-card text-card-foreground rounded-md border;
+    @apply border-border bg-card text-card-foreground border;
   }
 
   .surface-muted {
-    @apply border-border bg-muted text-foreground rounded-md border;
+    @apply border-border bg-muted text-foreground border;
   }
 
   .section-eyebrow {
-    @apply border-border bg-muted text-primary inline-flex rounded-full border px-3 py-1 text-xs font-semibold tracking-[var(--tracking-caps-sm)] uppercase;
+    @apply text-muted-foreground inline-flex text-xs font-medium tracking-[var(--tracking-caps-sm)] uppercase;
   }
 
   .hero-band {
@@ -293,7 +307,7 @@
     display: block;
     margin: 0 auto;
     overflow: hidden;
-    border-radius: var(--radius);
+    border-radius: 0;
   }
 
   .animate-fade-in {
@@ -311,6 +325,7 @@
   .prose,
   .prose-docs {
     @apply text-foreground max-w-none text-base leading-7;
+    font-weight: 450;
   }
 
   .prose :where(h1, h2, h3, h4, h5, h6),
@@ -343,6 +358,7 @@
   .prose p,
   .prose-docs p {
     @apply text-muted-foreground mt-4;
+    color: color-mix(in oklch, var(--muted-foreground) 88%, white);
   }
 
   .prose strong,
@@ -362,6 +378,7 @@
   .prose-docs ul,
   .prose-docs ol {
     @apply text-muted-foreground mt-4 space-y-2 pl-5;
+    color: color-mix(in oklch, var(--muted-foreground) 88%, white);
   }
 
   .prose ul,
@@ -382,6 +399,7 @@
   .prose blockquote,
   .prose-docs blockquote {
     @apply text-muted-foreground mt-6 border-l px-5 py-1 italic;
+    color: color-mix(in oklch, var(--muted-foreground) 88%, white);
     border-left-width: 2px;
     border-left-color: var(--primary);
   }
@@ -393,12 +411,12 @@
 
   .prose :where(model-viewer, img, video, lite-youtube, .youtube-embed),
   .prose-docs :where(model-viewer, img, video, lite-youtube, .youtube-embed) {
-    margin-block: 1.5rem;
+    margin-block: var(--content-block-spacing);
   }
 
   .prose :where(img, video),
   .prose-docs :where(img, video) {
-    @apply border-border rounded-md border;
+    @apply border-border rounded-none border;
   }
 
   .blog-image-lightbox-root img:not(a img):not([data-lightbox-disabled]) {
@@ -411,7 +429,7 @@
   }
 
   .youtube-embed {
-    @apply border-border aspect-video w-full overflow-hidden rounded-md border;
+    @apply border-border aspect-video w-full overflow-hidden border;
   }
 
   .youtube-embed iframe {
@@ -426,58 +444,63 @@
     @apply border-border my-10;
   }
 
-  .prose table,
-  .prose-docs > table,
-  table {
-    @apply bg-background mt-6 w-full overflow-hidden rounded-md text-sm;
-    border-spacing: 0;
-    border-collapse: separate;
-    box-shadow: 0 0 0 1px var(--border);
+  .markdown-table-scroll {
+    @apply border-border w-fit max-w-full overflow-x-auto border;
+    margin: var(--content-block-spacing) auto;
   }
 
-  thead,
-  .prose table thead,
-  .prose-docs > table thead {
-    @apply bg-muted text-foreground;
+  .markdown-table-scroll:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 4px;
   }
 
-  tbody,
-  .prose table tbody,
-  .prose-docs > table tbody {
-    @apply divide-border border-border divide-y border-t;
+  .shadcn-table {
+    @apply bg-background w-auto text-sm leading-relaxed;
+    border-collapse: collapse;
   }
 
-  th,
-  td,
-  .prose table th,
-  .prose table td,
-  .prose-docs > table th,
-  .prose-docs > table td {
-    @apply min-w-40 px-4 py-3 text-left align-top;
+  .shadcn-table :where(th, td) {
+    @apply border-border min-w-32 px-4 py-3 align-top;
+    overflow-wrap: anywhere;
   }
 
-  th,
-  .prose table th,
-  .prose-docs > table th {
-    @apply text-foreground font-semibold;
+  /* Markdown's explicit column alignment takes precedence. */
+  .shadcn-table :where(th, td):not([align]) {
+    text-align: left;
   }
 
-  td,
-  .prose table td,
-  .prose-docs > table td {
+  .shadcn-table th {
+    @apply bg-card text-foreground font-medium;
+  }
+
+  .shadcn-table td {
     @apply text-muted-foreground;
+  }
+
+  .shadcn-table tr > :is(th, td) + :is(th, td) {
+    border-left-width: 1px;
+  }
+
+  .shadcn-table thead tr > *,
+  .shadcn-table tbody tr:not(:last-child) > * {
+    border-bottom-width: 1px;
+  }
+
+  .shadcn-table tbody tr:hover {
+    @apply bg-muted/40;
   }
 
   .prose :not(pre) > code,
   .prose-docs :not(pre) > code,
   :not(pre) > code {
-    @apply border-border bg-muted text-foreground rounded-sm border px-1.5 py-0.5 text-[0.88em] font-medium;
+    @apply border-border bg-muted text-foreground border px-1.5 py-0.5 text-[0.88em] font-medium;
   }
 
   .prose > pre,
   .prose-docs > pre.astro-code,
   pre.astro-code {
-    @apply border-border mt-6 overflow-x-auto rounded-md border p-4 text-sm;
+    @apply border-border overflow-x-auto border p-4 text-sm;
+    margin-block: var(--content-block-spacing);
     background: var(--site-bg-code) !important;
     line-height: 1.65;
   }

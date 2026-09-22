@@ -1,0 +1,120 @@
+---
+title: "How a Smart TV Becomes a Six-Figure Hacking Target"
+publishDate: "09-13-2026"
+slug: how-a-smart-tv-becomes-a-six-figure-hacking-target
+description: "Streaming services embed keys deep inside your devices. Here's why pirates are interested in your smart TV."
+heroImage: ../../../images/blog/tv-100k-hero.png
+heroImageAlt: "A television and sound system in a dark room with the words Why Your TV Is Worth $100,000 overlaid."
+tags:
+  - technology
+  - hacking
+draft: true
+sources:
+  - title: "Programming an eMMC Flash — AMD"
+    url: "https://docs.amd.com/r/en-US/ug908-vivado-programming-debugging/Programming-an-eMMC-Flash"
+  - title: "OP-TEE: Secure Storage"
+    url: "https://optee.readthedocs.io/en/latest/architecture/secure_storage.html"
+  - title: "PUF Security: Hardware Unique Key (HUK)"
+    url: "https://www.pufsecurity.com/technology/huk/"
+  - title: "Burning eFuses on i.MX8 and i.MX8x Families"
+    url: "https://imxdev.gitlab.io/tutorial/Burning_eFuses_on_i.MX8_and_i.MX8x_families/"
+  - title: "Trusted Encrypted Keys in the Linux Kernel"
+    url: "https://www.kernel.org/doc/html/v6.7/security/keys/trusted-encrypted.html"
+---
+
+import { Image } from "astro:assets";
+import OTPMemoryDemo from "@/components/OTPMemoryDemo.astro";
+import HardwareKeyDerivation from "@/components/HardwareKeyDerivation.astro";
+import EMMCPartitions from "@/components/EMMCPartitions.astro";
+import Sources from "@/components/Sources.astro";
+import WikiLink from "@/components/WikiLink.astro";
+import NetflixBlackScreen from "@/images/blog/netflix-black-screen.webp";
+import TVMainBoard from "@/images/blog/main_board_tv.svg";
+
+Sitting inside your home, is a locked box containing something valuable, hidden away deep inside many of the devices you own.
+
+While the contents of that treasure chest are valuable, the real prize goes to those who know how to unlock it and are able to craft a skeleton key, capable of opening many treasure chests.
+
+If you can make that skeleton key, the creators of the box will pay you between **_$150,000_ and up to _$1.5 million_ USD** for that information.
+
+Let's talk about the secrets currently sitting inside your phone, your smart TV, and other modern devices; and why Netflix is allowed to permanently modify your CPU to protect its content.
+
+## Table of Contents
+
+## Why Pirates Want Your Old TV
+
+The pipeline between a movie or TV show being released and it being viewable on your smart TV involves a complex Russian-nesting-dolls of <WikiLink url="https://en.wikipedia.org/wiki/Encryption" tooltip="Encryption transforms information so only authorized parties can read it.">encryption</WikiLink> layers to protect that content at every step from being pirated.
+
+Have you ever tried to take a screenshot of something playing on a streaming service? If you try to record the screen, you'll find you only get get back a blank screen.
+How do they do that?
+
+<Image
+  src={NetflixBlackScreen}
+  alt="Netflix showing a black screen with audio playing, due to DRM restrictions when using a DisplayLink dock."
+/>
+
+When a streaming app plays content on your device, it has to make certain decisions about what it is willing to share with you, based on how secure it believes your device to be, and whether it can trust that the content they deliver will remain protected.
+
+Video streams arrived as encrypted segments, and to play it back, your device needs to have a specific piece of hardware (a <WikiLink url="https://en.wikipedia.org/wiki/Trusted_execution_environment" tooltip="A Trusted Execution Environment (TEE) is a secure area of a main processor.">Trusted Execution Environment</WikiLink> or TEE) inside the <WikiLink url="https://en.wikipedia.org/wiki/System_on_a_chip" tooltip="A System on a Chip integrates major computer components into one chip.">SoC (System on Chip)</WikiLink> or CPU, that holds a key securely and decrypts the video entirely out of reach of the operating system.
+
+<TVMainBoard
+  class="my-8 block h-auto w-full"
+  role="img"
+  aria-label="Diagram of a TV mainboard showing the SoC, eMMC storage, USB and HDMI ports, LAN, and UART."
+/>
+
+If you can extract that key, you can decrypt the video streams and download 4K content directly.
+Of course, doing so is no easy task, and not something you are going to find a guide for online.
+
+In fact, if you discover a new way to extract that key, you could potentially earn a significant bounty from the creators of the device for responsibly disclosing the vulnerability.
+
+Google may be [willing to pay](https://bughunters.google.com/about/rules/android-friends/android-and-google-devices-security-reward-program-rules#top-tier-exploit-chains) the previously mentioned $150,000 to $1.5 million USD for discovering such vulnerabilities.
+Many other manufacturers, like those making the chips, often offer much less - often making keeping the method a secret a more interesting option.
+
+## Why Root Access Doesn't Mean Full Control
+
+While many may think that <WikiLink url="https://en.wikipedia.org/wiki/Superuser" tooltip="The root user is the privileged account on Unix-like operating systems.">"root"</WikiLink> access to a machine means you have _full_ control over a device, that's not true.
+You have full control over the operating system, but not necessarily over all of the hardware on the device.
+
+There lies another layer of security in modern devices, designed to protect secrets and intellectual property from all users, including those with root access.
+
+## The Hardware Unique Key
+
+Inside the SoC, as we mentioned, is a <WikiLink url="https://en.wikipedia.org/wiki/Trusted_execution_environment" tooltip="A Trusted Execution Environment (TEE) is a secure area of a main processor.">Trusted Execution Environment (TEE)</WikiLink>,
+which is responsible for executing code in a secure environment (like decrypting video), that also includes creating and storing cryptographic keys securely.
+
+### The One-Time Programmable (OTP) Memory - Burning eFuses
+
+When the SoC is manufactured, an area of permanent read-only memory is allocated for storing some critical information that _can never be altered or erased_.
+This will be used for things like, storing the device's unique hardware key (HUK), "monotonic counters" used to prevent systems from downgrading firmware versions, and <wikiLink url="https://en.wikipedia.org/wiki/Error_correction_code" tooltip="Error correction codes (ECC) are used to detect and correct errors in data storage or transmission.">ECC</wikiLink> and redundancy bits.
+
+Typically ~128 or ~256 bits of OTP memory are allocated for storing the HUK, which will be critical for deriving other keys that will be generated and encrypted later.
+
+To prevent data from ever being modified or erased, the OTP memory is made up from a grid of "eFuses" that are physically destroyed when a high voltage is applied, effectively "burning" the fuse and setting that bit permanently.
+
+Play around with this demo. Click around on each fuse and see how that changes the HUK. Blowing a fuse is permanent, to reset it you need to start with a new device.
+You can also click "Provision" to simulate how the SoC manufacturer would generate keys randomly and burn them into the OTP memory.
+
+<OTPMemoryDemo/>
+
+Similarly, those monotonic counters that prevent firmware downgrades and replay attacks, also burn eFuses.
+However, rather than using a binary counting system like you might initial expect, a binary system would require that some bits flip back and forth, which wouldn't be possible.
+Instead, a <wikiLink url="https://en.wikipedia.org/wiki/Unary_numeral_system" tooltip="A unary numeral system represents a value as a series of marks or symbols, with each mark representing one unit.">unary</wikiLink> counting system is used, where each increment permanently burns an additional eFuse.
+
+<div class="[&_td]:font-mono [&_td]:tabular-nums">
+
+| Value | Binary | Unary |
+|-------|--------|-------|
+| 0     | 000    |       |
+| 1     | 001    | 1     |
+| 2     | 010    | 11    |
+| 3     | 011    | 111   |
+| 4     | 100    | 1111  |
+
+</div>
+
+<HardwareKeyDerivation />
+
+<EMMCPartitions />
+
+<Sources sources={frontmatter.sources} />

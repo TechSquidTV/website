@@ -30,7 +30,7 @@ const isInline = variant === "inline";
       id={nameId}
       name="name"
       placeholder={namePlaceholder}
-      class="newsletter-input"
+      class="form-control newsletter-input"
     />
     <input
       type="email"
@@ -38,7 +38,7 @@ const isInline = variant === "inline";
       name="email"
       placeholder={emailPlaceholder}
       required
-      class="newsletter-input"
+      class="form-control newsletter-input"
     />
   </div>
   <Button
@@ -77,26 +77,6 @@ const isInline = variant === "inline";
 
   .newsletter-input {
     flex: 1;
-    padding: 0.875rem 1rem;
-    background: var(--color-bg-code);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    color: var(--color-text-primary);
-    font-size: var(--text-base);
-    transition:
-      border-color 0.2s ease,
-      background-color 0.2s ease;
-  }
-
-  .is-inline .newsletter-input {
-    padding: 0.75rem 1rem;
-    font-size: var(--text-content-sm);
-  }
-
-  .newsletter-input:focus {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-    background: var(--color-bg-tertiary);
   }
 
   .newsletter-submit {

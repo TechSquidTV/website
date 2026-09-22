@@ -6,12 +6,27 @@ import { visit } from "unist-util-visit";
  */
 export function rehypeShadcnTables() {
   return function (tree) {
-    visit(tree, "element", (node) => {
+    visit(tree, "element", (node, index, parent) => {
       // Transform table element
       if (node.tagName === "table") {
         node.properties = {
           ...node.properties,
           className: [...(node.properties?.className || []), "shadcn-table"],
+        };
+      }
+
+      // Keep wide tables scrollable without changing native table layout.
+      if (node.tagName === "table" && parent && typeof index === "number") {
+        parent.children[index] = {
+          type: "element",
+          tagName: "div",
+          properties: {
+            className: ["markdown-table-scroll"],
+            tabIndex: 0,
+            role: "region",
+            ariaLabel: "Scrollable table",
+          },
+          children: [node],
         };
       }
 
@@ -39,7 +54,7 @@ export function rehypeShadcnTables() {
 
       // Transform tr elements
       if (node.tagName === "tr") {
-        const isHeaderRow = node.parent?.tagName === "thead";
+        const isHeaderRow = parent?.tagName === "thead";
         node.properties = {
           ...node.properties,
           className: [

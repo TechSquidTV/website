@@ -114,6 +114,10 @@ export default defineConfig({
   },
 
   vite: {
+    // Checks and builds must not invalidate a running dev server's optimized modules.
+    cacheDir: isDevServer
+      ? "node_modules/.vite/dev"
+      : "node_modules/.vite/build",
     plugins: [tailwindcss(), preventAstroComponentDependencyScan()],
     // Astro 7 configures separate Vite environments. Apply this to both the
     // legacy settings and the runnable environments, otherwise Vite scans

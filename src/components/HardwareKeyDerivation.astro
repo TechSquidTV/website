@@ -1,0 +1,176 @@
+<div class="hardware-key-derivation not-prose">
+  <figure
+    class="key-path"
+    aria-label="One HUK derives two purpose-specific keys"
+  >
+    <figcaption>Illustrative key storage · not a verified LG layout</figcaption>
+    <div class="source-key">
+      <strong>OTP fuses · permanent</strong><small
+        >HUK — a 128-bit secret that survives power loss</small
+      >
+    </div>
+    <div class="trunk" aria-hidden="true">↓</div>
+    <fieldset class="storage-boundary">
+      <legend>Trusted environment · secure working memory</legend>
+      <div class="derivation">
+        <strong>Key derivation · HKDF</strong><small
+          >Same secret + different purpose → different key</small
+        >
+      </div>
+      <div class="derived-keys">
+        <div class="key-branch">
+          <span class="purpose">“storage-encryption”</span>
+          <span class="arrow" aria-hidden="true">↓</span>
+          <strong>AES-128 encryption key</strong>
+          <small>Unlocks encrypted credentials</small>
+        </div>
+        <div class="key-branch">
+          <span class="purpose">“rpmb-authentication”</span>
+          <span class="arrow" aria-hidden="true">↓</span>
+          <strong>RPMB authentication key</strong>
+          <small>Checks that the storage response is authentic</small>
+        </div>
+      </div>
+      <p class="lifetime">
+        Derived when needed; recreated from the HUK after power loss.
+      </p>
+    </fieldset>
+    <div class="storage-links" aria-hidden="true">
+      <span>↓ Encrypt / decrypt</span>
+      <span>↓ Program once during provisioning</span>
+    </div>
+    <fieldset class="storage-boundary persistent-storage">
+      <legend>eMMC · persistent storage</legend>
+      <div class="storage-destinations">
+        <div>
+          <strong>RPMB data area</strong>
+          <small>Encrypted credential bytes</small>
+          <small>Example location in this diagram</small>
+        </div>
+        <div>
+          <strong>Controller’s authentication-key slot</strong>
+          <small>A persistent copy of the RPMB key</small>
+          <small>Separate from the readable data area</small>
+        </div>
+      </div>
+    </fieldset>
+  </figure>
+</div>
+
+<style>
+  .hardware-key-derivation {
+    display: block;
+    margin: var(--content-block-spacing) 0;
+    color: var(--foreground);
+    font: 0.875rem/1.5 var(--font-ui);
+  }
+  .key-path {
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+  figcaption,
+  small,
+  .purpose,
+  legend,
+  .lifetime,
+  .storage-links {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+  }
+  figcaption {
+    margin-bottom: 1rem;
+  }
+  .source-key,
+  .derivation,
+  .key-branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+  .trunk,
+  .arrow {
+    color: var(--muted-foreground);
+  }
+  .derivation {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    background: var(--muted);
+  }
+  .derived-keys {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-top: 1.5rem;
+    position: relative;
+  }
+  .derived-keys::before {
+    content: "";
+    position: absolute;
+    height: 1.5rem;
+    border-left: 1px solid var(--border);
+    left: 50%;
+    top: 0;
+  }
+  .key-branch {
+    position: relative;
+    padding: 1.5rem 0.5rem 0;
+  }
+  .key-branch::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .key-branch:first-child::before {
+    left: 50%;
+    border-left: 1px solid var(--border);
+  }
+  .key-branch:last-child::before {
+    right: 50%;
+    border-right: 1px solid var(--border);
+  }
+  .purpose {
+    font-family: var(--font-mono);
+    overflow-wrap: anywhere;
+  }
+  .storage-boundary {
+    margin: 0;
+    min-width: 0;
+    padding: 1rem;
+    border: 1px dashed var(--border);
+  }
+  legend {
+    padding: 0 0.5rem;
+  }
+  .lifetime {
+    margin: 1rem 0 0;
+  }
+  .storage-links,
+  .storage-destinations {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .storage-links {
+    padding: 1rem;
+  }
+  .persistent-storage {
+    border-style: solid;
+  }
+  .storage-destinations > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+  strong {
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+</style>

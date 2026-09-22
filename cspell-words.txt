@@ -24,6 +24,7 @@ DMARC
 DuckDuckGo
 ecosia
 Emby
+EMFI
 Eventbrite
 Futurama
 Garrys
@@ -133,3 +134,4 @@ vite
 webxr
 wght
 workerd
+RPMB

@@ -106,7 +106,7 @@ const githubEditUrl = `https://github.com/TechSquidTV/website/edit/main/${source
                 sizes="(min-width: 768px) 720px, (min-width: 640px) calc(100vw - 3rem), calc(100vw - 2rem)"
                 loading="eager"
                 fetchpriority="high"
-                class="mb-10 h-auto w-full rounded-md"
+                class="mb-10 h-auto w-full"
                 transition:name={`hero-${blogSlug}`}
               />
             )
@@ -126,8 +126,10 @@ const githubEditUrl = `https://github.com/TechSquidTV/website/edit/main/${source
                   itemprop="author"
                   itemscope
                   itemtype="https://schema.org/Person"
+                  class="inline-flex items-center gap-1"
                 >
-                  By <a
+                  <Icon name="person" size={14} aria-hidden="true" />
+                  <a
                     itemprop="url"
                     href="/about/"
                     rel="author"
@@ -135,23 +137,29 @@ const githubEditUrl = `https://github.com/TechSquidTV/website/edit/main/${source
                     ><span itemprop="name">{PERSONAL_INFO.name}</span></a
                   >
                 </span>
-                <span aria-hidden="true">·</span>
                 <time
                   itemprop="datePublished"
                   datetime={publishDate.toISOString()}
+                  class="inline-flex items-center gap-1"
                 >
+                  <Icon name="event" size={14} aria-hidden="true" />
                   <FormattedDate date={publishDate} />
                 </time>
-                {readingTime?.minutesRead && <span aria-hidden="true">·</span>}
-                <ReadingTimeDisplay
-                  minutesRead={readingTime?.minutesRead}
-                  wordCount={readingTime?.wordCount}
-                  className="text-sm"
-                />
+                {
+                  readingTime?.minutesRead && (
+                    <span class="inline-flex items-center gap-1">
+                      <Icon name="schedule" size={14} aria-hidden="true" />
+                      <ReadingTimeDisplay
+                        minutesRead={readingTime.minutesRead}
+                        wordCount={readingTime.wordCount}
+                        className="text-sm"
+                      />
+                    </span>
+                  )
+                }
                 {
                   updatedDate && (
                     <>
-                      <span aria-hidden="true">·</span>
                       <span>
                         Updated{" "}
                         <time
@@ -197,6 +205,13 @@ const githubEditUrl = `https://github.com/TechSquidTV/website/edit/main/${source
             }
             <link itemprop="url" href={Astro.url.href} />
           </header>
+
+          <p
+            class="text-text-primary mx-auto mt-0 mb-10 max-w-2xl border-y border-border px-4 py-5 text-center text-base leading-relaxed italic sm:px-8 sm:text-lg"
+            itemprop="description"
+          >
+            {description}
+          </p>
 
           <!-- Main Content -->
           <section class="blog-content">

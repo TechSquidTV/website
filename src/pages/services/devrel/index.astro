@@ -112,12 +112,10 @@ const services = [
   title="DevRel Services by TechSquidTV"
   description="Developer relations, content, and software services by Kyle Tryon."
 >
-  <section class="surface-card mb-12 overflow-hidden p-6 sm:p-10">
+  <section class="border-border mb-12 border-b pb-8">
     <div class="max-w-2xl">
       <span class="section-eyebrow">Developer relations services</span>
-      <h1
-        class="text-foreground mt-5 text-4xl font-bold tracking-tight sm:text-5xl"
-      >
+      <h1 class="text-foreground mt-5 text-4xl font-semibold sm:text-5xl">
         Help developers understand what you build.
       </h1>
       <p class="text-muted-foreground mt-5 text-lg leading-8">
@@ -143,7 +141,7 @@ const services = [
         services.map((service) => (
           <li>
             <a
-              class="surface-muted focus-ring hover:bg-card flex h-full items-center gap-3 px-4 py-3 text-sm font-semibold no-underline transition-colors"
+              class="border-border focus-ring hover:bg-muted flex h-full items-center gap-3 border px-4 py-3 text-sm font-semibold no-underline transition-colors"
               href={`#${service.anchor}`}
             >
               <Icon name={service.icon} size={20} aria-hidden="true" />
@@ -165,10 +163,10 @@ const services = [
                 <Icon
                   name={service.icon}
                   size={28}
-                  class="text-primary"
+                  class="text-muted-foreground"
                   aria-hidden="true"
                 />
-                <h2 class="text-foreground text-3xl font-bold tracking-tight">
+                <h2 class="text-foreground text-3xl font-semibold">
                   {service.title}
                 </h2>
               </div>
@@ -190,9 +188,9 @@ const services = [
               </Button>
             </div>
 
-            <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+            <div class="divide-border grid divide-y">
               {service.offerings.map((offering) => (
-                <article class="surface-card p-5">
+                <article class="py-5 first:pt-0 last:pb-0">
                   <h3 class="text-foreground font-semibold">
                     {offering.title}
                   </h3>
@@ -208,10 +206,8 @@ const services = [
     }
   </div>
 
-  <section
-    class="surface-muted mt-4 rounded-lg p-6 text-center sm:mt-8 sm:p-10"
-  >
-    <h2 class="text-foreground text-2xl font-bold tracking-tight">
+  <section class="border-border mt-8 border-t py-8">
+    <h2 class="text-foreground text-2xl font-semibold">
       Need a tailored mix of services?
     </h2>
     <p class="text-muted-foreground mx-auto mt-3 max-w-xl">

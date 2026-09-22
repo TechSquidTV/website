@@ -10,9 +10,11 @@ const { minutesRead, wordCount, className = "" } = Astro.props;
 
 {
   minutesRead && (
-    <span class={`text-text-muted ${className}`}>
+    <span
+      class={`text-text-muted ${className}`}
+      title={wordCount ? `${wordCount.toLocaleString()} words` : undefined}
+    >
       {minutesRead}
-      {wordCount && <span> · {wordCount.toLocaleString()} words</span>}
     </span>
   )
 }

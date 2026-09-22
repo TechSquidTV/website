@@ -1,14 +1,12 @@
 ---
 import { render } from "astro:content";
 import { YouTube } from "@astro-community/astro-embed-youtube";
-import { ClientRouter } from "astro:transitions";
 import { Icon } from "astro-icon/components";
-import BaseHead from "@/components/BaseHead.astro";
-import StructuredData from "@/components/StructuredData.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Button from "@/components/Button.astro";
 import BlogPostList from "@/components/BlogPostList.astro";
-import Footer from "@/components/Footer.astro";
-import Header from "@/components/Header.astro";
 import NewsletterLink from "@/components/NewsletterLink.astro";
+import savedVideo from "@/lib/latest-youtube-video.json";
 import {
   SITE_DESCRIPTION,
   SITE_TAGLINE_LINES,
@@ -26,154 +24,129 @@ const recentPostsWithReadingTime = await Promise.all(
 );
 
 type LatestVideo = {
+  id: string;
   title: string;
-  url: string;
   published: Date | null;
 };
 
-function extractVideoId(url: string): string | null {
-  const match = url.match(
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
-  );
-  return match?.[1] ?? null;
-}
+// Keep the last published showcase available offline and when YouTube is down.
+// Production refreshes at build time; visitors and dev previews make no feed requests.
+let latestVideo: LatestVideo = {
+  ...savedVideo,
+  published: new Date(`${savedVideo.published}T12:00:00Z`),
+};
 
-let latestVideo: LatestVideo | null = null;
-let videoId: string | null = null;
+if (import.meta.env.PROD) {
+  try {
+    const response = await fetch(
+      `https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`,
+      { signal: AbortSignal.timeout(5000) },
+    );
+    if (!response.ok)
+      throw new Error(`YouTube feed returned ${response.status}`);
 
-try {
-  const response = await fetch(
-    `https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`,
-  );
-
-  if (response.ok) {
     const xmlText = await response.text();
     const entry = xmlText.match(/<entry>(.*?)<\/entry>/s)?.[1];
-
-    if (entry) {
-      const title =
-        entry.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1] ??
-        entry.match(/<title>(.*?)<\/title>/)?.[1];
-      const url = entry.match(/<link rel="alternate" href="(.*?)"/)?.[1];
-      const published = entry.match(/<published>(.*?)<\/published>/)?.[1];
-      const feedVideoId = entry.match(/<yt:videoId>(.*?)<\/yt:videoId>/)?.[1];
-
-      if (title && url) {
-        latestVideo = {
-          title,
-          url,
-          published: published ? new Date(published) : null,
-        };
-        videoId = feedVideoId ?? extractVideoId(url);
-      }
+    const id = entry?.match(/<yt:videoId>(.*?)<\/yt:videoId>/)?.[1];
+    const title =
+      entry?.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/s)?.[1] ??
+      entry?.match(/<title>(.*?)<\/title>/s)?.[1];
+    const published = entry?.match(/<published>(.*?)<\/published>/)?.[1];
+    if (!id || !/^[\w-]{11}$/.test(id) || !title) {
+      throw new Error("YouTube feed has no valid video entry");
     }
+    const date = published ? new Date(published) : null;
+    latestVideo = {
+      id,
+      title,
+      published: date && Number.isFinite(date.getTime()) ? date : null,
+    };
+  } catch (error) {
+    console.warn("Using saved YouTube showcase:", error);
   }
-} catch (error) {
-  console.log("Could not fetch YouTube RSS:", error);
 }
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <StructuredData />
-  </head>
-  <body>
-    <ClientRouter />
-    <Header />
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <section
+    class="border-border mb-12 border-b pb-8"
+    aria-labelledby="home-heading"
+  >
+    <p class="section-eyebrow">{SITE_TITLE}</p>
+    <h1
+      id="home-heading"
+      class="text-foreground mt-5 max-w-2xl text-4xl leading-tight font-semibold text-balance sm:text-5xl"
+    >
+      {SITE_TAGLINE_LINES[0]}
+    </h1>
+    <p
+      class="text-muted-foreground mt-5 max-w-xl text-lg leading-8 first-letter:uppercase"
+    >
+      {SITE_TAGLINE_LINES[1]}
+    </p>
+    <div class="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
+      <Button href="/blog/"
+        >Explore the blog <span aria-hidden="true">→</span></Button
+      >
+      <NewsletterLink
+        className="focus-ring text-muted-foreground hover:text-foreground inline-flex items-center gap-2 py-3 text-sm font-medium no-underline transition-colors"
+      >
+        <Icon name="email" size={17} aria-hidden="true" />
+        Get the newsletter <span aria-hidden="true">→</span>
+      </NewsletterLink>
+    </div>
+  </section>
 
-    <main id="main-content" tabindex="-1">
-      <section class="border-border border-b">
-        <div class="container-page py-10 sm:py-14">
-          <div
-            class="flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between"
-          >
-            <div>
-              <p
-                class="text-foreground mb-5 text-sm font-medium tracking-(--tracking-caps-sm) uppercase"
-              >
-                TechSquidTV
-              </p>
-              <h1
-                class="text-foreground max-w-4xl text-3xl leading-[1.12] font-semibold tracking-tight text-balance sm:text-4xl"
-              >
-                {
-                  SITE_TAGLINE_LINES.map((line) => (
-                    <span class="block">{line}</span>
-                  ))
-                }
-              </h1>
-            </div>
-            <NewsletterLink
-              className="text-muted-foreground hover:text-foreground inline-flex shrink-0 items-center gap-2 text-sm font-medium no-underline transition-colors"
-            >
-              <Icon name="email" size={17} aria-hidden="true" />
-              Get the newsletter <span aria-hidden="true">→</span>
-            </NewsletterLink>
-          </div>
-        </div>
-      </section>
+  <section aria-label="Recent posts">
+    <BlogPostList
+      posts={recentPostsWithReadingTime}
+      featured
+      showFeaturedImage
+      imageLimit={3}
+    />
+    <Button href="/blog/" variant="secondary" fullWidth className="mt-4">
+      All posts <span aria-hidden="true">→</span>
+    </Button>
+  </section>
 
-      <section class="container-page py-10 sm:py-14">
-        <div class="mb-7 flex items-baseline justify-between gap-4">
-          <h2
-            class="text-foreground m-0 text-sm font-medium tracking-(--tracking-caps-sm) uppercase"
-          >
-            Latest writing
-          </h2>
-          <a
-            href="/blog/"
-            class="text-muted-foreground hover:text-foreground text-sm no-underline transition-colors"
-          >
-            All posts
-          </a>
-        </div>
-        <BlogPostList
-          posts={recentPostsWithReadingTime}
-          featured
-          showFeaturedImage
-        />
-      </section>
-
-      {
-        videoId && latestVideo && (
-          <section class="border-border border-t">
-            <div class="container-page py-10 sm:py-14">
-              <p class="text-muted-foreground mb-3 text-sm font-medium tracking-(--tracking-caps-sm) uppercase">
-                Latest video
-              </p>
-              <h2 class="text-foreground mb-2 text-2xl leading-tight font-semibold">
-                {latestVideo.title}
-              </h2>
-              {latestVideo.published && (
-                <p class="text-muted-foreground mb-6 text-sm">
-                  {new Intl.DateTimeFormat("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  }).format(latestVideo.published)}
-                </p>
-              )}
-              <div class="aspect-video overflow-hidden rounded-md">
-                <YouTube id={videoId} />
-              </div>
-              <a
-                href={latestVideo.url}
-                data-sentry-cta="watch_youtube"
-                data-sentry-cta-placement="home_video"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-foreground decoration-border hover:decoration-primary mt-5 inline-flex font-medium underline transition-colors"
-              >
-                Watch on YouTube →
-              </a>
-            </div>
-          </section>
-        )
-      }
-    </main>
-
-    <Footer />
-  </body>
-</html>
+  <section
+    class="border-border mt-8 border-t pt-8"
+    aria-labelledby="latest-video-heading"
+  >
+    <p class="section-eyebrow mb-3">Latest video</p>
+    <h2
+      id="latest-video-heading"
+      class="text-foreground mb-2 text-2xl leading-tight font-semibold"
+    >
+      {latestVideo.title}
+    </h2>
+    {
+      latestVideo.published && (
+        <p class="text-muted-foreground mb-6 text-sm">
+          {new Intl.DateTimeFormat("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }).format(latestVideo.published)}
+        </p>
+      )
+    }
+    <div class="border-border content-block overflow-hidden border">
+      <YouTube
+        id={latestVideo.id}
+        title={latestVideo.title}
+        style="max-width: none;"
+      />
+    </div>
+    <a
+      href={`https://www.youtube.com/watch?v=${latestVideo.id}`}
+      data-sentry-cta="watch_youtube"
+      data-sentry-cta-placement="home_video"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="focus-ring text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm font-medium no-underline transition-colors"
+    >
+      Watch on YouTube <span aria-hidden="true">→</span>
+    </a>
+  </section>
+</BaseLayout>
