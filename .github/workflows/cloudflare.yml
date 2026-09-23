@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         id: dependencies
         run: pnpm install --frozen-lockfile
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: node_modules/.astro
           key: astro-validate-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.run_id }}
@@ -131,7 +131,7 @@ jobs:
       - name: Record deploy revision
         id: revision
         run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: node_modules/.astro
           key: astro-deploy-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ steps.revision.outputs.sha }}
