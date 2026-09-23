@@ -18,7 +18,7 @@ jobs:
     env:
       RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Check publishing configuration
         run: bash scripts/check-ci-environment.sh RESEND_API_KEY
       - uses: actions/setup-node@v4
