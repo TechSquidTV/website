@@ -1,5 +1,6 @@
 import { OGImageRoute } from "astro-og-canvas";
 import { PERSONAL_INFO, SITE_DESCRIPTION, SITE_TITLE } from "@/consts";
+import { HIVE76_PAGE_DESCRIPTION, HIVE76_PAGE_TITLE } from "@/lib/hive76";
 import { getOpenGraphImageOptions } from "@/lib/open-graph-theme";
 import { getPublishedPosts } from "@/utils/blog";
 
@@ -31,6 +32,10 @@ const pages: Record<string, PageData> = {
   follow: {
     title: `Follow ${PERSONAL_INFO.name} - ${SITE_TITLE}`,
     description: `Connect with ${PERSONAL_INFO.name} (${PERSONAL_INFO.username}) across all social platforms. Follow for tech content, open source projects, developer tutorials, and more.`,
+  },
+  hive76: {
+    title: HIVE76_PAGE_TITLE,
+    description: HIVE76_PAGE_DESCRIPTION,
   },
   newsletter: {
     title: `Newsletter - ${SITE_TITLE}`,

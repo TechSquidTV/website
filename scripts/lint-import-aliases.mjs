@@ -31,6 +31,7 @@ const themeTokenFiles = new Set([
   "src/consts.ts",
   "src/emails/theme.ts",
   "src/lib/open-graph-theme.ts",
+  "src/styles/hive76.css",
   "src/styles/global.css",
 ]);
 

@@ -39,6 +39,7 @@ Menlo
 Mosquitto
 Muschietti
 Neodyme
+Omarchy
 Porkbun
 Skarsta
 Sivel
@@ -63,6 +64,7 @@ convolutional
 cutover
 distros
 echoserver
+EMMC
 esbuild
 evenodd
 fontsource
@@ -91,6 +93,7 @@ Leechers
 lightbox
 lintable
 lvim
+makerspace
 mathy
 Mbits
 microcontroller
@@ -117,6 +120,7 @@ rtttl
 Screencasts
 scriptable
 SDHC
+shadcn
 sitekey
 skybox
 SpongeBob

@@ -69,22 +69,24 @@ if (import.meta.env.PROD) {
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
   <section
-    class="border-border mb-12 border-b pb-8"
+    class="border-border mb-12 border-b pb-8 text-center"
     aria-labelledby="home-heading"
   >
     <p class="section-eyebrow">{SITE_TITLE}</p>
     <h1
       id="home-heading"
-      class="text-foreground mt-5 max-w-2xl text-4xl leading-tight font-semibold text-balance sm:text-5xl"
+      class="text-foreground mx-auto mt-5 max-w-2xl text-4xl leading-tight font-semibold text-balance sm:text-5xl"
     >
       {SITE_TAGLINE_LINES[0]}
     </h1>
     <p
-      class="text-muted-foreground mt-5 max-w-xl text-lg leading-8 first-letter:uppercase"
+      class="text-muted-foreground mx-auto mt-5 max-w-xl text-lg leading-8 first-letter:uppercase"
     >
       {SITE_TAGLINE_LINES[1]}
     </p>
-    <div class="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
+    <div
+      class="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-4"
+    >
       <Button href="/blog/"
         >Explore the blog <span aria-hidden="true">→</span></Button
       >

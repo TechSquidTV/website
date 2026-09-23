@@ -1,0 +1,392 @@
+---
+import { Image } from "astro:assets";
+import "@/styles/hive76.css";
+import { Icon } from "astro-icon/components";
+import FormattedDate from "@/components/FormattedDate.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import deskImage from "@/images/assets/hive76-desk.webp";
+import { PERSONAL_INFO, SITE_TITLE } from "@/consts";
+import {
+  HIVE76_MAKER_TAG,
+  HIVE76_PAGE_DESCRIPTION,
+  HIVE76_PAGE_TITLE,
+  HIVE76_WEBSITE,
+} from "@/lib/hive76";
+import { getPublishedPosts } from "@/utils/blog";
+
+const beeperSlug = "i-made-an-esp32-on-call-beeper";
+
+const makerPosts = (await getPublishedPosts(true)).filter((post) =>
+  post.data.tags?.includes(HIVE76_MAKER_TAG),
+);
+---
+
+<BaseLayout
+  title={HIVE76_PAGE_TITLE}
+  description={HIVE76_PAGE_DESCRIPTION}
+  variant="immersive"
+>
+  <div class="lab-page dark">
+    <a href="#lab-content" class="lab-skip-link">Skip to lab content</a>
+
+    <header class="lab-masthead">
+      <div class="lab-shell lab-masthead-inner">
+        <a href="/" class="lab-brand" aria-label="TechSquidTV home">
+          <Icon name="techsquidtv" size={26} aria-hidden="true" />
+          <span>{SITE_TITLE}</span>
+        </a>
+
+        <div class="lab-path" aria-hidden="true">
+          <span>~/lab</span><span>/</span><strong>hive76</strong>
+        </div>
+
+        <a
+          href={HIVE76_WEBSITE}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="lab-external-link"
+        >
+          HIVE76.ORG <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </header>
+
+    <div id="lab-content">
+      <section class="lab-hero" aria-labelledby="lab-title">
+        <Image
+          src={deskImage}
+          alt=""
+          class="lab-desk-image"
+          widths={[640, 960, 1280, 1920, 2560]}
+          sizes="100vw"
+          format="webp"
+          quality={80}
+          loading="eager"
+          fetchpriority="high"
+        />
+        <div class="lab-shell lab-hero-inner">
+          <div class="lab-hero-copy">
+            <div class="lab-kicker">
+              <span class="lab-status-dot" aria-hidden="true"></span>
+              MEMBER DESK / PHILADELPHIA
+            </div>
+            <h1 id="lab-title">
+              <span><span class="lab-title-brand">TechSquidTV</span> Lab</span>
+              <em>// Hive76</em>
+            </h1>
+            <p class="lab-hero-intro">
+              Welcome to {PERSONAL_INFO.name}’s corner of Hive76—a home base for
+              hardware experiments, restoration projects, and odd ideas worth
+              building.
+            </p>
+            <div class="lab-hero-actions">
+              <a href="#current-build" class="lab-button lab-button-primary">
+                ENTER THE LAB <span aria-hidden="true">↓</span>
+              </a>
+              <a href="#maker-logs" class="lab-text-link">READ THE LOGS</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="current-build"
+        class="lab-section lab-section-current"
+        aria-labelledby="current-build-title"
+      >
+        <div class="lab-shell">
+          <div class="lab-section-heading">
+            <p>01_CURRENT_BUILD</p>
+            <h2 id="current-build-title">On the bench</h2>
+          </div>
+
+          <article class="lab-current-project">
+            <div class="lab-vhs-visual" aria-hidden="true">
+              <div class="lab-vhs-window-label">PROJECT_001.DAT</div>
+              <div class="lab-cassette">
+                <div class="lab-cassette-face">
+                  <div class="lab-cassette-window">
+                    <span class="lab-reel"></span>
+                  </div>
+                  <div class="lab-cassette-label">
+                    <span>TECHSQUIDTV LAB</span>
+                    <strong>TAPE<br />CLEANER</strong>
+                    <span>PROJECT / 001</span>
+                  </div>
+                  <div class="lab-cassette-window">
+                    <span class="lab-reel"></span>
+                  </div>
+                </div>
+                <div class="lab-cassette-format">VHS</div>
+              </div>
+            </div>
+
+            <div class="lab-project-copy">
+              <div class="lab-project-status">
+                <span class="lab-status-dot" aria-hidden="true"></span>
+                IN DEVELOPMENT
+              </div>
+              <h3>VHS Tape Cleaner</h3>
+              <p>
+                An active bench project for cleaning VHS tapes. The technical
+                notes will arrive when the design is ready to document.
+              </p>
+              <dl class="lab-project-facts">
+                <div>
+                  <dt>STATE</dt>
+                  <dd>Prototype in progress</dd>
+                </div>
+                <div>
+                  <dt>LOG</dt>
+                  <dd>Coming soon</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section
+        class="lab-section lab-platform"
+        aria-labelledby="platform-title"
+      >
+        <div class="lab-shell lab-platform-grid">
+          <div class="lab-section-heading">
+            <p>02_LAB_PLATFORM</p>
+            <h2 id="platform-title">Lab platform</h2>
+          </div>
+
+          <div class="lab-platform-card">
+            <div class="lab-platform-card-top">
+              <span>PRIMARY_SYSTEM</span>
+              <span>PORTABLE</span>
+            </div>
+            <svg
+              class="lab-platform-icon"
+              viewBox="0 0 240 160"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <rect x="25" y="12" width="190" height="124" rx="5"></rect>
+              <path d="M10 136h220l-10 12H20z"></path>
+              <path d="M94 136v4h52v-4M55 49l14 12-14 12m28 0h24"></path>
+            </svg>
+            <div>
+              <p class="lab-platform-label">WORKSTATION</p>
+              <h3>Omarchy laptop</h3>
+              <p>
+                My laptop at the desk. A closer look at the setup is coming in a
+                future blog post.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="maker-logs"
+        class="lab-section lab-maker-logs"
+        aria-labelledby="maker-logs-title"
+      >
+        <div class="lab-shell">
+          <h2 id="maker-logs-title" class="sr-only">Maker logs</h2>
+
+          {
+            makerPosts.length > 0 ? (
+              <div class="lab-log-list">
+                {makerPosts.map((post, index) => {
+                  const slug = post.data.slug || post.id;
+                  const isBeeper = slug === beeperSlug;
+
+                  return (
+                    <article class="lab-log-card">
+                      <div class="lab-log-media">
+                        {isBeeper ? (
+                          <div class="lab-video-shell" data-video-shell>
+                            <video
+                              muted
+                              loop
+                              playsinline
+                              preload="metadata"
+                              poster={post.data.heroImage?.src}
+                              data-lab-video
+                            >
+                              <source
+                                src="/assets/beeper-fusion360-track.webm"
+                                type="video/webm"
+                              />
+                            </video>
+                            <button
+                              type="button"
+                              class="lab-video-toggle"
+                              aria-label="Play project video"
+                              data-video-toggle
+                            >
+                              <span data-video-toggle-label>PLAY MOTION</span>
+                            </button>
+                          </div>
+                        ) : (
+                          <a
+                            href={`/blog/${slug}/`}
+                            aria-label={`Read ${post.data.title}`}
+                          >
+                            {post.data.heroImage ? (
+                              <Image
+                                src={post.data.heroImage}
+                                alt={post.data.heroImageAlt ?? ""}
+                                widths={[640, 960, 1280]}
+                                sizes="(min-width: 900px) 58vw, 100vw"
+                                loading={index === 0 ? "eager" : "lazy"}
+                              />
+                            ) : (
+                              <div class="lab-log-media-fallback">
+                                MAKER_LOG / {String(index + 1).padStart(2, "0")}
+                              </div>
+                            )}
+                          </a>
+                        )}
+                      </div>
+
+                      <div class="lab-log-copy">
+                        <div class="lab-log-meta">
+                          <span>MAKER LOG</span>
+                          <FormattedDate date={post.data.publishDate} />
+                        </div>
+                        <h3>
+                          <a href={`/blog/${slug}/`}>{post.data.title}</a>
+                        </h3>
+                        <p>{post.data.description}</p>
+                        <a
+                          href={`/blog/${slug}/`}
+                          class="lab-button lab-button-small"
+                        >
+                          OPEN BUILD LOG <span aria-hidden="true">→</span>
+                        </a>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            ) : (
+              <div class="lab-empty-log">
+                <span>NO_LOG_FILES_FOUND</span>
+                <p>The first maker log is still being assembled.</p>
+              </div>
+            )
+          }
+          <a href="/blog/tags/maker/" class="lab-text-link lab-log-archive">
+            ALL MAKER LOGS <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="lab-section lab-hive" aria-labelledby="hive-title">
+        <div class="lab-shell lab-hive-grid">
+          <div>
+            <p class="lab-mono-label">04_THE_SPACE</p>
+            <h2 id="hive-title">Made at Hive76.</h2>
+          </div>
+          <div>
+            <p>
+              Hive76 is a member-run Philadelphia makerspace for learning,
+              experimenting, and making things together. This desk is one small
+              node in that larger community.
+            </p>
+            <a
+              href={HIVE76_WEBSITE}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="lab-button lab-button-light"
+            >
+              VISIT HIVE76.ORG <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="lab-footer">
+      <div class="lab-shell lab-footer-inner">
+        <a href="/" class="lab-footer-brand">
+          <Icon name="techsquidtv" size={20} aria-hidden="true" />
+          <span>{SITE_TITLE}</span>
+        </a>
+        <p>PERSONAL WEB LAB / PHILADELPHIA</p>
+        <a href={HIVE76_WEBSITE} target="_blank" rel="noopener noreferrer">
+          Hive76 ↗
+        </a>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>
+
+<script>
+  const initializeLabVideos = () => {
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    document
+      .querySelectorAll<HTMLElement>("[data-video-shell]")
+      .forEach((shell) => {
+        if (shell.dataset.videoInitialized === "true") return;
+
+        const video = shell.querySelector<HTMLVideoElement>("[data-lab-video]");
+        const button = shell.querySelector<HTMLButtonElement>(
+          "[data-video-toggle]",
+        );
+        const label = shell.querySelector<HTMLElement>(
+          "[data-video-toggle-label]",
+        );
+
+        if (!video || !button || !label) return;
+        shell.dataset.videoInitialized = "true";
+
+        const updateControl = () => {
+          const isPaused = video.paused;
+          label.textContent = isPaused ? "PLAY MOTION" : "PAUSE MOTION";
+          button.setAttribute(
+            "aria-label",
+            isPaused ? "Play project video" : "Pause project video",
+          );
+        };
+
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          if (video.paused) {
+            void video.play().catch(() => updateControl());
+          } else {
+            video.pause();
+          }
+        });
+
+        video.addEventListener("play", updateControl);
+        video.addEventListener("pause", updateControl);
+        updateControl();
+
+        if (reducedMotion) return;
+
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (!entry) return;
+
+            if (entry.isIntersecting) {
+              void video.play().catch(() => updateControl());
+            } else {
+              video.pause();
+            }
+          },
+          { threshold: 0.55 },
+        );
+        observer.observe(shell);
+      });
+  };
+
+  document.addEventListener("astro:page-load", initializeLabVideos);
+  initializeLabVideos();
+</script>

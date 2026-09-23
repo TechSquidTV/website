@@ -9,9 +9,17 @@ interface Props {
   title: string;
   description: string;
   structuredDataType?: "Person" | "ProfilePage";
+  variant?: "standard" | "immersive";
 }
 
-const { title, description, structuredDataType = "Person" } = Astro.props;
+const {
+  title,
+  description,
+  structuredDataType = "Person",
+  variant = "standard",
+} = Astro.props;
+
+const isImmersive = variant === "immersive";
 ---
 
 <!doctype html>
@@ -22,10 +30,14 @@ const { title, description, structuredDataType = "Person" } = Astro.props;
   </head>
   <body>
     <ClientRouter />
-    <Header />
-    <main id="main-content" tabindex="-1" class="container-page py-10 sm:py-14">
+    {!isImmersive && <Header />}
+    <main
+      id="main-content"
+      tabindex="-1"
+      class:list={{ "container-page py-10 sm:py-14": !isImmersive }}
+    >
       <slot />
     </main>
-    <Footer />
+    {!isImmersive && <Footer />}
   </body>
 </html>
