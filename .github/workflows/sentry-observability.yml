@@ -21,7 +21,7 @@ jobs:
       SENTRY_ORG: ${{ vars.SENTRY_ORG }}
       SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - name: Check observability configuration
         run: bash scripts/check-ci-environment.sh SENTRY_AUTH_TOKEN SENTRY_ORG SENTRY_PROJECT SENTRY_ALERT_ACTIONS
       - uses: actions/setup-node@v4
