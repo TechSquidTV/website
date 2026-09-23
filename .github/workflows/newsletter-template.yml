@@ -1,15 +1,6 @@
 name: Publish newsletter template
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - .github/workflows/newsletter-template.yml
-      - scripts/publish-newsletter-template.tsx
-      - src/emails/**
-      - package.json
-      - pnpm-lock.yaml
   workflow_dispatch:
 
 permissions:
@@ -28,6 +19,8 @@ jobs:
       RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
     steps:
       - uses: actions/checkout@v5
+      - name: Check publishing configuration
+        run: bash scripts/check-ci-environment.sh RESEND_API_KEY
       - uses: actions/setup-node@v4
         with:
           node-version: 24

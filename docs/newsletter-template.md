@@ -4,8 +4,11 @@ The newsletter is a hosted Resend template. Its visual source lives in
 `src/emails/NewBlogPostEmail.tsx`; the upload-ready entry point is
 `src/emails/new-blog-post.template.tsx`.
 
-The hosted template is published automatically after changes to `src/emails/**`
-land on `main`. The workflow renders this source, creates the template under
+The hosted template is an optional, separately managed resource. To publish it,
+manually run `Publish newsletter template` in GitHub Actions. It does not run
+on pushes and is not required to build or deploy the website. Newsletter
+signup and contact forms use the Cloudflare Worker's Resend secret separately.
+The workflow renders this source, creates the template under
 the stable alias `techsquidtv-new-blog-post` on its first run, then updates and
 publishes that same template on subsequent runs.
 

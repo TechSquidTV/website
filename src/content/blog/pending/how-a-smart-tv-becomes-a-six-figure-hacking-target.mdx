@@ -95,7 +95,7 @@ To prevent data from ever being modified or erased, the OTP memory is made up fr
 Play around with this demo. Click around on each fuse and see how that changes the HUK. Blowing a fuse is permanent, to reset it you need to start with a new device.
 You can also click "Provision" to simulate how the SoC manufacturer would generate keys randomly and burn them into the OTP memory.
 
-<OTPMemoryDemo/>
+<OTPMemoryDemo />
 
 Similarly, those monotonic counters that prevent firmware downgrades and replay attacks, also burn eFuses.
 However, rather than using a binary counting system like you might initial expect, a binary system would require that some bits flip back and forth, which wouldn't be possible.
@@ -104,7 +104,7 @@ Instead, a <wikiLink url="https://en.wikipedia.org/wiki/Unary_numeral_system" to
 <div class="[&_td]:font-mono [&_td]:tabular-nums">
 
 | Value | Binary | Unary |
-|-------|--------|-------|
+| ----- | ------ | ----- |
 | 0     | 000    |       |
 | 1     | 001    | 1     |
 | 2     | 010    | 11    |

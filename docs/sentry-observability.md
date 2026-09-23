@@ -6,8 +6,10 @@ maps when its `production` environment provides `SENTRY_AUTH_TOKEN`,
 
 `Sync Sentry observability` keeps the managed `Content to Newsletter` dashboard
 and its three operational metric alerts in sync with
-`scripts/sync-sentry-observability.sh`. The workflow runs when that script
-changes or on manual dispatch. Do not manually add widgets to that dashboard:
+`scripts/sync-sentry-observability.sh`. Run the workflow manually in GitHub
+Actions after configuring the production environment, and again when changing
+the managed dashboard or alerts. It does not run on pushes and is not required
+to deploy the website. Do not manually add widgets to that dashboard:
 the sync replaces its complete widget set.
 
 Set these production environment values before the first sync:

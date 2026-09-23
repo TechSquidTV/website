@@ -1,14 +1,6 @@
 name: Sync Sentry observability
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - .github/workflows/sentry-observability.yml
-      - scripts/sync-sentry-observability.sh
-      - package.json
-      - pnpm-lock.yaml
   workflow_dispatch:
 
 permissions:
@@ -30,9 +22,12 @@ jobs:
       SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
     steps:
       - uses: actions/checkout@v5
+      - name: Check observability configuration
+        run: bash scripts/check-ci-environment.sh SENTRY_AUTH_TOKEN SENTRY_ORG SENTRY_PROJECT SENTRY_ALERT_ACTIONS
       - uses: actions/setup-node@v4
         with:
           node-version: 24
       - run: corepack enable
       - run: corepack install
+      - run: pnpm install --frozen-lockfile
       - run: pnpm sentry:sync

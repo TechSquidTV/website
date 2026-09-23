@@ -29,15 +29,33 @@ jobs:
           node-version: 24
       - run: corepack enable
       - run: corepack install
-      - run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        id: dependencies
+        run: pnpm install --frozen-lockfile
       - uses: actions/cache@v4
         with:
           path: node_modules/.astro
           key: astro-validate-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.run_id }}
           restore-keys: |
             astro-validate-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
-      - run: pnpm test
-      - run: pnpm check
+      - name: Check formatting
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: pnpm format:check
+      - name: Lint
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: pnpm lint
+      - name: Check unused code
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: pnpm knip
+      - name: Check spelling
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: pnpm spellcheck
+      - name: Unit tests
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: pnpm test
+      - name: Type-check and build
+        if: ${{ !cancelled() && steps.dependencies.outcome == 'success' }}
+        run: pnpm build
 
   deploy:
     name: Deploy
@@ -64,6 +82,8 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
+      - name: Check deployment configuration
+        run: bash scripts/check-ci-environment.sh CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_API_TOKEN
       - uses: actions/setup-node@v4
         with:
           node-version: 24
