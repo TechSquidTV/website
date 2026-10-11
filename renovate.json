@@ -1,0 +1,74 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":disableDependencyDashboard",
+    "security:minimumReleaseAgeNpm"
+  ],
+  "enabledManagers": ["npm", "github-actions"],
+  "timezone": "America/New_York",
+  "schedule": ["* 0-4 * * 6"],
+  "configMigration": true,
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "deps",
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 3,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["* 0-4 * * 6"]
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["npm"],
+      "rangeStrategy": "update-lockfile"
+    },
+    {
+      "matchDatasources": ["npm"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "minimumReleaseAge": "7 days"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "npm dependencies"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "semanticCommitType": "ci"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "groupName": null
+    },
+    {
+      "matchPackageNames": ["react", "react-dom"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "React runtime"
+    },
+    {
+      "matchPackageNames": [
+        "astro",
+        "astro-*",
+        "@astrojs/*",
+        "@cloudflare/*",
+        "wrangler",
+        "workerd"
+      ],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Astro and Cloudflare"
+    },
+    {
+      "matchPackageNames": ["@sentry/*"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Sentry"
+    },
+    {
+      "matchPackageNames": ["vite", "@vitejs/*", "vitest", "@vitest/*"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "Vite tooling"
+    }
+  ],
+  "automerge": false
+}
