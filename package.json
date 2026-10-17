@@ -82,7 +82,7 @@
     "happy-dom": "^20.14.0",
     "knip": "^6.32.3",
     "prettier": "3.9.6",
-    "prettier-plugin-astro": "0.14.1",
+    "prettier-plugin-astro": "1.1.1",
     "prettier-plugin-tailwindcss": "0.8.1",
     "sentry": "0.44.0",
     "tsx": "4.23.12",
